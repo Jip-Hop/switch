@@ -164,8 +164,6 @@
 						<string>3</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
@@ -339,8 +337,6 @@ echo "$1" &gt; /tmp/DUALISO/path_1
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
@@ -443,8 +439,6 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
@@ -562,6 +556,7 @@ date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
     mkdir ${BASE}
     mv ${BASE} "${BASE}_1_$date" 
     mv "$FILE" "${BASE}_1_$date"
+    mv "$BASE".M* "${BASE}_1_$date"
     cd "${BASE}_1_$date"
 
 #frame extraction in mlv_dump makes multihtreading possible. Thanks to so-rose for highlighting this possibility
@@ -790,36 +785,34 @@ done
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>478.500000:238.000000</string>
+				<string>478.500000:806.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>1A24AA19-515C-49FD-8575-E995C7048496</key>
+		<key>05440484-EB7E-4172-B49D-E232B7F0380B</key>
 		<dict>
 			<key>from</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 			<key>to</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 		</dict>
-		<key>3EECBE7E-4164-4D88-A389-497285DF772D</key>
+		<key>063FE0F8-105F-4046-A494-CDBF6ABAC3DA</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 		</dict>
-		<key>9B553F74-34D2-4C27-B1B5-BF365BEF1CDC</key>
+		<key>1CC238BA-2437-4B89-9183-8EE9B6A72990</key>
 		<dict>
 			<key>from</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>

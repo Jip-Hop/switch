@@ -56,6 +56,7 @@ date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
     mkdir ${BASE}
     mv ${BASE} "${BASE}_1_$date" 
     mv "$FILE" "${BASE}_1_$date"
+    mv "$BASE".M* "${BASE}_1_$date"
     cd "${BASE}_1_$date"
 
 #frame extraction in mlv_dump makes multihtreading possible. Thanks to so-rose for highlighting this possibility
