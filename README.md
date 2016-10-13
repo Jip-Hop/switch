@@ -1,4 +1,4 @@
-## cr2hdr(.app) ##
+**# cr2hdr(.app) #**
 The cr2hdr automator app is a multithreaded mac solution being able to process dual iso files coming from magic lantern generated CR2, DNG, and MLV files. 
 
 **Following postprocessing enhancements are included:**
@@ -17,7 +17,8 @@ cr2hdr(.app) also includes a menu selector created in bash from where the user c
 ![menu.png](https://bitbucket.org/repo/Gkyeq9/images/615202290-menu.png)
 
 
-# HOWTO #
+## HOWTO ##
+
 1 - Move cr2hdr(.app) to applications folder
 2 - Double click cr2hdr(.app) and select a folder with dual iso cr2 files. 
 3 - For compressing and matched white balanced Adobe dng converter needs to be installed into application folder. cr2hdr works perfectly fine without but white balance will be slightly off balance due to missing camera calibration information.
