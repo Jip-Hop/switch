@@ -35,4 +35,6 @@ Inside source_code folder there is a Build_dmg_package(.app) application. When d
  
 If you want to include changes done to cr2hdr_MAIN.txt these have to be copied by opening up cr2hdr(.app) in automator. Automator is installed in your system by default.
 
+
+
 **Thanks to:** a1ex, g3gg0, Dave Coffin, Phil Harvey, Andreas Huggel, dmilligan, Chmee, dfort
