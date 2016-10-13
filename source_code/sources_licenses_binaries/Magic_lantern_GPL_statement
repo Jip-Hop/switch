@@ -1,0 +1,146 @@
+
+http://www.magiclantern.fm/forum/index.php?topic=13335.msg128757#msg128757
+http://en.wikipedia.org/wiki/Copyleft
+
+This is a statement about how the Magic Lantern team positions itself regarding copyleft discussions.
+
+As some may have noticed, there was a lengthy discussion about the GPL and violations of it in post-processing tools designed to work with the files produced by Magic Lantern.
+Let us first define why we use GPL and what it is for.  Please read this for a detailed and formal description.
+
+This explanation is a condensed one to clarify our position.
+
+We, the Magic Lantern developers, provide Magic Lantern and it's suite of tools on a free basis (free as in beer), and everything we give to you is a result of several thousand hours of work, either researching or programming.  Along with binary versions, you get all of the source code for Magic Lantern, and it's suite of tools.
+
+Our intention:
+To drive forward the Magic Lantern project through open sourced development.  Be that through development of the core code, modules, post processing applications, or any other applications designed to work primarily with the Magic Lantern project.
+
+The only things we ask in return:
+
+    Contribute back to the Magic Lantern project if you make improvements to it.
+    Honor our decision that this code is free, and help to establish and support the free nature of Magic Lantern.
+    If you use the code, or parts of it and distribute it (or even sell it), you must release this code (per the GPL).
+    Don't act against common sense.
+
+Unfortunately, even after a lengthy discussion, there were authors who used our GPLed code in their binary-only tools, without redistributing the source code of their tool, and not even mentioning that they use GPL code, and from where they obtained that code (appropriate credit).  Not only is this a violation of the GPL, but it is also rude to the developers who provided the original code.
+There was no consent during that discussion, so we are asked to write down what we clearly expected to be common sense.
+
+
+We think it's time to start actions against such behavior:
+Due to the nature of these binary applications, and the actions of their developers, the Magic Lantern team cannot provide any assistance for these applications, and as such all related threads will be now be closed.  The affected application developers are free to work with the Magic Lantern development team if they would like to move forward in helping the Magic Lantern project.
+If no move forward is being shown, these threads will be deleted, and the application developers can seek other avenues of support for their applications.
+
+Closed source application developers who implemented their applications on their own, without re-using any of our GPL code, or those who got some exclusive permission (dual-licensed code) through the Magic Lantern developers, are of course not affected.
+Naturally, application developers who implement their applications as open source, are also not affected.
+
+What does this mean for developers:
+We prefer open sourced development, whether through the use of the code base already available from this project, or entirely on your own.
+And of course we tolerate any closed source application as long it doesn't violate GPL terms, even if it is commercial.
+But we will definitely take actions against commercial closed source tools that use GPLed code without asking the affected devs before to get an exclusive license.
+
+Compressed view of categories:
+a) open source, using our code [preferred]
+b) open source, not using our code [preferred]
+c) closed source, not using our code [tolerated]
+d) closed source, commercial, not using our code [tolerated]
+e) closed source, using our code [asked to publish source, ban likely]
+f) closed source, commercial, using our code [banned]
+
+What does this mean for end users:
+From now on, we discourage everyone from using those applications that have their threads closed.
+Using, testing and providing your bug reports for the remaining applications, helps drive forward the Magic Lantern project.
+To clarify, only two tools fall into categories e) and f) and will face actions against them, both of them are kind of "better wrappers GUIs".
+The professional tools are not affected at all, they know how to behave.
+
+Contact:
+If you have any questions or queries regarding the Magic Lantern source code (including in your own applications), or any licensing queries, please contact a1ex or g3gg0.
+
+Respect the developers who provide original code!
+
+    Audionut
+    Gr3g01
+    MarsBlessed
+    Marsu42
+    OtherOnePercent
+    Pelican
+    Simon Dibbern
+    Sticks
+    [0xAF]
+    a1ex
+    a_d_
+    af
+    andrewjohncoutts
+    andyperring
+    antonynpavlov
+    arm.indiana
+    ayshih
+    bnvm
+    britom
+    broscutamaker
+    cbob5435
+    chris.nz
+    cjb
+    count-magiclantern
+    david.l.milligan
+    dhessel
+    dkelly11
+    dlrpgmsvc
+    escho
+    flameeyes
+    freemed
+    g3gg0
+    gary.mathews.93
+    go
+    grumpyriffic
+    grzesiekpl
+    hipescho
+    housebox
+    houz
+    hudson
+    info
+    jarno.paananen
+    joao_pedro_lx
+    jordancolburn
+    josepvm
+    kedzierski.m
+    kichetof
+    kotyatokino
+    leigh_tuck
+    ltuck
+    mahonrig
+    mail
+    marazmarci
+    marcus
+    me
+    meeok
+    michael.angle
+    minimimi4649
+    mk11174
+    morghus
+    nanomad
+    nospam
+    nsr204
+    nviennot
+    pdavis
+    pel
+    phil.a.mitchell
+    piersg
+    ppluciennik
+    pravdomil.toman
+    roald.frederickx
+    rob
+    rudison
+    sc1ence
+    scrizza
+    sodapopodalaigh
+    sven
+    swinxx
+    trsaunders
+    ubbut
+    up4
+    viniciusatique
+    vladimir.vyskocil
+    w01f
+    zloe
+
+
+

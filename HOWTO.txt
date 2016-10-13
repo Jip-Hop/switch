@@ -1,0 +1,14 @@
+1 - Move cr2hdr(.app) to applications folder
+2 - Double click cr2hdr(.app) and select a folder with dual iso cr2 files. 
+3 - For compressing and matched white balanced Adobe dng converter needs to be installed into application folder. cr2hdr works perfectly fine without but white balance will be slightly off balance due to missing camera calibration information.
+
+NOTE 1
+To supress gatekeeper hold ctrl button down while opening the application the first time. You can also change permissions from within privacy/security settings.
+
+
+For coders
+About working inside the source_code folder
+Inside source_code folder there is a Build_dmg_package(.app) application. When double clicked it will copy and overwrite all .txt files over in source_code folder into the cr2hdr(.app) one level up in source tree. 
+
+NOTE 2 
+If you want to include changes done to cr2hdr_MAIN.txt these have to be copied by opening up cr2hdr(.app) in automator.

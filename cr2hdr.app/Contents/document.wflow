@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>428</string>
+	<key>AMApplicationVersion</key>
+	<string>2.7</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.path</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.2.1</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>defaultLocation</key>
+					<dict>
+						<key>isPathPopUp</key>
+						<true/>
+						<key>variableUUIDsInMenu</key>
+						<array/>
+					</dict>
+					<key>granularity</key>
+					<dict/>
+					<key>multipleSelection</key>
+					<dict/>
+					<key>promptMessage</key>
+					<dict>
+						<key>tokenizedValue</key>
+						<array>
+							<string>Select a folder with Dualiso files</string>
+						</array>
+					</dict>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.path</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Ask for Finder Items.action</string>
+				<key>ActionName</key>
+				<string>Ask for Finder Items</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>defaultLocation</key>
+					<string>~/Desktop</string>
+					<key>granularity</key>
+					<integer>1</integer>
+					<key>multipleSelection</key>
+					<false/>
+					<key>promptMessage</key>
+					<string>Select a folder with Dualiso files</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.AskForFinderItems</string>
+				<key>CFBundleVersion</key>
+				<string>1.2.1</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<true/>
+				<key>CanShowWhenRun</key>
+				<false/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryFilesAndFolders</string>
+				</array>
+				<key>Class Name</key>
+				<string>AMAskForFinderItemsAction</string>
+				<key>InputUUID</key>
+				<string>C97B7963-ADDE-493E-B66F-A3C28DE13A4C</string>
+				<key>Keywords</key>
+				<array>
+					<string>Find</string>
+					<string>Item</string>
+					<string>File</string>
+					<string>Folder</string>
+					<string>Ask</string>
+					<string>Choose</string>
+					<string>Prompt</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>A4837F86-1060-4403-958D-167575CC7D4F</string>
+				<key>UUID</key>
+				<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<false/>
+						<key>name</key>
+						<string>multipleSelection</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<integer>0</integer>
+						<key>name</key>
+						<string>granularity</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<string>~/Desktop</string>
+						<key>name</key>
+						<string>defaultLocation</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+					<key>3</key>
+					<dict>
+						<key>default value</key>
+						<string>Choose a Finder Item:</string>
+						<key>name</key>
+						<string>promptMessage</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>3</string>
+					</dict>
+				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>478.500000:112.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>2.0.3</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<dict/>
+					<key>CheckedForUserDefaultShell</key>
+					<dict/>
+					<key>inputMethod</key>
+					<dict/>
+					<key>shell</key>
+					<dict/>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run Shell Script.action</string>
+				<key>ActionName</key>
+				<string>Run Shell Script</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<string>cd "$1"
+rm -r /tmp/DUALISO
+mkdir -p /tmp/DUALISO
+echo "$1" &gt; /tmp/DUALISO/path_1
+</string>
+					<key>CheckedForUserDefaultShell</key>
+					<true/>
+					<key>inputMethod</key>
+					<integer>1</integer>
+					<key>shell</key>
+					<string>/bin/bash</string>
+					<key>source</key>
+					<string></string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.RunShellScript</string>
+				<key>CFBundleVersion</key>
+				<string>2.0.3</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunShellScriptAction</string>
+				<key>InputUUID</key>
+				<string>A9BD6FC2-2CA5-4ACE-B330-4F35B18862EF</string>
+				<key>Keywords</key>
+				<array>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
+					<string>Unix</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>4423340F-0F30-4577-9A4A-12EF6467BC28</string>
+				<key>UUID</key>
+				<string>BB431224-9CAE-4938-A417-E4D23712F23B</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<integer>0</integer>
+						<key>name</key>
+						<string>inputMethod</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<false/>
+						<key>name</key>
+						<string>CheckedForUserDefaultShell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+					<key>3</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>COMMAND_STRING</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>3</string>
+					</dict>
+					<key>4</key>
+					<dict>
+						<key>default value</key>
+						<string>/bin/sh</string>
+						<key>name</key>
+						<string>shell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>4</string>
+					</dict>
+				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>478.500000:154.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0.2</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {input, parameters}   set p to POSIX path of (path to me)   return {p}end run</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>67C83F24-9AD1-4435-A861-383263D8B440</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>83CEEBF4-EA1C-43B1-92D2-6FAF1F81DF2A</string>
+				<key>UUID</key>
+				<string>C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>478.500000:196.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>2.0.3</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<dict/>
+					<key>CheckedForUserDefaultShell</key>
+					<dict/>
+					<key>inputMethod</key>
+					<dict/>
+					<key>shell</key>
+					<dict/>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.string</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run Shell Script.action</string>
+				<key>ActionName</key>
+				<string>Run Shell Script</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>COMMAND_STRING</key>
+					<string>#GNU public license
+
+#This program is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU General Public License
+ # as published by the Free Software Foundation; either version 2
+ # of the License, or (at your option) any later version.
+ # 
+ # This program is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ # GNU General Public License for more details.
+ # 
+ # You should have received a copy of the GNU General Public License
+ # along with this program; if not, write to the
+ # Free Software Foundation, Inc.,
+ # 51 Franklin Street, Fifth Floor,
+ # Boston, MA  02110-1301, USA.
+
+
+#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
+
+
+cd "$1"
+path_2=$(echo "$1") 
+find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
+export PATH="$path_2"Contents:$PATH
+cd "$(cat /tmp/DUALISO/path_1)"
+
+#build Folder structure
+mkdir -p A_CR2_ORIGINALS
+mkdir -p /tmp/DUALISO/
+
+
+#Call menu selector
+echo &gt; /tmp/DUALISO/DUALISO
+open "$path_2"Contents/Menu.command &amp; sleep 1
+while ls /tmp/DUALISO/DUALISO
+do sleep 1
+done
+if ls /tmp/DUALISO/DUALISO_exit
+then 
+exit 0
+fi
+
+
+#Processing MLV files into folders with dng files
+for FILE in `ls -tr -A1 *.MLV *.mlv 2&gt;/dev/null`; do
+date=$(mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
+date_01=$(echo "$date" | head -c2)
+date_02=$(echo "$date" | cut -c4-5)
+date_03=$(echo "$date" | cut -c7-10)
+
+date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
+
+    BASE=`echo "$FILE" | cut -d "." -f1`;
+    mkdir ${BASE}
+    mv ${BASE} "${BASE}_1_$date" 
+    mv "$FILE" "${BASE}_1_$date"
+    cd "${BASE}_1_$date"
+
+#frame extraction in mlv_dump makes multihtreading possible. Thanks to so-rose for highlighting this possibility
+frct=$(mlv_dump -f 0-1 --dng $mlv -o "${BASE}_1_$date"_ "$FILE" | awk '/Processed/ { print $2; }')
+mlv_dump -f 2-$(($frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
+mlv_dump -f $(($frct/4+1))-$(($frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
+mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
+mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
+
+#grabs the white balance tag and saves it for later  
+wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
+#grabs white level
+wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }') 
+
+mv -i ${BASE}.MLV ../A_CR2_ORIGINALS ;
+if ls ${BASE}.M*
+then
+mv -i ${BASE}.M* ../A_CR2_ORIGINALS ;
+fi
+
+#Stored cr2hdr settings
+set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+
+#cr2hdr processing
+find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
+#adds back correct white balance tag
+find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+cd ..
+done
+
+
+
+
+
+#Create a dng file through Adobe dng converter for camera calibration tags 
+/Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter -d /tmp/DUALISO "$(find *.CR2 | head -1)" 
+CAL=$(find *.CR2 | head -1 | cut -f1 -d".") 
+
+#Let exiftool extract camera calibration values
+caltagA=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $5; exit }') 
+caltagB=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }') 
+serial=$(exiftool /tmp/DUALISO/"$CAL".dng | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
+rm /tmp/DUALISO/"$CAL".dng
+
+#Stored cr2hdr settings
+set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+
+#run cr2hdr 4 processes in parallell
+ls *.DNG *.dng &gt; /tmp/DUALISO/NOT_list
+echo hej &gt;&gt; /tmp/DUALISO/NOT_list
+find . -maxdepth 1 -mindepth 1 -iname '*.DNG' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
+find . -maxdepth 1 -mindepth 1 -name '*.CR2' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set   
+
+#obtaining dcraw white balance multipliers and calculating them to AsShotNeutralvalues in the DNG file (thanks Chmee)
+ls *.CR2 *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" &gt; /tmp/DUALISO/d_iso_list
+
+#multithread processing
+. "$path_2"Contents/dualiso_to_DNG_A.command &amp; sleep 2
+. "$path_2"Contents/dualiso_to_DNG_B.command &amp; sleep 2
+. "$path_2"Contents/dualiso_to_DNG_C.command &amp; sleep 2
+
+while grep -q 'CR2' /tmp/DUALISO/d_iso_list
+do
+CR2=$(grep 'CR2' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
+DNG=$(grep 'DNG' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
+#Will add stored white balance settings to processed readymade dualiso DNG files
+echo "$(tail -n +3 /tmp/DUALISO/d_iso_list)" &gt; /tmp/DUALISO/d_iso_list
+list=$(cat /tmp/DUALISO/d_iso_list)
+
+#matching camera serial or not
+serial_match=$(exiftool "$CR2" | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
+if ! [ "$serial" = "$serial_match" ]; then
+/Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter -d /tmp/DUALISO "$CR2" 
+CAL=$(echo "$CR2" | cut -f1 -d".") 
+caltagA=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $5; exit }') 
+caltagB=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }')
+model=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }') 
+rm /tmp/DUALISO/"$CAL".dng
+fi
+
+#check if the camera is a eos 100D
+model_match=$(exiftool "$CR2" | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }')
+echo "$model_match" &gt; /tmp/DUALISO/model_match
+if grep 'Canon EOS 100D\|SL1\|Kiss X7\|X7' /tmp/DUALISO/model_match
+then
+exiftool "-ColorMatrix1=0.6985 -0.1611 -0.0397 -0.3596 1.0749 0.3295 -0.0349 0.1136 0.6512" "-ColorMatrix2=0.6602 -0.0841 -0.0939 -0.4472 1.2458 0.2247 -0.0975 0.2039 0.6148" "$(find "$CR2" | cut -f1 -d".")".DNG -overwrite_original ;
+fi
+    
+CR2_00=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $4; exit }')
+CR2_01=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $3; exit }') 
+CR2_01b=$(echo "$CR2_00"/"$CR2_01" | bc -l | awk 'FNR == 1 {print}')
+
+#If adobe dng converter is installed this calibration compensation will take place
+if ls /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter
+then
+CR2_01b=$(echo "$CR2_01b/$caltagA" | bc -l | awk 'FNR == 1 {print}')
+fi
+
+CR2_00b=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $6; exit }')
+CR2_02=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $5; exit }') 
+CR2_02b=$(echo "$CR2_00b"/"$CR2_02" | bc -l | awk 'FNR == 1 {print}')
+
+#If adobe dng converter is installed this calibration compensation will take place
+if ls /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter
+then
+CR2_02b=$(echo "$CR2_02b/$caltagB" | bc -l | awk 'FNR == 1 {print}')
+fi
+
+#Add neccesssary tags for white balance with exiftool. Also rearrange illuminant tags
+exiftool "-AsShotNeutral=$CR2_01b 1 $CR2_02b" "-CalibrationIlluminant1=Standard Light A" "-CalibrationIlluminant2=D65" "$DNG" -overwrite_original
+
+mkdir -p A_CR2_ORIGINALS
+mv "$CR2" A_CR2_ORIGINALS
+done
+
+#Thanks to A1ex (cr2hdr, dual iso) Dave Coffin (dcraw) Phil Harvey (Exiftool).
+
+#Copyright Danne
+</string>
+					<key>CheckedForUserDefaultShell</key>
+					<true/>
+					<key>inputMethod</key>
+					<integer>1</integer>
+					<key>shell</key>
+					<string>/bin/bash</string>
+					<key>source</key>
+					<string></string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.RunShellScript</string>
+				<key>CFBundleVersion</key>
+				<string>2.0.3</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunShellScriptAction</string>
+				<key>InputUUID</key>
+				<string>0449CC7B-F6D7-40C1-9112-EB16756688C2</string>
+				<key>Keywords</key>
+				<array>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
+					<string>Unix</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>06E3C714-C473-4895-9BCE-B6ABDA8B2979</string>
+				<key>UUID</key>
+				<string>6547909D-50AB-448F-8131-1E3394F3B26E</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<integer>0</integer>
+						<key>name</key>
+						<string>inputMethod</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<false/>
+						<key>name</key>
+						<string>CheckedForUserDefaultShell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+					<key>3</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>COMMAND_STRING</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>3</string>
+					</dict>
+					<key>4</key>
+					<dict>
+						<key>default value</key>
+						<string>/bin/sh</string>
+						<key>name</key>
+						<string>shell</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>4</string>
+					</dict>
+				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>478.500000:238.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict>
+		<key>1A24AA19-515C-49FD-8575-E995C7048496</key>
+		<dict>
+			<key>from</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<key>to</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+		</dict>
+		<key>3EECBE7E-4164-4D88-A389-497285DF772D</key>
+		<dict>
+			<key>from</key>
+			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
+			<key>to</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+		</dict>
+		<key>9B553F74-34D2-4C27-B1B5-BF365BEF1CDC</key>
+		<dict>
+			<key>from</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+			<key>to</key>
+			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
+		</dict>
+	</dict>
+	<key>workflowMetaData</key>
+	<dict>
+		<key>workflowTypeIdentifier</key>
+		<string>com.apple.Automator.application</string>
+	</dict>
+</dict>
+</plist>
