@@ -29,7 +29,7 @@ To supress gatekeeper hold ctrl button down(mac OS Sierrra) while opening the ap
 
 **For coders**
 
-Inside source_code folder there is a Build_dmg_package(.app) application. When double clicked it will copy and overwrite all .txt files over in source_code folder into the cr2hdr(.app) located one level up in source tree. 
+Inside source_code folder there is a Build_dmg_package(.app) application. When double clicked it will copy and overwrite all .txt files over in source_code folder into the cr2hdr(.app) located one level up in source tree. After copying the script will continue to build a package dmg which will be placed one level up.(Thanks to dmilligan for dmg script). 
 
 **MAIN**
  
