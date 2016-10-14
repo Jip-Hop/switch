@@ -29,7 +29,6 @@ To supress gatekeeper hold ctrl button down(macOS Sierrra) while opening the app
 
 **For coders**
 
-About working inside the source_code folder
 Inside source_code folder there is a Build_dmg_package.command script. When double clicked it will copy and overwrite all .txt files over in source_code folder into the cr2hdr(.app) one level up in source tree. After copying a mac dmg package will be created. Run chmod u=rwx on the script for full privilegies if needed.
 
 **MAIN**
