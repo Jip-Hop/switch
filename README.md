@@ -25,11 +25,12 @@ cr2hdr(.app) also includes a menu selector created in bash from where the user c
 
 **regarding gatekeeper**
 
-To supress gatekeeper hold ctrl button down(mac OS Sierrra) while opening the application the first time. You can also change permissions from within privacy/security settings.
+To supress gatekeeper hold ctrl button down(macOS Sierrra) while opening the application the first time. You can also change permissions from within privacy/security settings.
 
 **For coders**
 
-Inside source_code folder there is a Build_dmg_package(.app) application. When double clicked it will copy and overwrite all .txt files over in source_code folder into the cr2hdr(.app) located one level up in source tree. After copying the script will continue to build a package dmg which will be placed one level up.(Thanks to dmilligan for dmg script). 
+About working inside the source_code folder
+Inside source_code folder there is a Build_dmg_package.command script. When double clicked it will copy and overwrite all .txt files over in source_code folder into the cr2hdr(.app) one level up in source tree. After copying a mac dmg package will be created. Run chmod u=rwx on the script for full privilegies if needed.
 
 **MAIN**
  
