@@ -7,6 +7,8 @@ cd "${workingDir}"
 
 #simple command to rename txt scripts to .command and copy these to MLP content folder.
 
+xattr -d com.apple.quarantine ../cr2hdr.app
+
 for file in *.txt; do
     mv "$file" "`basename $file .txt`.command"
 
