@@ -1,26 +1,28 @@
-cd "$1"
+#!/bin/bash
+workingDir=`dirname "$0"`
+cd "${workingDir}"
 
-#This file contains the code inside Build_dmg_package(.app)
-#If you want to change code inside Build_dmg_package(.app) simply open it up in automator to do so.
-#The dmg package will be built one level up in source tree.
+#A MAKE like solution which copies changes made in source txt files and migrates the changes into cr2hdr.app and at the end creates a dmg package
 
 
 #simple command to rename txt scripts to .command and copy these to MLP content folder.
 
-for file in ../*.txt; do
-    mv "$file" ../"`basename $file .txt`.command"
+for file in *.txt; do
+    mv "$file" "`basename $file .txt`.command"
 
-yes | cp ../*.command  ../../cr2hdr.app/Contents
+yes | cp *.command  ../cr2hdr.app/Contents
 done
 
-for file in ../*.command; do
-    mv "$file" ../"`basename $file .command`.txt" 
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
 done
 
-rm ../../cr2hdr.app/Contents/Build_dmg_package.command
-rm ../../cr2hdr.app/Contents/cr2hdr_MAIN.command
+mv Build_dmg_package.txt Build_dmg_package.command
 
-cd ../../
+rm ../cr2hdr.app/Contents/Build_dmg_package.command
+rm ../cr2hdr.app/Contents/cr2hdr_MAIN.command
+
+cd ../
 
 #Script originally for MLVFS
 #https://bitbucket.org/dmilligan/mlvfs/src/9f8191808407bb49112b9ab14c27053ae5022749/build_installer.sh?at=master&fileviewer=file-view-default
@@ -35,11 +37,9 @@ size=100000
 
 mkdir "${source}"
 cp -R cr2hdr.app "${source}"
-cp -f cr2hdr/cr2hdr "${source}/cr2hdr.app/Contents/"
 cp -R source_code "${source}"
 cp LICENSE "${source}"
 cp HOWTO.txt "${source}"
-cp script_dmg.txt "${source}"
 
 #remove any previously existing build
 rm -f "${finalDMGName}"
@@ -54,3 +54,6 @@ hdiutil detach ${device}
 hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${finalDMGName}"
 rm -f pack.temp.dmg
 rm -R "${source}"
+
+
+
