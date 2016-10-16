@@ -665,7 +665,6 @@ if ! [ "$serial" = "$serial_match" ]; then
 CAL=$(echo "$CR2" | cut -f1 -d".") 
 caltagA=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $5; exit }') 
 caltagB=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }')
-model=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }') 
 rm /tmp/DUALISO/"$CAL".dng
 fi
 
@@ -830,21 +829,21 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0C2CA243-B981-4E7A-99AF-EA90FE5F11D0</key>
-		<dict>
-			<key>from</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-			<key>to</key>
-			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
-		</dict>
-		<key>5A109A22-99D5-4F97-8B81-BB6E8DB4D7E1</key>
+		<key>4117120F-0762-4EC4-8941-77D7BDFB9500</key>
 		<dict>
 			<key>from</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 			<key>to</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 		</dict>
-		<key>891A66C5-589C-4B15-976A-FFA2BCE30471</key>
+		<key>91CAACC2-0DBC-47F3-8BE5-0BFB3E5B5B16</key>
+		<dict>
+			<key>from</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+			<key>to</key>
+			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
+		</dict>
+		<key>CFCC4478-4192-4534-AAAE-5D8855810520</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
