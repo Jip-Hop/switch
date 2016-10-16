@@ -69,7 +69,7 @@ mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv
 mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
 
 #grabs the white balance tag and saves it for later  
-wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
+wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
  
 mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
 if ls "${BASE}".M*
@@ -102,7 +102,9 @@ for FILE in `ls -A1 *.RAW *.raw 2>/dev/null`; do
     mv "${BASE}" "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
     cd "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
 #RAW processing
-    raw2dng "$FILE" "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
+    raw2dng "$FILE" "${BASE}_1_$(date +%Y-%m-%d)_0001_C"
+#grabs the white balance tag and saves it for later  
+    wib=$(exiv2 -pt "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
 mv -i "${BASE}".RAW ../A_CR2_ORIGINALS ;
 if ls "${BASE}".R*
 then
@@ -113,9 +115,9 @@ fi
 #cr2hdr processing
     find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set
 #grabs white level
-    wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
-#adds same whitelevel to prevent flicker
-    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.SubImage1.WhiteLevel $wle"
+    wle=$(exiv2 -pt "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+#adds back white balance tag and same whitelevel to prevent flicker
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wib" -M"set Exif.SubImage1.WhiteLevel $wle"
 cd ..
 done
    
