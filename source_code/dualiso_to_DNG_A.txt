@@ -36,7 +36,6 @@ mkdir -p /tmp/DUALISO/DNG_A
 CAL=$(echo "$CR2" | cut -f1 -d".") 
 caltagA=$(exiftool /tmp/DUALISO/DNG_A/"$CAL".dng | awk '/Camera Calibration 1/ { print $5; exit }') 
 caltagB=$(exiftool /tmp/DUALISO/DNG_A/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }')
-model=$(exiftool /tmp/DUALISO/DNG_A/"$CAL".dng | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }') 
 rm -r /tmp/DUALISO/DNG_A
 fi
 
