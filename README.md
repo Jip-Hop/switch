@@ -5,7 +5,7 @@ The cr2hdr automator app is a multithreaded mac solution being able to process d
 
 * White balance correction
 * Process dual iso generated files from multiple cameras
-* Process CR2, DNG, dng, and MLV files
+* Process CR2, DNG, dng, RAW and MLV files
 * Multithreaded 
 
 The application itself is depending on cr2hdr(a1ex), mlv_dump(g3gg0, a1ex), raw2dng(a1ex) and [dcraw](https://www.cybercom.net/~dcoffin/dcraw/)(Dave Coffin) for processing the different dualiso generated files.
