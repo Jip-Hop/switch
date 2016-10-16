@@ -167,7 +167,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>478.500000:112.000000</string>
+				<string>527.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -340,7 +340,7 @@ echo "$1" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>478.500000:154.000000</string>
+				<string>527.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -442,7 +442,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>478.500000:196.000000</string>
+				<string>527.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -544,7 +544,9 @@ fi
 
 
 #Processing MLV files into folders with dng files
-for FILE in `ls -tr -A1 *.MLV *.mlv 2&gt;/dev/null`; do
+#Will take white space
+    IFS=$'\n'
+for FILE in `ls -A1 *.MLV *.mlv 2&gt;/dev/null`; do
 date=$(mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
 date_01=$(echo "$date" | head -c2)
 date_02=$(echo "$date" | cut -c4-5)
@@ -553,8 +555,8 @@ date_03=$(echo "$date" | cut -c7-10)
 date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
 
     BASE=`echo "$FILE" | cut -d "." -f1`;
-    mkdir ${BASE}
-    mv ${BASE} "${BASE}_1_$date" 
+    mkdir "${BASE}"
+    mv "${BASE}" "${BASE}_1_$date" 
     mv "$FILE" "${BASE}_1_$date"
     mv "$BASE".M* "${BASE}_1_$date"
     cd "${BASE}_1_$date"
@@ -568,13 +570,11 @@ mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$d
 
 #grabs the white balance tag and saves it for later  
 wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
-#grabs white level
-wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }') 
-
-mv -i ${BASE}.MLV ../A_CR2_ORIGINALS ;
-if ls ${BASE}.M*
+ 
+mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
+if ls "${BASE}".M*
 then
-mv -i ${BASE}.M* ../A_CR2_ORIGINALS ;
+mv -i "${BASE}".M* ../A_CR2_ORIGINALS ;
 fi
 
 #Stored cr2hdr settings
@@ -582,11 +582,43 @@ set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
 
 #cr2hdr processing
 find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
-#adds back correct white balance tag
+#grabs white level
+wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+#adds back correct white balance tag and also sets the same whitelevel to prevent flicker
 find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
 cd ..
 done
 
+
+
+#Processing RAW files
+#Will take white space
+    IFS=$'\n'
+for FILE in `ls -A1 *.RAW *.raw 2&gt;/dev/null`; do
+    BASE=`echo "$FILE" | cut -d "." -f1`;
+    mkdir "${BASE}";
+    mv "${BASE}".RAW "${BASE}"
+    mv "${BASE}".R* "${BASE}"
+    mv "${BASE}" "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
+    cd "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
+#RAW processing
+    raw2dng "$FILE" "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
+mv -i "${BASE}".RAW ../A_CR2_ORIGINALS ;
+if ls "${BASE}".R*
+then
+mv -i "$BASE".R* ../A_CR2_ORIGINALS ;
+fi
+#Stored cr2hdr settings
+    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+#cr2hdr processing
+    find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set
+#grabs white level
+    wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+#adds same whitelevel to prevent flicker
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.SubImage1.WhiteLevel $wle"
+cd ..
+done
+   
 
 
 
@@ -672,7 +704,7 @@ mkdir -p A_CR2_ORIGINALS
 mv "$CR2" A_CR2_ORIGINALS
 done
 
-#Thanks to A1ex (cr2hdr, dual iso) Dave Coffin (dcraw) Phil Harvey (Exiftool).
+#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2).
 
 #Copyright Danne
 </string>
@@ -788,7 +820,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>478.500000:806.000000</string>
+				<string>527.000000:379.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -798,26 +830,26 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>05440484-EB7E-4172-B49D-E232B7F0380B</key>
-		<dict>
-			<key>from</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-			<key>to</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-		</dict>
-		<key>063FE0F8-105F-4046-A494-CDBF6ABAC3DA</key>
-		<dict>
-			<key>from</key>
-			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
-			<key>to</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-		</dict>
-		<key>1CC238BA-2437-4B89-9183-8EE9B6A72990</key>
+		<key>0C2CA243-B981-4E7A-99AF-EA90FE5F11D0</key>
 		<dict>
 			<key>from</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 			<key>to</key>
 			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
+		</dict>
+		<key>5A109A22-99D5-4F97-8B81-BB6E8DB4D7E1</key>
+		<dict>
+			<key>from</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<key>to</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+		</dict>
+		<key>891A66C5-589C-4B15-976A-FFA2BCE30471</key>
+		<dict>
+			<key>from</key>
+			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
+			<key>to</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
