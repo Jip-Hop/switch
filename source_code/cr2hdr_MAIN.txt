@@ -79,13 +79,18 @@ fi
 
 #Stored cr2hdr settings
 set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
-
+#Verify dualiso or else contiue to next file
+    cr2hdr $set "${BASE}"_1_"$date"_000000.dng | tee /tmp/DUALISO/dualiso.txt 
+    if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
+    then
+    rm /tmp/DUALISO/dualiso.txt
 #cr2hdr processing
 find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
 #grabs white level
 wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
 #adds back correct white balance tag and also sets the same whitelevel to prevent flicker
 find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+    fi
 cd ..
 done
 
@@ -112,13 +117,19 @@ mv -i "$BASE".R* ../A_CR2_ORIGINALS ;
 fi
 #Stored cr2hdr settings
     set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+#Verify dualiso or else contiue to next file
+    cr2hdr $set "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.dng | tee /tmp/DUALISO/dualiso.txt 
+    if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
+    then
+    rm /tmp/DUALISO/dualiso.txt
 #cr2hdr processing
     find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set
 #grabs white level
     wle=$(exiv2 -pt "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
 #adds back white balance tag and same whitelevel to prevent flicker
     find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wib" -M"set Exif.SubImage1.WhiteLevel $wle"
-cd ..
+    fi
+    cd ..
 done
    
 
