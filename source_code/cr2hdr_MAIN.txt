@@ -44,7 +44,9 @@ fi
 
 
 #Processing MLV files into folders with dng files
-for FILE in `ls -tr -A1 *.MLV *.mlv 2>/dev/null`; do
+#Will take white space
+    IFS=$'\n'
+for FILE in `ls -A1 *.MLV *.mlv 2>/dev/null`; do
 date=$(mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
 date_01=$(echo "$date" | head -c2)
 date_02=$(echo "$date" | cut -c4-5)
@@ -53,8 +55,8 @@ date_03=$(echo "$date" | cut -c7-10)
 date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
 
     BASE=`echo "$FILE" | cut -d "." -f1`;
-    mkdir ${BASE}
-    mv ${BASE} "${BASE}_1_$date" 
+    mkdir "${BASE}"
+    mv "${BASE}" "${BASE}_1_$date" 
     mv "$FILE" "${BASE}_1_$date"
     mv "$BASE".M* "${BASE}_1_$date"
     cd "${BASE}_1_$date"
@@ -68,13 +70,11 @@ mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$d
 
 #grabs the white balance tag and saves it for later  
 wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
-#grabs white level
-wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }') 
-
-mv -i ${BASE}.MLV ../A_CR2_ORIGINALS ;
-if ls ${BASE}.M*
+ 
+mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
+if ls "${BASE}".M*
 then
-mv -i ${BASE}.M* ../A_CR2_ORIGINALS ;
+mv -i "${BASE}".M* ../A_CR2_ORIGINALS ;
 fi
 
 #Stored cr2hdr settings
@@ -82,11 +82,43 @@ set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
 
 #cr2hdr processing
 find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
-#adds back correct white balance tag
+#grabs white level
+wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+#adds back correct white balance tag and also sets the same whitelevel to prevent flicker
 find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
 cd ..
 done
 
+
+
+#Processing RAW files
+#Will take white space
+    IFS=$'\n'
+for FILE in `ls -A1 *.RAW *.raw 2>/dev/null`; do
+    BASE=`echo "$FILE" | cut -d "." -f1`;
+    mkdir "${BASE}";
+    mv "${BASE}".RAW "${BASE}"
+    mv "${BASE}".R* "${BASE}"
+    mv "${BASE}" "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
+    cd "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
+#RAW processing
+    raw2dng "$FILE" "${BASE}_1_$(date +%Y-%m-%d)_0001_C0000"
+mv -i "${BASE}".RAW ../A_CR2_ORIGINALS ;
+if ls "${BASE}".R*
+then
+mv -i "$BASE".R* ../A_CR2_ORIGINALS ;
+fi
+#Stored cr2hdr settings
+    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+#cr2hdr processing
+    find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set
+#grabs white level
+    wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+#adds same whitelevel to prevent flicker
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.SubImage1.WhiteLevel $wle"
+cd ..
+done
+   
 
 
 
@@ -172,6 +204,6 @@ mkdir -p A_CR2_ORIGINALS
 mv "$CR2" A_CR2_ORIGINALS
 done
 
-#Thanks to A1ex (cr2hdr, dual iso) Dave Coffin (dcraw) Phil Harvey (Exiftool).
+#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2).
 
 #Copyright Danne
