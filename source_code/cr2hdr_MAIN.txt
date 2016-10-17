@@ -33,6 +33,7 @@ mkdir -p /tmp/DUALISO/
 
 #Call menu selector
 echo > /tmp/DUALISO/DUALISO
+echo "$1"Contents/ > /tmp/DUALISO/path_2
 open "$path_2"Contents/Menu.command & sleep 1
 while ls /tmp/DUALISO/DUALISO
 do sleep 1
@@ -45,6 +46,7 @@ fi
 
 #Processing MLV files into folders with dng files
 #Will take white space
+    OLDIFS=$IFS
     IFS=$'\n'
 for FILE in `ls -A1 *.MLV *.mlv 2>/dev/null`; do
 date=$(mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
@@ -60,13 +62,16 @@ date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
     mv "$FILE" "${BASE}_1_$date"
     mv "$BASE".M* "${BASE}_1_$date"
     cd "${BASE}_1_$date"
-
+#reset IFS
+    IFS=$OLDIFS
+#mlv_dump settings
+mlv=$(cat /tmp/DUALISO/mlv_dump_settings)
 #frame extraction in mlv_dump makes multihtreading possible. Thanks to so-rose for highlighting this possibility
-frct=$(mlv_dump -f 0-1 --dng $mlv -o "${BASE}_1_$date"_ "$FILE" | awk '/Processed/ { print $2; }')
-mlv_dump -f 2-$(($frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
-mlv_dump -f $(($frct/4+1))-$(($frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
-mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
-mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
+    frct=$(mlv_dump -f 0-1 --dng $mlv -o "${BASE}_1_$date"_ "$FILE" | awk '/Processed/ { print $2; }')
+    mlv_dump -f 2-$(($frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
+    mlv_dump -f $(($frct/4+1))-$(($frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
+    mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
+    mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
 
 #grabs the white balance tag and saves it for later  
     wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
