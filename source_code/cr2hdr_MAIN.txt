@@ -69,27 +69,45 @@ mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv
 mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
 
 #grabs the white balance tag and saves it for later  
-wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
+    wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
  
-mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
-if ls "${BASE}".M*
-then
-mv -i "${BASE}".M* ../A_CR2_ORIGINALS ;
+    mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
+    if ls "${BASE}".M*
+    then
+    mv -i "${BASE}".M* ../A_CR2_ORIGINALS ;
 fi
 
 #Stored cr2hdr settings
-set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
 #Verify dualiso or else contiue to next file
     cr2hdr $set "${BASE}"_1_"$date"_000000.dng | tee /tmp/DUALISO/dualiso.txt 
     if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
     then
     rm /tmp/DUALISO/dualiso.txt
 #cr2hdr processing
-find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
+    find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
 #grabs white level
-wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+    wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+#check if cam was set to auto white balance
+    if [ "$(mlv_dump -v -m ../A_CR2_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    then
+    . "$path_2"Contents/awb.command
+#grabs the white balance tag and saves it for later  
+    wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+    else
 #adds back correct white balance tag and also sets the same whitelevel to prevent flicker
-find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+    fi
+    else
+#check if cam was set to auto white balance. Non dualiso
+    if [ "$(mlv_dump -v -m ../A_CR2_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    then
+    . "$path_2"Contents/awb.command
+#grabs the white balance tag and saves it for later. Non dualiso
+    wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
+    fi
     fi
 cd ..
 done
