@@ -167,7 +167,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:112.000000</string>
+				<string>395.500000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -340,7 +340,7 @@ echo "$1" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:154.000000</string>
+				<string>395.500000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -442,7 +442,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:196.000000</string>
+				<string>395.500000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -569,27 +569,45 @@ mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv
 mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
 
 #grabs the white balance tag and saves it for later  
-wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
+    wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
  
-mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
-if ls "${BASE}".M*
-then
-mv -i "${BASE}".M* ../A_CR2_ORIGINALS ;
+    mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
+    if ls "${BASE}".M*
+    then
+    mv -i "${BASE}".M* ../A_CR2_ORIGINALS ;
 fi
 
 #Stored cr2hdr settings
-set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
 #Verify dualiso or else contiue to next file
     cr2hdr $set "${BASE}"_1_"$date"_000000.dng | tee /tmp/DUALISO/dualiso.txt 
     if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
     then
     rm /tmp/DUALISO/dualiso.txt
 #cr2hdr processing
-find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
+    find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
 #grabs white level
-wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+    wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+#check if cam was set to auto white balance
+    if [ "$(mlv_dump -v -m ../A_CR2_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    then
+    . "$path_2"Contents/awb.command
+#grabs the white balance tag and saves it for later  
+    wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+    else
 #adds back correct white balance tag and also sets the same whitelevel to prevent flicker
-find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
+    fi
+    else
+#check if cam was set to auto white balance. Non dualiso
+    if [ "$(mlv_dump -v -m ../A_CR2_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    then
+    . "$path_2"Contents/awb.command
+#grabs the white balance tag and saves it for later. Non dualiso
+    wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
+    fi
     fi
 cd ..
 done
@@ -832,7 +850,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>527.000000:379.000000</string>
+				<string>395.500000:379.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -842,26 +860,26 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>476A1DB4-F2FF-47E9-B71C-5391483CF130</key>
+		<key>087D6EC7-628D-4D5C-96D0-9C29D9D6C0F0</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 		</dict>
-		<key>6EBFB94D-8567-4F79-BFF2-2979816E8A42</key>
-		<dict>
-			<key>from</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-			<key>to</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-		</dict>
-		<key>A52A58BD-0BCE-4E42-AF7F-E435431D25E5</key>
+		<key>8E74E889-24F5-4A82-8839-FB39F79F0C72</key>
 		<dict>
 			<key>from</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 			<key>to</key>
 			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
+		</dict>
+		<key>C3BB4856-4F3C-42B7-A7CA-76414A39F6E8</key>
+		<dict>
+			<key>from</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<key>to</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
