@@ -1,11 +1,11 @@
 # **cr2hdr(.app)** #
-The cr2hdr automator app is a multithreaded mac solution being able to process dual iso files coming from Magic Lantern generated CR2, DNG, RAW and MLV files. [Forum_thread](http://www.magiclantern.fm/forum/index.php?topic=15108.msg146822#msg146822)
+The cr2hdr automator app is a multithreaded mac solution being able to process dualiso as well as non dualiso files coming from Magic Lantern generated CR2, DNG, RAW and MLV files. [Forum_thread](http://www.magiclantern.fm/forum/index.php?topic=15108.msg146822#msg146822)
 
 **Following processing enhancements are included:**
 
 * White balance correction
 * Process dual iso generated files from multiple cameras
-* Process CR2, DNG, dng, RAW and MLV files
+* Process CR2, DNG, dng, RAW and MLV files(both dualiso and non dualiso)
 * Multithreaded 
 
 The application itself is depending on cr2hdr(a1ex), mlv_dump(g3gg0, a1ex), raw2dng(a1ex) and [dcraw](https://www.cybercom.net/~dcoffin/dcraw/)(Dave Coffin) for processing the different dualiso generated files.
