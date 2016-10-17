@@ -122,13 +122,14 @@ ${bold}DNG compression$(tput sgr0)(requires Adobe DNG Converter)
     $(tput bold)(l)$(tput sgr0) lossless $lole
     $(tput bold)(k)$(tput sgr0) lossy $lossy
 
+    $(tput bold)$(tput setaf 1)(ml) mlv_dump settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(r) run dualiso processing$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q) exit cr2hdr$(tput sgr0) 
  					        					
 
 Please enter your selection number below:
 EOF
-    read -n1
+    read -n2
     case "$REPLY" in
 
     
@@ -327,6 +328,268 @@ lole=
 fi
 ;;
 
+
+    "ml") 
+
+printf '\e[8;30;60t'
+printf '\e[3;450;0t'
+
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr=
+
+
+if grep 'no-cs' /tmp/DUALISO/mlv_dump_settings 
+then
+nocs=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'cs2' /tmp/DUALISO/mlv_dump_settings 
+then
+cs2=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'cs3' /tmp/DUALISO/mlv_dump_settings 
+then
+cs3=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'cs5' /tmp/DUALISO/mlv_dump_settings 
+then
+cs5=$(echo "$bold""$green"added!"$normal")
+fi
+
+if grep ' --fixcp' /tmp/DUALISO/mlv_dump_settings 
+then
+fixcp=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' --fixcp2' /tmp/DUALISO/mlv_dump_settings 
+then
+fixcp=
+fixcp2=$(echo "$bold""$green"added!"$normal")
+fi
+
+if grep 'no-stripes' /tmp/DUALISO/mlv_dump_settings 
+then
+nostripes=$(echo "$bold""$green"added!"$normal")
+fi
+
+if ls "$(cat /tmp/DUALISO/list_dng_look)"/A_lut_hold/MLV_RAW_my_darkframes.txt
+then
+dafr=$(echo "$bold""$green"added!"$normal")
+fi
+
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    --------
+    $(tput bold)mlv_dump$(tput sgr0)
+    --------
+	
+-- DNG output --
+    $(tput bold)(01) no chroma smoothing$(tput sgr0)   $nocs
+    $(tput bold)(02) 2x2 chroma smoothing$(tput sgr0)  $cs2	
+    $(tput bold)(03) 3x3 chroma smoothing$(tput sgr0)  $cs3
+    $(tput bold)(04) 5x5 chroma smoothing$(tput sgr0)  $cs5
+    $(tput bold)(05) fix cold pixels$(tput sgr0)  $fixcp 
+    $(tput bold)(06) fix non-static (moving) cold pixels (slow) $fixcp2
+    $(tput bold)(07) disable vertical stripes in highlights  $nostripes
+
+    $(tput bold)$(tput setaf 1)(q)  quit MLP$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(ml) cr2hdr menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) Run cr2hdr$(tput sgr0)
+			 
+  					        					
+Please enter your selection number below and hit enter:
+EOF
+    read -n2
+    case "$REPLY" in
+
+
+    "01")
+if grep 'no-cs' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g' 
+nocs=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo -n " --no-cs" >> /tmp/DUALISO/mlv_dump_settings
+nocs=$(echo "$bold""$green"added!"$normal")
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g'
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
+cs2=
+cs3=
+cs5=
+fi
+;;
+
+    "02")
+if grep 'cs2' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+cs2=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo -n " --cs2x2" >> /tmp/DUALISO/mlv_dump_settings
+cs2=$(echo "$bold""$green"added!"$normal")
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
+nocs=
+cs3=
+cs5=
+fi
+;;
+
+    "03")
+if grep 'cs3' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+cs3=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo -n " --cs3x3" >> /tmp/DUALISO/mlv_dump_settings
+cs3=$(echo "$bold""$green"added!"$normal")
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
+nocs=
+cs2=
+cs5=
+fi
+;;
+
+    "04")
+if grep 'cs5' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g' 
+cs5=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo -n " --cs5x5" >> /tmp/DUALISO/mlv_dump_settings
+cs5=$(echo "$bold""$green"added!"$normal")
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g'
+nocs=
+cs2=
+cs3=
+fi
+;;
+
+
+    "05")
+if grep ' --fixcp2' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
+fi
+if grep ' --fixcp' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp//g' 
+fixcp=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
+echo -n " --fixcp" >> /tmp/DUALISO/mlv_dump_settings
+fixcp=$(echo "$bold""$green"added!"$normal")
+fixcp2=
+fi
+;;
+
+
+    "06")
+if grep ' --fixcp2' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g' 
+fixcp2=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp//g'
+echo -n " --fixcp2" >> /tmp/DUALISO/mlv_dump_settings
+fixcp2=$(echo "$bold""$green"added!"$normal")
+fixcp=
+fi
+;;
+
+
+    "07")
+if grep 'no-stripes' /tmp/DUALISO/mlv_dump_settings 
+then
+find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-stripes//g' 
+nostripes=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo -n " --no-stripes" >> /tmp/DUALISO/mlv_dump_settings
+nostripes=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+
+
+    "ml")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+
+    "r")  
+perl -pi -e 's/^[\ \t]+|[\ \t]+$//g' /tmp/DUALISO/A_cr2hdr_settings.txt
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+;;
 
 
     "r")  

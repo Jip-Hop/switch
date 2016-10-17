@@ -533,6 +533,7 @@ mkdir -p /tmp/DUALISO/
 
 #Call menu selector
 echo &gt; /tmp/DUALISO/DUALISO
+echo "$1"Contents/ &gt; /tmp/DUALISO/path_2
 open "$path_2"Contents/Menu.command &amp; sleep 1
 while ls /tmp/DUALISO/DUALISO
 do sleep 1
@@ -545,6 +546,7 @@ fi
 
 #Processing MLV files into folders with dng files
 #Will take white space
+    OLDIFS=$IFS
     IFS=$'\n'
 for FILE in `ls -A1 *.MLV *.mlv 2&gt;/dev/null`; do
 date=$(mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
@@ -560,13 +562,16 @@ date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
     mv "$FILE" "${BASE}_1_$date"
     mv "$BASE".M* "${BASE}_1_$date"
     cd "${BASE}_1_$date"
-
+#reset IFS
+    IFS=$OLDIFS
+#mlv_dump settings
+mlv=$(cat /tmp/DUALISO/mlv_dump_settings)
 #frame extraction in mlv_dump makes multihtreading possible. Thanks to so-rose for highlighting this possibility
-frct=$(mlv_dump -f 0-1 --dng $mlv -o "${BASE}_1_$date"_ "$FILE" | awk '/Processed/ { print $2; }')
-mlv_dump -f 2-$(($frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
-mlv_dump -f $(($frct/4+1))-$(($frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
-mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
-mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
+    frct=$(mlv_dump -f 0-1 --dng $mlv -o "${BASE}_1_$date"_ "$FILE" | awk '/Processed/ { print $2; }')
+    mlv_dump -f 2-$(($frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
+    mlv_dump -f $(($frct/4+1))-$(($frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
+    mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
+    mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
 
 #grabs the white balance tag and saves it for later  
     wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
@@ -860,26 +865,26 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>087D6EC7-628D-4D5C-96D0-9C29D9D6C0F0</key>
+		<key>B9A2FBAD-34FA-41DB-B142-E6B5F24C4470</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 		</dict>
-		<key>8E74E889-24F5-4A82-8839-FB39F79F0C72</key>
-		<dict>
-			<key>from</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-			<key>to</key>
-			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
-		</dict>
-		<key>C3BB4856-4F3C-42B7-A7CA-76414A39F6E8</key>
+		<key>B9BE62B9-37F2-4773-8E75-A36DAB0642AC</key>
 		<dict>
 			<key>from</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 			<key>to</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+		</dict>
+		<key>E99B5CC4-6DF8-499D-B17B-8AEE646A0DCB</key>
+		<dict>
+			<key>from</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+			<key>to</key>
+			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
