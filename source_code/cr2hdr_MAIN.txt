@@ -27,7 +27,7 @@ export PATH="$path_2"Contents:$PATH
 cd "$(cat /tmp/DUALISO/path_1)"
 
 #build Folder structure
-mkdir -p A_CR2_ORIGINALS
+mkdir -p A_ORIGINALS
 mkdir -p /tmp/DUALISO/
 
 
@@ -76,10 +76,10 @@ mlv=$(cat /tmp/DUALISO/mlv_dump_settings)
 #grabs the white balance tag and saves it for later  
     wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
  
-    mv -i "${BASE}".MLV ../A_CR2_ORIGINALS ;
+    mv -i "${BASE}".MLV ../A_ORIGINALS ;
     if ls "${BASE}".M*
     then
-    mv -i "${BASE}".M* ../A_CR2_ORIGINALS ;
+    mv -i "${BASE}".M* ../A_ORIGINALS ;
 fi
 
 #Stored cr2hdr settings
@@ -94,7 +94,7 @@ fi
 #grabs white level
     wle=$(exiv2 -pt "${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
 #check if cam was set to auto white balance
-    if [ "$(mlv_dump -v -m ../A_CR2_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    if [ "$(mlv_dump -v -m ../A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #grabs the white balance tag and saves it for later  
@@ -106,7 +106,7 @@ fi
     fi
     else
 #check if cam was set to auto white balance. Non dualiso
-    if [ "$(mlv_dump -v -m ../A_CR2_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    if [ "$(mlv_dump -v -m ../A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #grabs the white balance tag and saves it for later. Non dualiso
@@ -133,10 +133,10 @@ for FILE in `ls -A1 *.RAW *.raw 2>/dev/null`; do
     raw2dng "$FILE" "${BASE}_1_$(date +%Y-%m-%d)_0001_C"
 #grabs the white balance tag and saves it for later  
     wib=$(exiv2 -pt "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
-mv -i "${BASE}".RAW ../A_CR2_ORIGINALS ;
+mv -i "${BASE}".RAW ../A_ORIGINALS ;
 if ls "${BASE}".R*
 then
-mv -i "$BASE".R* ../A_CR2_ORIGINALS ;
+mv -i "$BASE".R* ../A_ORIGINALS ;
 fi
 #Stored cr2hdr settings
     set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
@@ -235,8 +235,8 @@ fi
 #Add neccesssary tags for white balance with exiftool. Also rearrange illuminant tags
 exiftool "-AsShotNeutral=$CR2_01b 1 $CR2_02b" "-CalibrationIlluminant1=Standard Light A" "-CalibrationIlluminant2=D65" "$DNG" -overwrite_original
 
-mkdir -p A_CR2_ORIGINALS
-mv "$CR2" A_CR2_ORIGINALS
+mkdir -p A_ORIGINALS
+mv "$CR2" A_ORIGINALS
 done
 
 #Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2).
