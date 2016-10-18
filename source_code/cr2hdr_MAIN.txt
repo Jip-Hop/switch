@@ -65,17 +65,38 @@ date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
 #reset IFS
     IFS=$OLDIFS
 #mlv_dump settings
-mlv=$(cat /tmp/DUALISO/mlv_dump_settings)
+mlv=$(cat /tmp/mlv_dump_settings)
 #frame extraction in mlv_dump makes multihtreading possible. Thanks to so-rose for highlighting this possibility
     frct=$(mlv_dump -f 0-1 --dng $mlv -o "${BASE}_1_$date"_ "$FILE" | awk '/Processed/ { print $2; }')
     mlv_dump -f 2-$(($frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
     mlv_dump -f $(($frct/4+1))-$(($frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
     mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &
     mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
+#syncs audio to amount of dng frames
+    FPS=$(exiftool "${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }')      
+    frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
+#cut audio  
+    ffmpeg -ss 0 -t $frct_result -i "${BASE}_1_$date"_.wav "${BASE}_1_$date".wav ;
+    rm "${BASE}_1_$date"_.wav
+#adding fps to wav metatdata
+    fps_au=$(exiftool "${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }' | tr -d . )
+#adding zeros
+    num="$fps_au"
+    len=`echo ${#num}`
+    while [ $len -lt 5 ];
+    do
+        num=$num"0"
+        let len=len+1
+    done
+    FPS=$(echo $num)
+#Black magic audio tag copied from Dmilligan(mlvfs)
+echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</IXML_VERSION><PROJECT>Magic Lantern</PROJECT><NOTE></NOTE><CIRCLED>FALSE</CIRCLED><BLACKMAGIC-KEYWORDS></BLACKMAGIC-KEYWORDS><TAPE>1</TAPE><SCENE>1</SCENE><BLACKMAGIC-SHOT>1</BLACKMAGIC-SHOT><TAKE>1</TAKE><BLACKMAGIC-ANGLE>ms</BLACKMAGIC-ANGLE><SPEED><MASTER_SPEED>$FPS/1000</MASTER_SPEED><CURRENT_SPEED>$FPS/1000</CURRENT_SPEED><TIMECODE_RATE>$FPS/1000</TIMECODE_RATE><TIMECODE_FLAG>NDF</TIMECODE_FLAG></SPEED></BWFXML>" > /tmp/DUALISO/audio.xml
+#Add metadata information to the wav file
+    bwfmetaedit "${BASE}_1_$date".wav --in-iXML=/tmp/DUALISO/audio.xml
 
 #grabs the white balance tag and saves it for later  
     wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
- 
+#move mlv originals to folder 
     mv -i "${BASE}".MLV ../A_ORIGINALS ;
     if ls "${BASE}".M*
     then
@@ -83,7 +104,7 @@ mlv=$(cat /tmp/DUALISO/mlv_dump_settings)
 fi
 
 #Stored cr2hdr settings
-    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+    set=$(cat "/tmp/A_cr2hdr_settings.txt")
 #Verify dualiso or else contiue to next file
     cr2hdr $set "${BASE}"_1_"$date"_000000.dng | tee /tmp/DUALISO/dualiso.txt 
     if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
@@ -105,6 +126,8 @@ fi
     find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
     fi
     else
+#rename DNG to dng on rare occasions 
+    mv "${BASE}"_1_"$date"_000000.DNG "${BASE}"_1_"$date"_000000.dng sleep 1 &&
 #check if cam was set to auto white balance. Non dualiso
     if [ "$(mlv_dump -v -m ../A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
     then
@@ -139,7 +162,7 @@ then
 mv -i "$BASE".R* ../A_ORIGINALS ;
 fi
 #Stored cr2hdr settings
-    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+    set=$(cat "/tmp/A_cr2hdr_settings.txt")
 #Verify dualiso or else contiue to next file
     cr2hdr $set "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.dng | tee /tmp/DUALISO/dualiso.txt 
     if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
@@ -170,7 +193,7 @@ serial=$(exiftool /tmp/DUALISO/"$CAL".dng | grep -A1 'Owner Name' | awk 'FNR == 
 rm /tmp/DUALISO/"$CAL".dng
 
 #Stored cr2hdr settings
-set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+set=$(cat "/tmp/A_cr2hdr_settings.txt")
 
 #run cr2hdr 4 processes in parallell
 ls *.DNG *.dng > /tmp/DUALISO/NOT_list
@@ -239,6 +262,6 @@ mkdir -p A_ORIGINALS
 mv "$CR2" A_ORIGINALS
 done
 
-#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2).
+#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2) BWF MetaEdit(FADGI).
 
 #Copyright Danne

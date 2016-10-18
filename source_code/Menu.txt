@@ -54,39 +54,39 @@ white="$(tput setaf 7)"
 
 
 
-if grep 'amaze' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'amaze' /tmp/A_cr2hdr_settings.txt 
 then 
 amaze=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'mean' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'mean' /tmp/A_cr2hdr_settings.txt 
 then 
 mean=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'cs2x2' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'cs2x2' /tmp/A_cr2hdr_settings.txt 
 then 
 cs2=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'cs3x3' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'cs3x3' /tmp/A_cr2hdr_settings.txt 
 then 
 cs3=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'cs5x5' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'cs5x5' /tmp/A_cr2hdr_settings.txt 
 then 
 cs5=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'no-cs' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'no-cs' /tmp/A_cr2hdr_settings.txt 
 then 
 nocs=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'levels' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'levels' /tmp/A_cr2hdr_settings.txt 
 then 
 salev=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'compress' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'compress' /tmp/A_cr2hdr_settings.txt 
 then 
 lole=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'compress-lossy' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'compress-lossy' /tmp/A_cr2hdr_settings.txt 
 then 
 lossy=$(echo "$bold""$green"added!"$normal")
 lole=
@@ -136,59 +136,59 @@ EOF
 
 
     "a")
-if grep 'amaze' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'amaze' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --amaze-edge//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--amaze-edge//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --amaze-edge//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--amaze-edge//g'
 amaze=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --amaze-edge" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+echo -n " --amaze-edge" >> /tmp/A_cr2hdr_settings.txt
 amaze=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --mean23//g' 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --mean23//g' 
 mean=
 fi
 ;;
 
 
     "m")
-if grep 'mean' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'mean' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --mean23//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--mean23//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --mean23//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--mean23//g'
 mean=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --mean23" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+echo -n " --mean23" >> /tmp/A_cr2hdr_settings.txt
 mean=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --amaze-edge//g' 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --amaze-edge//g' 
 amaze=
 fi
 ;;
 
 
     "2")
-if grep 'cs2x2' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'cs2x2' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--cs2x2//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--cs2x2//g'
 cs2=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --cs2x2" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+echo -n " --cs2x2" >> /tmp/A_cr2hdr_settings.txt
 cs2=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g' 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
 nocs=
 cs3=
 cs5=
@@ -197,21 +197,21 @@ fi
 
 
     "3")
-if grep 'cs3x3' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'cs3x3' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--cs3x3//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--cs3x3//g'
 cs3=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --cs3x3" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+echo -n " --cs3x3" >> /tmp/A_cr2hdr_settings.txt
 cs3=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g' 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
 nocs=
 cs2=
 cs5=
@@ -220,21 +220,21 @@ fi
 
 
     "5")
-if grep 'cs5x5' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'cs5x5' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--cs5x5//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--cs5x5//g'
 cs5=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --cs5x5" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+echo -n " --cs5x5" >> /tmp/A_cr2hdr_settings.txt
 cs5=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g' 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
 nocs=
 cs2=
 cs3=
@@ -243,21 +243,21 @@ fi
 
 
     "d")
-if grep 'no-cs' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'no-cs' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--no-cs//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--no-cs//g'
 nocs=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --no-cs" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+echo -n " --no-cs" >> /tmp/A_cr2hdr_settings.txt
 nocs=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g' 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs3x3//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --cs5x5//g'
 cs2=
 cs3=
 cs5=
@@ -266,40 +266,40 @@ fi
 
 
     "s")
-if grep 'levels' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'levels' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --same-levels//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--same-levels//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --same-levels//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--same-levels//g'
 salev=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --same-levels" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+echo -n " --same-levels" >> /tmp/A_cr2hdr_settings.txt
 salev=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
   
  
     "l")
-if grep 'compress-lossy' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'compress-lossy' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress-lossy//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--compress-lossy//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress-lossy//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--compress-lossy//g'
 fi
-if grep 'compress' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'compress' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--compress//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--compress//g'
 lole=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress-lossy//g'
-echo -n " --compress" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress-lossy//g'
+echo -n " --compress" >> /tmp/A_cr2hdr_settings.txt
 lole=$(echo "$bold""$green"added!"$normal")
 lossy=
 fi
@@ -307,13 +307,13 @@ fi
  
 
     "k")
-if grep 'compress-lossy' /tmp/DUALISO/A_cr2hdr_settings.txt 
+if grep 'compress-lossy' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress-lossy//g'
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--compress-lossy//g'
-if grep 'lossy' /tmp/DUALISO/A_cr2hdr_settings.txt 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress-lossy//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--compress-lossy//g'
+if grep 'lossy' /tmp/A_cr2hdr_settings.txt 
 then 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/-lossy//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/-lossy//g'
 fi
 lossy=
 echo $(tput bold)"
@@ -321,8 +321,8 @@ echo $(tput bold)"
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-find /tmp/DUALISO/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress//g'
-echo -n " --compress-lossy" >> /tmp/DUALISO/A_cr2hdr_settings.txt
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --compress//g'
+echo -n " --compress-lossy" >> /tmp/A_cr2hdr_settings.txt
 lossy=$(echo "$bold""$green"added!"$normal")
 lole=
 fi
@@ -356,34 +356,34 @@ white="$(tput setaf 7)"
 nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr=
 
 
-if grep 'no-cs' /tmp/DUALISO/mlv_dump_settings 
+if grep 'no-cs' /tmp/mlv_dump_settings 
 then
 nocs=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'cs2' /tmp/DUALISO/mlv_dump_settings 
+if grep 'cs2' /tmp/mlv_dump_settings 
 then
 cs2=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'cs3' /tmp/DUALISO/mlv_dump_settings 
+if grep 'cs3' /tmp/mlv_dump_settings 
 then
 cs3=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'cs5' /tmp/DUALISO/mlv_dump_settings 
+if grep 'cs5' /tmp/mlv_dump_settings 
 then
 cs5=$(echo "$bold""$green"added!"$normal")
 fi
 
-if grep ' --fixcp' /tmp/DUALISO/mlv_dump_settings 
+if grep ' --fixcp' /tmp/mlv_dump_settings 
 then
 fixcp=$(echo "$bold""$green"added!"$normal")
 fi
-if grep ' --fixcp2' /tmp/DUALISO/mlv_dump_settings 
+if grep ' --fixcp2' /tmp/mlv_dump_settings 
 then
 fixcp=
 fixcp2=$(echo "$bold""$green"added!"$normal")
 fi
 
-if grep 'no-stripes' /tmp/DUALISO/mlv_dump_settings 
+if grep 'no-stripes' /tmp/mlv_dump_settings 
 then
 nostripes=$(echo "$bold""$green"added!"$normal")
 fi
@@ -424,20 +424,20 @@ EOF
 
 
     "01")
-if grep 'no-cs' /tmp/DUALISO/mlv_dump_settings 
+if grep 'no-cs' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g' 
 nocs=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --no-cs" >> /tmp/DUALISO/mlv_dump_settings
+echo -n " --no-cs" >> /tmp/mlv_dump_settings
 nocs=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g'
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
 cs2=
 cs3=
 cs5=
@@ -445,20 +445,20 @@ fi
 ;;
 
     "02")
-if grep 'cs2' /tmp/DUALISO/mlv_dump_settings 
+if grep 'cs2' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
 cs2=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --cs2x2" >> /tmp/DUALISO/mlv_dump_settings
+echo -n " --cs2x2" >> /tmp/mlv_dump_settings
 cs2=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
 nocs=
 cs3=
 cs5=
@@ -466,20 +466,20 @@ fi
 ;;
 
     "03")
-if grep 'cs3' /tmp/DUALISO/mlv_dump_settings 
+if grep 'cs3' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g' 
 cs3=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --cs3x3" >> /tmp/DUALISO/mlv_dump_settings
+echo -n " --cs3x3" >> /tmp/mlv_dump_settings
 cs3=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
 nocs=
 cs2=
 cs5=
@@ -487,20 +487,20 @@ fi
 ;;
 
     "04")
-if grep 'cs5' /tmp/DUALISO/mlv_dump_settings 
+if grep 'cs5' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g' 
 cs5=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --cs5x5" >> /tmp/DUALISO/mlv_dump_settings
+echo -n " --cs5x5" >> /tmp/mlv_dump_settings
 cs5=$(echo "$bold""$green"added!"$normal")
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g'
 nocs=
 cs2=
 cs3=
@@ -509,22 +509,22 @@ fi
 
 
     "05")
-if grep ' --fixcp2' /tmp/DUALISO/mlv_dump_settings 
+if grep ' --fixcp2' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
 fi
-if grep ' --fixcp' /tmp/DUALISO/mlv_dump_settings 
+if grep ' --fixcp' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp//g' 
 fixcp=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
-echo -n " --fixcp" >> /tmp/DUALISO/mlv_dump_settings
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g'
+echo -n " --fixcp" >> /tmp/mlv_dump_settings
 fixcp=$(echo "$bold""$green"added!"$normal")
 fixcp2=
 fi
@@ -532,17 +532,17 @@ fi
 
 
     "06")
-if grep ' --fixcp2' /tmp/DUALISO/mlv_dump_settings 
+if grep ' --fixcp2' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp2//g' 
 fixcp2=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp//g'
-echo -n " --fixcp2" >> /tmp/DUALISO/mlv_dump_settings
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --fixcp//g'
+echo -n " --fixcp2" >> /tmp/mlv_dump_settings
 fixcp2=$(echo "$bold""$green"added!"$normal")
 fixcp=
 fi
@@ -550,16 +550,16 @@ fi
 
 
     "07")
-if grep 'no-stripes' /tmp/DUALISO/mlv_dump_settings 
+if grep 'no-stripes' /tmp/mlv_dump_settings 
 then
-find /tmp/DUALISO/mlv_dump_settings | xargs perl -pi -e 's/ --no-stripes//g' 
+find /tmp/mlv_dump_settings | xargs perl -pi -e 's/ --no-stripes//g' 
 nostripes=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo -n " --no-stripes" >> /tmp/DUALISO/mlv_dump_settings
+echo -n " --no-stripes" >> /tmp/mlv_dump_settings
 nostripes=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
@@ -572,7 +572,6 @@ fi
 
 
     "r")  
-perl -pi -e 's/^[\ \t]+|[\ \t]+$//g' /tmp/DUALISO/A_cr2hdr_settings.txt
 rm /tmp/DUALISO/DUALISO 
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
@@ -593,7 +592,7 @@ done
 
 
     "r")  
-perl -pi -e 's/^[\ \t]+|[\ \t]+$//g' /tmp/DUALISO/A_cr2hdr_settings.txt
+perl -pi -e 's/^[\ \t]+|[\ \t]+$//g' /tmp/A_cr2hdr_settings.txt
 rm /tmp/DUALISO/DUALISO 
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;

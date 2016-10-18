@@ -565,17 +565,38 @@ date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
 #reset IFS
     IFS=$OLDIFS
 #mlv_dump settings
-mlv=$(cat /tmp/DUALISO/mlv_dump_settings)
+mlv=$(cat /tmp/mlv_dump_settings)
 #frame extraction in mlv_dump makes multihtreading possible. Thanks to so-rose for highlighting this possibility
     frct=$(mlv_dump -f 0-1 --dng $mlv -o "${BASE}_1_$date"_ "$FILE" | awk '/Processed/ { print $2; }')
     mlv_dump -f 2-$(($frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
     mlv_dump -f $(($frct/4+1))-$(($frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
     mlv_dump -f $(($frct/4+1+$frct/4+1))-$(($frct/4+1+$frct/4+1+$frct/4)) --dng $mlv -o "${BASE}_1_$date"_ "$FILE" &amp;
     mlv_dump -f $(($frct/4+1+$frct/4+1+$frct/4+1))-$frct --dng $mlv -o "${BASE}_1_$date"_ "$FILE"
+#syncs audio to amount of dng frames
+    FPS=$(exiftool "${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }')      
+    frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
+#cut audio  
+    ffmpeg -ss 0 -t $frct_result -i "${BASE}_1_$date"_.wav "${BASE}_1_$date".wav ;
+    rm "${BASE}_1_$date"_.wav
+#adding fps to wav metatdata
+    fps_au=$(exiftool "${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }' | tr -d . )
+#adding zeros
+    num="$fps_au"
+    len=`echo ${#num}`
+    while [ $len -lt 5 ];
+    do
+        num=$num"0"
+        let len=len+1
+    done
+    FPS=$(echo $num)
+#Black magic audio tag copied from Dmilligan(mlvfs)
+echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML_VERSION&gt;1.5&lt;/IXML_VERSION&gt;&lt;PROJECT&gt;Magic Lantern&lt;/PROJECT&gt;&lt;NOTE&gt;&lt;/NOTE&gt;&lt;CIRCLED&gt;FALSE&lt;/CIRCLED&gt;&lt;BLACKMAGIC-KEYWORDS&gt;&lt;/BLACKMAGIC-KEYWORDS&gt;&lt;TAPE&gt;1&lt;/TAPE&gt;&lt;SCENE&gt;1&lt;/SCENE&gt;&lt;BLACKMAGIC-SHOT&gt;1&lt;/BLACKMAGIC-SHOT&gt;&lt;TAKE&gt;1&lt;/TAKE&gt;&lt;BLACKMAGIC-ANGLE&gt;ms&lt;/BLACKMAGIC-ANGLE&gt;&lt;SPEED&gt;&lt;MASTER_SPEED&gt;$FPS/1000&lt;/MASTER_SPEED&gt;&lt;CURRENT_SPEED&gt;$FPS/1000&lt;/CURRENT_SPEED&gt;&lt;TIMECODE_RATE&gt;$FPS/1000&lt;/TIMECODE_RATE&gt;&lt;TIMECODE_FLAG&gt;NDF&lt;/TIMECODE_FLAG&gt;&lt;/SPEED&gt;&lt;/BWFXML&gt;" &gt; /tmp/DUALISO/audio.xml
+#Add metadata information to the wav file
+    bwfmetaedit "${BASE}_1_$date".wav --in-iXML=/tmp/DUALISO/audio.xml
 
 #grabs the white balance tag and saves it for later  
     wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
- 
+#move mlv originals to folder 
     mv -i "${BASE}".MLV ../A_ORIGINALS ;
     if ls "${BASE}".M*
     then
@@ -583,7 +604,7 @@ mlv=$(cat /tmp/DUALISO/mlv_dump_settings)
 fi
 
 #Stored cr2hdr settings
-    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+    set=$(cat "/tmp/A_cr2hdr_settings.txt")
 #Verify dualiso or else contiue to next file
     cr2hdr $set "${BASE}"_1_"$date"_000000.dng | tee /tmp/DUALISO/dualiso.txt 
     if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
@@ -605,6 +626,8 @@ fi
     find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
     fi
     else
+#rename DNG to dng on rare occasions 
+    mv "${BASE}"_1_"$date"_000000.DNG "${BASE}"_1_"$date"_000000.dng sleep 1 &amp;&amp;
 #check if cam was set to auto white balance. Non dualiso
     if [ "$(mlv_dump -v -m ../A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
     then
@@ -639,7 +662,7 @@ then
 mv -i "$BASE".R* ../A_ORIGINALS ;
 fi
 #Stored cr2hdr settings
-    set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+    set=$(cat "/tmp/A_cr2hdr_settings.txt")
 #Verify dualiso or else contiue to next file
     cr2hdr $set "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.dng | tee /tmp/DUALISO/dualiso.txt 
     if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
@@ -670,7 +693,7 @@ serial=$(exiftool /tmp/DUALISO/"$CAL".dng | grep -A1 'Owner Name' | awk 'FNR == 
 rm /tmp/DUALISO/"$CAL".dng
 
 #Stored cr2hdr settings
-set=$(cat "/tmp/DUALISO/A_cr2hdr_settings.txt")
+set=$(cat "/tmp/A_cr2hdr_settings.txt")
 
 #run cr2hdr 4 processes in parallell
 ls *.DNG *.dng &gt; /tmp/DUALISO/NOT_list
@@ -739,7 +762,7 @@ mkdir -p A_ORIGINALS
 mv "$CR2" A_ORIGINALS
 done
 
-#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2).
+#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) FFmpeg(Fabrice Bellard) Phil Harvey(Exiftool) Andreas Huggel(exiv2).
 
 #Copyright Danne
 </string>
@@ -865,26 +888,26 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>9F1C176E-8FA0-4B58-806D-41B7FE14A723</key>
+		<key>933AE9D9-5E6B-47E6-8775-4348F6B414A2</key>
+		<dict>
+			<key>from</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<key>to</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+		</dict>
+		<key>DCA231CA-CA34-47B2-810C-6ADFD84B1302</key>
 		<dict>
 			<key>from</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 			<key>to</key>
 			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
 		</dict>
-		<key>D7402CC1-0F43-477D-A449-2893E105CE96</key>
+		<key>E886E016-A814-46F6-A663-B2569E92543C</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-		</dict>
-		<key>EA8DD0D9-ADEB-4DBD-A352-A83A9CD6E7F3</key>
-		<dict>
-			<key>from</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-			<key>to</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
