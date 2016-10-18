@@ -9,7 +9,7 @@ The cr2hdr automator app is a multithreaded mac solution being able to process d
 * Multithreaded 
 
 The application itself is depending on cr2hdr(a1ex), mlv_dump(g3gg0, a1ex), raw2dng(a1ex), [dcraw](https://www.cybercom.net/~dcoffin/dcraw/)(Dave Coffin) and [FFmpeg](https://www.ffmpeg.org/)(Fabrice Bellard) for processing the different dualiso generated files.
-Processing includes white balance correction through [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/)(Phil Harvey), [exiv2](http://www.exiv2.org/)(Andreas Huggel) and [bwfmetaedit](http://bwfmetaedit.sourceforge.net/)(FADGI) and if adobe dng converter is installed in applications folder(not included go fetch!) cr2hdr(.app)  is able to include perfect correlation of white balance going from CR2 to dng files.
+Processing includes white balance correction through [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/)(Phil Harvey), [exiv2](http://www.exiv2.org/)(Andreas Huggel) and [bwfmetaedit](http://bwfmetaedit.sourceforge.net/)(FADGI) audi metadata and if adobe dng converter is installed in applications folder(not included go fetch!) cr2hdr(.app)  is able to include perfect correlation of white balance going from CR2 to dng files.
 cr2hdr(.app) also includes a menu selector created in bash from where the user can select or deselect different settings inside cr2hdr(.app).
 
 
