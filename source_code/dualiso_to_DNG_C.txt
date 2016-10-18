@@ -69,8 +69,8 @@ fi
 #Add neccesssary tags for white balance with exiftool. Also rearrange illuminant tags
 exiftool "-AsShotNeutral=$CR2_01b 1 $CR2_02b" "-CalibrationIlluminant1=Standard Light A" "-CalibrationIlluminant2=D65" "$DNG" -overwrite_original
 
-mkdir -p A_CR2_ORIGINALS
-mv "$CR2" A_CR2_ORIGINALS
+mkdir -p A_ORIGINALS
+mv "$CR2" A_ORIGINALS
 done
 
 
