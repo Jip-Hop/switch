@@ -167,7 +167,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>395.500000:112.000000</string>
+				<string>514.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -340,7 +340,7 @@ echo "$1" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>395.500000:154.000000</string>
+				<string>514.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -442,7 +442,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>395.500000:196.000000</string>
+				<string>514.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -702,20 +702,72 @@ find . -maxdepth 1 -mindepth 1 -iname '*.DNG' -print0 | xargs -0 -P 4 -n 1 cr2hd
 find . -maxdepth 1 -mindepth 1 -name '*.CR2' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set   
 
 #obtaining dcraw white balance multipliers and calculating them to AsShotNeutralvalues in the DNG file (thanks Chmee)
-ls *.CR2 *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" &gt; /tmp/DUALISO/d_iso_list
+    ls *.CR2 &gt; /tmp/DUALISO/d_iso_list
+    cr2=$(ls *.CR2 | wc -l)
+#if less than 4 files
+    if ! [ $(ls *.CR2 | wc -l) -lt 4 ]; then 
+#if working with 6 or 7 CR2 files
+    if [[ "$(echo $cr2 | tr -d ' ')" == [67] ]]; then
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*5+1)),$(($cr2/4*6))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*6+1)),$(($cr2/4*7))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_04
+#Listing of DNG files
+    ls *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" &gt; /tmp/DUALISO/d_iso_list
+    cr2=$(ls *.DNG | wc -l)
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*5+1)),$(($cr2/4*6))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*6+1)),$(($cr2/4*7))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_04
+#Sorting of CR2 and DNG files
+    ls $(cat /tmp/DUALISO/list_01) &gt; /tmp/DUALISO/list_01
+    ls $(cat /tmp/DUALISO/list_02) &gt; /tmp/DUALISO/list_02
+    ls $(cat /tmp/DUALISO/list_03) &gt; /tmp/DUALISO/list_03
+    ls $(cat /tmp/DUALISO/list_04) &gt; /tmp/DUALISO/list_04
+else
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list &gt; /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_04
+#Listing of DNG files
+    ls *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" &gt; /tmp/DUALISO/d_iso_list
+    cr2=$(ls *.DNG | wc -l)
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list &gt;&gt; /tmp/DUALISO/list_04
+#Sorting of CR2 and DNG files
+    ls $(cat /tmp/DUALISO/list_01) &gt; /tmp/DUALISO/list_01
+    ls $(cat /tmp/DUALISO/list_02) &gt; /tmp/DUALISO/list_02
+    ls $(cat /tmp/DUALISO/list_03) &gt; /tmp/DUALISO/list_03
+    ls $(cat /tmp/DUALISO/list_04) &gt; /tmp/DUALISO/list_04
+fi
+#if less than 4 files
+else
+    ls *.CR2 *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" &gt; /tmp/DUALISO/list_01 
+fi
+
+
 
 #multithread processing
-. "$path_2"Contents/dualiso_to_DNG_A.command &amp; sleep 2
-. "$path_2"Contents/dualiso_to_DNG_B.command &amp; sleep 2
-. "$path_2"Contents/dualiso_to_DNG_C.command &amp; sleep 2
+. "$path_2"Contents/dualiso_to_DNG_A.command &amp; 
+. "$path_2"Contents/dualiso_to_DNG_B.command &amp; 
+. "$path_2"Contents/dualiso_to_DNG_C.command &amp;
 
-while grep -q 'CR2' /tmp/DUALISO/d_iso_list
+while grep -q 'CR2' /tmp/DUALISO/list_01
 do
-CR2=$(grep 'CR2' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
-DNG=$(grep 'DNG' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
+CR2=$(grep 'CR2' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
+DNG=$(grep 'DNG' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
 #Will add stored white balance settings to processed readymade dualiso DNG files
-echo "$(tail -n +3 /tmp/DUALISO/d_iso_list)" &gt; /tmp/DUALISO/d_iso_list
-list=$(cat /tmp/DUALISO/d_iso_list)
+echo "$(tail -n +3 /tmp/DUALISO/list_01)" &gt; /tmp/DUALISO/list_01
 
 #matching camera serial or not
 serial_match=$(exiftool "$CR2" | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
@@ -762,7 +814,7 @@ mkdir -p A_ORIGINALS
 mv "$CR2" A_ORIGINALS
 done
 
-#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) FFmpeg(Fabrice Bellard) Phil Harvey(Exiftool) Andreas Huggel(exiv2).
+#Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2) BWF MetaEdit(FADGI).
 
 #Copyright Danne
 </string>
@@ -878,7 +930,7 @@ done
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>395.500000:379.000000</string>
+				<string>514.000000:379.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -888,26 +940,26 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>933AE9D9-5E6B-47E6-8775-4348F6B414A2</key>
+		<key>5CFF3145-85C5-43B3-BD3B-EC9FCDE823D2</key>
 		<dict>
 			<key>from</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 			<key>to</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 		</dict>
-		<key>DCA231CA-CA34-47B2-810C-6ADFD84B1302</key>
-		<dict>
-			<key>from</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-			<key>to</key>
-			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
-		</dict>
-		<key>E886E016-A814-46F6-A663-B2569E92543C</key>
+		<key>AF43321F-5793-440B-A678-1E25A6E79BFD</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+		</dict>
+		<key>EF540933-5A48-45A6-8D22-7732425979FD</key>
+		<dict>
+			<key>from</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+			<key>to</key>
+			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
