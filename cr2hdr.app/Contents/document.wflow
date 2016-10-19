@@ -518,18 +518,14 @@ end run</string>
 
 
 #Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
-
-
 cd "$1"
 path_2=$(echo "$1") 
 find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
 export PATH="$path_2"Contents:$PATH
 cd "$(cat /tmp/DUALISO/path_1)"
-
 #build Folder structure
 mkdir -p A_ORIGINALS
 mkdir -p /tmp/DUALISO/
-
 
 #Call menu selector
 echo &gt; /tmp/DUALISO/DUALISO
@@ -543,7 +539,6 @@ then
 exit 0
 fi
 
-
 #Processing MLV files into folders with dng files
 #Will take white space
     OLDIFS=$IFS
@@ -553,9 +548,7 @@ date=$(mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}
 date_01=$(echo "$date" | head -c2)
 date_02=$(echo "$date" | cut -c4-5)
 date_03=$(echo "$date" | cut -c7-10)
-
 date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
-
     BASE=`echo "$FILE" | cut -d "." -f1`;
     mkdir "${BASE}"
     mv "${BASE}" "${BASE}_1_$date" 
@@ -593,7 +586,6 @@ mlv=$(cat /tmp/mlv_dump_settings)
 echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML_VERSION&gt;1.5&lt;/IXML_VERSION&gt;&lt;PROJECT&gt;Magic Lantern&lt;/PROJECT&gt;&lt;NOTE&gt;&lt;/NOTE&gt;&lt;CIRCLED&gt;FALSE&lt;/CIRCLED&gt;&lt;BLACKMAGIC-KEYWORDS&gt;&lt;/BLACKMAGIC-KEYWORDS&gt;&lt;TAPE&gt;1&lt;/TAPE&gt;&lt;SCENE&gt;1&lt;/SCENE&gt;&lt;BLACKMAGIC-SHOT&gt;1&lt;/BLACKMAGIC-SHOT&gt;&lt;TAKE&gt;1&lt;/TAKE&gt;&lt;BLACKMAGIC-ANGLE&gt;ms&lt;/BLACKMAGIC-ANGLE&gt;&lt;SPEED&gt;&lt;MASTER_SPEED&gt;$FPS/1000&lt;/MASTER_SPEED&gt;&lt;CURRENT_SPEED&gt;$FPS/1000&lt;/CURRENT_SPEED&gt;&lt;TIMECODE_RATE&gt;$FPS/1000&lt;/TIMECODE_RATE&gt;&lt;TIMECODE_FLAG&gt;NDF&lt;/TIMECODE_FLAG&gt;&lt;/SPEED&gt;&lt;/BWFXML&gt;" &gt; /tmp/DUALISO/audio.xml
 #Add metadata information to the wav file
     bwfmetaedit "${BASE}_1_$date".wav --in-iXML=/tmp/DUALISO/audio.xml
-
 #grabs the white balance tag and saves it for later  
     wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
 #move mlv originals to folder 
@@ -602,7 +594,6 @@ echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML
     then
     mv -i "${BASE}".M* ../A_ORIGINALS ;
 fi
-
 #Stored cr2hdr settings
     set=$(cat "/tmp/A_cr2hdr_settings.txt")
 #Verify dualiso or else contiue to next file
@@ -640,8 +631,6 @@ fi
 cd ..
 done
 
-
-
 #Processing RAW files
 #Will take white space
     IFS=$'\n'
@@ -678,29 +667,21 @@ fi
     cd ..
 done
    
-
-
-
-
 #Create a dng file through Adobe dng converter for camera calibration tags 
 /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter -d /tmp/DUALISO "$(find *.CR2 | head -1)" 
 CAL=$(find *.CR2 | head -1 | cut -f1 -d".") 
-
 #Let exiftool extract camera calibration values
 caltagA=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $5; exit }') 
 caltagB=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }') 
 serial=$(exiftool /tmp/DUALISO/"$CAL".dng | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
 rm /tmp/DUALISO/"$CAL".dng
-
 #Stored cr2hdr settings
 set=$(cat "/tmp/A_cr2hdr_settings.txt")
-
 #run cr2hdr 4 processes in parallell
 ls *.DNG *.dng &gt; /tmp/DUALISO/NOT_list
 echo hej &gt;&gt; /tmp/DUALISO/NOT_list
 find . -maxdepth 1 -mindepth 1 -iname '*.DNG' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set 
 find . -maxdepth 1 -mindepth 1 -name '*.CR2' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set   
-
 #obtaining dcraw white balance multipliers and calculating them to AsShotNeutralvalues in the DNG file (thanks Chmee)
     ls *.CR2 &gt; /tmp/DUALISO/d_iso_list
     cr2=$(ls *.CR2 | wc -l)
@@ -755,20 +736,16 @@ else
     ls *.CR2 *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" &gt; /tmp/DUALISO/list_01 
 fi
 
-
-
 #multithread processing
 . "$path_2"Contents/dualiso_to_DNG_A.command &amp; 
 . "$path_2"Contents/dualiso_to_DNG_B.command &amp; 
 . "$path_2"Contents/dualiso_to_DNG_C.command &amp;
-
 while grep -q 'CR2' /tmp/DUALISO/list_01
 do
 CR2=$(grep 'CR2' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
 DNG=$(grep 'DNG' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
 #Will add stored white balance settings to processed readymade dualiso DNG files
 echo "$(tail -n +3 /tmp/DUALISO/list_01)" &gt; /tmp/DUALISO/list_01
-
 #matching camera serial or not
 serial_match=$(exiftool "$CR2" | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
 if ! [ "$serial" = "$serial_match" ]; then
@@ -778,44 +755,36 @@ caltagA=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print
 caltagB=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }')
 rm /tmp/DUALISO/"$CAL".dng
 fi
-
 #check if the camera is a eos 100D
 model_match=$(exiftool "$CR2" | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }')
 echo "$model_match" &gt; /tmp/DUALISO/model_match
 if grep 'Canon EOS 100D\|SL1\|Kiss X7\|X7' /tmp/DUALISO/model_match
 then
 exiftool "-ColorMatrix1=0.6985 -0.1611 -0.0397 -0.3596 1.0749 0.3295 -0.0349 0.1136 0.6512" "-ColorMatrix2=0.6602 -0.0841 -0.0939 -0.4472 1.2458 0.2247 -0.0975 0.2039 0.6148" "$(find "$CR2" | cut -f1 -d".")".DNG -overwrite_original ;
-fi
-    
+fi 
 CR2_00=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $4; exit }')
 CR2_01=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $3; exit }') 
 CR2_01b=$(echo "$CR2_00"/"$CR2_01" | bc -l | awk 'FNR == 1 {print}')
-
 #If adobe dng converter is installed this calibration compensation will take place
 if ls /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter
 then
 CR2_01b=$(echo "$CR2_01b/$caltagA" | bc -l | awk 'FNR == 1 {print}')
 fi
-
 CR2_00b=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $6; exit }')
 CR2_02=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $5; exit }') 
 CR2_02b=$(echo "$CR2_00b"/"$CR2_02" | bc -l | awk 'FNR == 1 {print}')
-
 #If adobe dng converter is installed this calibration compensation will take place
 if ls /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter
 then
 CR2_02b=$(echo "$CR2_02b/$caltagB" | bc -l | awk 'FNR == 1 {print}')
 fi
-
 #Add neccesssary tags for white balance with exiftool. Also rearrange illuminant tags
 exiftool "-AsShotNeutral=$CR2_01b 1 $CR2_02b" "-CalibrationIlluminant1=Standard Light A" "-CalibrationIlluminant2=D65" "$DNG" -overwrite_original
-
 mkdir -p A_ORIGINALS
 mv "$CR2" A_ORIGINALS
 done
 
 #Thanks to A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Phil Harvey(Exiftool) Andreas Huggel(exiv2) BWF MetaEdit(FADGI).
-
 #Copyright Danne
 </string>
 					<key>CheckedForUserDefaultShell</key>
@@ -940,26 +909,26 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>7702D25C-78AD-41E1-B818-F6D18ED0A2C9</key>
-		<dict>
-			<key>from</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-			<key>to</key>
-			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
-		</dict>
-		<key>7D844BEA-79B1-4691-B578-23201BF11522</key>
-		<dict>
-			<key>from</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-			<key>to</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-		</dict>
-		<key>9738B509-F0BF-44CA-8734-7F4098438450</key>
+		<key>1861BDC6-A533-4900-8FA8-2D2C75745EA6</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+		</dict>
+		<key>3E8EC648-0049-40AC-9B92-88266C24DC7D</key>
+		<dict>
+			<key>from</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<key>to</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+		</dict>
+		<key>4AD02EFF-83AA-41BB-8CF3-04C6DD449D02</key>
+		<dict>
+			<key>from</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+			<key>to</key>
+			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

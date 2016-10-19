@@ -22,24 +22,18 @@
 if ls /tmp/DUALISO/DUALISO
 then
 #!/bin/bash
-
 #changes size of terminal window
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
-
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-
 printf '\e[8;40;50t'
 printf '\e[3;410;100t'
-
 open -a Terminal
-
 bold="$(tput bold)"
 normal="$(tput sgr0)"
 red="$(tput setaf 1)"
 reset="$(tput sgr0)"
 green="$(tput setaf 2)"
-
 underline="$(tput smul)"
 standout="$(tput smso)"
 normal="$(tput sgr0)"
@@ -51,8 +45,6 @@ blue="$(tput setaf 4)"
 magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
-
-
 
 if grep 'amaze' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -91,9 +83,6 @@ then
 lossy=$(echo "$bold""$green"added!"$normal")
 lole=
 fi
-
-
-
 
 while :
 do 
@@ -132,9 +121,6 @@ EOF
     read -n2
     case "$REPLY" in
 
-    
-
-
     "a")
 if grep 'amaze' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -153,7 +139,6 @@ mean=
 fi
 ;;
 
-
     "m")
 if grep 'mean' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -171,7 +156,6 @@ find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --amaze-edge//g'
 amaze=
 fi
 ;;
-
 
     "2")
 if grep 'cs2x2' /tmp/A_cr2hdr_settings.txt 
@@ -195,7 +179,6 @@ cs5=
 fi
 ;;
 
-
     "3")
 if grep 'cs3x3' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -217,7 +200,6 @@ cs2=
 cs5=
 fi
 ;;
-
 
     "5")
 if grep 'cs5x5' /tmp/A_cr2hdr_settings.txt 
@@ -241,7 +223,6 @@ cs3=
 fi
 ;;
 
-
     "d")
 if grep 'no-cs' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -264,7 +245,6 @@ cs5=
 fi
 ;;
 
-
     "s")
 if grep 'levels' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -280,8 +260,7 @@ echo -n " --same-levels" >> /tmp/A_cr2hdr_settings.txt
 salev=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
-  
- 
+   
     "l")
 if grep 'compress-lossy' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -305,7 +284,6 @@ lossy=
 fi
 ;;
  
-
     "k")
 if grep 'compress-lossy' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -328,18 +306,14 @@ lole=
 fi
 ;;
 
-
     "ml") 
-
 printf '\e[8;30;60t'
 printf '\e[3;450;0t'
-
 bold="$(tput bold)"
 normal="$(tput sgr0)"
 red="$(tput setaf 1)"
 reset="$(tput sgr0)"
 green="$(tput setaf 2)"
-
 underline="$(tput smul)"
 standout="$(tput smso)"
 normal="$(tput sgr0)"
@@ -352,9 +326,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-
 nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr=
-
 
 if grep 'no-cs' /tmp/mlv_dump_settings 
 then
@@ -372,7 +344,6 @@ if grep 'cs5' /tmp/mlv_dump_settings
 then
 cs5=$(echo "$bold""$green"added!"$normal")
 fi
-
 if grep ' --fixcp' /tmp/mlv_dump_settings 
 then
 fixcp=$(echo "$bold""$green"added!"$normal")
@@ -382,17 +353,14 @@ then
 fixcp=
 fixcp2=$(echo "$bold""$green"added!"$normal")
 fi
-
 if grep 'no-stripes' /tmp/mlv_dump_settings 
 then
 nostripes=$(echo "$bold""$green"added!"$normal")
 fi
-
 if ls "$(cat /tmp/DUALISO/list_dng_look)"/A_lut_hold/MLV_RAW_my_darkframes.txt
 then
 dafr=$(echo "$bold""$green"added!"$normal")
 fi
-
 
 while :
 do 
@@ -421,7 +389,6 @@ Please enter your selection number below and hit enter:
 EOF
     read -n2
     case "$REPLY" in
-
 
     "01")
 if grep 'no-cs' /tmp/mlv_dump_settings 
@@ -507,7 +474,6 @@ cs3=
 fi
 ;;
 
-
     "05")
 if grep ' --fixcp2' /tmp/mlv_dump_settings 
 then
@@ -530,7 +496,6 @@ fixcp2=
 fi
 ;;
 
-
     "06")
 if grep ' --fixcp2' /tmp/mlv_dump_settings 
 then
@@ -548,7 +513,6 @@ fixcp=
 fi
 ;;
 
-
     "07")
 if grep 'no-stripes' /tmp/mlv_dump_settings 
 then
@@ -564,18 +528,14 @@ nostripes=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
 
-
-
     "ml")  
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
-
 
     "r")  
 rm /tmp/DUALISO/DUALISO 
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
-
 
     "q")   
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
@@ -589,7 +549,6 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     sleep 0.5
 done
 ;;
-
 
     "r")  
 perl -pi -e 's/^[\ \t]+|[\ \t]+$//g' /tmp/A_cr2hdr_settings.txt
@@ -597,7 +556,6 @@ rm /tmp/DUALISO/DUALISO
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
-
     "q")   
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
@@ -609,9 +567,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     esac
     sleep 0.5
 done
-
 exit 0
 fi
-
 
 #Copyright Danne
