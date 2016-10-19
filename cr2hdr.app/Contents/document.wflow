@@ -626,12 +626,12 @@ fi
     find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle" 
     fi
     else
-#rename DNG to dng on rare occasions 
-    mv "${BASE}"_1_"$date"_000000.DNG "${BASE}"_1_"$date"_000000.dng sleep 1 &amp;&amp;
 #check if cam was set to auto white balance. Non dualiso
     if [ "$(mlv_dump -v -m ../A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
+#rename DNG to dng fix 
+    mv "${BASE}"_1_"$date"_000000.DNG "${BASE}"_1_"$date"_000000.dng
 #grabs the white balance tag and saves it for later. Non dualiso
     wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
     find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
@@ -940,26 +940,26 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>5CFF3145-85C5-43B3-BD3B-EC9FCDE823D2</key>
-		<dict>
-			<key>from</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-			<key>to</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-		</dict>
-		<key>AF43321F-5793-440B-A678-1E25A6E79BFD</key>
-		<dict>
-			<key>from</key>
-			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
-			<key>to</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
-		</dict>
-		<key>EF540933-5A48-45A6-8D22-7732425979FD</key>
+		<key>7702D25C-78AD-41E1-B818-F6D18ED0A2C9</key>
 		<dict>
 			<key>from</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 			<key>to</key>
 			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
+		</dict>
+		<key>7D844BEA-79B1-4691-B578-23201BF11522</key>
+		<dict>
+			<key>from</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<key>to</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+		</dict>
+		<key>9738B509-F0BF-44CA-8734-7F4098438450</key>
+		<dict>
+			<key>from</key>
+			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
+			<key>to</key>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
