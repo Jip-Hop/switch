@@ -202,20 +202,72 @@ find . -maxdepth 1 -mindepth 1 -iname '*.DNG' -print0 | xargs -0 -P 4 -n 1 cr2hd
 find . -maxdepth 1 -mindepth 1 -name '*.CR2' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set   
 
 #obtaining dcraw white balance multipliers and calculating them to AsShotNeutralvalues in the DNG file (thanks Chmee)
-ls *.CR2 *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" > /tmp/DUALISO/d_iso_list
+    ls *.CR2 > /tmp/DUALISO/d_iso_list
+    cr2=$(ls *.CR2 | wc -l)
+#if less than 4 files
+    if ! [ $(ls *.CR2 | wc -l) -lt 4 ]; then 
+#if working with 6 or 7 CR2 files
+    if [[ "$(echo $cr2 | tr -d ' ')" == [67] ]]; then
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*5+1)),$(($cr2/4*6))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*6+1)),$(($cr2/4*7))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_04
+#Listing of DNG files
+    ls *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" > /tmp/DUALISO/d_iso_list
+    cr2=$(ls *.DNG | wc -l)
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*5+1)),$(($cr2/4*6))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*6+1)),$(($cr2/4*7))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_04
+#Sorting of CR2 and DNG files
+    ls $(cat /tmp/DUALISO/list_01) > /tmp/DUALISO/list_01
+    ls $(cat /tmp/DUALISO/list_02) > /tmp/DUALISO/list_02
+    ls $(cat /tmp/DUALISO/list_03) > /tmp/DUALISO/list_03
+    ls $(cat /tmp/DUALISO/list_04) > /tmp/DUALISO/list_04
+else
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list > /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_04
+#Listing of DNG files
+    ls *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" > /tmp/DUALISO/d_iso_list
+    cr2=$(ls *.DNG | wc -l)
+    sed -n 1,$(($cr2/4))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_01
+    sed -n $(($cr2/4+1)),$(($cr2/4*2))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_02
+    sed -n $(($cr2/4*2+1)),$(($cr2/4*3))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_03
+    sed -n $(($cr2/4*3+1)),$(($cr2/4*4))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_04
+    sed -n $(($cr2/4*4+1)),$(($cr2/4*5))p /tmp/DUALISO/d_iso_list >> /tmp/DUALISO/list_04
+#Sorting of CR2 and DNG files
+    ls $(cat /tmp/DUALISO/list_01) > /tmp/DUALISO/list_01
+    ls $(cat /tmp/DUALISO/list_02) > /tmp/DUALISO/list_02
+    ls $(cat /tmp/DUALISO/list_03) > /tmp/DUALISO/list_03
+    ls $(cat /tmp/DUALISO/list_04) > /tmp/DUALISO/list_04
+fi
+#if less than 4 files
+else
+    ls *.CR2 *.DNG | grep -v "$(cat /tmp/DUALISO/NOT_list)" > /tmp/DUALISO/list_01 
+fi
+
+
 
 #multithread processing
-. "$path_2"Contents/dualiso_to_DNG_A.command & sleep 2
-. "$path_2"Contents/dualiso_to_DNG_B.command & sleep 2
-. "$path_2"Contents/dualiso_to_DNG_C.command & sleep 2
+. "$path_2"Contents/dualiso_to_DNG_A.command & 
+. "$path_2"Contents/dualiso_to_DNG_B.command & 
+. "$path_2"Contents/dualiso_to_DNG_C.command &
 
-while grep -q 'CR2' /tmp/DUALISO/d_iso_list
+while grep -q 'CR2' /tmp/DUALISO/list_01
 do
-CR2=$(grep 'CR2' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
-DNG=$(grep 'DNG' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
+CR2=$(grep 'CR2' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
+DNG=$(grep 'DNG' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
 #Will add stored white balance settings to processed readymade dualiso DNG files
-echo "$(tail -n +3 /tmp/DUALISO/d_iso_list)" > /tmp/DUALISO/d_iso_list
-list=$(cat /tmp/DUALISO/d_iso_list)
+echo "$(tail -n +3 /tmp/DUALISO/list_01)" > /tmp/DUALISO/list_01
 
 #matching camera serial or not
 serial_match=$(exiftool "$CR2" | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')

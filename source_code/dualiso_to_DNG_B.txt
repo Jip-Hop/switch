@@ -20,13 +20,13 @@
 
 
 
-while grep -q 'CR2' /tmp/DUALISO/d_iso_list
+while grep -q 'CR2' /tmp/DUALISO/list_03
 do
 
-CR2=$(grep 'CR2' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
-DNG=$(grep 'DNG' /tmp/DUALISO/d_iso_list | awk 'FNR == 1 {print}')
+CR2=$(grep 'CR2' /tmp/DUALISO/list_03 | awk 'FNR == 1 {print}')
+DNG=$(grep 'DNG' /tmp/DUALISO/list_03 | awk 'FNR == 1 {print}')
 #Will add stored white balance settings to processed readymade dualiso DNG files
-echo "$(tail -n +3 /tmp/DUALISO/d_iso_list)" > /tmp/DUALISO/d_iso_list
+echo "$(tail -n +3 /tmp/DUALISO/list_03)" > /tmp/DUALISO/list_03
 
 #matching camera serial or not
 serial_match=$(exiftool "$CR2" | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
