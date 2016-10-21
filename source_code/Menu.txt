@@ -26,8 +26,8 @@ then
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;40;50t'
-printf '\e[3;410;100t'
+printf '\e[8;33;50t'
+printf '\e[3;410;0t'
 open -a Terminal
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -111,10 +111,11 @@ ${bold}DNG compression$(tput sgr0)(requires Adobe DNG Converter)
     $(tput bold)(l)$(tput sgr0) lossless $lole
     $(tput bold)(k)$(tput sgr0) lossy $lossy
 
+    $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml) mlv_dump settings$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r) run dualiso processing$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) exit cr2hdr$(tput sgr0) 
- 					        					
+    $(tput bold)$(tput setaf 1)(p)  ProRes output$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  run dualiso processing$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)  					        					
 
 Please enter your selection number below:
 EOF
@@ -306,8 +307,13 @@ lole=
 fi
 ;;
 
+    "E")
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy=
+rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
+;;
+
     "ml") 
-printf '\e[8;30;60t'
+printf '\e[8;23;60t'
 printf '\e[3;450;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -380,6 +386,7 @@ do
     $(tput bold)(06) fix non-static (moving) cold pixels (slow) $fixcp2
     $(tput bold)(07) disable vertical stripes in highlights  $nostripes
 
+    $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  quit MLP$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml) cr2hdr menu$(tput sgr0)
     $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) Run cr2hdr$(tput sgr0)
@@ -528,6 +535,11 @@ nostripes=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
 
+    "E")
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr=
+rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
+;;
+
     "ml")  
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
@@ -535,6 +547,499 @@ fi
     "r")  
 rm /tmp/DUALISO/DUALISO 
 osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+;;
+
+    "p") 
+printf '\e[8;35;65t'
+printf '\e[3;450;0t'
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= 
+
+if grep 'lincineon' /tmp/FFmpeg_settings 
+then
+lincin=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'linlogC' /tmp/FFmpeg_settings 
+then
+linlogC=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'linear' /tmp/FFmpeg_settings 
+then
+linear=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'rec709' /tmp/FFmpeg_settings 
+then
+rec709=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'xyz' /tmp/FFmpeg_settings 
+then
+xyz=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'aces' /tmp/FFmpeg_settings 
+then
+aces=$(echo "$bold""$green"added!"$normal")
+fi
+
+if grep 'lincineonpr' /tmp/FFmpeg_settingsPR 
+then
+lincinpr=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'linlogCpr' /tmp/FFmpeg_settingsPR 
+then
+linlogCpr=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'linearpr' /tmp/FFmpeg_settingsPR 
+then
+linearpr=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'rec709pr' /tmp/FFmpeg_settingsPR 
+then
+rec709pr=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'xyzpr' /tmp/FFmpeg_settingsPR 
+then
+xyzpr=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'acespr' /tmp/FFmpeg_settingsPR 
+then
+acespr=$(echo "$bold""$green"added!"$normal")
+fi
+
+if grep 'AWB' /tmp/FFmpeg_settings 
+then
+AWB=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'HL' /tmp/FFmpeg_settings 
+then
+HL=$(echo "$bold""$green"added!"$normal")
+fi
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    -------------
+    $(tput bold)ProRes output$(tput sgr0)
+    -------------
+	
+-- ProRes4444 output --
+    $(tput bold)(01) linear to cineon$(tput sgr0)(recommended)   $lincin
+    $(tput bold)(02) linear to logC$(tput sgr0)(recommended)  $linlogC	
+    $(tput bold)(03) linear$(tput sgr0)  $linear
+    $(tput bold)(04) rec709$(tput sgr0)  $rec709 
+    $(tput bold)(05) xyz$(tput sgr0)  $xyz
+    $(tput bold)(06) aces$(tput sgr0)  $aces
+
+-- ProRes Proxy output —
+    $(tput bold)(07) linear to cineon$(tput sgr0)   $lincinpr
+    $(tput bold)(08) linear to logC$(tput sgr0)  $linlogCpr
+    $(tput bold)(09) linear$(tput sgr0)  $linearpr
+    $(tput bold)(10) rec709$(tput sgr0)  $rec709pr 
+    $(tput bold)(11) xyz$(tput sgr0)  $xyzpr
+    $(tput bold)(12) aces$(tput sgr0)  $acespr
+
+-- Other settings --
+    $(tput bold)(13) auto white balance$(tput sgr0)   $AWB
+
+-- 5D mark III white level(more highlight data. Not dualiso!) -- 
+    $(tput bold)(14) set white level to 16383$(tput sgr0)(default 15000)  $HL 
+
+    $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  quit MLP$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(p)  cr2hdr menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  Run cr2hdr$(tput sgr0)			 
+  					        					
+Please enter your selection number below and hit enter:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "01")
+if grep 'lincineon' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/lincineon//g' 
+lincin=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "lincineon" >> /tmp/FFmpeg_settings
+lincin=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linlogC//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linear//g' 
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/rec709//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/sRGB//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/xyz//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/aces//g'
+linlogC=
+linear=
+rec709=
+sRGB=
+xyz=
+aces=
+fi
+;;
+
+    "02")
+if grep 'linlogC' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linlogC//g' 
+linlogC=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "linlogC" >> /tmp/FFmpeg_settings
+linlogC=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/lincineon//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linear//g' 
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/rec709//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/sRGB//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/xyz//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/aces//g'
+lincin=
+linear=
+rec709=
+sRGB=
+xyz=
+aces=
+fi
+;;
+
+    "03")
+if grep 'linear' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linear//g' 
+linear=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "linear" >> /tmp/FFmpeg_settings
+linear=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/lincineon//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linlogC//g' 
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/rec709//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/sRGB//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/xyz//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/aces//g'
+lincin=
+linlogC=
+rec709=
+sRGB=
+xyz=
+aces=
+fi
+;;
+
+    "04")
+if grep 'rec709' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/rec709//g' 
+rec709=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "rec709" >> /tmp/FFmpeg_settings
+rec709=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/lincineon//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linlogC//g' 
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linear//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/sRGB//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/xyz//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/aces//g'
+lincin=
+linlogC=
+linear=
+sRGB=
+xyz=
+aces=
+fi
+;;
+
+    "05")
+if grep 'xyz' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/xyz//g' 
+xyz=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "xyz" >> /tmp/FFmpeg_settings
+xyz=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/lincineon//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linlogC//g' 
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linear//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/rec709//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/sRGB//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/aces//g'
+lincin=
+linlogC=
+linear=
+rec709=
+sRGB=
+aces=
+fi
+;;
+
+    "06")
+if grep 'aces' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/aces//g' 
+aces=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "aces" >> /tmp/FFmpeg_settings
+aces=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/lincineon//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linlogC//g' 
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linear//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/rec709//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/sRGB//g'
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/xyz//g'
+lincin=
+linlogC=
+linear=
+rec709=
+sRGB=
+xyz=
+fi
+;;
+
+    "07")
+if grep 'lincineonpr' /tmp/FFmpeg_settingsPR 
+then
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/lincineonpr//g' 
+lincinpr=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "lincineonpr" >> /tmp/FFmpeg_settingsPR
+lincinpr=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linlogCpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linearpr//g' 
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/rec709pr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/xyzpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/acespr//g'
+linlogCpr=
+linearpr=
+rec709pr=
+xyzpr=
+acespr=
+fi
+;;
+
+    "08")
+if grep 'linlogCpr' /tmp/FFmpeg_settingsPR 
+then
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linlogCpr//g' 
+linlogCpr=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "linlogCpr" >> /tmp/FFmpeg_settingsPR
+linlogCpr=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/lincineonpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linearpr//g' 
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/rec709pr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/xyzpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/acespr//g'
+lincinpr=
+linearpr=
+rec709pr=
+xyzpr=
+acespr=
+fi
+;;
+
+    "09")
+if grep 'linearpr' /tmp/FFmpeg_settingsPR 
+then
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linearpr//g' 
+linearpr=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "linearpr" >> /tmp/FFmpeg_settingsPR
+linearpr=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/lincineonpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linlogCpr//g' 
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/rec709pr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/xyzpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/acespr//g'
+lincinpr=
+linlogCpr=
+rec709pr=
+xyzpr=
+acespr=
+fi
+;;
+
+    "10")
+if grep 'rec709pr' /tmp/FFmpeg_settingsPR 
+then
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/rec709pr//g' 
+rec709pr=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "rec709pr" >> /tmp/FFmpeg_settingsPR
+rec709pr=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/lincineonpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linlogCpr//g' 
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linearpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/xyzpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/acespr//g'
+lincinpr=
+linlogCpr=
+linearpr=
+xyzpr=
+acespr=
+fi
+;;
+
+
+    "11")
+if grep 'xyzpr' /tmp/FFmpeg_settingsPR 
+then
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/xyzpr//g' 
+xyzpr=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "xyzpr" >> /tmp/FFmpeg_settingsPR
+xyzpr=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/lincineonpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linlogCpr//g' 
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linearpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/rec709pr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/acespr//g'
+lincinpr=
+linlogCpr=
+linearpr=
+rec709pr=
+acespr=
+fi
+;;
+
+    "12")
+if grep 'acespr' /tmp/FFmpeg_settingsPR 
+then
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/acespr//g' 
+acespr=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "acespr" >> /tmp/FFmpeg_settingsPR
+acespr=$(echo "$bold""$green"added!"$normal")
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/lincineonpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linlogCpr//g' 
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linearpr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/rec709pr//g'
+find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/xyzpr//g'
+lincinpr=
+linlogCpr=
+linearpr=
+rec709pr=
+xyzpr=
+fi
+;;
+
+    "13")
+if grep 'AWB' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/AWB//g' 
+AWB=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "AWB" >> /tmp/FFmpeg_settings
+AWB=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "14")
+if grep 'HL' /tmp/FFmpeg_settings 
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/HL//g' 
+HL=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "HL" >> /tmp/FFmpeg_settings
+HL=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "p")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "r")  
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "E")
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL=  
+rm /tmp/FFmpeg_settings 1> /dev/null 2>&1 &
+rm /tmp/FFmpeg_settingsPR 1> /dev/null 2>&1 &
 ;;
 
     "q")   
