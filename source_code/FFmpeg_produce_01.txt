@@ -101,7 +101,11 @@
 #grab correct frames per second
     fps=$(exiftool *000000.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
 #export ProRes4444
+#check if ProRes4444 settings file contains information 
+    if ! [ x"$(cat /tmp/FFmpeg_settings)" = x ]
+    then
     find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" $cin ../"$name".mov 
+    fi
 #check if proxy settings file contains information 
     if ! [ x"$(cat /tmp/FFmpeg_settingsPR)" = x ]
     then
