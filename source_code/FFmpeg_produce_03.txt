@@ -140,7 +140,7 @@
     then
     mkdir -p ../$(date +%F)_Proxy
 #export ProRes proxy
-    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores -profile 0 -n -r "$fps" $cinpr$cinpr_01$cinpr_02$cinpr_03 ../$(date +%F)_Proxy/"$name".mov 2> out.txt
+    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores -profile 0 -n -r "$fps" $cinpr$cinpr_01$cinpr_02$cinpr_03 ../$(date +%F)_Proxy/"$name".mov
     fi
     cd ..
     done
