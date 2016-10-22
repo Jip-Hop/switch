@@ -33,7 +33,7 @@
    caltagB=$(exiftool /tmp/DUALISO/DNG_C/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }')
    rm -r /tmp/DUALISO/DNG_C
    fi
-#check if the camera is a eos 100D
+#check if the camera is an eos 100D
    model_match=$(exiftool "$CR2" | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }')
    echo "$model_match" > /tmp/DUALISO/model_match_C
    if grep 'Canon EOS 100D\|SL1\|Kiss X7\|X7' /tmp/DUALISO/model_match_C
