@@ -117,7 +117,7 @@
 #choose auto or in cam white balance. AWB median calculations which iI use in MLP
     if grep 'AWB' /tmp/FFmpeg_settings 
     then
-    vit_01a=$(dcraw -T -a -v -c *000000.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000000*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01=$(echo $vit_01a | awk '{print $1}') 
     vit_02=$(echo $vit_01a | awk '{print $2}')
     vit_03=$(echo $vit_01a | awk '{print $3}')
@@ -125,9 +125,9 @@
 #white balance sum
     wb=$(printf "%s\n" -r $vit_01 $vit_02 $vit_03 $vit_04)
 #second wb source
-    if ls *000070.dng
+    if ls *000070*.{dng,DNG}
     then
-    vit_01a=$(dcraw -T -a -v -c *000070.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000070*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01b=$(echo $vit_01a | awk '{print $1}') 
     vit_02b=$(echo $vit_01a | awk '{print $2}')
     vit_03b=$(echo $vit_01a | awk '{print $3}')
@@ -144,9 +144,9 @@
     wb=$(printf "%s\n" -r $vit_01 $vit_02 $vit_03 $vit_04)
     fi
 #third wb source
-    if ls *000140.dng
+    if ls *000140*.{dng,DNG}
     then
-    vit_01a=$(dcraw -T -a -v -c *000140.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000140*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01c=$(echo $vit_01a | awk '{print $1}') 
     vit_02c=$(echo $vit_01a | awk '{print $2}')
     vit_03c=$(echo $vit_01a | awk '{print $3}')
@@ -163,9 +163,9 @@
     wb=$(printf "%s\n" -r $vit_01_r $vit_02_r $vit_03_r $vit_04_r)
     fi
 #fourth wb source
-    if ls *000200.dng
+    if ls *000200*.{dng,DNG}
     then
-    vit_01a=$(dcraw -T -a -v -c *000200.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000200*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01d=$(echo $vit_01a | awk '{print $1}') 
     vit_02d=$(echo $vit_01a | awk '{print $2}')
     vit_03d=$(echo $vit_01a | awk '{print $3}')
@@ -182,9 +182,9 @@
     wb=$(printf "%s\n" -r $vit_01_r $vit_02_r $vit_03_r $vit_04_r)
     fi
 #fifth wb source
-    if ls *000250.dng
+    if ls *000250*.{dng,DNG}
     then
-    vit_01a=$(dcraw -T -a -v -c *000250.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000250*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01e=$(echo $vit_01a | awk '{print $1}') 
     vit_02e=$(echo $vit_01a | awk '{print $2}')
     vit_03e=$(echo $vit_01a | awk '{print $3}')
@@ -201,9 +201,9 @@
     wb=$(printf "%s\n" -r $vit_01_r $vit_02_r $vit_03_r $vit_04_r)
     fi
 #sixth wb source
-    if ls *000310.dng
+    if ls *000310*.{dng,DNG}
     then
-    vit_01a=$(dcraw -T -a -v -c *000310.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000310*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01f=$(echo $vit_01a | awk '{print $1}') 
     vit_02f=$(echo $vit_01a | awk '{print $2}')
     vit_03f=$(echo $vit_01a | awk '{print $3}')
@@ -220,9 +220,9 @@
     wb=$(printf "%s\n" -r $vit_01_r $vit_02_r $vit_03_r $vit_04_r)
     fi
 #seventh wb source
-    if ls *000390.dng
+    if ls *000390*.{dng,DNG}
     then
-    vit_01a=$(dcraw -T -a -v -c *000390.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000390*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01g=$(echo $vit_01a | awk '{print $1}') 
     vit_02g=$(echo $vit_01a | awk '{print $2}')
     vit_03g=$(echo $vit_01a | awk '{print $3}')
@@ -239,9 +239,9 @@
     wb=$(printf "%s\n" -r $vit_01_r $vit_02_r $vit_03_r $vit_04_r)
     fi
 #eighth wb source
-    if ls *000450.dng
+    if ls *000450*.{dng,DNG}
     then
-    vit_01a=$(dcraw -T -a -v -c *000450.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    vit_01a=$(dcraw -T -a -v -c *000450*.{dng,DNG} 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
     vit_01h=$(echo $vit_01a | awk '{print $1}') 
     vit_02h=$(echo $vit_01a | awk '{print $2}')
     vit_03h=$(echo $vit_01a | awk '{print $3}')
@@ -266,7 +266,7 @@
     S=$(printf "%s\n" -S 16383)
     fi  
 #grab correct frames per second
-    fps=$(exiftool *000000.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
+    fps=$(exiftool *000000*.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
 #check if ProRes4444 settings file contains information 
     if ! [ x"$(cat /tmp/FFmpeg_settings | grep -v 'HL\|AWB')" = x ]
     then
