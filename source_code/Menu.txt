@@ -685,6 +685,7 @@ EOF
     case "$REPLY" in
 
     "01")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 if grep 'lincineon' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/lincineon//g' 
@@ -712,6 +713,7 @@ fi
 ;;
 
     "02")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 if grep 'linlogC' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linlogC//g' 
@@ -739,6 +741,7 @@ fi
 ;;
 
     "03")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 if grep 'linear' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/linear//g' 
@@ -766,6 +769,7 @@ fi
 ;;
 
     "04")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 if grep 'rec709' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/rec709//g' 
@@ -793,6 +797,7 @@ fi
 ;;
 
     "05")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 if grep 'xyz' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/xyz//g' 
@@ -820,6 +825,7 @@ fi
 ;;
 
     "06")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 if grep 'aces' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/aces//g' 
@@ -847,6 +853,7 @@ fi
 ;;
 
     "07")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'lincineonpr' /tmp/FFmpeg_settingsPR 
 then
 find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/lincineonpr//g' 
@@ -872,6 +879,7 @@ fi
 ;;
 
     "08")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'linlogCpr' /tmp/FFmpeg_settingsPR 
 then
 find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linlogCpr//g' 
@@ -897,6 +905,7 @@ fi
 ;;
 
     "09")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'linearpr' /tmp/FFmpeg_settingsPR 
 then
 find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/linearpr//g' 
@@ -922,6 +931,7 @@ fi
 ;;
 
     "10")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'rec709pr' /tmp/FFmpeg_settingsPR 
 then
 find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/rec709pr//g' 
@@ -948,6 +958,7 @@ fi
 
 
     "11")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'xyzpr' /tmp/FFmpeg_settingsPR 
 then
 find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/xyzpr//g' 
@@ -973,6 +984,7 @@ fi
 ;;
 
     "12")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'acespr' /tmp/FFmpeg_settingsPR 
 then
 find /tmp/FFmpeg_settingsPR | xargs perl -pi -e 's/acespr//g' 
