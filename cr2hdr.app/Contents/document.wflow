@@ -656,12 +656,14 @@ echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML
     if ! grep 'look like interlaced ISO' /tmp/DUALISO/dualiso.txt
     then
     rm /tmp/DUALISO/dualiso.txt
+#grab fps before it,s too late
+    fps=$(exiv2 -pt "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.dng | awk '/Exif.Image.FrameRate/ { print $4; }')
 #cr2hdr processing
     find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 4 -n 1 cr2hdr $set
 #grabs white level
     wle=$(exiv2 -pt "${BASE}"_1_$(date +%Y-%m-%d)_0001_C000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
-#adds back white balance tag and same whitelevel to prevent flicker
-    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wib" -M"set Exif.SubImage1.WhiteLevel $wle"
+#adds back white balance tag, frames per second and same whitelevel and to prevent flicker
+    find . -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wib" -M"set Exif.SubImage1.WhiteLevel $wle" -M"set Exif.Image.FrameRate $fps"
     fi
     cd ..
     done
@@ -773,7 +775,7 @@ echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML
     caltagB=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }')
     rm /tmp/DUALISO/"$CAL".dng
     fi
-#check if the camera is an eos 100D
+#check if the camera is a eos 100D
     model_match=$(exiftool "$CR2" | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }')
     echo "$model_match" &gt; /tmp/DUALISO/model_match
     if grep 'Canon EOS 100D\|SL1\|Kiss X7\|X7' /tmp/DUALISO/model_match
@@ -927,26 +929,26 @@ echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>BD87D6F6-0FE6-4AE9-94E3-6AD3E6BC5DA4</key>
+		<key>A895E072-6B2F-406F-A6C2-94F3CA50CE09</key>
 		<dict>
 			<key>from</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 			<key>to</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 		</dict>
-		<key>E98141ED-2CA1-4B47-BBF0-BB18BEA7D0DC</key>
-		<dict>
-			<key>from</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
-			<key>to</key>
-			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
-		</dict>
-		<key>F8C5E021-6C02-4AAB-B963-1860DB06262F</key>
+		<key>C9AF012A-CE6D-40DC-A8C8-7AFA21905BCE</key>
 		<dict>
 			<key>from</key>
 			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+		</dict>
+		<key>E2F62427-ED07-41EE-9A03-99568D5EAD79</key>
+		<dict>
+			<key>from</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+			<key>to</key>
+			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
