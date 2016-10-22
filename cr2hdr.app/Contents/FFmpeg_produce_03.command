@@ -60,6 +60,20 @@
     o=$(printf "%s\n" -o 6)
     h2=$(printf "%s\n" -H 2)
     fi
+#check for additional 3D luts in ProRes4444 folder
+    if ls ../$(date +%F)_ProRes4444/*.cube
+    then 
+    if [ x"$cin" = x ]
+    then 
+    cin_01=$(printf "%s\n" -vf lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
+    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
+    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    else
+    cin_01=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
+    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
+    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    fi  
+    fi
 #Choose FFmpeg output(ProRes proxy)
     if grep 'lincineonpr' /tmp/FFmpeg_settingsPR 
     then 
@@ -86,6 +100,20 @@
     opr=$(printf "%s\n" -o 6)
     h2pr=$(printf "%s\n" -H 2)
     fi
+#check for additional 3D luts in proxy folder
+    if ls ../$(date +%F)_Proxy/*.cube
+    then 
+    if [ x"$cinpr" = x ]
+    then 
+    cinpr_01=$(printf "%s\n" -vf lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
+    cinpr_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
+    cinpr_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    else
+    cinpr_01=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
+    cinpr_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
+    cinpr_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    fi  
+    fi
 #choose auto or in cam white balance
     if grep 'AWB' /tmp/FFmpeg_settings 
     then
@@ -105,14 +133,14 @@
     then
     mkdir -p ../$(date +%F)_ProRes4444
 #export ProRes4444
-    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" $cin ../$(date +%F)_ProRes4444/"$name".mov 
+    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" $cin$cin_01$cin_02$cin_03 ../$(date +%F)_ProRes4444/"$name".mov 
     fi
 #check if proxy settings file contains information 
     if ! [ x"$(cat /tmp/FFmpeg_settingsPR)" = x ]
     then
     mkdir -p ../$(date +%F)_Proxy
 #export ProRes proxy
-    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores -profile 0 -n -r "$fps" $cinpr ../$(date +%F)_Proxy/"$name".mov
+    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores -profile 0 -n -r "$fps" $cinpr$cinpr_01$cinpr_02$cinpr_03 ../$(date +%F)_Proxy/"$name".mov 2> out.txt
     fi
     cd ..
     done
