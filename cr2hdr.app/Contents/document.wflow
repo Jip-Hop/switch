@@ -773,7 +773,7 @@ echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML
     caltagB=$(exiftool /tmp/DUALISO/"$CAL".dng | awk '/Camera Calibration 1/ { print $13; exit }')
     rm /tmp/DUALISO/"$CAL".dng
     fi
-#check if the camera is a eos 100D
+#check if the camera is an eos 100D
     model_match=$(exiftool "$CR2" | awk '/Camera Model Name/ { print $5,$6,$7,$8,$9,$10; exit }')
     echo "$model_match" &gt; /tmp/DUALISO/model_match
     if grep 'Canon EOS 100D\|SL1\|Kiss X7\|X7' /tmp/DUALISO/model_match
@@ -927,26 +927,26 @@ echo "&lt;?xml version="\"1.0"\" encoding="\"UTF-8"\"?&gt;&lt;BWFXML&gt;&lt;IXML
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>3A80B318-FE3E-4507-9628-E47CCAF49CAD</key>
+		<key>BD87D6F6-0FE6-4AE9-94E3-6AD3E6BC5DA4</key>
 		<dict>
 			<key>from</key>
-			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
-			<key>to</key>
 			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<key>to</key>
+			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 		</dict>
-		<key>46129C0B-881A-429E-B56B-86C70403D2BE</key>
+		<key>E98141ED-2CA1-4B47-BBF0-BB18BEA7D0DC</key>
 		<dict>
 			<key>from</key>
 			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
 			<key>to</key>
 			<string>6547909D-50AB-448F-8131-1E3394F3B26E - 6547909D-50AB-448F-8131-1E3394F3B26E</string>
 		</dict>
-		<key>FB275F97-2F42-4681-A523-27D2161F25EE</key>
+		<key>F8C5E021-6C02-4AAB-B963-1860DB06262F</key>
 		<dict>
 			<key>from</key>
-			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
+			<string>F743C43D-21CA-4E72-8BBF-D5B28A9E800A - F743C43D-21CA-4E72-8BBF-D5B28A9E800A</string>
 			<key>to</key>
-			<string>C0C088D1-33C1-4867-86E1-113F0C0A7882 - C0C088D1-33C1-4867-86E1-113F0C0A7882</string>
+			<string>BB431224-9CAE-4938-A417-E4D23712F23B - BB431224-9CAE-4938-A417-E4D23712F23B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
