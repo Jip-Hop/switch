@@ -65,13 +65,13 @@
     then 
     if [ x"$cin" = x ]
     then 
-    cin_01=$(printf "%s\n" -vf lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
-    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
-    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    cin_01=$(printf "%s\n" -vf lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 1 {print; }'))
+    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 2 {print; }'))
+    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 3 {print; }'))
     else
-    cin_01=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
-    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
-    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    cin_01=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 1 {print; }'))
+    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 2 {print; }'))
+    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 3 {print; }'))
     fi  
     fi
 #Choose FFmpeg output(ProRes proxy)
