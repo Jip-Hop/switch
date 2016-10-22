@@ -9,6 +9,10 @@ cd "${workingDir}"
 
 xattr -d com.apple.quarantine ../cr2hdr.app
 
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+
 for file in *.txt; do
     mv "$file" "`basename $file .txt`.command"
 
