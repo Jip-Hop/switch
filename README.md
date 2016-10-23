@@ -24,7 +24,7 @@ cr2hdr(.app) also includes a menu selector created in bash from where the user c
 
 **FFmpeg/dcraw**
 
-![Screen Shot 2016-10-23 at 08.18.06.png](https://bitbucket.org/repo/Gkyeq9/images/13438127-Screen%20Shot%202016-10-23%20at%2008.18.06.png)
+![Screen Shot 2016-10-23 at 09.27.18.png](https://bitbucket.org/repo/Gkyeq9/images/2115946518-Screen%20Shot%202016-10-23%20at%2009.27.18.png)
 
 ## HOWTO ##
 
