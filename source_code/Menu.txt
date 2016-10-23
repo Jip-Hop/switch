@@ -18,6 +18,8 @@
 
 
 #DUALISO_CR2
+#mlv_dump
+#ProRes output
 
 if ls /tmp/DUALISO/DUALISO
 then
@@ -114,8 +116,8 @@ ${bold}DNG compression$(tput sgr0)(requires Adobe DNG Converter)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml) mlv_dump settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(p)  ProRes output$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)  run dualiso processing$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)  					        					
+    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  run cr2hdr$(tput sgr0)  					        					
 
 Please enter your selection number below:
 EOF
@@ -311,7 +313,7 @@ fi
 amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy=
 rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
 ;;
-
+#mlv_dump
     "ml") 
 printf '\e[8;23;60t'
 printf '\e[3;450;0t'
@@ -387,9 +389,9 @@ do
     $(tput bold)(07) disable vertical stripes in highlights  $nostripes
 
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  quit MLP$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml) cr2hdr menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) Run cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run cr2hdr$(tput sgr0)
 			 
   					        					
 Please enter your selection number below and hit enter:
@@ -561,7 +563,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     sleep 0.5
 done
 ;;
-
+#ProRes output
     "p") 
 printf '\e[8;35;65t'
 printf '\e[3;450;0t'
@@ -678,10 +680,11 @@ do
 -- 5D mark III white level(more highlight data. Not dualiso!) -- 
     $(tput bold)(14) set white level to 16383$(tput sgr0)(default 15000)  $HL 
 
+    $(tput bold)$(tput setaf 1)(ho) HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  quit MLP$(tput sgr0)
     $(tput bold)$(tput setaf 1)(p)  cr2hdr menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)  Run cr2hdr$(tput sgr0)			 
+    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  run cr2hdr$(tput sgr0)			 
   					        					
 Please enter your selection number below and hit enter:
 EOF
@@ -1050,6 +1053,33 @@ fi
     "r")  
 rm /tmp/DUALISO/DUALISO 
 osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "ho") 
+printf '\e[8;16;90t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)A short guide how to work with ProRes output menu
+echo 
+echo $(tput bold)$(tput setaf 1)Select a number and hit enter to add settings
+echo Reselect any added settings and hit enter to erase$(tput sgr0)   
+echo
+echo $(tput bold)1$(tput sgr0) - Choose a $(tput bold)ProRes4444, ProRes Proxy output$(tput sgr0) or select from both
+echo $(tput bold)2$(tput sgr0) - Select any $(tput bold)other settings$(tput sgr0) you desire$(tput sgr0) 
+echo $(tput bold)3$(tput sgr0) - You can add up to three extra 3D luts"("cube")" in your output folders for creating
+echo     further looks."("ProRes4444 and Proxy folders inside your parent folder")"$(tput sgr0)
+echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run cr2hdr$(tput sgr0)
+echo
+echo
+echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to ProRes output menu$(tput sgr0)
+    read -n1
+    case "$REPLY" in
+
+    * )  
+printf '\e[8;35;65t'
+printf '\e[3;450;0t'
+;;
+    esac
 ;;
 
     "E")
