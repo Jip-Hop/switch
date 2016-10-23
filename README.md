@@ -13,15 +13,23 @@ Processing includes white balance correction through [exiftool](http://www.sno.p
 cr2hdr(.app) also includes a menu selector created in bash from where the user can select or deselect different settings inside cr2hdr(.app).
 
 
-**Bash menu**
+**cr2hdr**
 
 ![menu.png](https://bitbucket.org/repo/Gkyeq9/images/615202290-menu.png)
+
+**mlv_dump**
+
+![Screen Shot 2016-10-23 at 08.23.54.png](https://bitbucket.org/repo/Gkyeq9/images/754466616-Screen%20Shot%202016-10-23%20at%2008.23.54.png)
+
+**FFmpeg/dcraw**
+
+![Screen Shot 2016-10-23 at 08.18.06.png](https://bitbucket.org/repo/Gkyeq9/images/13438127-Screen%20Shot%202016-10-23%20at%2008.18.06.png)
 
 ## HOWTO ##
 
 1. Move cr2hdr(.app) to applications folder
 2. Double click cr2hdr(.app) and select a folder with dual iso CR2, DNG, dng RAW or MLV files. 
-3. For compressing and matched white balanced Adobe dng converter needs to be installed into application folder. cr2hdr(.app) works perfectly fine without ADC but white balance will be slightly off balance due to missing camera calibration information.
+3. For dng compressing and matched white balanced Adobe dng converter needs to be installed into application folder. cr2hdr(.app) works perfectly fine without ADC but white balance will be slightly off balance due to missing camera calibration information.
 
 **regarding gatekeeper**
 
@@ -37,4 +45,4 @@ If you want to include changes done to cr2hdr_MAIN.txt these have to be copied b
 
 
 
-**Thanks to:** a1ex, g3gg0, Dave Coffin, Phil Harvey, Andreas Huggel, dmilligan, Chmee, dfort
+**Thanks to:** a1ex, g3gg0, Dave Coffin, Fabrice Bellard(FFmpeg community) Phil Harvey, Andreas Huggel, bouncyball, so-rose, dmilligan, Chmee, dfort, deafeyejedi
