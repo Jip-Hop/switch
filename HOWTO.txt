@@ -11,4 +11,4 @@ About working inside the source_code folder
 Inside source_code folder there is a Build_dmg_package.command script. When double clicked it will copy and overwrite all .txt files over in source_code folder into the cr2hdr(.app) one level up in source tree. Run chmod u=rwx on the script for full privilegies.
 
 NOTE 2 
-If you want to include changes done to cr2hdr_MAIN.txt these have to be copied by opening up cr2hdr(.app) in automator.
+If you want to include changes done to cr2hdr_MAIN.txt these have to be copied by opening up cr2hdr(.app) in automator

@@ -17,16 +17,16 @@
  # Boston, MA  02110-1301, USA.
 
 #!/bin/bash
-    while grep -q 'CR2' /tmp/DUALISO/list_03
-    do
-    CR2=$(grep 'CR2' /tmp/DUALISO/list_03 | awk 'FNR == 1 {print}')
-    DNG=$(grep 'DNG' /tmp/DUALISO/list_03 | awk 'FNR == 1 {print}')
+   while grep -q 'CR2' /tmp/DUALISO/list_03
+   do
+   CR2=$(grep 'CR2' /tmp/DUALISO/list_03 | awk 'FNR == 1 {print}')
+   DNG=$(grep 'DNG' /tmp/DUALISO/list_03 | awk 'FNR == 1 {print}')
 #Will add stored white balance settings to processed readymade dualiso DNG files
-    echo "$(tail -n +3 /tmp/DUALISO/list_03)" > /tmp/DUALISO/list_03
+   echo "$(tail -n +3 /tmp/DUALISO/list_03)" > /tmp/DUALISO/list_03
 #matching camera serial or not
-    serial_match=$(exiftool "$CR2" | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
-    if ! [ "$serial" = "$serial_match" ]; then
-    mkdir /tmp/DUALISO/DNG_B
+   serial_match=$(exiftool "$CR2" | grep -A1 'Owner Name' | awk 'FNR == 2 {print $4; exit}')
+   if ! [ "$serial" = "$serial_match" ]; then
+   mkdir -p /tmp/DUALISO/DNG_B
    /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter -d /tmp/DUALISO/DNG_B "$CR2" 
    CAL=$(echo "$CR2" | cut -f1 -d".") 
    caltagA=$(exiftool /tmp/DUALISO/DNG_B/"$CAL".dng | awk '/Camera Calibration 1/ { print $5; exit }') 
@@ -46,7 +46,7 @@
 #If adobe dng converter is installed this calibration compensation will take place
    if ls /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter
    then
-    CR2_01b=$(echo "$CR2_01b/$caltagA" | bc -l | awk 'FNR == 1 {print}')
+   CR2_01b=$(echo "$CR2_01b/$caltagA" | bc -l | awk 'FNR == 1 {print}')
    fi
    CR2_00b=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $6; exit }')
    CR2_02=$(dcraw -i -v "$CR2" | awk '/Camera multipliers/ { print $5; exit }') 
