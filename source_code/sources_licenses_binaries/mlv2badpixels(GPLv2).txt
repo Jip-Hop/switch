@@ -1,0 +1,413 @@
+#!/bin/bash
+
+# mlv2badpixels.sh
+#
+# http://www.magiclantern.fm/forum/index.php?topic=16054
+#
+# Create a dcraw ".badpixels" formatted file from
+# an MLV file (Magic Lantern raw video)
+# For removing focus pixels from Magic Lantern raw video
+# files shot on on Canon 100D, 650D, 700D and EOSM cameras.
+#
+# Mode          Buffer Size   Notes
+# mv1080      - 1808x1190  -  not available on the EOSM.
+# mv720       - 1808x727   -  needs to be stretched by 1.67x
+#                             vertically - up to 50/60 fps
+#                             except on EOSM.
+# mv640       - 1808x1190  -  basically the same as mv1080 mode.
+# mv1080crop  - 1872x1060  -  highest resolution and largest
+#                             sustainable frame sizes on all cameras.
+# mv640crop   -            -  not possible.
+# zoom        - 2592x1108  -  same 5x magnification as mv1080crop but
+#                             can pan around sensor and can achieve
+#                             higher resolution than mv1080crop.
+#
+# Sorry but with zoom mode a new badpixels file needs to be made
+# every time that the pan position changes and there is very little
+# error checking.
+#
+# Copyright (C) 2016 Magic Lantern Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the
+# Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor,
+# Boston, MA  02110-1301, USA.
+#/
+
+usage() {
+cat << EOF
+Usage:
+mlv2badpixels.sh [-hv] [-c cam] [-m mode] [-s size] [-o output] <input_file>
+Parameters:
+    -h           Show this message
+    -m           Video Mode [mv1080, mv720, mv1080crop, zoom]
+    -c           Camera [EOSM, 100D, 650D, 700D]
+    -s           Image Size [width x height] (no spaces)
+    -o filename  Customize Filename
+    -v           verbose
+Any spaces in parameters must be quoted i.e., "Canon EOS 700D"
+
+example:
+    ./mlv2badpixels.sh -mv -o M21-1747_1_2015-12-06_0001_C0000.txt M21-1747.MLV
+
+    creates an MLP formatted file named M21-1747_1_2015-12-06_0001_C0000.txt
+    that can be used to remove the focus pixels on the dng files extracted from
+    M21-1747.MLV
+
+This script will create a dcraw "badpixels" file
+to remove focus pixels from an MLV file shot with
+cameras that show their focus pixels in raw video.
+
+EOS Rebel T4i / 650D / Kiss X6i
+EOS Rebel T5i / 700D / Kiss X7i
+EOS Rebel SL1 / 100D / Kiss X7
+EOS M
+
+EOF
+}
+
+output_row() {
+  for i in $(seq 72 $((raw_width)) ); do # 0-71 is out of bounds
+    if (( (($i + $shift)) % x_rep == 0 )); then
+      ((x = $i - $cropX))
+      ((y = $j - $cropY))
+      if (( "$x" >= 0 )) && (( "$y" >= 0 )); then
+        if (( "$x" < "$width" )) && (( "$y" < "$height" )); then
+          echo -e "$x \t $y \t 0" >> "$output"
+        fi
+      fi
+    fi
+  done
+
+}
+
+mv720() {
+  if   [ $pattern == "A" ]; then fp_start=290; fp_end=465; x_rep=8; y_rep=12
+  elif [ $pattern == "B" ]; then fp_start=86;  fp_end=669; x_rep=8; y_rep=12
+  else exit 1
+  fi
+
+  for j in $(seq $((fp_start)) $((fp_end)) ); do
+    if   (( (($j + 10)) % y_rep == 0 )); then shift=2
+    elif (( (($j +  9)) % y_rep == 0 )); then shift=3
+    elif (( (($j +  4)) % y_rep == 0 )); then shift=6
+    elif (( (($j +  3)) % y_rep == 0 )); then shift=7
+    else continue
+    fi
+    output_row
+  done
+}
+
+mv1080() {
+  if   [ $pattern == "A" ]; then fp_start=459; fp_end=755;  x_rep=8; y_rep=10
+  elif [ $pattern == "B" ]; then fp_start=119; fp_end=1095; x_rep=8; y_rep=10
+  else exit 1
+  fi
+
+  for j in $(seq $((fp_start)) $((fp_end)) ); do
+    if   (( (($j +  1)) % y_rep == 0 )); then shift=1
+    elif (( (($j +  0)) % y_rep == 0 )); then shift=0
+    elif (( (($j +  6)) % y_rep == 0 )); then shift=4
+    elif (( (($j +  5)) % y_rep == 0 )); then shift=5
+    else continue
+    fi
+    output_row
+  done
+}
+
+crop() {
+  for j in $(seq $((fp_start)) $((fp_end)) ); do
+    if [ $pattern == "A" ]; then
+      if   (( (($j +  59)) % $y_rep == 0 )); then shift=1
+      elif (( (($j +  56)) % $y_rep == 0 )); then shift=0
+      elif (( (($j +  44)) % $y_rep == 0 )); then shift=12
+      elif (( (($j +  42)) % $y_rep == 0 )); then shift=6
+      elif (( (($j +  41)) % $y_rep == 0 )); then shift=13
+      elif (( (($j +  37)) % $y_rep == 0 )); then shift=7
+      elif (( (($j +  29)) % $y_rep == 0 )); then shift=1
+      elif (( (($j +  26)) % $y_rep == 0 )); then shift=0
+      elif (( (($j +  14)) % $y_rep == 0 )); then shift=12
+      elif (( (($j +  12)) % $y_rep == 0 )); then shift=18
+      elif (( (($j +  11)) % $y_rep == 0 )); then shift=13
+      elif (( (($j +   7)) % $y_rep == 0 )); then shift=19
+      else continue
+      fi
+    elif [ $pattern == "B" ]; then
+      if   (( (($j +  7)) % $y_rep == 0 )); then shift=7
+      elif (( (($j +  6)) % $y_rep == 0 )); then shift=6
+      elif (( (($j +  5)) % $y_rep == 0 )); then shift=1
+      elif (( (($j +  2)) % $y_rep == 0 )); then shift=0
+      else continue
+      fi
+    fi
+    output_row
+  done
+}
+
+mv1080crop() {
+  if   [ $pattern == "A" ]; then fp_start=121; fp_end=1013; x_rep=24; y_rep=60
+  elif [ $pattern == "B" ]; then fp_start=29;  fp_end=1057; x_rep=12; y_rep=6
+  else exit 1
+  fi
+  crop
+}
+
+zoom() {
+  if   [ $pattern == "A" ]; then fp_start=31; fp_end=1103; x_rep=24; y_rep=30
+  elif [ $pattern == "B" ]; then fp_start=28; fp_end=1105; x_rep=12; y_rep=6
+  else exit 1
+  fi
+  crop
+}
+
+workingDir=`dirname "$0"`
+cd "${workingDir}"
+
+shopt -s nocasematch
+
+MLP=
+VERBOSE=
+output=
+camera=
+camera_model=
+
+while getopts "c:hm:o:s:v" OPTION; do
+  case $OPTION in
+  c)camera="$OPTARG"
+    if  [[ "$camera" == *"650D" || "$camera" == *"T4i" || "$camera" == *"X6i" ]]; then
+     camera_model=80000301
+     camera="650D"
+    elif [[ "$camera" == *"700D" || "$camera" == *"T5i" || "$camera" == *"X7i" ]]; then
+     camera_model=80000326
+     camera="700D"
+    elif [[ "$camera" == *"M" ]]; then
+     camera_model=80000331
+     camera="EOSM"
+    elif [[ "$camera" == *"100D" || "$camera" == *"SL"* || "$camera" == *"X7" ]]; then
+     camera_model=80000346
+     camera="100D"
+    else usage
+    fi
+    ;;
+  h)usage
+    exit 0
+    ;;
+  m)video_mode="$OPTARG"
+    ;;
+  o)output="$OPTARG"
+    ;;
+  s)resolution="$OPTARG"
+    ;;
+  v)VERBOSE=1
+    ;;
+  :)echo "Error: -$OPTARG requires an argument"
+    usage
+    exit 1
+    ;;
+  ?)usage
+    exit 1
+    ;;
+  esac
+done
+
+shift $((OPTIND - 1))
+
+if [ $VERBOSE ]; then
+  echo workingDir = $workingDir
+  echo camera = $camera
+  echo camera_model = $camera_model
+  echo output = $output
+  echo size = $resolution
+  echo video_mode = $video_mode
+fi
+
+if [[ -z $1 ]]; then
+  usage
+  exit 1
+fi
+
+if [ $VERBOSE ]; then echo input file = $1; fi
+
+filename=$(basename "$1")
+extension="${filename##*.}"
+
+if [ $VERBOSE ]; then
+  echo filename = $filename
+  echo extension = $extension
+fi
+
+case $extension in
+  MLV)
+    filetype=mlv
+    ;;
+  RAW)
+    filetype=raw
+    ;;
+  DNG)
+    filetype=dng
+    ;;
+  *) exit 1
+    ;;
+esac
+
+if [ $VERBOSE ]; then echo filetype = $filetype; fi
+
+if [ "$filetype" == "mlv" ]; then
+  MLV="$1"
+  if [[ -z $camera_model ]]; then
+    camera_model=`mlv_dump -m -v "$MLV" | grep Camera"[[:space:]]"Model | head -1 | sed -e 's/^[ Camera \s Model: \s 0x]*//'`
+  fi
+  resolution=`mlv_dump -m -v "$MLV" | grep Res | head -1 | sed -e 's/^[ Res:]*//'`
+  pan=`mlv_dump -m -v "$MLV" | grep Pan | head -1 | sed -e 's/^[ Pan:]*//'`
+fi
+
+IFS='x'
+  read -r width height <<< "$resolution"
+  if [ "$filetype" == "mlv" ]; then read -r panPosX panPosY <<< "$pan"; fi
+unset IFS
+
+if [ "$filetype" != "mlv" ]; then
+  case $video_mode in
+  mv1080)
+    raw_width=1808
+    raw_height=1190
+    raw_buffer=1808x1190
+    panMinX=616; panMinY=543
+    ;;
+  mv720)
+    raw_width=1808
+    raw_height=727
+    raw_buffer=1808x727
+    if   [ "$camera" == "650D" ] || [ "$camera" == "EOSM" ]; then
+      panMinX=618; panMinY=335
+    elif [ "$camera" == "700D" ] || [ "$camera" == "100D" ]; then
+      panMinX=616; panMinY=336
+    fi
+    ;;
+  mv1080crop)
+    raw_width=1872
+    raw_height=1060
+    raw_buffer=1872x1060
+    if   [ "$camera" == "650D" ] || [ "$camera" == "EOSM" ]; then
+      panMinX=650; panMinY=477
+    elif [ "$camera" == "700D" ] || [ "$camera" == "100D" ]; then
+      panMinX=648; panMinY=480
+    fi
+    ;;
+  zoom)
+    raw_width=2592
+    raw_height=1108
+    raw_buffer=2592x1108
+    if   [ "$camera" == "650D" ] || [ "$camera" == "EOSM" ]; then
+      panMinX=905; panMinY=631
+    elif [ "$camera" == "700D" ]; then
+      panMinX=1000; panMinY=504
+    elif [ "$camera" == "100D" ]; then
+      panMinX=904; panMinY=631
+    fi
+    ;;
+  *) usage
+    ;;
+  esac
+
+  if [ $VERBOSE ]; then echo raw_buffer = $raw_buffer; echo panMinX = $panMinX; echo panMinY = $panMinY; fi
+
+  panPosX=$((panMinX-(($width-640)/32)*16))
+
+  if [ $video_mode == mv720 ];then
+    panPosY=$((panMinY-(($height-78)/2)))
+  else panPosY=$((panMinY-(($height-128)/2)))
+  fi
+
+fi
+
+
+cropX=$((panPosX + 7 & ~7))
+cropY=$((panPosY & ~1))
+
+if [ $VERBOSE ]; then echo Resolution = $resolution; echo Pan = $panPosX"x"$panPosY; echo Crop = $cropX"x"$cropY; fi
+
+if [ "$filetype" == "mlv" ]; then
+  raw_width=`mlv_dump -m -v "$MLV" | grep width | head -1 | sed -e 's/^[ width]*//'`
+  raw_height=`mlv_dump -m -v "$MLV" | grep height | head -1 | sed -e 's/^[ height]*//'`
+  raw_buffer=$raw_width"x"$raw_height
+fi
+
+fpm=$camera_model"_"$raw_buffer".fpm"
+
+if [ $VERBOSE ]; then echo Camera Model = $camera_model; fi
+
+if [ "$filetype" == "mlv" ]; then
+  case $camera_model in
+  80000301)
+    camera=650D
+    ;;
+  80000326)
+    camera=700D
+    ;;
+  80000331)
+    camera=EOSM
+    ;;
+  80000346)
+    camera=100D
+    ;;
+  *) exit 2
+    ;;
+  esac
+fi
+
+if [ $camera_model == 80000301 ] || [ $camera_model == 80000326 ] || [ $camera_model == 80000331 ]; then
+  pattern="A"
+elif [ $camera_model == 80000346 ]; then
+  pattern="B"
+fi
+
+if [ $VERBOSE ]; then echo Camera = $camera; fi
+if [ $VERBOSE ]; then echo pattern = $pattern; fi
+
+case $raw_buffer in
+  1808x1190)
+    video_mode=mv1080
+    ;;
+  1808x727)
+    video_mode=mv720
+    ;;
+  1872x1060)
+    video_mode=mv1080crop
+    ;;
+  2592x1108)
+    video_mode=zoom
+    ;;
+  *) exit 3
+    ;;
+esac
+
+if [ $VERBOSE ]; then echo video mode = $video_mode; fi
+
+if [ -z "$output" ]; then
+    output=$camera"_"$video_mode"_"$resolution".txt"
+fi
+
+if [ $VERBOSE ]; then echo output file = "$output"; fi
+
+if test -f "$output"; then
+  rm "$output"
+  if [ $VERBOSE ]; then
+    echo removing old $output
+  fi
+fi
+
+eval ${video_mode}
+
+exit 0

@@ -5,7 +5,7 @@ cd "${workingDir}"
 #A MAKE like solution which copies changes made in source txt files and migrates the changes into cr2hdr.app and at the end creates a dmg package
 
 
-#simple command to rename txt scripts to .command and copy these to MLP content folder.
+#simple command to rename txt scripts to .command and copy these to cr2hdr.app content folder.
 
 xattr -d com.apple.quarantine ../cr2hdr.app
 
@@ -39,7 +39,7 @@ cd ../
 source="install_temp"
 title="cr2hdr"
 finalDMGName="cr2hdr.dmg"
-size=100000
+size=150000
 
 mkdir "${source}"
 cp -R cr2hdr.app "${source}"

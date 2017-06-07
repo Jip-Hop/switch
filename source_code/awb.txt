@@ -12,20 +12,19 @@
  # 
  # You should have received a copy of the GNU General Public License
  # along with this program; if not, write to the
- # Free Software Foundation, Inc.,
+ # Free Software Foundation, Inc.
  # 51 Franklin Street, Fifth Floor,
  # Boston, MA  02110-1301, USA.
 
-
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000000.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000000.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01=$(echo $vit_01a | awk '{print $1}') 
 vit_02=$(echo $vit_01a | awk '{print $2}')
 vit_03=$(echo $vit_01a | awk '{print $3}')
 vit_04=$(echo $vit_01a | awk '{print $4}')
 
-if ls "${BASE}"_1_"$date"_000070.dng
+if ls "$O2""${BASE}"_1_"$date"_000070.dng
 then
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000070.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000070.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01b=$(echo $vit_01a | awk '{print $1}') 
 vit_02b=$(echo $vit_01a | awk '{print $2}')
 vit_03b=$(echo $vit_01a | awk '{print $3}')
@@ -37,9 +36,9 @@ vit_03b=$(echo 0)
 vit_04b=$(echo 0)
 fi
 
-if ls "${BASE}"_1_"$date"_000140.dng
+if ls "$O2""${BASE}"_1_"$date"_000140.dng
 then
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000140.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000140.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01c=$(echo $vit_01a | awk '{print $1}') 
 vit_02c=$(echo $vit_01a | awk '{print $2}')
 vit_03c=$(echo $vit_01a | awk '{print $3}')
@@ -51,9 +50,9 @@ vit_03c=$(echo 0)
 vit_04c=$(echo 0)
 fi
 
-if ls "${BASE}"_1_"$date"_000200.dng
+if ls "$O2""${BASE}"_1_"$date"_000200.dng
 then
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000200.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000200.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01d=$(echo $vit_01a | awk '{print $1}') 
 vit_02d=$(echo $vit_01a | awk '{print $2}')
 vit_03d=$(echo $vit_01a | awk '{print $3}')
@@ -65,9 +64,9 @@ vit_03d=$(echo 0)
 vit_04d=$(echo 0)
 fi
 
-if ls "${BASE}"_1_"$date"_000250.dng
+if ls "$O2""${BASE}"_1_"$date"_000250.dng
 then
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000250.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000250.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01e=$(echo $vit_01a | awk '{print $1}') 
 vit_02e=$(echo $vit_01a | awk '{print $2}')
 vit_03e=$(echo $vit_01a | awk '{print $3}')
@@ -79,9 +78,9 @@ vit_03e=$(echo 0)
 vit_04e=$(echo 0)
 fi
 
-if ls "${BASE}"_1_"$date"_000310.dng
+if ls "$O2""${BASE}"_1_"$date"_000310.dng
 then
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000310.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000310.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01f=$(echo $vit_01a | awk '{print $1}') 
 vit_02f=$(echo $vit_01a | awk '{print $2}')
 vit_03f=$(echo $vit_01a | awk '{print $3}')
@@ -93,9 +92,9 @@ vit_03f=$(echo 0)
 vit_04f=$(echo 0)
 fi
 
-if ls "${BASE}"_1_"$date"_000390.dng
+if ls "$O2""${BASE}"_1_"$date"_000390.dng
 then
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000390.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000390.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01g=$(echo $vit_01a | awk '{print $1}') 
 vit_02g=$(echo $vit_01a | awk '{print $2}')
 vit_03g=$(echo $vit_01a | awk '{print $3}')
@@ -107,9 +106,9 @@ vit_03g=$(echo 0)
 vit_04g=$(echo 0)
 fi
 
-if ls "${BASE}"_1_"$date"_000450.dng
+if ls "$O2""${BASE}"_1_"$date"_000450.dng
 then
-vit_01a=$(dcraw -T -a -v -c "${BASE}"_1_"$date"_000450.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+vit_01a=$(dcraw -T -a -v -c "$O2""${BASE}"_1_"$date"_000450.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 vit_01h=$(echo $vit_01a | awk '{print $1}') 
 vit_02h=$(echo $vit_01a | awk '{print $2}')
 vit_03h=$(echo $vit_01a | awk '{print $3}')
@@ -136,4 +135,4 @@ vit_04_r=$(echo $vit_04f/6 | bc -l)
 vit_01=$(echo $vit_02_r/$vit_01_r | bc -l | awk 'FNR == 1 {print}')
 vit_02=$(echo $vit_04_r/$vit_03_r | bc -l | awk 'FNR == 1 {print}')
 
-exiftool "$(echo "-AsShotNeutral=$vit_01 1 $vit_02")" "${BASE}"_1_"$date"_000000.DNG -overwrite_original
+exiftool "$(echo "-AsShotNeutral=$vit_01 1 $vit_02")" "$O2""${BASE}"_1_"$date"_000000.DNG -overwrite_original

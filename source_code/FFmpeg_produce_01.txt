@@ -17,34 +17,113 @@
  # Boston, MA  02110-1301, USA.
 
 #!/bin/bash
+    OLDIFS=$IFS
+    IFS=$'\n'
+#print out trap note 1
+echo 1trap > /tmp/DUALISO/prores_TRAP
+#glue date
+    date=$(date +%F)
+#first check for output
+    if ls /tmp/output
+    then
+    out=$(cat /tmp/"output")/
+    mkdir -p "$out""$date"_ProRes4444
+    mkdir -p "$out""$date"_Proxy
+    cd "$out"
+    ls -d *C0000 > /tmp/DUALISO/FFmpeg
+    cd -
+#assume you have dng folders in root folder
+    if [ x"$(cat /tmp/DUALISO/FFmpeg)" = x ]
+    then
+    ls -d *C0000 > /tmp/DUALISO/FFmpeg
+    out2=$(cat /tmp/"output")/
+    out=$(cat /tmp/DUALISO/"path_1")/
+    fi
+    fi
+#if full auto was chosen
+    if ! [ x"$(cat /tmp/DUALISO/FFmpeg)" = x ]
+    then
+    if ls /tmp/DUALISO/FULL_AUTO
+    then
+    osascript -e 'display notification "exporting to cineon ProRes with proxies" with title "Auto mode"'
+    afplay /System/Library/Sounds/Tink.aiff
+    fi
+    fi
 #export to different flavours of prores through FFmpeg and dcraw
     while grep -q 'C0000' /tmp/DUALISO/FFmpeg
     do 
 #output name then enter the folder and then tail the list to next folder
     name=$(cat /tmp/DUALISO/"FFmpeg" | head -1)
+#establish output location
+    if ls /tmp/output
+    then
+#output name
+    cd "$out""$name"
+    else
+    out=$(cat /tmp/DUALISO/"path_1")/
     cd "$name"
+    fi
+#output redirect if folders in root folder
+    if ! [ x"$out2" = x ]
+    then  
+    out= 
+    out3=$(cat /tmp/DUALISO/"path_1")/
+    fi
+#slash
+    sl=$(printf "%s\n" /)
 #cut to the next name on the list
     echo "$(tail -n +2 /tmp/DUALISO/FFmpeg)" > /tmp/DUALISO/FFmpeg
 #will null values if no audio
-    wav=
+    wav1=
     sd=
-#search for wav file
-    if ls *.wav 
+#search for wav1 file
+    if ls *.wav
     then
-    wav=$(printf "%s\n" -i *.wav)
+    if ! [ "$(ls *.wav |wc -c | perl -p -e 's/^[ \t]*//')" = 6 ]
+    then
+    wav1=$(printf "%s\n" -i *.wav)
     sd=$(printf "%s\n" -c:v copy -c:a aac)
+    fi
+    fi
+#check if footage is HDR(tblend filter)
+    if grep 'HDR\|halfhdr' /tmp/pr4444_HDR 
+    then 
+    tbl=$(printf "%s\n" -vf tblend=all_mode=average)
+#safety check if HDR or not
+    A=$(dcraw -d -W -c *000010.dng | convert -resize 10% - 2>/dev/null -colorspace hsb -resize 1x1 txt:- | grep '%' | cut -d "%" -f3 | tr -d ',')
+    B=$(dcraw -d -W -c *000011.dng | convert -resize 10% - 2>/dev/null -colorspace hsb -resize 1x1 txt:- | grep '%' | cut -d "%" -f3 | tr -d ',') 
+    numb=$(echo $A - $B | bc -l)
+    if (( $(echo "$numb < 5" |bc -l) )) && (( $(echo "$numb > -5" |bc -l) )) ; then
+    tbl=
+    fi
     fi
 #Choose FFmpeg output(ProRes4444)
     if grep 'lincineon' /tmp/FFmpeg_settings 
     then 
+#check for HDR
+    if [ x"$tbl" = x ]
+    then 
     cin=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
     gam=$(printf "%s\n" -g 1 1)
     h2=$(printf "%s\n" -H 2)
+    else
+    cin=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
+    gam=$(printf "%s\n" -g 1 1)
+    h2=$(printf "%s\n" -H 2)
+    fi
     elif grep 'linlogC' /tmp/FFmpeg_settings 
+    then 
+#check for HDR
+    if [ x"$tbl" = x ]
     then 
     cin=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
     gam=$(printf "%s\n" -g 1 1)
     h2=$(printf "%s\n" -H 2)
+    else
+    cin=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
+    gam=$(printf "%s\n" -g 1 1)
+    h2=$(printf "%s\n" -H 2)
+    fi    
     elif grep 'linear' /tmp/FFmpeg_settings 
     then
     h2=$(printf "%s\n" -H 2)  
@@ -61,30 +140,61 @@
     h2=$(printf "%s\n" -H 2)
     fi
 #check for additional 3D luts in ProRes4444 folder
-    if ls ../$(date +%F)_ProRes4444/*.cube
+    if ls ../"$date"_ProRes4444/*.cube
     then 
-    if [ x"$cin" = x ]
+    if [ x"$cin" = x ] && [ x"$tbl" = x ]
     then 
-    cin_01=$(printf "%s\n" -vf lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 1 {print; }'))
-    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 2 {print; }'))
-    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 3 {print; }'))
+    cin_01=$(printf "%s\n" -vf lut3d=$(ls ../"$date"_ProRes4444/*.cube | awk 'FNR == 1 {print; }'))
+    cin_02=$(printf "%s\n" ,lut3d=$(ls ../"$date"_ProRes4444/*.cube | awk 'FNR == 2 {print; }'))
+    cin_03=$(printf "%s\n" ,lut3d=$(ls ../"$date"_ProRes4444/*.cube | awk 'FNR == 3 {print; }'))
     else
-    cin_01=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 1 {print; }'))
-    cin_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 2 {print; }'))
-    cin_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_ProRes4444/*.cube | awk 'FNR == 3 {print; }'))
+    cin_01=$(printf "%s\n" ,lut3d=$(ls ../"$date"_ProRes4444/*.cube | awk 'FNR == 1 {print; }'))
+    cin_02=$(printf "%s\n" ,lut3d=$(ls ../"$date"_ProRes4444/*.cube | awk 'FNR == 2 {print; }'))
+    cin_03=$(printf "%s\n" ,lut3d=$(ls ../"$date"_ProRes4444/*.cube | awk 'FNR == 3 {print; }'))
+    fi  
+    fi
+#check for additional 3D luts in dng folder
+    cin_01b= ; cin_02b= ; cin_03b= ; cin_01b= ; cin_02b= ; cin_03b=    
+    if ls *.cube
+    then 
+    if [ x"$cin" = x ] && [ x"$tbl" = x ]
+    then 
+    cin_01b=$(printf "%s\n" -vf lut3d=$(ls ../"$date"_ProRes4444/*.cube | awk 'FNR == 1 {print; }'))
+    cin_02b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 2 {print; }'))
+    cin_03b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 3 {print; }'))
+    else
+    cin_01b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 1 {print; }'))
+    cin_02b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 2 {print; }'))
+    cin_03b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 3 {print; }'))
     fi  
     fi
 #Choose FFmpeg output(ProRes proxy)
     if grep 'lincineonpr' /tmp/FFmpeg_settingsPR 
     then 
+    if [ x"$tbl" = x ]
+    then 
+#check for HDR
     cinpr=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
     gampr=$(printf "%s\n" -g 1 1)
     h2pr=$(printf "%s\n" -H 2)
+    else
+    cinpr=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
+    gampr=$(printf "%s\n" -g 1 1)
+    h2pr=$(printf "%s\n" -H 2)
+    fi
     elif grep 'linlogCpr' /tmp/FFmpeg_settingsPR 
     then 
+    if [ x"$tbl" = x ]
+    then 
+#check for HDR
     cinpr=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
     gampr=$(printf "%s\n" -g 1 1)
     h2pr=$(printf "%s\n" -H 2)
+    else
+    cinpr=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
+    gampr=$(printf "%s\n" -g 1 1)
+    h2pr=$(printf "%s\n" -H 2)
+    fi
     elif grep 'linearpr' /tmp/FFmpeg_settingsPR 
     then
     h2pr=$(printf "%s\n" -H 2)  
@@ -100,20 +210,44 @@
     opr=$(printf "%s\n" -o 6)
     h2pr=$(printf "%s\n" -H 2)
     fi
-#check for additional 3D luts in proxy folder
-    if ls ../$(date +%F)_Proxy/*.cube
+#check for proxy or LT codec
+    if grep 'Pcodec_lt' /tmp/FFmpeg_settingsPR 
     then 
-    if [ x"$cinpr" = x ]
-    then 
-    cinpr_01=$(printf "%s\n" -vf lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
-    cinpr_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
-    cinpr_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    codec=$(printf "%s\n" -vcodec prores -profile:v 1)
     else
-    cinpr_01=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 1 {print; }'))
-    cinpr_02=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 2 {print; }'))
-    cinpr_03=$(printf "%s\n" ,lut3d=$(ls ../$(date +%F)_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    codec=$(printf "%s\n" -vcodec prores -profile:v 0)
+    fi
+#check for additional 3D luts in proxy folder
+    if ls ../"$date"_Proxy/*.cube
+    then 
+    if [ x"$cinpr" = x ] && [ x"$tbl" = x ]
+    then 
+    cinpr_01=$(printf "%s\n" -vf lut3d=$(ls ../"$date"_Proxy/*.cube | awk 'FNR == 1 {print; }'))
+    cinpr_02=$(printf "%s\n" ,lut3d=$(ls ../"$date"_Proxy/*.cube | awk 'FNR == 2 {print; }'))
+    cinpr_03=$(printf "%s\n" ,lut3d=$(ls ../"$date"_Proxy/*.cube | awk 'FNR == 3 {print; }'))
+    else
+    cinpr_01=$(printf "%s\n" ,lut3d=$(ls ../"$date"_Proxy/*.cube | awk 'FNR == 1 {print; }'))
+    cinpr_02=$(printf "%s\n" ,lut3d=$(ls ../"$date"_Proxy/*.cube | awk 'FNR == 2 {print; }'))
+    cinpr_03=$(printf "%s\n" ,lut3d=$(ls ../"$date"_Proxy/*.cube | awk 'FNR == 3 {print; }'))
     fi  
     fi
+#check for additional 3D luts in dng folder
+    cinpr_01b= ; cinpr_02b= ; cinpr_03b= ; cinpr_01b= ; cinpr_02b= ; cinpr_03b=
+    if ls *.cube
+    then 
+    if [ x"$cinpr" = x ] && [ x"$tbl" = x ]
+    then 
+    cinpr_01b=$(printf "%s\n" -vf lut3d=$(ls ../"$date"_Proxy/*.cube | awk 'FNR == 1 {print; }'))
+    cinpr_02b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 2 {print; }'))
+    cinpr_03b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 3 {print; }'))
+    else
+    cinpr_01b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 1 {print; }'))
+    cinpr_02b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 2 {print; }'))
+    cinpr_03b=$(printf "%s\n" ,lut3d=$(ls *.cube | awk 'FNR == 3 {print; }'))
+    fi  
+    fi
+#default white balance setting. Will apply AWB or dcrawA if selected
+    wb=$(printf "%s\n" -w)
 #choose auto or in cam white balance. AWB median calculations which iI use in MLP
     if grep 'AWB' /tmp/FFmpeg_settings 
     then
@@ -257,29 +391,241 @@
 #white balance sum
     wb=$(printf "%s\n" -r $vit_01_r $vit_02_r $vit_03_r $vit_04_r)
     fi
-    else
-    wb=$(printf "%s\n" -w)
-    fi 
-#alter white level to 16383
-    if grep 'HL' /tmp/FFmpeg_settings 
+    fi
+#dcraw white balance
+    if grep 'dcrawA' /tmp/FFmpeg_settings 
+    then
+    wb=$(printf "%s\n" -a)
+    fi
+#alter white level
+    if [ -f /tmp/FFmpeg_white_level ] 
     then  
-    S=$(printf "%s\n" -S 16383)
+    S=$(printf "%s\n" -S $(cat /tmp/FFmpeg_white_level))
     fi  
+#check for extra picked pixels
+    pix=    
+    if ls "$out""$date"_ProRes4444/*.txt
+    then
+    tail -n +2 "$out""$date"_ProRes4444/*.txt | awk '{print $2,"	 "$3"	 0"}' >> "$out""$date"_ProRes4444/allbadpixels.map
+    rm "$out""$date"_ProRes4444/*.txt
+    fi
+    if ls "$out""$date"_ProRes4444/*.xls
+    then
+    mv "$out""$date"_ProRes4444/*.xls "$out""$date"_ProRes4444/allbadpixels.txt
+    tail -n +2 "$out""$date"_ProRes4444/*.txt | awk '{print $2,"	 "$3"	 0"}' >> "$out""$date"_ProRes4444/allbadpixels.map
+    rm "$out""$date"_ProRes4444/*.txt
+    fi
+#check for ready made pixel pick list 
+    if ls "$out""$date"_ProRes4444/allbadpixels.map
+    then
+    pix=$(printf "%s\n" -P "$out""$date"_ProRes4444/allbadpixels.map)
+    fi
+#pixel fix script created by dfort  
+    if ls allbadpixels.map 
+    then
+    cat "$out""$date"_ProRes4444/allbadpixels.map >> allbadpixels.map
+    pix=$(printf "%s\n" -P allbadpixels.map)
+    fi
+#check for scale changes(prores4444)
+    if ! [ x$(cat /tmp/_X_pres_SCALE) = x ]
+    then
+    if [ x"$cin""$cin_01" = x ]
+    then
+    scale=$(printf "%s\n" -vf scale=$(cat /tmp/_X_pres_SCALE))
+    else
+    scale=$(printf "%s\n" ,scale=$(cat /tmp/_X_pres_SCALE))
+    fi
+    fi
+#check for scale changes(proxy)
+    if ! [ x$(cat /tmp/prox_SCALE) = x ]
+    then
+    if [ x"$cinpr""$cinpr_01" = x ]
+    then
+    scalePR=$(printf "%s\n" -vf scale=$(cat /tmp/prox_SCALE))
+    else
+    scalePR=$(printf "%s\n" ,scale=$(cat /tmp/prox_SCALE))
+    fi
+    fi
+#check for denoising settings(prores)
+    if ! [ x$(cat /tmp/denoise) = x ]
+    then
+    if [ x"$cin""$cin_01""$scale" = x ]
+    then
+    denoise=$(printf "%s\n" -vf $(cat /tmp/denoise))
+    else
+    denoise=$(printf "%s\n" ,$(cat /tmp/denoise))
+    fi
+    fi
+#check for denoising settings(proxy)
+    if ! [ x$(cat /tmp/denoise) = x ]
+    then
+    if [ x"$cinpr""$cinpr_01""$scalePR" = x ]
+    then
+    denoisePR=$(printf "%s\n" -vf $(cat /tmp/denoise))
+    else
+    denoisePR=$(printf "%s\n" ,$(cat /tmp/denoise))
+    fi
+    fi
+#check for sharpen settings(prores)
+    if ! [ x$(cat /tmp/sharpen) = x ]
+    then
+    if [ x"$cin""$cin_01""$scale""$denoise" = x ]
+    then
+    sharpen=$(printf "%s\n" -vf $(cat /tmp/sharpen))
+    else
+    sharpen=$(printf "%s\n" ,$(cat /tmp/sharpen))
+    fi
+    fi
+#check for sharpen settings(proxy)
+    if ! [ x$(cat /tmp/sharpen) = x ]
+    then
+    if [ x"$cinpr""$cinpr_01""$scalePR""$denoisePR" = x ]
+    then
+    sharpenPR=$(printf "%s\n" -vf $(cat /tmp/sharpen))
+    else
+    sharpenPR=$(printf "%s\n" ,$(cat /tmp/sharpen))
+    fi
+    fi
+#brightness settings dcraw
+    if ls /tmp/DUALISO/BRIGHTER
+    then
+    br=$(printf "%s\n" -b "$(cat /tmp/DUALISO/BRIGHTER)")
+    fi
+#check for AE template 
+    if ! grep 'AE_template' /tmp/FFmpeg_settings
+    then
 #grab correct frames per second
     fps=$(exiftool *000000*.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
-#check if ProRes4444 settings file contains information 
-    if ! [ x"$(cat /tmp/FFmpeg_settings | grep -v 'HL\|AWB')" = x ]
+#check for tif spitter
+    if ! ls /tmp/DUALISO/tif_spit 
     then
-    mkdir -p ../$(date +%F)_ProRes4444
+#check if ProRes4444 settings file contains information 
+    if ! [ x"$(cat /tmp/FFmpeg_settings | grep -v 'AWB\|dcrawA')" = x ]
+    then
+    mkdir -p "$out""$out2""$date"_ProRes4444
+#potential HDR settings
+    if grep -q 'halfhdr' /tmp/pr4444_HDR && grep -q 'HDR' /tmp/pr4444_HDR && ! [ x"$tbl" = x ]
+    then
 #export ProRes4444
-    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" $cin$cin_01$cin_02$cin_03 ../$(date +%F)_ProRes4444/"$name".mov
+    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r $(echo $fps / 2 | bc -l) $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".mov 
+    else
+    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".mov
+    fi
     fi
 #check if proxy settings file contains information 
-    if ! [ x"$(cat /tmp/FFmpeg_settingsPR | grep -v 'HL\|AWB')" = x ]
+    if ! [ x"$(cat /tmp/ffmpeg_settingsPR | grep -v 'AWB\|dcrawA\|Pcodec_lt')" = x ]
     then
-    mkdir -p ../$(date +%F)_Proxy
+    mkdir -p "$out""$out2""$date"_Proxy
+#potential HDR settings
+    if grep -q 'halfhdr' /tmp/pr4444_HDR && grep -q 'HDR' /tmp/pr4444_HDR && ! [ x"$tbl" = x ]
+    then
 #export ProRes proxy
-    find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb | ffmpeg $wav -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores -profile 0 -n -r "$fps" $cinpr$cinpr_01$cinpr_02$cinpr_03 ../$(date +%F)_Proxy/"$name".mov
+    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $codec -n -r $(echo $fps / 2 | bc -l) $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov 
+    else
+    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $codec -n -r "$fps" $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov
+    fi
+    fi
+    else
+#tif spitter
+#check if ProRes4444 settings file contains information 
+    if ! [ x"$(cat /tmp/FFmpeg_settings | grep -v 'AWB\|dcrawA')" = x ]
+    then
+    mkdir -p "$out""$out2""$date"_ProRes4444
+        find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb $pix $br | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 $tbl$cin$cin_01$cin_02$cin_03$denoise$sharpen -t 1 "$out""$out2""$date"_ProRes4444/"$name".tif 2> /tmp/what
+    fi
+#check if proxy settings file contains information
+    if ! [ x"$(cat /tmp/FFmpeg_settingsPR | grep -v 'AWB\|dcrawA')" = x ]
+    then
+    mkdir -p "$out""$out2""$date"_Proxy
+    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$denoisePR$sharpenPR -t 1 "$out""$out2""$date"_Proxy/"$name".tif
+    fi
+    fi
+    else
+#Find aerender among multiple versions
+    if ! ls /tmp/DUALISO/AErenderPATH
+    then
+    ls -td /Applications/Adobe\ After\ * > /tmp/DUALISO/AErenderPATH
+    while ! ls "$(cat /tmp/DUALISO/AErenderPATH | head -1)"/aerender
+    do
+    echo "$(tail -n +2 /tmp/DUALISO/AErenderPATH)" > /tmp/DUALISO/AErenderPATH
+    if ! grep 'Adobe' /tmp/DUALISO/AErenderPATH
+    then
+    rm /tmp/FFmpeg_settings
+    clear
+    echo $(tput bold)"
+
+    $(tput sgr0)$(tput bold)$(tput setaf 1) 
+aerender is missing, check your after effects version"$(tput sgr0) ; 
+    sleep 2
+    . "$(cat /tmp/DUALISO/path_2)"Menu.command
+    fi
+    done
+    fi
+#Will create an identity project file for AE
+#replace with converted file if exist
+if ls "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/"AE_prores_template (converted).aep"
+then
+mv "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/"AE_prores_template (converted).aep" "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/AE_prores_template.aep
+rm "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/"AE_prores_template (converted).aep"
+fi
+#Reset file if needed
+if ! grep 'any_X' "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/AE_prores_template.aep
+then
+perl -pi -e 's/'"$(LC_ALL=C cat -v "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/AE_prores_template.aep | tr ' ' '\n' | grep -o -m 1 '[^ ]*C0000')"'/any_X/g' "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/AE_prores_template.aep
+fi
+#folder output
+    mkdir -p "$out""$out2""$date"_ProRes4444
+#if no dng folders exists change folder path
+    if ls /tmp/output
+    then
+    mkdir -p $(cat /tmp/"output")
+    if ! ls -d "$(cat /tmp/DUALISO/"path_1")"/*C0000
+    then 
+    cp -n "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/AE_prores_template.aep $(cat /tmp/"output")/"$date"_ProRes4444
+    cat /tmp/"output" > /tmp/DUALISO/"path_1"
+    fi
+    fi
+#AE root folder
+    mkdir -p "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444
+    if grep 'CC' <<< $(echo "$(cat /tmp/DUALISO/AErenderPATH | head -1)")
+    then
+    numb=$(echo "$(cat /tmp/DUALISO/AErenderPATH | head -1)" | awk 'FNR == 1 {print $5; }')
+    if (( $(echo "$numb > 2015.2" |bc -l) )); 
+    then
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_templateCC.aep "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/AE_prores_template.aep
+    else
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template.aep "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444
+    fi
+    else
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template.aep "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444
+    fi
+    cp "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/AE_prores_template.aep ./
+    find AE_prores_template.aep | xargs perl -pi -e 's/any_X/'"$name"'/g'
+#if added an xmp file
+    if ls "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/*.xmp
+    then
+    if grep 'MLVFS' <<< $(exiftool "$name"_000000.dng | awk '/Software/ { print $3; exit }')
+    then
+    rm *.xmp
+    cp "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/*.xmp "$name"_000000.xmp
+    else
+    exiftool -tagsfromfile "$(cat /tmp/DUALISO/"path_1")"/"$date"_ProRes4444/*.xmp -all:all "$name"_000000.dng -overwrite_original
+    fi
+    fi
+#creating a dummy audio file if not present
+    if ! ls "$(cat /tmp/DUALISO/"path_1")"/"$name"/"$name".wav 
+    then
+    ffmpeg -t 1 -f s16le -acodec pcm_s16le -ac 2 -i /dev/zero -acodec copy "$(cat /tmp/DUALISO/"path_1")"/"$name"/"$name".wav
+    fi
+#trap file
+    echo > tmp 
+    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find . -iname '*.dng' | wc -l) - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep
+    rm tmp
+    rm *.aep
+    find . -name '*.aep Logs' -type d -exec rm -r {} \;
     fi
     cd ..
     done
+    OLDIFS=$IFS
+#remove trap
+find /tmp/DUALISO/prores_TRAP | xargs perl -pi -e 's/1trap//g'
