@@ -593,7 +593,7 @@ if ls /tmp/DUALISO/FLATFRAMES
 then
 FLAT=$(echo "$bold""$green"added!"$normal")
 fi
-if ls /tmp/DUALISO/DARK
+if ls /tmp/DARK
 then
 DARK=$(echo "$bold""$green"added!"$normal")
 fi
@@ -630,7 +630,7 @@ if ls /tmp/_X_Pro*
 then
 X_pro_a=$(echo "$bold""$green"auto mode!"$normal")
 fi
-if ls /tmp/DUALISO/DARK
+if ls /tmp/DARK
 then
 DARK=$(echo "$bold""$green"auto mode!"$normal")
 fi
@@ -5269,9 +5269,12 @@ rm /tmp/_X_proxy_SCALE 1> /dev/null 2>&1 &
 rm /tmp/_X_prores_SCALE 1> /dev/null 2>&1 &
 rm /tmp/_X_denoise 1> /dev/null 2>&1 &
 rm /tmp/_X_sharpen 1> /dev/null 2>&1 &
-rm /tmp/DUALISO/DARK 1> /dev/null 2>&1 &
+rm /tmp/DARK 1> /dev/null 2>&1 &
 rm /tmp/DARK_FOLDER 1> /dev/null 2>&1 &
-rm /tmp/DUALISO/NO_DNG 1> /dev/null 2>&1 &
+rm /tmp/NO_DNG 1> /dev/null 2>&1 &
+rm /tmp/only_DNG
+rm /tmp/full_DARK
+rm /tmp/DARK
 rm /tmp/DUALISO/DEAD_P 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLAT 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAMES 1> /dev/null 2>&1 &
@@ -5284,12 +5287,6 @@ rm /tmp/DUALISO/FULL_AUTO 1> /dev/null 2>&1 &
 #darkframe processing
     "A")
 
-if ! ls /tmp/DUALISO/DARK
-then
-if ! ls /tmp/DARK_FOLDER
-then
-DARK=$(echo "$bold""$green"added!"$normal")
-echo > /tmp/DUALISO/DARK
 #!/bin/bash
 #changes size of terminal window
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
@@ -5317,16 +5314,26 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-NO_DNG= ; DP=
+NO_DNG= ; DP= ; only_DNG= ; full_DARK= ; DARK_FOLDER=
 
-if ls /tmp/DUALISO/NO_DNG
+if ls /tmp/full_DARK
+then 
+full_DARK=$(echo "$bold""$green"added!"$normal")
+fi
+
+if ls /tmp/NO_DNG
 then 
 NO_DNG=$(echo "$bold""$green"added!"$normal")
 fi
 
-if ls /tmp/DUALISO/DEAD_P
+if ls /tmp/only_DNG
 then 
-DP=$(echo "$bold""$green"added!"$normal")
+only_DNG=$(echo "$bold""$green"added!"$normal")
+fi
+
+if ls /tmp/DARK_FOLDER
+then 
+DARK_FOLDER=$(echo "$bold""$green"added!"$normal")
 fi
 
 while :
@@ -5337,62 +5344,115 @@ do
     ====================
     ${bold}$(tput setaf 1)Darkframe automation$(tput sgr0)
     --------------------
+    Always include filmed unprocessed or processed darkframes next 
+    to your MLV footage or select a storage with darkframes(last step).
 
-    $(tput bold)(x) don,t create the dng files after darkframe processing$(tput sgr0) $NO_DNG
-    $(tput bold)(d) deadpixel mapping$(tput sgr0)(darkframe needed/map list placed in ProRes4444 folder) $DP
+    Output options
+    $(tput bold)(1) dng processing$(tput sgr0)(process straight to darkframed dng files) $only_DNG
+    $(tput bold)(2) MLV processing$(tput sgr0)(creates only darkframe MLV files) $NO_DNG
+    $(tput bold)(3) full output$(tput sgr0)(creates both darkframe MLV and dng files) $full_DARK				 
+    $(tput bold)(4) select darkframe storage$(tput sgr0)(MLV+dng processing default) $DARK_FOLDER
 
-    $(tput bold)(1) run darkframe automation$(tput sgr0)(include created darkframes with MLV footage) 				 
-    $(tput bold)(2) I want to select a storage with darkframes$(tput sgr0)(darkframes will be created)
-
-    $(tput bold)$(tput setaf 1)(q) Main menu$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(R) reset all settings$(tput sgr0) 
+    $(tput bold)$(tput setaf 1)(m) back to main menu$(tput sgr0)   					        					
 
 Please enter your selection number below:
 EOF
-    read -n2
+    read -n1
     case "$REPLY" in
 
-    "x")  
-if ls /tmp/DUALISO/NO_DNG
+
+    "1")  
+if ls /tmp/only_DNG
 then 
-rm /tmp/DUALISO/NO_DNG &>/dev/null &
+rm /tmp/only_DNG &>/dev/null &
+rm /tmp/DARK
+only_DNG=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo > /tmp/only_DNG
+echo > /tmp/DARK
+only_DNG=$(echo "$bold""$green"added!"$normal")
+rm /tmp/NO_DNG &>/dev/null &
+NO_DNG=
+rm /tmp/full_DARK
+full_DARK=
+fi
+if [ -f /tmp/DARK_FOLDER ]
+then 
+rm /tmp/DARK
+fi
+;;
+
+
+    "2")  
+if ls /tmp/NO_DNG
+then 
+rm /tmp/NO_DNG &>/dev/null &
+rm /tmp/DARK
 NO_DNG=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo > /tmp/DUALISO/NO_DNG
+echo > /tmp/NO_DNG
+echo > /tmp/DARK
 NO_DNG=$(echo "$bold""$green"added!"$normal")
+rm /tmp/only_DNG &>/dev/null &
+only_DNG=
+rm /tmp/full_DARK
+full_DARK=
 fi
-;;
-
-    "d")  
-if ls /tmp/DUALISO/DEAD_P
+if [ -f /tmp/DARK_FOLDER ]
 then 
-rm /tmp/DUALISO/DEAD_P &>/dev/null &
-DP=
-echo $(tput bold)"
-
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
-Removed"$(tput sgr0) ; 
-else 
-echo > /tmp/DUALISO/DEAD_P
-DP=$(echo "$bold""$green"added!"$normal")
+rm /tmp/DARK
 fi
 ;;
 
-    "1")  
+
+    "3")  
+if ! ls /tmp/full_DARK
+then 
+rm /tmp/NO_DNG &>/dev/null &
+NO_DNG=
+rm /tmp/only_DNG &>/dev/null &
+only_DNG=
+echo > /tmp/full_DARK
+echo > /tmp/DARK
+full_DARK=$(echo "$bold""$green"added!"$normal")
+else
+rm /tmp/full_DARK
+rm /tmp/DARK
+full_DARK=
+fi
+if [ -f /tmp/DARK_FOLDER ]
+then 
+rm /tmp/DARK
+fi
+;;
+
+
+    "4") 
+if [ -f /tmp/DARK_FOLDER ]
+then 
+NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER=
+rm /tmp/DARK
+rm /tmp/NO_DNG
+rm /tmp/full_DARK
+rm /tmp/DARK_FOLDER
+rm /tmp/only_DNG
 clear
 echo "
 
-${bold}$(tput setaf 2)Darkframe automation added!$(tput sgr0)"
+${bold}$(tput setaf 1)Storage path removed!$(tput sgr0)"
 sleep 1
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
-;;
-
-
-    "2") 
-rm /tmp/DUALISO/DARK &>/dev/null &
+DARK_FOLDER=
+else
+rm /tmp/DARK &>/dev/null &
 echo > /tmp/DARK_FOLDER
 echo > /tmp/DARK_FOLDER_path
 open "$(cat /tmp/DUALISO/path_2)"new_output.app
@@ -5420,10 +5480,21 @@ sleep 2
 clear &
 
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
+fi
+;;
+
+    "R") 
+NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER=
+rm /tmp/DARK
+rm /tmp/NO_DNG
+rm /tmp/full_DARK
+rm /tmp/DARK_FOLDER
+rm /tmp/only_DNG
 ;;
 
 
-    "q")  
+    "m") 
+clear
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
@@ -5433,31 +5504,6 @@ clear &
     esac
     sleep 0.5
 done
-else
-rm /tmp/DUALISO/DARK 
-rm /tmp/DARK_FOLDER 
-rm /tmp/DUALISO/NO_DNG 
-rm /tmp/DUALISO/DEAD_P
-clear
-echo "
-
-${bold}$(tput setaf 1)Storage path removed!$(tput sgr0)"
-sleep 1
-DARK=
-darkfr_storage=
-fi
-else
-rm /tmp/DUALISO/DARK 
-rm /tmp/DARK_FOLDER 
-rm /tmp/DUALISO/NO_DNG
-rm /tmp/DUALISO/DEAD_P
-clear
-echo "
-
-${bold}$(tput setaf 1)removed!$(tput sgr0)"
-sleep 1
-DARK=
-fi
 ;;
 
 
@@ -5551,9 +5597,12 @@ rm /tmp/_X_proxy_SCALE 1> /dev/null 2>&1 &
 rm /tmp/_X_prores_SCALE 1> /dev/null 2>&1 &
 rm /tmp/_X_denoise 1> /dev/null 2>&1 &
 rm /tmp/_X_sharpen 1> /dev/null 2>&1 &
-rm /tmp/DUALISO/DARK 1> /dev/null 2>&1 &
+rm /tmp/DARK 1> /dev/null 2>&1 &
 rm /tmp/DARK_FOLDER 1> /dev/null 2>&1 &
-rm /tmp/DUALISO/NO_DNG 1> /dev/null 2>&1 &
+rm /tmp/NO_DNG 1> /dev/null 2>&1 &
+rm /tmp/only_DNG
+rm /tmp/full_DARK
+rm /tmp/DARK
 rm /tmp/DUALISO/FLAT 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAMES 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAME_A 1> /dev/null 2>&1 &
@@ -5567,7 +5616,7 @@ echo "HL" >> /tmp/FFmpeg_settings
 echo "copy" >> /tmp/_X_ProRes4444
 echo "copypr" >> /tmp/_X_Proxy
 echo -n " --compress" >> /tmp/A_cr2hdr_cmpr.txt
-echo > /tmp/DUALISO/DARK
+echo > /tmp/DARK
 echo > /tmp/DUALISO/DEAD_P
 echo > /tmp/DUALISO/FULL_AUTO
 

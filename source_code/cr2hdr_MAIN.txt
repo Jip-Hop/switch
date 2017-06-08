@@ -343,7 +343,7 @@ sleep 1
 ###############################################################
 #Automated darkframe processing
 #Will take white space
-    if ls /tmp/DUALISO/DARK
+    if [ -f /tmp/DARK ]
     then
 #if full auto was chosen
     if ls /tmp/DUALISO/FULL_AUTO
@@ -398,23 +398,6 @@ sleep 1
 #Create the actual darkframes
     while grep 'MLV' My_darkfr
     do
-#If selected deadpixel mapping
-    if ls /tmp/DUALISO/DEAD_P
-    then 
-    mlv_dump -f 1-1 --dng "$(cat My_darkfr | head -1)" & pid_dark=$!
-#wait for jobs to finish   
-    sleep 2
-#kill mlv_dump
-    kill $pid_dark
-    rm *_.wav
-    dcraw -4 -T -j -t 0 -D *_000001.dng
-    rm *_000001.dng
-    mkdir -p $(date +%F)_ProRes4444
-    deadpixels *_000001.tiff
-    rm *_000001.tiff
-    cat deadpixels.txt >> $(date +%F)_ProRes4444/pixel_pick
-    rm deadpixels.txt
-    fi
     mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
     rm *MLV.wav
     bit=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
@@ -423,10 +406,14 @@ sleep 1
     fra=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
     cn=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     mv avg_"$(cat My_darkfr | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
-    mv "$(cat My_darkfr | head -1)" A_ORIGINALS
+    mkdir -p A_ORIGINALS/darkframe_originals
+    mv "$(cat My_darkfr | head -1)" A_ORIGINALS/darkframe_originals
     echo "$(tail -n +2 My_darkfr)" > My_darkfr
     done
     rm My_darkfr
+#when going for dng files only
+    if ! [ -f /tmp/only_DNG ]
+    then
 #Create darkframe MLV files
     OLDIFS=$IFS
     IFS=$'\n'    
@@ -490,8 +477,12 @@ sleep 1
     mv -i ft_*.MLV A_ORIGINALS
     IFS=$OLDIFS
     fi
+    fi
 ###############################################################
 #extra round to check if darkframe or flatframe still are present in root folder
+#when going for dng files only
+    if ! [ -f /tmp/only_DNG ]
+    then
 #Create darkframe MLV files
     OLDIFS=$IFS
     IFS=$'\n'
@@ -542,8 +533,9 @@ sleep 1
     mv -i avg_*.MLV A_ORIGINALS
     mv -i ft_*.MLV A_ORIGINALS
     IFS=$OLDIFS
+    fi
 ###############################################################
-#Create darkframe MLV files from storage folder  
+#Create darkframe MLV files from storage folder 
     if ls /tmp/DARK_FOLDER
     then
 #Create the actual darkframes if needed
@@ -553,23 +545,6 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_' > /tmp/DUALISO/darkf.txt
     while grep 'MLV' /tmp/DUALISO/darkf.txt
     do
-#If selected deadpixel mapping
-    if ls /tmp/DUALISO/DEAD_P
-    then 
-    mlv_dump -f 1-1 --dng "$(cat /tmp/DUALISO/darkf.txt | head -1)" & pid_dark=$!
-#wait for jobs to finish   
-    sleep 2
-#kill mlv_dump
-    kill $pid_dark
-    rm *_.wav
-    dcraw -4 -T -j -t 0 -D *_000001.dng
-    rm *_000001.dng
-    mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
-    deadpixels *_000001.tiff
-    rm *_000001.tiff
-    cat deadpixels.txt >> "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444/pixel_pick
-    rm deadpixels.txt
-    fi 
     mkdir -p darkfr_ORIGINALS
     mlv_dump -o avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" -a "$(cat /tmp/DUALISO/darkf.txt | head -1)"
     rm *MLV.wav
@@ -587,6 +562,9 @@ sleep 1
 #Darkframe folder storage
 #go back to root folder
     cd "$(cat /tmp/DUALISO/path_1)"
+#when going for dng files only
+    if ! [ -f /tmp/only_DNG ]
+    then 
 #list mlv files
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/DF_storage
 #split into 4 chunks
@@ -608,10 +586,11 @@ sleep 1
     rm /tmp/DUALISO/DF_TRAP
     fi
 #NO_DNG processing after creation of darkframe processing
-    if ls /tmp/DUALISO/NO_DNG
+    if ls /tmp/NO_DNG
     then
-    rm /tmp/DUALISO/NO_DNG
+    rm /tmp/NO_DNG
     exit 0
+    fi 
     fi
 ###############################################################
 #Processing MLV files into folders with dng files
