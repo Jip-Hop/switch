@@ -77,6 +77,15 @@
     mlv="$(cat /tmp/"mlv_dump_settings" | perl -p -e 's/^[ \t]*//')"
     fi
     fi
+#when going for dng files only(darkframes)
+    if [ -f /tmp/only_DNG ]
+    then
+    bit=$(mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$(mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$(mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$(mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$(mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    fi
 #create second output
     if ! [ x"$(cat /tmp/output)" = x ]
     then
@@ -92,11 +101,35 @@
 #enter new output
     cd "$O2"
 #extract dng frames
+#when going for dng files only(darkframes)new output
+#Do criterias match?
+    if [ -f /tmp/only_DNG ] && [ -f "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    else
+    if [ -f /tmp/only_DNG ] && [ -f "$(cat /tmp/DUALISO/path_1)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" -s "$(cat /tmp/DUALISO/path_1)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    else
     mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" 
+    fi
+    fi
     cd "$(cat /tmp/DUALISO/path_1)"/
     else
 #extract dng frames
+#when going for dng files only(darkframes)
+#Do criterias match?
+    if [ -f /tmp/only_DNG ] && [ -f "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    else
+    if [ -f /tmp/only_DNG ] && [ -f ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    else
     mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" 
+    fi
+    fi
     fi
 #tail the MLVprogress_bar list
     echo "$(tail -n +2 /tmp/DUALISO/MLVprogress_bar)" > /tmp/DUALISO/MLVprogress_bar
