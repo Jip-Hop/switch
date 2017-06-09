@@ -309,6 +309,11 @@ sleep 1
     echo "$(tail -n +2 My_darkfr)" > My_darkfr
     done
     rm My_darkfr
+#stop if selected only_DARK
+    if [ -f /tmp/only_DARK ]
+    then 
+    exit 0
+    fi
 #when going for dng files only
     if ! [ -f /tmp/only_DNG ]
     then
