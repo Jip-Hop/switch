@@ -1008,6 +1008,11 @@ sleep 1
     echo "$(tail -n +2 My_darkfr)" &gt; My_darkfr
     done
     rm My_darkfr
+#stop if selected only_DARK
+    if [ -f /tmp/only_DARK ]
+    then 
+    exit 0
+    fi
 #when going for dng files only
     if ! [ -f /tmp/only_DNG ]
     then
@@ -2909,6 +2914,11 @@ sleep 1
     echo "$(tail -n +2 My_darkfr)" &gt; My_darkfr
     done
     rm My_darkfr
+#stop if selected only_DARK
+    if [ -f /tmp/only_DARK ]
+    then 
+    exit 0
+    fi
 #when going for dng files only
     if ! [ -f /tmp/only_DNG ]
     then
@@ -3707,68 +3717,68 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>104FED7B-5182-436D-AADA-4ADAE41F1C70</key>
+		<key>19458542-61D7-4B07-9772-B33C51BDDCAF</key>
 		<dict>
 			<key>from</key>
-			<string>20108916-1F1A-4537-BF36-126677B445ED - 20108916-1F1A-4537-BF36-126677B445ED</string>
-			<key>to</key>
 			<string>24F47049-C912-4BF0-9D9B-AB24FC6DA9DA - 24F47049-C912-4BF0-9D9B-AB24FC6DA9DA</string>
-		</dict>
-		<key>2625C885-0118-4C85-BA3C-92A1FC8145E2</key>
-		<dict>
-			<key>from</key>
-			<string>B90F2023-500C-4AEA-A318-256C8535F328 - B90F2023-500C-4AEA-A318-256C8535F328</string>
 			<key>to</key>
-			<string>8774328F-4422-4B06-8979-3EB4504B2452 - 8774328F-4422-4B06-8979-3EB4504B2452</string>
+			<string>2AC249BE-DCC2-4CB1-A88A-52FAC2BBA5B1 - 2AC249BE-DCC2-4CB1-A88A-52FAC2BBA5B1</string>
 		</dict>
-		<key>5DDFB5D2-4EDF-48D7-AE2E-5773F74EF8D6</key>
+		<key>2FDFCE3C-D42B-4FAB-8E6A-1FDC016C44D1</key>
 		<dict>
 			<key>from</key>
 			<string>90D3D29C-A9E9-4BFE-95FB-740179D79184 - 90D3D29C-A9E9-4BFE-95FB-740179D79184</string>
 			<key>to</key>
 			<string>B1876621-A9E1-42AE-87E9-9A77CAE03E83 - B1876621-A9E1-42AE-87E9-9A77CAE03E83</string>
 		</dict>
-		<key>64B68BEB-9161-436C-AFA7-420A4150F293</key>
-		<dict>
-			<key>from</key>
-			<string>602DCF51-AE14-498F-AF5E-70D83B5E34C0 - 602DCF51-AE14-498F-AF5E-70D83B5E34C0</string>
-			<key>to</key>
-			<string>90D3D29C-A9E9-4BFE-95FB-740179D79184 - 90D3D29C-A9E9-4BFE-95FB-740179D79184</string>
-		</dict>
-		<key>7C296D21-E732-447C-B6CD-072DE55A94EA</key>
-		<dict>
-			<key>from</key>
-			<string>4E9D3D08-407B-4170-93E1-A1B3E996344E - 4E9D3D08-407B-4170-93E1-A1B3E996344E</string>
-			<key>to</key>
-			<string>488FE470-77AC-4DE9-9FFE-3DDDA28AF88B - 488FE470-77AC-4DE9-9FFE-3DDDA28AF88B</string>
-		</dict>
-		<key>8819DDD6-6296-4ED5-97FD-9DBFFEBF3BE4</key>
-		<dict>
-			<key>from</key>
-			<string>488FE470-77AC-4DE9-9FFE-3DDDA28AF88B - 488FE470-77AC-4DE9-9FFE-3DDDA28AF88B</string>
-			<key>to</key>
-			<string>602DCF51-AE14-498F-AF5E-70D83B5E34C0 - 602DCF51-AE14-498F-AF5E-70D83B5E34C0</string>
-		</dict>
-		<key>9815F916-A9A7-4606-BA6B-1D146C1E0691</key>
-		<dict>
-			<key>from</key>
-			<string>2AC249BE-DCC2-4CB1-A88A-52FAC2BBA5B1 - 2AC249BE-DCC2-4CB1-A88A-52FAC2BBA5B1</string>
-			<key>to</key>
-			<string>B90F2023-500C-4AEA-A318-256C8535F328 - B90F2023-500C-4AEA-A318-256C8535F328</string>
-		</dict>
-		<key>A622DCC7-877D-4EBA-A9F9-B8D71D7842B5</key>
+		<key>354132B2-C01A-41CF-9308-7ED76086F059</key>
 		<dict>
 			<key>from</key>
 			<string>8774328F-4422-4B06-8979-3EB4504B2452 - 8774328F-4422-4B06-8979-3EB4504B2452</string>
 			<key>to</key>
 			<string>4E9D3D08-407B-4170-93E1-A1B3E996344E - 4E9D3D08-407B-4170-93E1-A1B3E996344E</string>
 		</dict>
-		<key>F07B32D1-3E7A-4D69-9E48-470C3DB6A9A8</key>
+		<key>490EAB3F-DEB7-4CBE-A49E-48D5911F01AB</key>
 		<dict>
 			<key>from</key>
-			<string>24F47049-C912-4BF0-9D9B-AB24FC6DA9DA - 24F47049-C912-4BF0-9D9B-AB24FC6DA9DA</string>
+			<string>488FE470-77AC-4DE9-9FFE-3DDDA28AF88B - 488FE470-77AC-4DE9-9FFE-3DDDA28AF88B</string>
 			<key>to</key>
+			<string>602DCF51-AE14-498F-AF5E-70D83B5E34C0 - 602DCF51-AE14-498F-AF5E-70D83B5E34C0</string>
+		</dict>
+		<key>6FF9C26D-0308-4E92-90BB-3DC40B15CBC8</key>
+		<dict>
+			<key>from</key>
 			<string>2AC249BE-DCC2-4CB1-A88A-52FAC2BBA5B1 - 2AC249BE-DCC2-4CB1-A88A-52FAC2BBA5B1</string>
+			<key>to</key>
+			<string>B90F2023-500C-4AEA-A318-256C8535F328 - B90F2023-500C-4AEA-A318-256C8535F328</string>
+		</dict>
+		<key>8531B222-C27D-4351-AFEB-348ECA16B2D2</key>
+		<dict>
+			<key>from</key>
+			<string>4E9D3D08-407B-4170-93E1-A1B3E996344E - 4E9D3D08-407B-4170-93E1-A1B3E996344E</string>
+			<key>to</key>
+			<string>488FE470-77AC-4DE9-9FFE-3DDDA28AF88B - 488FE470-77AC-4DE9-9FFE-3DDDA28AF88B</string>
+		</dict>
+		<key>9CD4A1CD-34B9-4C17-BB45-122DBE1F31EF</key>
+		<dict>
+			<key>from</key>
+			<string>20108916-1F1A-4537-BF36-126677B445ED - 20108916-1F1A-4537-BF36-126677B445ED</string>
+			<key>to</key>
+			<string>24F47049-C912-4BF0-9D9B-AB24FC6DA9DA - 24F47049-C912-4BF0-9D9B-AB24FC6DA9DA</string>
+		</dict>
+		<key>A91C8746-1209-4275-BDFD-0C452101DD38</key>
+		<dict>
+			<key>from</key>
+			<string>602DCF51-AE14-498F-AF5E-70D83B5E34C0 - 602DCF51-AE14-498F-AF5E-70D83B5E34C0</string>
+			<key>to</key>
+			<string>90D3D29C-A9E9-4BFE-95FB-740179D79184 - 90D3D29C-A9E9-4BFE-95FB-740179D79184</string>
+		</dict>
+		<key>D145AFD9-CF37-4D42-B240-C958B2C4BA8F</key>
+		<dict>
+			<key>from</key>
+			<string>B90F2023-500C-4AEA-A318-256C8535F328 - B90F2023-500C-4AEA-A318-256C8535F328</string>
+			<key>to</key>
+			<string>8774328F-4422-4B06-8979-3EB4504B2452 - 8774328F-4422-4B06-8979-3EB4504B2452</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

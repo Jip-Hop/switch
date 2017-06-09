@@ -5275,6 +5275,7 @@ rm /tmp/NO_DNG 1> /dev/null 2>&1 &
 rm /tmp/only_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK
+rm /tmp/only_DARK
 rm /tmp/DUALISO/DEAD_P 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLAT 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAMES 1> /dev/null 2>&1 &
@@ -5292,7 +5293,7 @@ rm /tmp/DUALISO/FULL_AUTO 1> /dev/null 2>&1 &
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;17;95t'
+printf '\e[8;19;95t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -5314,7 +5315,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-NO_DNG= ; DP= ; only_DNG= ; full_DARK= ; DARK_FOLDER=
+NO_DNG= ; DP= ; only_DNG= ; full_DARK= ; DARK_FOLDER= ; only_DARK=
 
 if ls /tmp/full_DARK
 then 
@@ -5336,6 +5337,11 @@ then
 DARK_FOLDER=$(echo "$bold""$green"added!"$normal")
 fi
 
+if ls /tmp/only_DARK
+then 
+only_DARK=$(echo "$bold""$green"added!"$normal")
+fi
+
 while :
 do 
 
@@ -5351,7 +5357,8 @@ do
     $(tput bold)(1) dng processing$(tput sgr0)(process straight to darkframed dng files) $only_DNG
     $(tput bold)(2) MLV processing$(tput sgr0)(creates only darkframe MLV files) $NO_DNG
     $(tput bold)(3) full output$(tput sgr0)(creates both darkframe MLV and dng files) $full_DARK				 
-    $(tput bold)(4) select darkframe storage$(tput sgr0)(MLV+dng processing default) $DARK_FOLDER
+    $(tput bold)(4) create only processed darkframes$(tput sgr0) $only_DARK
+    $(tput bold)(5) select darkframe storage$(tput sgr0)(MLV+dng processing default) $DARK_FOLDER
 
     $(tput bold)$(tput setaf 1)(R) reset all settings$(tput sgr0) 
     $(tput bold)$(tput setaf 1)(m) back to main menu$(tput sgr0)   					        					
@@ -5380,6 +5387,8 @@ rm /tmp/NO_DNG &>/dev/null &
 NO_DNG=
 rm /tmp/full_DARK
 full_DARK=
+rm /tmp/only_DARK
+only_DARK=
 fi
 if [ -f /tmp/DARK_FOLDER ]
 then 
@@ -5406,6 +5415,8 @@ rm /tmp/only_DNG &>/dev/null &
 only_DNG=
 rm /tmp/full_DARK
 full_DARK=
+rm /tmp/only_DARK
+only_DARK=
 fi
 if [ -f /tmp/DARK_FOLDER ]
 then 
@@ -5421,6 +5432,8 @@ rm /tmp/NO_DNG &>/dev/null &
 NO_DNG=
 rm /tmp/only_DNG &>/dev/null &
 only_DNG=
+rm /tmp/only_DARK
+only_DARK=
 echo > /tmp/full_DARK
 echo > /tmp/DARK
 full_DARK=$(echo "$bold""$green"added!"$normal")
@@ -5435,8 +5448,26 @@ rm /tmp/DARK
 fi
 ;;
 
+    "4")  
+if ! ls /tmp/only_DARK
+then 
+NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER=
+rm /tmp/DARK
+rm /tmp/NO_DNG
+rm /tmp/full_DARK
+rm /tmp/DARK_FOLDER
+rm /tmp/only_DNG
+echo > /tmp/only_DARK
+echo > /tmp/DARK
+only_DARK=$(echo "$bold""$green"added!"$normal")
+else
+rm /tmp/only_DARK
+rm /tmp/DARK
+only_DARK=
+fi
+;;
 
-    "4") 
+    "5") 
 if [ -f /tmp/DARK_FOLDER ]
 then 
 NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER=
@@ -5445,6 +5476,7 @@ rm /tmp/NO_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK_FOLDER
 rm /tmp/only_DNG
+rm /tmp/only_DARK
 clear
 echo "
 
@@ -5453,6 +5485,8 @@ sleep 1
 DARK_FOLDER=
 else
 rm /tmp/DARK &>/dev/null &
+rm /tmp/only_DARK
+only_DARK=
 echo > /tmp/DARK_FOLDER
 echo > /tmp/DARK_FOLDER_path
 open "$(cat /tmp/DUALISO/path_2)"new_output.app
@@ -5484,12 +5518,13 @@ fi
 ;;
 
     "R") 
-NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER=
+NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER= ; only_DARK=
 rm /tmp/DARK
 rm /tmp/NO_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK_FOLDER
 rm /tmp/only_DNG
+rm /tmp/only_DARK
 ;;
 
 
@@ -5603,6 +5638,7 @@ rm /tmp/NO_DNG 1> /dev/null 2>&1 &
 rm /tmp/only_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK
+rm /tmp/only_DARK
 rm /tmp/DUALISO/FLAT 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAMES 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAME_A 1> /dev/null 2>&1 &
