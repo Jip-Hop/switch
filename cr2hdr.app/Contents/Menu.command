@@ -1347,7 +1347,7 @@ else
 printf '\e[8;16;53t'
 printf '\e[3;410;100t'
 clear
-echo $(tput bold)"Specify black level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 15000 and hit enter)"
+echo $(tput bold)"Specify black level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 2048 and hit enter)"
 read input_variable
 echo "black level is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
 printf "%s\n" " --black-fix"=$input_variable >> /tmp/mlv_dump_settings
@@ -1757,7 +1757,7 @@ sleep 1
 fi
 fi
 
-printf '\e[8;53;65t'
+printf '\e[8;55;65t'
 printf '\e[3;450;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -1787,7 +1787,7 @@ mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 fi
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR=
 
 if grep 'lincineon' /tmp/FFmpeg_settings 
 then
@@ -1824,6 +1824,10 @@ fi
 if grep 'AE_template' /tmp/FFmpeg_settings 
 then
 AE=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'AE_temp_HDR' /tmp/FFmpeg_settings 
+then
+AE_HDR=$(echo "$bold""$green"added!"$normal")
 fi
 
 if grep 'lincineonpr' /tmp/FFmpeg_settingsPR 
@@ -1944,7 +1948,8 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(21) drop frames$(tput sgr0)(50fps to 25fps etc) $halfhdra
 
 -- AE template -- 
-    $(tput bold)(22) Export through AE command line$(tput sgr0)  $AE
+    $(tput bold)(22) Export footage through AE(aerender)$(tput sgr0) $AE
+    $(tput bold)(23) Export HDR footage through AE(aerender)$(tput sgr0) $AE_HDR
 
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ho) HOWTO$(tput sgr0)
@@ -2157,7 +2162,7 @@ Paspect=
 fi
 fi
 sleep 1 
-printf '\e[8;53;65t'
+printf '\e[8;55;65t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2364,7 +2369,7 @@ Xaspect=
 fi
 fi
 sleep 1 
-printf '\e[8;53;65t'
+printf '\e[8;55;65t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2663,7 +2668,7 @@ printf "%s\n" "$input_variable" > /tmp/FFmpeg_white_level
 wle=$(cat /tmp/FFmpeg_white_level)
 fi
 sleep 1 
-printf '\e[8;53;65t'
+printf '\e[8;55;65t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2845,7 +2850,156 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= 
+fi
+;;
+
+
+    "23")
+#AE_question
+if ! grep 'AE_temp_HDR' /tmp/FFmpeg_settings 
+then
+echo AE_temp_HDR > /tmp/FFmpeg_settings
+    mkdir -p "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
+#Find aerender among multiple versions
+    ls -td /Applications/Adobe\ After\ * > /tmp/DUALISO/AErenderPATH
+    while ! ls "$(cat /tmp/DUALISO/AErenderPATH | head -1)"/aerender
+    do
+    echo "$(tail -n +2 /tmp/DUALISO/AErenderPATH)" > /tmp/DUALISO/AErenderPATH
+    if ! grep 'Adobe' /tmp/DUALISO/AErenderPATH
+    then
+    rm /tmp/FFmpeg_settings
+    clear
+    echo $(tput bold)"
+
+    $(tput sgr0)$(tput bold)$(tput setaf 1) 
+aerender is missing, check your after effects version"$(tput sgr0) ; 
+    sleep 2
+    . "$(cat /tmp/DUALISO/path_2)"Menu.command
+    fi
+    done
+#get the correct template
+#but first check if HDR template was chosen
+    if grep 'AE_temp_HDR' /tmp/FFmpeg_settings
+    then
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template_HDR.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep    
+    else
+    if grep 'CC' <<< $(echo "$(cat /tmp/DUALISO/AErenderPATH | head -1)")
+    then
+    numb=$(echo "$(cat /tmp/DUALISO/AErenderPATH | head -1)" | awk 'FNR == 1 {print $5; }')
+    if (( $(echo "$numb > 2015.2" |bc -l) )); 
+    then
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_templateCC.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+    else
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
+    fi
+    else
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
+    fi
+    fi
+#!/bin/bash
+#changes size of terminal window
+#tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[8;20;95t'
+printf '\e[3;410;100t'
+open -a Terminal
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ==============================
+    ${bold}$(tput setaf 1)AE project settings$(tput sgr0)
+    ------------------------------
+ 
+    $(tput bold)(c)$(tput sgr0) I want to change AE project settings template				 
+    $(tput bold)(r)$(tput sgr0) Continue without changes  
+
+    $(tput bold)$(tput setaf 1)(p) Main menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q) quit cr2hdr$(tput sgr0)   					        					
+
+Please enter your selection number below:
+EOF
+    read -n1
+    case "$REPLY" in
+
+    "c")  
+#Reset file if needed
+if ! grep 'any_X' "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+then
+perl -pi -e 's/'"$(LC_ALL=C cat -v "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep | tr ' ' '\n' | grep -o -m 1 '[^ ]*C0000')"'/any_X/g' "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+fi
+
+#list dng directories
+    cd "$(cat /tmp/DUALISO/"path_1")"
+    ls -d *C0000 > /tmp/DUALISO/FFmpeg
+    cd -
+#output name then enter the folder and then tail the list to next folder
+    name=$(cat /tmp/DUALISO/"FFmpeg" | head -1)
+#creating a dummy audio file if not present
+    if ! ls "$(cat /tmp/DUALISO/"path_1")"/"$name"/"$name".wav 
+    then
+    ffmpeg -t 1 -f s16le -acodec pcm_s16le -ac 2 -i /dev/zero -acodec copy "$(cat /tmp/DUALISO/"path_1")"/"$name"/"$name".wav
+    fi
+#Add correct filename
+perl -pi -e 's/any_X/'"$name"'/g' "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+open "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep &
+
+echo > /tmp/DUALISO/AE_question
+. "$(cat /tmp/DUALISO/path_2)"Menu_dish.command 
+;;
+
+    "r") 
+rm /tmp/magic_l_prores/AE_question 
+rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_Proxy/*.tif
+rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
+rm /tmp/DUALISO/tif_spit
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "p")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "q")   
+rm /tmp/magic_l_prores/AE_question 
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+else
+rm /tmp/pr4444_HDR
+rm /tmp/FFmpeg_white_level
+rm /tmp/FFmpeg_settings
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR=
 fi
 ;;
 
@@ -2894,7 +3048,7 @@ echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to P
     case "$REPLY" in
 
     * )  
-printf '\e[8;53;65t'
+printf '\e[8;55;65t'
 printf '\e[3;450;0t'
 ;;
     esac
@@ -3080,7 +3234,7 @@ done
 ;;
 
     "E")
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR=
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_settings 1> /dev/null 2>&1 &
@@ -4297,7 +4451,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-cs2= ; cs3= ; cs5= ; bp= ; rbp= ; fpn= ; str ; def= ; pre= ; dua= ; ama= ; mea= ; noa= ; ali= ; fpz= ; fps= ; HL= ; NOH= ; TAG= ; AE=
+cs2= ; cs3= ; cs5= ; bp= ; rbp= ; fpn= ; str ; def= ; pre= ; dua= ; ama= ; mea= ; noa= ; ali= ; fpz= ; fps= ; HL= ; NOH= ; TAG= ; AE= ; AE_HDR=
 
 if grep 'cs2x2' /tmp/"$root"_settings.txt 
 then 
@@ -4384,6 +4538,10 @@ if grep 'AE_template' /tmp/FFmpeg_settings
 then
 AE=$(echo "$bold""$green"added!"$normal")
 fi
+if grep 'AE_temp_HDR' /tmp/FFmpeg_settings 
+then
+AE_HDR=$(echo "$bold""$green"added!"$normal")
+fi
 
 while :
 do 
@@ -4433,7 +4591,8 @@ ${bold}- These settings only apply after activation of MLVFS $(tput setaf 1)(A)$
     $(tput bold)(21) crop_rec pixel list$(tput sgr0)   Adds the crop_rec focus pixel list. Reselect $(tput bold)(21)$(tput sgr0) to revert to mv720 list 
 
 -- AE template -- 
-    $(tput bold)(22) Export through AE command line$(tput sgr0)  $AE 
+    $(tput bold)(22) Export footage through AE(aerender)$(tput sgr0) $AE
+    $(tput bold)(23) Export HDR footage through AE(aerender)$(tput sgr0) $AE_HDR
 
     $(tput bold)$(tput setaf 1)(A)   activate MLVFS$(tput sgr0)       Moves MLV files to A_ORIGINALS and creates a MLVFS mount. Symlinked dngs
     $(tput bold)$(tput setaf 1)(mp)  MlRawViewer$(tput sgr0)          Opens up MlrawViewer media player
@@ -5050,6 +5209,155 @@ lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ;
 fi
 ;;
 
+    "23")
+#AE_question
+if ! grep 'AE_temp_HDR' /tmp/FFmpeg_settings 
+then
+echo AE_temp_HDR > /tmp/FFmpeg_settings
+    mkdir -p "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
+#Find aerender among multiple versions
+    ls -td /Applications/Adobe\ After\ * > /tmp/DUALISO/AErenderPATH
+    while ! ls "$(cat /tmp/DUALISO/AErenderPATH | head -1)"/aerender
+    do
+    echo "$(tail -n +2 /tmp/DUALISO/AErenderPATH)" > /tmp/DUALISO/AErenderPATH
+    if ! grep 'Adobe' /tmp/DUALISO/AErenderPATH
+    then
+    rm /tmp/FFmpeg_settings
+    clear
+    echo $(tput bold)"
+
+    $(tput sgr0)$(tput bold)$(tput setaf 1) 
+aerender is missing, check your after effects version"$(tput sgr0) ; 
+    sleep 2
+    . "$(cat /tmp/DUALISO/path_2)"Menu.command
+    fi
+    done
+#get the correct template
+#but first check if HDR template was chosen
+    if grep 'AE_temp_HDR' /tmp/FFmpeg_settings
+    then
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template_HDR.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep    
+    else
+    if grep 'CC' <<< $(echo "$(cat /tmp/DUALISO/AErenderPATH | head -1)")
+    then
+    numb=$(echo "$(cat /tmp/DUALISO/AErenderPATH | head -1)" | awk 'FNR == 1 {print $5; }')
+    if (( $(echo "$numb > 2015.2" |bc -l) )); 
+    then
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_templateCC.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+    else
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
+    fi
+    else
+    cp -n "$(cat /tmp/DUALISO/"path_2")"bin/AE_prores_template.aep "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
+    fi
+    fi
+#!/bin/bash
+#changes size of terminal window
+#tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[8;20;95t'
+printf '\e[3;410;100t'
+open -a Terminal
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ==============================
+    ${bold}$(tput setaf 1)AE project settings$(tput sgr0)
+    ------------------------------
+ 
+    $(tput bold)(c)$(tput sgr0) I want to change AE project settings template				 
+    $(tput bold)(r)$(tput sgr0) Continue without changes  
+
+    $(tput bold)$(tput setaf 1)(p) Main menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q) quit cr2hdr$(tput sgr0)   					        					
+
+Please enter your selection number below:
+EOF
+    read -n1
+    case "$REPLY" in
+
+    "c")  
+#Reset file if needed
+if ! grep 'any_X' "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+then
+perl -pi -e 's/'"$(LC_ALL=C cat -v "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep | tr ' ' '\n' | grep -o -m 1 '[^ ]*C0000')"'/any_X/g' "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+fi
+
+#list dng directories
+    cd "$(cat /tmp/DUALISO/"path_1")"
+    ls -d *C0000 > /tmp/DUALISO/FFmpeg
+    cd -
+#output name then enter the folder and then tail the list to next folder
+    name=$(cat /tmp/DUALISO/"FFmpeg" | head -1)
+#creating a dummy audio file if not present
+    if ! ls "$(cat /tmp/DUALISO/"path_1")"/"$name"/"$name".wav 
+    then
+    ffmpeg -t 1 -f s16le -acodec pcm_s16le -ac 2 -i /dev/zero -acodec copy "$(cat /tmp/DUALISO/"path_1")"/"$name"/"$name".wav
+    fi
+#Add correct filename
+perl -pi -e 's/any_X/'"$name"'/g' "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep
+open "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444/AE_prores_template.aep &
+
+echo > /tmp/DUALISO/AE_question
+. "$(cat /tmp/DUALISO/path_2)"Menu_dish.command 
+;;
+
+    "r") 
+rm /tmp/magic_l_prores/AE_question 
+rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_Proxy/*.tif
+rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
+rm /tmp/DUALISO/tif_spit
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "p")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "q")   
+rm /tmp/magic_l_prores/AE_question 
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+else
+rm /tmp/pr4444_HDR
+rm /tmp/FFmpeg_white_level
+rm /tmp/FFmpeg_settings
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR=
+fi
+;;
+
+
     "A")
 #root folder name
 root=$(grep -o '[^/]*$' /tmp/DUALISO/"path_1")
@@ -5243,7 +5551,7 @@ rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR=
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_settings 1> /dev/null 2>&1 &
@@ -5606,7 +5914,7 @@ rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR=
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_settings 1> /dev/null 2>&1 &
