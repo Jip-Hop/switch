@@ -468,7 +468,7 @@ echo 3trap >> /tmp/DUALISO/prores_TRAP
     br=$(printf "%s\n" -b "$(cat /tmp/DUALISO/BRIGHTER)")
     fi
 #check for AE template 
-    if ! grep 'AE_template' /tmp/FFmpeg_settings
+    if ! grep 'AE_template\|AE_temp_HDR' /tmp/FFmpeg_settings
     then
 #grab correct frames per second
     fps=$(exiftool *000000*.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
@@ -569,7 +569,12 @@ fi
     fi
 #trap file
     echo > tmp 
-    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find . -iname '*.dng' | wc -l) - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep
+    if grep 'AE_temp_HDR' /tmp/FFmpeg_settings
+    then
+    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find . -iname '*.dng' | wc -l) / 2 - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep
+    else
+    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find . -iname '*.dng' | wc -l) - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep 
+    fi
     rm tmp
     rm *.aep
     find . -name '*.aep Logs' -type d -exec rm -r {} \;

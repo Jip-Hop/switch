@@ -466,6 +466,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     "K") 
 killall sleep
 killall ffmpeg
+killall aerender
 killall bash
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
