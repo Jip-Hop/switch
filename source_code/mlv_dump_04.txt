@@ -142,6 +142,7 @@
     fi
     fi
 #syncs audio to amount of dng frames
+    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
     FPS=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }')      
     frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
 #cut audio  
