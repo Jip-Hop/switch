@@ -21,40 +21,135 @@
 					<true/>
 					<key>Types</key>
 					<array>
-						<string>com.apple.cocoa.string</string>
-						<string>com.apple.cocoa.attributed-string</string>
+						<string>com.apple.applescript.object</string>
 					</array>
 				</dict>
 				<key>AMActionVersion</key>
-				<string>2.2.1</string>
+				<string>1.0.2</string>
 				<key>AMApplication</key>
 				<array>
-					<string>Finder</string>
-					<string>TextEdit</string>
+					<string>Automator</string>
 				</array>
 				<key>AMParameterProperties</key>
 				<dict>
-					<key>checkedForDefaultEncoding</key>
+					<key>source</key>
 					<dict/>
-					<key>newFileFolderPath</key>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {input, parameters}tell me to activate	return inputend run</string>
+				</dict>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0.2</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>InputUUID</key>
+				<string>AEC99350-C5BA-484E-8336-798420C93EC0</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>F075F178-3E45-43A0-80D6-94F6E8DA82AC</string>
+				<key>StartAction</key>
+				<false/>
+				<key>UUID</key>
+				<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>449.000000:112.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.path</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.2.1</string>
+				<key>AMApplication</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>defaultLocation</key>
 					<dict>
 						<key>isPathPopUp</key>
 						<true/>
 						<key>variableUUIDsInMenu</key>
 						<array/>
 					</dict>
-					<key>newFileName</key>
-					<dict>
-						<key>tokenizedValue</key>
-						<array>
-							<string>folder_paths.txt</string>
-						</array>
-					</dict>
-					<key>newFileTextEncoding</key>
+					<key>granularity</key>
 					<dict/>
-					<key>replaceExistingFiles</key>
+					<key>multipleSelection</key>
 					<dict/>
-					<key>textFormat</key>
+					<key>promptMessage</key>
 					<dict/>
 				</dict>
 				<key>AMProvides</key>
@@ -67,67 +162,62 @@
 					</array>
 				</dict>
 				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/New Text File.action</string>
+				<string>/System/Library/Automator/Ask for Finder Items.action</string>
 				<key>ActionName</key>
-				<string>New Text File</string>
+				<string>Ask for Finder Items</string>
 				<key>ActionParameters</key>
 				<dict>
-					<key>checkedForDefaultEncoding</key>
-					<true/>
-					<key>newFileFolderPath</key>
-					<string>/private/tmp</string>
-					<key>newFileName</key>
-					<string>folder_paths.txt</string>
-					<key>newFileTextEncoding</key>
-					<integer>4</integer>
-					<key>replaceExistingFiles</key>
-					<true/>
-					<key>textFormat</key>
+					<key>defaultLocation</key>
+					<string>~/Desktop</string>
+					<key>granularity</key>
 					<integer>1</integer>
+					<key>multipleSelection</key>
+					<false/>
+					<key>promptMessage</key>
+					<string>Choose a Finder Item:</string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.NewTextFile</string>
+				<string>com.apple.Automator.AskForFinderItems</string>
 				<key>CFBundleVersion</key>
-				<string>2.2.1</string>
+				<string>1.2.1</string>
 				<key>CanShowSelectedItemsWhenRun</key>
 				<true/>
 				<key>CanShowWhenRun</key>
-				<true/>
+				<false/>
 				<key>Category</key>
 				<array>
-					<string>AMCategoryText</string>
+					<string>AMCategoryFilesAndFolders</string>
 				</array>
 				<key>Class Name</key>
-				<string>AMNewTextFileAction</string>
+				<string>AMAskForFinderItemsAction</string>
 				<key>InputUUID</key>
-				<string>8280662A-736C-439E-BB2A-0E63C0B648C2</string>
+				<string>FD7475D4-504D-4F0E-901D-3BCBBF166A20</string>
 				<key>Keywords</key>
 				<array>
-					<string>Create</string>
-					<string>Make</string>
+					<string>Find</string>
+					<string>Item</string>
 					<string>File</string>
-					<string>Text</string>
-					<string>Save</string>
-					<string>New</string>
-					<string>Document</string>
+					<string>Folder</string>
+					<string>Ask</string>
+					<string>Choose</string>
+					<string>Prompt</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>5066824E-C73A-4055-9A2C-371900B45459</string>
+				<string>90A390D3-335D-4B59-980D-9B8C71E0DD63</string>
 				<key>UUID</key>
-				<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+				<string>3CC9098B-EEA5-470A-9EBF-80D8414A2C82</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Finder</string>
-					<string>TextEdit</string>
 				</array>
 				<key>arguments</key>
 				<dict>
 					<key>0</key>
 					<dict>
 						<key>default value</key>
-						<integer>0</integer>
+						<false/>
 						<key>name</key>
-						<string>newFileTextEncoding</string>
+						<string>multipleSelection</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -140,7 +230,7 @@
 						<key>default value</key>
 						<integer>0</integer>
 						<key>name</key>
-						<string>replaceExistingFiles</string>
+						<string>granularity</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -153,7 +243,7 @@
 						<key>default value</key>
 						<string>~/Desktop</string>
 						<key>name</key>
-						<string>newFileFolderPath</string>
+						<string>defaultLocation</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -164,9 +254,9 @@
 					<key>3</key>
 					<dict>
 						<key>default value</key>
-						<integer>0</integer>
+						<string>Choose a Finder Item:</string>
 						<key>name</key>
-						<string>checkedForDefaultEncoding</string>
+						<string>promptMessage</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -174,41 +264,13 @@
 						<key>uuid</key>
 						<string>3</string>
 					</dict>
-					<key>4</key>
-					<dict>
-						<key>default value</key>
-						<string>Untitled.txt</string>
-						<key>name</key>
-						<string>newFileName</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>4</string>
-					</dict>
-					<key>5</key>
-					<dict>
-						<key>default value</key>
-						<integer>0</integer>
-						<key>name</key>
-						<string>textFormat</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>5</string>
-					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:112.000000</string>
+				<string>449.000000:154.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/New Text File.action/Contents/Resources/Base.lproj/main.nib</string>
+				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -265,7 +327,9 @@
 					<string>cd "$1"
 rm -r /tmp/DUALISO
 mkdir -p /tmp/DUALISO
-echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
+echo "$1" &gt; /tmp/DUALISO/path_1
+#set First_out.app path
+echo "$1" &gt; /tmp/path_1b
 </string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
@@ -291,7 +355,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>Class Name</key>
 				<string>RunShellScriptAction</string>
 				<key>InputUUID</key>
-				<string>735C27A7-2242-4F01-84F5-4364403332CB</string>
+				<string>37F0FC2F-B088-41FD-B7A5-7E2AA149829C</string>
 				<key>Keywords</key>
 				<array>
 					<string>Shell</string>
@@ -301,9 +365,9 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>CF37CBE4-3A5C-448F-98C4-51407EF0DF6C</string>
+				<string>404C915D-A913-47A4-AB5B-AAC6DA7B9125</string>
 				<key>UUID</key>
-				<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+				<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -381,7 +445,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:154.000000</string>
+				<string>449.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -446,15 +510,15 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>Class Name</key>
 				<string>RunScriptAction</string>
 				<key>InputUUID</key>
-				<string>FFDBB40B-0694-4992-8072-6DFC0F5919EC</string>
+				<string>1B120A1C-16F7-4160-8F3F-4D91E3D83F2D</string>
 				<key>Keywords</key>
 				<array>
 					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>C18F0413-DDCB-4CF6-B125-1449AEC7A4A4</string>
+				<string>CE635CD8-F696-41D3-BB3F-10695FD039BE</string>
 				<key>UUID</key>
-				<string>515FD124-E568-4D70-BDB6-32330E88473B</string>
+				<string>B8988361-62C5-4B6D-B5EF-87096E259449</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -485,7 +549,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:196.000000</string>
+				<string>449.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -541,68 +605,7 @@ end run</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
-					<string>
-if ! [ -d "$(cat /tmp/DUALISO/path_1)" ]
-then
-if grep 'mov\|MOV' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
-then 
-echo &gt; /tmp/DUALISO/PREV
-. /etc/profile
-ffplay -vf tblend=all_mode=average "$(cat /tmp/DUALISO/path_1)"
-rm /tmp/DUALISO/path_1
-else
-    if grep 'mlv\|MLV\|RAW\|DNG\|dng' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
-    then 
-    echo &gt; /tmp/DUALISO/PREV
-#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
-    cd "$1"
-    path_2=$(echo "$1")
-#workaround which lets all files preview through MLVFS
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer/storage 
-    mkdir /tmp/MLV_viewer/mount 
-    ln -s "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MLV /tmp/MLV_viewer/storage
-    cd "$path_2"Contents/mlvfs
-
-./mlvfss /tmp/MLV_viewer/mount --mlv-dir=/tmp/MLV_viewer/storage -f -o local -o volname=/tmp/MLV_viewer/mount -o allow_other --resolve-naming &amp; 
- 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer /tmp/MLV_viewer/mount &amp; 
- while pgrep mlrawviewer
- do sleep 1
- done
-    
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    rm /tmp/DUALISO/path_1
-    cd "$1"
-    fi
-    fi
-    fi
-
-if grep 'C0000' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
-then 
-echo &gt; /tmp/DUALISO/PREV
-    cd "$1"
-    path_2=$(echo "$1") 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(dirname "$(cat /tmp/DUALISO/path_1)")" &amp; sleep 2
-rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
-rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
-while pgrep mlrawviewer
-do sleep 1
-done
-rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
-rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
-rm /tmp/DUALISO/path_1
-fi
-
-if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ]
-then
-#stop trap
-echo &gt; /tmp/DUALISO/PREV
-
-#GNU public license
+					<string>#GNU public license
 #This program is free software; you can redistribute it and/or
  # modify it under the terms of the GNU General Public License
  # as published by the Free Software Foundation; either version 2
@@ -633,15 +636,11 @@ echo &gt; /tmp/DUALISO/PREV
 #Export to ProRes4444 and/or ProRes proxy
 #run cr2hdr 4 processes in parallel(CR2,DNG,dng files)
 
-#set first_out.app path
-    if [ -d "$(cat /tmp/folder_paths.txt | head -1)" ]
-    then
-    echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/path_1b
-    fi
-
 #Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
-    cd "$1"
-    path_2=$(echo "$1")
+#First output path
+    echo "$1" | perl -pi -e 's/Contents\/First_out.app\///g' 2&gt;/dev/null | perl -p -e 's/^[ \t]*//' &gt; /tmp/DUALISO/path_2
+    cd "$(cat /tmp/DUALISO/path_1)"
+    path_2=$(cat /tmp/DUALISO/path_2)
 #Main menu command, afplayer
     find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
@@ -659,7 +658,7 @@ echo &gt; /tmp/DUALISO/PREV
     if grep 'RAW' &lt;&lt;&lt; $(ls *.RAW | head -1 | grep -o '[^/]*$')
     then
 #create app path
-    echo "$1"Contents/ &gt; /tmp/DUALISO/path_2
+    echo "$path_2"Contents/ &gt; /tmp/DUALISO/path_2
     ls *.RAW &gt; /tmp/DUALISO/list_RAW
     echo &gt; /tmp/DUALISO/RAW_demolish
     open "$path_2"Contents/Menu.command &amp; sleep 1
@@ -737,9 +736,9 @@ echo &gt; /tmp/DUALISO/PREV
     fi
 #Call menu selector
     echo &gt; /tmp/DUALISO/DUALISO
-    echo "$1"Contents/ &gt; /tmp/DUALISO/path_2
+    echo "$path_2"Contents/ &gt; /tmp/DUALISO/path_2
 #in case of debug mode
-    echo "$1" &gt; /tmp/DUALISO/DBG_path
+    echo "$path_2" &gt; /tmp/DUALISO/DBG_path
     open "$path_2"Contents/Menu.command &amp; sleep 1
     while ls /tmp/DUALISO/DUALISO 2&gt;/dev/null
     do sleep 1
@@ -1698,7 +1697,6 @@ done
     printf "%d Days, %02d Hrs, %02d Min, %02d Sec\n" $dd $dh $dm $ds &gt; /tmp/DUALISO/TOT_time  
     open "$path_2"Contents/progress_bar.command &amp;
     fi
-    fi
  
 #Thanks to Bouncyball, A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Fabrice Bellard(FFmpeg) Phil Harvey(Exiftool) Andreas Huggel(exiv2) BWF MetaEdit(FADGI) dfort(Focus pixel script).
 #Copyright Danne
@@ -1726,8 +1724,10 @@ done
 				</array>
 				<key>Class Name</key>
 				<string>RunShellScriptAction</string>
+				<key>Disabled</key>
+				<false/>
 				<key>InputUUID</key>
-				<string>5D9E7713-294C-42C6-AFDA-C1DE09D0A440</string>
+				<string>19BB8CF3-8EA7-4E3E-86C1-7942A42B45E6</string>
 				<key>Keywords</key>
 				<array>
 					<string>Shell</string>
@@ -1737,9 +1737,9 @@ done
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>098035DF-BC0B-4044-B5E2-7E74775B6B12</string>
+				<string>377E7D9E-A170-49CB-82CF-97AFD6CFD46A</string>
 				<key>UUID</key>
-				<string>52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+				<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -1810,110 +1810,6 @@ done
 						<string>0</string>
 						<key>uuid</key>
 						<string>4</string>
-					</dict>
-				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
-				<key>isViewVisible</key>
-				<false/>
-				<key>location</key>
-				<string>449.000000:238.000000</string>
-				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
-			</dict>
-			<key>isViewVisible</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>action</key>
-			<dict>
-				<key>AMAccepts</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Optional</key>
-					<true/>
-					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
-				</dict>
-				<key>AMActionVersion</key>
-				<string>1.0.2</string>
-				<key>AMApplication</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>AMParameterProperties</key>
-				<dict>
-					<key>source</key>
-					<dict/>
-				</dict>
-				<key>AMProvides</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
-				</dict>
-				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Run AppleScript.action</string>
-				<key>ActionName</key>
-				<string>Run AppleScript</string>
-				<key>ActionParameters</key>
-				<dict>
-					<key>source</key>
-					<string>on run {input, parameters}try    POSIX file "/tmp/DUALISO/PREV" as alias    quiton error    falseend try	return inputend run</string>
-				</dict>
-				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.RunScript</string>
-				<key>CFBundleVersion</key>
-				<string>1.0.2</string>
-				<key>CanShowSelectedItemsWhenRun</key>
-				<false/>
-				<key>CanShowWhenRun</key>
-				<true/>
-				<key>Category</key>
-				<array>
-					<string>AMCategoryUtilities</string>
-				</array>
-				<key>Class Name</key>
-				<string>RunScriptAction</string>
-				<key>InputUUID</key>
-				<string>301BEE26-7BF4-4906-96CD-02B06D9C4135</string>
-				<key>Keywords</key>
-				<array>
-					<string>Run</string>
-				</array>
-				<key>OutputUUID</key>
-				<string>A4A007F6-414D-4BD5-847B-CE74143483BA</string>
-				<key>UUID</key>
-				<string>AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-				<key>UnlocalizedApplications</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>arguments</key>
-				<dict>
-					<key>0</key>
-					<dict>
-						<key>default value</key>
-						<string>on run {input, parameters}
-	
-	(* Your script goes here *)
-	
-	return input
-end run</string>
-						<key>name</key>
-						<string>source</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>0</string>
 					</dict>
 				</dict>
 				<key>conversionLabel</key>
@@ -1923,398 +1819,6 @@ end run</string>
 				<key>location</key>
 				<string>449.000000:280.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
-			</dict>
-			<key>isViewVisible</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>action</key>
-			<dict>
-				<key>AMAccepts</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Optional</key>
-					<true/>
-					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
-				</dict>
-				<key>AMActionVersion</key>
-				<string>1.0.2</string>
-				<key>AMApplication</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>AMParameterProperties</key>
-				<dict>
-					<key>source</key>
-					<dict/>
-				</dict>
-				<key>AMProvides</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
-				</dict>
-				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Run AppleScript.action</string>
-				<key>ActionName</key>
-				<string>Run AppleScript</string>
-				<key>ActionParameters</key>
-				<dict>
-					<key>source</key>
-					<string>on run {input, parameters}tell me to activate	return inputend run</string>
-				</dict>
-				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.RunScript</string>
-				<key>CFBundleVersion</key>
-				<string>1.0.2</string>
-				<key>CanShowSelectedItemsWhenRun</key>
-				<false/>
-				<key>CanShowWhenRun</key>
-				<true/>
-				<key>Category</key>
-				<array>
-					<string>AMCategoryUtilities</string>
-				</array>
-				<key>Class Name</key>
-				<string>RunScriptAction</string>
-				<key>InputUUID</key>
-				<string>71D11FE5-5D08-44AC-8E0B-1BBDA9E45CE6</string>
-				<key>Keywords</key>
-				<array>
-					<string>Run</string>
-				</array>
-				<key>OutputUUID</key>
-				<string>20AA426E-40FF-4D39-B371-251CAA5F73BA</string>
-				<key>UUID</key>
-				<string>E0539749-F009-4CEB-9678-AD6DE2152701</string>
-				<key>UnlocalizedApplications</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>arguments</key>
-				<dict>
-					<key>0</key>
-					<dict>
-						<key>default value</key>
-						<string>on run {input, parameters}
-	
-	(* Your script goes here *)
-	
-	return input
-end run</string>
-						<key>name</key>
-						<string>source</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>0</string>
-					</dict>
-				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
-				<key>isViewVisible</key>
-				<false/>
-				<key>location</key>
-				<string>449.000000:322.000000</string>
-				<key>nibPath</key>
-				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
-			</dict>
-			<key>isViewVisible</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>action</key>
-			<dict>
-				<key>AMAccepts</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Optional</key>
-					<true/>
-					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
-				</dict>
-				<key>AMActionVersion</key>
-				<string>1.0.2</string>
-				<key>AMApplication</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>AMParameterProperties</key>
-				<dict>
-					<key>source</key>
-					<dict/>
-				</dict>
-				<key>AMProvides</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Types</key>
-					<array>
-						<string>com.apple.applescript.object</string>
-					</array>
-				</dict>
-				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Run AppleScript.action</string>
-				<key>ActionName</key>
-				<string>Run AppleScript</string>
-				<key>ActionParameters</key>
-				<dict>
-					<key>source</key>
-					<string>on run {input, parameters}   set p to POSIX path of (path to me)   return {p}end run</string>
-				</dict>
-				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.RunScript</string>
-				<key>CFBundleVersion</key>
-				<string>1.0.2</string>
-				<key>CanShowSelectedItemsWhenRun</key>
-				<false/>
-				<key>CanShowWhenRun</key>
-				<true/>
-				<key>Category</key>
-				<array>
-					<string>AMCategoryUtilities</string>
-				</array>
-				<key>Class Name</key>
-				<string>RunScriptAction</string>
-				<key>InputUUID</key>
-				<string>288F5397-BAF9-4E14-9FC0-06D08BE36A44</string>
-				<key>Keywords</key>
-				<array>
-					<string>Run</string>
-				</array>
-				<key>OutputUUID</key>
-				<string>E0FC5B7D-CF34-4684-BD22-E0F622BE05E6</string>
-				<key>UUID</key>
-				<string>EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-				<key>UnlocalizedApplications</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>arguments</key>
-				<dict>
-					<key>0</key>
-					<dict>
-						<key>default value</key>
-						<string>on run {input, parameters}
-	
-	(* Your script goes here *)
-	
-	return input
-end run</string>
-						<key>name</key>
-						<string>source</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>0</string>
-					</dict>
-				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
-				<key>isViewVisible</key>
-				<false/>
-				<key>location</key>
-				<string>449.000000:364.000000</string>
-				<key>nibPath</key>
-				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
-			</dict>
-			<key>isViewVisible</key>
-			<false/>
-		</dict>
-		<dict>
-			<key>action</key>
-			<dict>
-				<key>AMAccepts</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Optional</key>
-					<true/>
-					<key>Types</key>
-					<array>
-						<string>com.apple.cocoa.string</string>
-					</array>
-				</dict>
-				<key>AMActionVersion</key>
-				<string>2.0.3</string>
-				<key>AMApplication</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>AMParameterProperties</key>
-				<dict>
-					<key>COMMAND_STRING</key>
-					<dict/>
-					<key>CheckedForUserDefaultShell</key>
-					<dict/>
-					<key>inputMethod</key>
-					<dict/>
-					<key>shell</key>
-					<dict/>
-					<key>source</key>
-					<dict/>
-				</dict>
-				<key>AMProvides</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Types</key>
-					<array>
-						<string>com.apple.cocoa.string</string>
-					</array>
-				</dict>
-				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Run Shell Script.action</string>
-				<key>ActionName</key>
-				<string>Run Shell Script</string>
-				<key>ActionParameters</key>
-				<dict>
-					<key>COMMAND_STRING</key>
-					<string>#set first output. Workaround to remember last chosen location. Opens up First_out.app inside Contents folder
-#First_out.app path is set in first drag folder code
-if ! [ -f "$1"/Contents/First_out.app/Contents/documentTMP.wflow ]
-then
-cp "$1"/Contents/First_out.app/Contents/document.wflow "$1"/Contents/First_out.app/Contents/documentTMP.wflow
-else
-mv "$1"/Contents/First_out.app/Contents/documentTMP.wflow "$1"/Contents/First_out.app/Contents/document.wflow
-cp "$1"/Contents/First_out.app/Contents/document.wflow "$1"/Contents/First_out.app/Contents/documentTMP.wflow
-fi
-if [ -d "$(cat /tmp/path_1b | head -1)" ]
-then
-perl -pi -e 's/~\/Desktop/'"$(cat /tmp/path_1b | head -1 | sed 's/\//\\\//g')"'/g' "$1"/Contents/First_out.app/Contents/document.wflow
-fi
-open "$1"/Contents/First_out.app</string>
-					<key>CheckedForUserDefaultShell</key>
-					<true/>
-					<key>inputMethod</key>
-					<integer>1</integer>
-					<key>shell</key>
-					<string>/bin/bash</string>
-					<key>source</key>
-					<string></string>
-				</dict>
-				<key>BundleIdentifier</key>
-				<string>com.apple.RunShellScript</string>
-				<key>CFBundleVersion</key>
-				<string>2.0.3</string>
-				<key>CanShowSelectedItemsWhenRun</key>
-				<false/>
-				<key>CanShowWhenRun</key>
-				<true/>
-				<key>Category</key>
-				<array>
-					<string>AMCategoryUtilities</string>
-				</array>
-				<key>Class Name</key>
-				<string>RunShellScriptAction</string>
-				<key>InputUUID</key>
-				<string>7EC6C97A-255D-47FC-95F9-711E96D29452</string>
-				<key>Keywords</key>
-				<array>
-					<string>Shell</string>
-					<string>Script</string>
-					<string>Command</string>
-					<string>Run</string>
-					<string>Unix</string>
-				</array>
-				<key>OutputUUID</key>
-				<string>7E9B3B30-BBD9-4BAC-85A5-C120905C27D7</string>
-				<key>UUID</key>
-				<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-				<key>UnlocalizedApplications</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>arguments</key>
-				<dict>
-					<key>0</key>
-					<dict>
-						<key>default value</key>
-						<integer>0</integer>
-						<key>name</key>
-						<string>inputMethod</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>0</string>
-					</dict>
-					<key>1</key>
-					<dict>
-						<key>default value</key>
-						<string></string>
-						<key>name</key>
-						<string>source</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>1</string>
-					</dict>
-					<key>2</key>
-					<dict>
-						<key>default value</key>
-						<false/>
-						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>2</string>
-					</dict>
-					<key>3</key>
-					<dict>
-						<key>default value</key>
-						<string></string>
-						<key>name</key>
-						<string>COMMAND_STRING</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>3</string>
-					</dict>
-					<key>4</key>
-					<dict>
-						<key>default value</key>
-						<string>/bin/sh</string>
-						<key>name</key>
-						<string>shell</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>4</string>
-					</dict>
-				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
-				<key>isViewVisible</key>
-				<false/>
-				<key>location</key>
-				<string>449.000000:406.000000</string>
-				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
@@ -2323,54 +1827,33 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>1468D61B-DC7C-4A9D-AE4B-ADFC02F707CA</key>
+		<key>3116FA90-2C02-4883-BD05-29807B4205AB</key>
 		<dict>
 			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
 		</dict>
-		<key>481B1A12-756F-4546-99D6-618411F6C5DA</key>
+		<key>34BB938D-716D-46EC-B5AB-BD8F76E313BE</key>
 		<dict>
 			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+			<string>3CC9098B-EEA5-470A-9EBF-80D8414A2C82 - 3CC9098B-EEA5-470A-9EBF-80D8414A2C82</string>
 		</dict>
-		<key>4E0C263D-968B-4DBD-A1E5-378A98EDE6D4</key>
+		<key>E542D04C-B3AC-467B-9686-D18420648F6D</key>
 		<dict>
 			<key>from</key>
-			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
 			<key>to</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 		</dict>
-		<key>9EC7BC21-2F02-4F26-BD3D-3362F4176F8F</key>
+		<key>F23D27E9-D4C9-4080-A839-444BC5DA2DA7</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>3CC9098B-EEA5-470A-9EBF-80D8414A2C82 - 3CC9098B-EEA5-470A-9EBF-80D8414A2C82</string>
 			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>ACF4F95B-7C04-4FC0-8DB0-D386EC6C0904</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>E0ED8A51-0478-41F6-8FDA-EF9931959DB6</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>E891A3D2-4AA9-4E1E-9118-312FFD01468C</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

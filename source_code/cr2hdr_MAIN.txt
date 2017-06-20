@@ -30,8 +30,10 @@
 #run cr2hdr 4 processes in parallel(CR2,DNG,dng files)
 
 #Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
-    cd "$1"
-    path_2=$(echo "$1")
+#First output path
+    echo "$1" | perl -pi -e 's/Contents\/First_out.app\///g' 2>/dev/null | perl -p -e 's/^[ \t]*//' > /tmp/DUALISO/path_2
+    cd "$(cat /tmp/DUALISO/path_1)"
+    path_2=$(cat /tmp/DUALISO/path_2)
 #Main menu command, afplayer
     find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
@@ -49,7 +51,7 @@
     if grep 'RAW' <<< $(ls *.RAW | head -1 | grep -o '[^/]*$')
     then
 #create app path
-    echo "$1"Contents/ > /tmp/DUALISO/path_2
+    echo "$path_2"Contents/ > /tmp/DUALISO/path_2
     ls *.RAW > /tmp/DUALISO/list_RAW
     echo > /tmp/DUALISO/RAW_demolish
     open "$path_2"Contents/Menu.command & sleep 1
@@ -127,9 +129,9 @@
     fi
 #Call menu selector
     echo > /tmp/DUALISO/DUALISO
-    echo "$1"Contents/ > /tmp/DUALISO/path_2
+    echo "$path_2"Contents/ > /tmp/DUALISO/path_2
 #in case of debug mode
-    echo "$1" > /tmp/DUALISO/DBG_path
+    echo "$path_2" > /tmp/DUALISO/DBG_path
     open "$path_2"Contents/Menu.command & sleep 1
     while ls /tmp/DUALISO/DUALISO 2>/dev/null
     do sleep 1
