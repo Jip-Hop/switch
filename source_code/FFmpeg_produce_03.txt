@@ -66,8 +66,8 @@ echo 3trap >> /tmp/DUALISO/prores_TRAP
     then 
     tbl=$(printf "%s\n" -vf tblend=all_mode=average)
 #safety check if HDR or not
-    A=$(dcraw -d -W -c *000010.dng | convert -resize 10% - 2>/dev/null -colorspace hsb -resize 1x1 txt:- | grep '%' | cut -d "%" -f3 | tr -d ',')
-    B=$(dcraw -d -W -c *000011.dng | convert -resize 10% - 2>/dev/null -colorspace hsb -resize 1x1 txt:- | grep '%' | cut -d "%" -f3 | tr -d ',') 
+    A=$(dcraw -d -W -c *000024.dng | convert -resize 10% - 2>/dev/null -colorspace hsb -resize 1x1 txt:- | grep '%' | cut -d "%" -f3 | tr -d ',')
+    B=$(dcraw -d -W -c *000025.dng | convert -resize 10% - 2>/dev/null -colorspace hsb -resize 1x1 txt:- | grep '%' | cut -d "%" -f3 | tr -d ',') 
     numb=$(echo $A - $B | bc -l)
     if (( $(echo "$numb < 5" |bc -l) )) && (( $(echo "$numb > -5" |bc -l) )) ; then
     tbl=
