@@ -229,6 +229,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 -- AE template -- 
     $(tput bold)(22) Export footage through AE(aerender)$(tput sgr0) $AE
     $(tput bold)(23) Export HDR footage through AE(aerender)$(tput sgr0) $AE_HDR
+    $(tput bold)(24) open first dng in every folder(ACR)$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ho) HOWTO$(tput sgr0)
@@ -1282,6 +1283,11 @@ lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ;
 fi
 ;;
 
+    "24")
+cd "$(cat /tmp/DUALISO/path_1)"
+open $(find . -maxdepth 2 -name '*C0000_000000.dng')
+cd -
+;;
 
     "p")  
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
