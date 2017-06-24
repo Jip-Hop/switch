@@ -197,12 +197,12 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     fi
     else
 #check if cam was set to auto white balance. Non dualiso
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
 #check for new output location
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
@@ -223,7 +223,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
 #grabs white level
     wle=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
 #check if cam was set to auto white balance
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
@@ -243,7 +243,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     fi
     else 
 #check for new output location
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #rename DNG to dng fix 
@@ -253,7 +253,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     find "$O2". -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
     fi
 #check if cam was set to auto white balance. Non dualiso
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A4 'Block: WBAL' | awk 'FNR == 5 {print $2}')" = "0" ]
+    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #rename DNG to dng fix 
