@@ -274,6 +274,8 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
     "K") 
 killall sleep
+killall exiv2
+killall exiftool
 killall mlv_dump
 killall bash
 osascript -e 'tell application "Terminal" to close first window' & exit
@@ -661,6 +663,8 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
     "K") 
 killall sleep
+killall exiv2
+killall exiftool
 killall mlv_dump 
 killall ffmpeg
 killall bash
