@@ -26,12 +26,15 @@
 #cut to the next name on the list
     echo "$(tail -n +2 /tmp/DUALISO/badpixelMLVab)" > /tmp/DUALISO/badpixelMLVab
 #run dfort focus pixel script
+    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$FILE_02" | awk '/Camera Name/ { print $5,$6;}')
+    then 
     if ls /tmp/DUALISO/crop_rec
     then
     fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_02o".map "$(cat /tmp/DUALISO/path_1)"/"$FILE_02"
     else
     fpm.sh -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_02o".map "$(cat /tmp/DUALISO/path_1)"/"$FILE_02"  
     fi 
+    fi
     done
 #remove trap
 rm /tmp/DUALISO/BP_TRAP2

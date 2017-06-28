@@ -92,12 +92,15 @@
     mkdir -p "$(cat /tmp/output)"
     O2="$O${BASE}_1_$date"/
 #dfort focus pixel list in case you change output
+    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/Camera Name/ { print $5,$6;}')
+    then 
     if ls /tmp/DUALISO/crop_rec
     then
     fpm.sh -m crop_rec -o "$O2"allbadpixels.map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
     else
     fpm.sh -o "$O2"allbadpixels.map "$(cat /tmp/DUALISO/path_1)"/"$FILE"   
     fi 
+    fi
 #enter new output
     cd "$O2"
 #extract dng frames
