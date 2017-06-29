@@ -29,13 +29,117 @@
 #Export to ProRes4444 and/or ProRes proxy
 #run cr2hdr 4 processes in parallel(CR2,DNG,dng files)
 
-rm "$(cat /tmp/DUALISO/path_1)"/LOG.txt
-exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
-
-export PATH="$(cat /tmp/DUALISO/path_2)":$PATH
+#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
+#First output path
+    echo "$1" | perl -pi -e 's/Contents\/First_out.app\///g' 2>/dev/null | perl -p -e 's/^[ \t]*//' > /tmp/DUALISO/path_2
     cd "$(cat /tmp/DUALISO/path_1)"
+    path_2=$(cat /tmp/DUALISO/path_2)
+#Main menu command, afplayer
+    find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/progress_bar.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/cr2hdr_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
+    export PATH="$path_2"Contents:$PATH
+    cd "$(cat /tmp/DUALISO/path_1)"
+    rm "$(cat /tmp/DUALISO/path_1)"/LOG.txt
+    exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
+#build Folder structure
     mkdir -p A_ORIGINALS
-    path_2=$(cat /tmp/DUALISO/"DBG_path")
+    mkdir -p /tmp/DUALISO/
+#if RAW ask for MLV conversion
+#courtesy bouncyball at magiclantern.fm
+    if grep 'RAW' <<< $(ls *.RAW | head -1 | grep -o '[^/]*$')
+    then
+#create app path
+    echo "$1"Contents/ > /tmp/DUALISO/path_2
+    ls *.RAW > /tmp/DUALISO/list_RAW
+    echo > /tmp/DUALISO/RAW_demolish
+    open "$path_2"Contents/Menu.command & sleep 1
+    while ls /tmp/DUALISO/RAW_demolish 
+    do sleep 1
+    done
+    if ! ls /tmp/DUALISO/RAW
+    then
+    exit 0
+    fi
+    if grep '01_legacy_RAW_to_MLV' /tmp/DUALISO/RAW
+    then 
+#if chosen alternate location
+    if ls /tmp/DUALISO/RAW_OUTPUT
+    then
+    mkdir -p "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')"
+    ln -s "$(cat /tmp/DUALISO/path_1)"/*.R* "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')"
+    cd "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')" 
+    ls *.RAW > /tmp/DUALISO/list_RAW_02
+    while grep 'RAW' /tmp/DUALISO/list_RAW_02
+    do
+    raw2dng "$(cat /tmp/DUALISO/list_RAW_02 | awk 'FNR == 1 {print; }')" --mlv
+    mv -i "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
+    if ls "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00
+    then
+    mv -i "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R* "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
+    fi
+    echo "$(tail -n +2 /tmp/DUALISO/list_RAW)" > /tmp/DUALISO/list_RAW
+    echo "$(tail -n +2 /tmp/DUALISO/list_RAW_02)" > /tmp/DUALISO/list_RAW_02
+    done
+    cd "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')"
+    find . -type l -exec rm {} \;
+    rm /tmp/DUALISO/list_RAW
+    rm /tmp/DUALISO/list_RAW_02
+    cd ..
+    exit 0
+    fi
+    while grep 'RAW' /tmp/DUALISO/list_RAW
+    do
+    raw2dng "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" --mlv 
+    mv -i "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" A_ORIGINALS
+    if ls "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00
+    then
+    mv -i "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R* A_ORIGINALS
+    fi
+    echo "$(tail -n +2 /tmp/DUALISO/list_RAW)" > /tmp/DUALISO/list_RAW
+    done
+    exit 0
+    fi
+    fi
+#if RAW check for pixel fix continue adding script during RAW processing later on
+    file=$(ls *.RAW | head -1)
+    raw2dng $file /tmp/DUALISO/what_cam_ | awk '/FPS/ { print $3; exit }' > /tmp/DUALISO/fpss
+    exiftool /tmp/DUALISO/what_cam_000000.dng | awk '/Image Size/ { print $4; exit }' > /tmp/DUALISO/image_size
+    exiftool /tmp/DUALISO/what_cam_000000.dng | awk '/Camera Model Name/ { print $5; exit }' > /tmp/DUALISO/MOD
+    exiftool /tmp/DUALISO/what_cam_000000.dng -X > /tmp/DUALISO/what_cam.txt -overwrite_original
+    rm /tmp/DUALISO/what_cam_000000.dng
+    if grep 'ColorMatrix1>0.6602' /tmp/DUALISO/what_cam.txt
+    then 
+    echo > /tmp/DUALISO/what_cam_lock
+    open "$path_2"Contents/Menu.command
+    fi
+    while ls /tmp/DUALISO/what_cam_lock
+    do sleep 2
+    done
+#check if filmed crop_rec eosm 
+    if grep 'M' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $5; exit }')
+    then 
+    echo > /tmp/DUALISO/crop_rec? 
+    fi
+#check if filmed crop_rec 700D
+    if grep '700D\|T5i\|X7i' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }')
+    then 
+    echo > /tmp/DUALISO/crop_rec? 
+    fi
+#Call menu selector
+    echo > /tmp/DUALISO/DUALISO
+    echo "$1"Contents/ > /tmp/DUALISO/path_2
+#in case of debug mode
+    echo "$1" > /tmp/DUALISO/DBG_path
+    open "$path_2"Contents/Menu.command & sleep 1
+    while ls /tmp/DUALISO/DUALISO 2>/dev/null
+    do sleep 1
+    done
+    if ls /tmp/DUALISO/DUALISO_exit
+    then 
+    exit 0
+    fi
 #check for new output folder
     if ls /tmp/output
     then
@@ -116,7 +220,7 @@ sleep 1
     mkdir -p /tmp/DUALISO/
     mkdir -p A_ORIGINALS
 #Start investigating if selected both flatdark and FLATFRAMES
-    if ! [ x"$(cat /tmp/DUALISO/FLATFRAMES | awk 'FNR == 2 {print $1}')" = x ]
+    if ! [ x"$(cat /tmp/DUALISO/FLATFRAMES | awk 'FNR == 2 {print $1; exit }')" = x ]
     then
     OLDIFS=$IFS
     IFS=$'\n'
@@ -164,7 +268,7 @@ sleep 1
     fi
     fi
 #If only selected flatframe without darkflat
-    if [ x"$(cat /tmp/DUALISO/FLATFRAMES | awk 'FNR == 2 {print $1}')" = x ]
+    if [ x"$(cat /tmp/DUALISO/FLATFRAMES | awk 'FNR == 2 {print $1; exit }')" = x ]
     then
 #grab frame size and add info to the name of the file
     fres=$(mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES)" | awk '/Res/ { print $2; exit }')
@@ -335,7 +439,6 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
-sleep 2
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
     cat /tmp/DUALISO/path_1 > /tmp/DARK_FOLDER
@@ -473,7 +576,6 @@ sleep 2
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
-sleep 2
     rm /tmp/DUALISO/DF_storage
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/DF_storageaa)" = x ]
@@ -520,7 +622,6 @@ sleep 2
     then
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/badpixelMLV ) / 4 + 1 )) /tmp/DUALISO/badpixelMLV /tmp/DUALISO/badpixelMLV
-sleep 2
     rm /tmp/DUALISO/badpixelMLV
     . "$path_2"Contents/badpixels_01.command & 
     . "$path_2"Contents/badpixels_02.command & 
@@ -558,7 +659,6 @@ sleep 2
     IFS=$OLDIFS
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
-sleep 3
     rm /tmp/DUALISO/MLVFILES
     . "$path_2"Contents/mlv_dump_01.command & pid1=$!
     . "$path_2"Contents/mlv_dump_02.command & pid2=$!

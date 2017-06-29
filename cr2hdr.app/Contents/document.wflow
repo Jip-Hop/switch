@@ -201,12 +201,10 @@
 						<string>5</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:112.000000</string>
+				<string>396.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/New Text File.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -376,12 +374,10 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:154.000000</string>
+				<string>396.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -480,12 +476,10 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:196.000000</string>
+				<string>396.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -1045,8 +1039,9 @@ sleep 1
     then
 #list mlv files and send them for processing
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/DF_storage
-#split into 4 chunks
+# into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
+sleep 2
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
     cat /tmp/DUALISO/path_1 &gt; /tmp/DARK_FOLDER
@@ -1184,6 +1179,7 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
+sleep 2
     rm /tmp/DUALISO/DF_storage
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/DF_storageaa)" = x ]
@@ -1230,6 +1226,7 @@ sleep 1
     then
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/badpixelMLV ) / 4 + 1 )) /tmp/DUALISO/badpixelMLV /tmp/DUALISO/badpixelMLV
+sleep 2
     rm /tmp/DUALISO/badpixelMLV
     . "$path_2"Contents/badpixels_01.command &amp; 
     . "$path_2"Contents/badpixels_02.command &amp; 
@@ -1243,17 +1240,14 @@ sleep 1
     fi
     fi
 #Start MLV counter
+#Start MLV counter
     if ls *.MLV
     then 
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
-    cat /tmp/DUALISO/MLVprogress_bar &gt; /tmp/DUALISO/MLVprogress_bar2
-    while ! [ x"$(cat /tmp/DUALISO/MLVprogress_bar2)" = x ] 
-    do
-    mlv_dump "$(cat /tmp/DUALISO/path_1 | head -1 )"/"$(cat /tmp/DUALISO/"MLVprogress_bar2" | head -1)" | awk '/Processed/ { print $2;}' &gt;&gt; /tmp/DUALISO/MLVprogress_bar3
-    echo "$(tail -n +2 /tmp/DUALISO/MLVprogress_bar2)" &gt; /tmp/DUALISO/MLVprogress_bar2
+    for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
+    mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &gt;&gt; /tmp/DUALISO/MLVprogress_bar3 
     done
-    rm /tmp/DUALISO/MLVprogress_bar2
     open "$path_2"Contents/progress_bar.command &amp;
     fi
     fi
@@ -1271,11 +1265,12 @@ sleep 1
     IFS=$OLDIFS
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
+sleep 3
     rm /tmp/DUALISO/MLVFILES
-    . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$!
-    . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$!
-    . "$path_2"Contents/mlv_dump_03.command &amp; pid3=$!
-    . "$path_2"Contents/mlv_dump_04.command &amp; pid4=$!
+    . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$! 
+    . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$! 
+    . "$path_2"Contents/mlv_dump_03.command &amp; pid3=$! 
+    . "$path_2"Contents/mlv_dump_04.command &amp; pid4=$! 
 #wait for jobs to end
     wait &lt; &lt;(jobs -p)
 #mlv_dump time command
@@ -1812,12 +1807,10 @@ done
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:238.000000</string>
+				<string>396.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1916,12 +1909,10 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:280.000000</string>
+				<string>396.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2020,12 +2011,10 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:322.000000</string>
+				<string>396.000000:322.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2124,12 +2113,10 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:364.000000</string>
+				<string>396.000000:364.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2308,12 +2295,10 @@ open "$1"/Contents/First_out.app</string>
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:406.000000</string>
+				<string>396.000000:406.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -2323,54 +2308,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>1468D61B-DC7C-4A9D-AE4B-ADFC02F707CA</key>
+		<key>030AF5AB-3D2E-48B7-80FC-74B73D71C4B7</key>
 		<dict>
 			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>481B1A12-756F-4546-99D6-618411F6C5DA</key>
+		<key>1B7F73D4-A6C3-4607-8CB2-B1AE239CC7AC</key>
 		<dict>
 			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>4E0C263D-968B-4DBD-A1E5-378A98EDE6D4</key>
+		<key>3F51FC28-49C8-4478-8027-BC1FF463B4B4</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>9EC7BC21-2F02-4F26-BD3D-3362F4176F8F</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>ACF4F95B-7C04-4FC0-8DB0-D386EC6C0904</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>E0ED8A51-0478-41F6-8FDA-EF9931959DB6</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>E891A3D2-4AA9-4E1E-9118-312FFD01468C</key>
+		<key>4F580DF3-DA57-4B41-BD8E-671D25A91804</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>4F9D6DDC-F2B2-42A7-9A97-7D9135EB119E</key>
+		<dict>
+			<key>from</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<key>to</key>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>59AA95B7-46BA-4164-9C33-BAF6F2A28476</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>C1C065C7-707D-4441-80E7-48098659B16C</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

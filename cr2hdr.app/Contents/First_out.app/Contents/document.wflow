@@ -75,8 +75,6 @@
 				</array>
 				<key>OutputUUID</key>
 				<string>F075F178-3E45-43A0-80D6-94F6E8DA82AC</string>
-				<key>StartAction</key>
-				<false/>
 				<key>UUID</key>
 				<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 				<key>UnlocalizedApplications</key>
@@ -104,12 +102,10 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:112.000000</string>
+				<string>396.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -168,7 +164,7 @@ end run</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>defaultLocation</key>
-					<string>~/Desktop</string>
+					<string>/Volumes/Family_2016/Magic_lantern/2017-06-28_HDR</string>
 					<key>granularity</key>
 					<integer>1</integer>
 					<key>multipleSelection</key>
@@ -268,7 +264,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:154.000000</string>
+				<string>396.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -440,12 +436,10 @@ echo "$1" &gt; /tmp/path_1b
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:196.000000</string>
+				<string>396.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -544,12 +538,10 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:238.000000</string>
+				<string>396.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -1046,6 +1038,7 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
+sleep 2
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
     cat /tmp/DUALISO/path_1 &gt; /tmp/DARK_FOLDER
@@ -1183,6 +1176,7 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
+sleep 2
     rm /tmp/DUALISO/DF_storage
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/DF_storageaa)" = x ]
@@ -1229,6 +1223,7 @@ sleep 1
     then
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/badpixelMLV ) / 4 + 1 )) /tmp/DUALISO/badpixelMLV /tmp/DUALISO/badpixelMLV
+sleep 2
     rm /tmp/DUALISO/badpixelMLV
     . "$path_2"Contents/badpixels_01.command &amp; 
     . "$path_2"Contents/badpixels_02.command &amp; 
@@ -1246,13 +1241,9 @@ sleep 1
     then 
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
-    cat /tmp/DUALISO/MLVprogress_bar &gt; /tmp/DUALISO/MLVprogress_bar2
-    while ! [ x"$(cat /tmp/DUALISO/MLVprogress_bar2)" = x ] 
-    do
-    mlv_dump "$(cat /tmp/DUALISO/path_1 | head -1 )"/"$(cat /tmp/DUALISO/"MLVprogress_bar2" | head -1)" | awk '/Processed/ { print $2;}' &gt;&gt; /tmp/DUALISO/MLVprogress_bar3
-    echo "$(tail -n +2 /tmp/DUALISO/MLVprogress_bar2)" &gt; /tmp/DUALISO/MLVprogress_bar2
+    for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
+    mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &gt;&gt; /tmp/DUALISO/MLVprogress_bar3 
     done
-    rm /tmp/DUALISO/MLVprogress_bar2
     open "$path_2"Contents/progress_bar.command &amp;
     fi
     fi
@@ -1270,6 +1261,7 @@ sleep 1
     IFS=$OLDIFS
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
+sleep 3
     rm /tmp/DUALISO/MLVFILES
     . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$!
     . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$!
@@ -1812,12 +1804,10 @@ done
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:280.000000</string>
+				<string>396.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1827,33 +1817,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>3116FA90-2C02-4883-BD05-29807B4205AB</key>
+		<key>61415C89-7181-43EC-ABAA-6C3CE6334CF7</key>
+		<dict>
+			<key>from</key>
+			<string>3CC9098B-EEA5-470A-9EBF-80D8414A2C82 - 3CC9098B-EEA5-470A-9EBF-80D8414A2C82</string>
+			<key>to</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+		</dict>
+		<key>82827BDE-8E10-4B7F-B4C9-A72E18940880</key>
 		<dict>
 			<key>from</key>
 			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 			<key>to</key>
 			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
 		</dict>
-		<key>34BB938D-716D-46EC-B5AB-BD8F76E313BE</key>
-		<dict>
-			<key>from</key>
-			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
-			<key>to</key>
-			<string>3CC9098B-EEA5-470A-9EBF-80D8414A2C82 - 3CC9098B-EEA5-470A-9EBF-80D8414A2C82</string>
-		</dict>
-		<key>E542D04C-B3AC-467B-9686-D18420648F6D</key>
+		<key>A62F8D40-AEC8-4D44-984E-32CE790EEB8D</key>
 		<dict>
 			<key>from</key>
 			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
 			<key>to</key>
 			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 		</dict>
-		<key>F23D27E9-D4C9-4080-A839-444BC5DA2DA7</key>
+		<key>DB3EDE6D-A811-42D5-B7F0-B02E62F1AE66</key>
 		<dict>
 			<key>from</key>
-			<string>3CC9098B-EEA5-470A-9EBF-80D8414A2C82 - 3CC9098B-EEA5-470A-9EBF-80D8414A2C82</string>
+			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 			<key>to</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+			<string>3CC9098B-EEA5-470A-9EBF-80D8414A2C82 - 3CC9098B-EEA5-470A-9EBF-80D8414A2C82</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
