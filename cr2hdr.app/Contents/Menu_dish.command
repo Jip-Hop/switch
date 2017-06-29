@@ -276,7 +276,7 @@ fi
 
     #Will move terminal window to the right corner
     printf '\e[8;18;40t'
-    printf '\e[3;955;75t'
+    printf '\e[3;10;10t'
 
     open -a Terminal
     bold="$(tput bold)"
@@ -295,6 +295,9 @@ fi
     magenta="$(tput setaf 5)"
     cyan="$(tput setaf 6)"
     white="$(tput setaf 7)"
+
+sleep 2 && open -a Terminal &
+sleep 4 && open -a Terminal &
 
 while : 
 do 
@@ -325,6 +328,8 @@ EOF
     dcraw +M -a -c -6 -W -q 3 /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".dng | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 -t 1 2>/dev/null /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif
     rm rm /tmp/DUALISO/*.wav
     open -a /Applications/ImageJ/ImageJ.app /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif &
+sleep 2 && open -a Terminal &
+sleep 3 && open -a Terminal &
     ;;
 
 
@@ -341,6 +346,8 @@ EOF
     dcraw +M -w -c -6 -W -q 3 /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".dng | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 -t 1 2>/dev/null /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif
     rm rm /tmp/DUALISO/*.wav
     open -a /Applications/ImageJ/ImageJ.app /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif &
+sleep 2 && open -a Terminal &
+sleep 3 && open -a Terminal &
     ;;
 
 
@@ -375,6 +382,8 @@ please create them before selecting (s)!"
     . "$(cat /tmp/DUALISO/path_2)"awb2.command
     fi
     fi
+sleep 2 && open -a Terminal &
+sleep 3 && open -a Terminal &
     ;;
 
     "l")
@@ -403,6 +412,8 @@ please create them before selecting (s)!"
     rm /tmp/DUALISO/WB_MLV_list2_tmp 2>/dev/null
     . "$(cat /tmp/DUALISO/path_2)"awb2.command
     fi
+sleep 2 && open -a Terminal &
+sleep 3 && open -a Terminal &
     ;;
 
     "n") 
@@ -470,6 +481,8 @@ please create them before selecting (s)!"
     sleep 1
     fi
     fi
+sleep 2 && open -a Terminal &
+sleep 3 && open -a Terminal &
     ;;
 
     "R") 
@@ -560,6 +573,8 @@ please create them before selecting (s)!"
     rm rm /tmp/DUALISO/*.wav
     open -a /Applications/ImageJ/ImageJ.app /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif &
     fi
+sleep 2 && open -a Terminal &
+sleep 3 && open -a Terminal &
     ;;
 
 
@@ -630,6 +645,8 @@ please create them before selecting (s)!"
     sleep 1
     fi
     fi
+sleep 2 && open -a Terminal &
+sleep 3 && open -a Terminal &
     ;;
 
 
