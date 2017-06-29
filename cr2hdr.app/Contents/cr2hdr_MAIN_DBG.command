@@ -335,7 +335,6 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
-sleep 2
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
     cat /tmp/DUALISO/path_1 > /tmp/DARK_FOLDER
@@ -473,7 +472,6 @@ sleep 2
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
-sleep 2
     rm /tmp/DUALISO/DF_storage
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/DF_storageaa)" = x ]
@@ -520,7 +518,6 @@ sleep 2
     then
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/badpixelMLV ) / 4 + 1 )) /tmp/DUALISO/badpixelMLV /tmp/DUALISO/badpixelMLV
-sleep 2
     rm /tmp/DUALISO/badpixelMLV
     . "$path_2"Contents/badpixels_01.command & 
     . "$path_2"Contents/badpixels_02.command & 
@@ -558,7 +555,6 @@ sleep 2
     IFS=$OLDIFS
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
-sleep 3
     rm /tmp/DUALISO/MLVFILES
     . "$path_2"Contents/mlv_dump_01.command & pid1=$!
     . "$path_2"Contents/mlv_dump_02.command & pid2=$!
