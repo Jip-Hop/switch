@@ -92,7 +92,7 @@
     mkdir -p "$(cat /tmp/output)"
     O2="$O${BASE}_1_$date"/
 #dfort focus pixel list in case you change output
-    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/Camera Name/ { print $5,$6;}')
+    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/Camera Name/ { print $5,$6; exit}')
     then 
     if ls /tmp/DUALISO/crop_rec
     then
