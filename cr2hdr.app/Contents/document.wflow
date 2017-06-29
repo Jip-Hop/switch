@@ -1041,7 +1041,6 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/DF_storage
 # into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
-sleep 2
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
     cat /tmp/DUALISO/path_1 &gt; /tmp/DARK_FOLDER
@@ -1179,7 +1178,6 @@ sleep 2
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/DF_storage
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
-sleep 2
     rm /tmp/DUALISO/DF_storage
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/DF_storageaa)" = x ]
@@ -1226,7 +1224,6 @@ sleep 2
     then
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/badpixelMLV ) / 4 + 1 )) /tmp/DUALISO/badpixelMLV /tmp/DUALISO/badpixelMLV
-sleep 2
     rm /tmp/DUALISO/badpixelMLV
     . "$path_2"Contents/badpixels_01.command &amp; 
     . "$path_2"Contents/badpixels_02.command &amp; 
@@ -1265,7 +1262,6 @@ sleep 2
     IFS=$OLDIFS
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
-sleep 3
     rm /tmp/DUALISO/MLVFILES
     . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$! 
     . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$! 
@@ -2308,54 +2304,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>030AF5AB-3D2E-48B7-80FC-74B73D71C4B7</key>
+		<key>3A30ED82-E34C-40D3-A30C-98BE150F77A0</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>1B7F73D4-A6C3-4607-8CB2-B1AE239CC7AC</key>
-		<dict>
-			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>3F51FC28-49C8-4478-8027-BC1FF463B4B4</key>
+		<key>3C594ED5-EEAE-4577-ABCE-55F963045BFF</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>4BCDF421-5FED-4BB6-9E83-E45A1C56EE9E</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>4F580DF3-DA57-4B41-BD8E-671D25A91804</key>
+		<key>913685B1-7DAF-46E9-8B8C-C99C3EB4FFFC</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>B32DB35F-D177-4F28-B408-EC8AC1C323F3</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>4F9D6DDC-F2B2-42A7-9A97-7D9135EB119E</key>
+		<key>BB259C99-4166-441D-923A-FD619BC07C66</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>F7080AD7-9A3A-41CC-9954-C50D38F25CA8</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>59AA95B7-46BA-4164-9C33-BAF6F2A28476</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>C1C065C7-707D-4441-80E7-48098659B16C</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
