@@ -320,7 +320,7 @@ EOF
     case "$REPLY" in
 
     "a") 
-    kill $(ps aux | pgrep java) 2>/dev/null &
+    osascript -e 'quit app "Imagej"' &
     rm /tmp/DUALISO/*.tif
     dcraw +M -a -c -6 -W -q 3 /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".dng | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 -t 1 2>/dev/null /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif
     rm rm /tmp/DUALISO/*.wav
@@ -329,7 +329,7 @@ EOF
 
 
     "c") 
-    kill $(ps aux | pgrep java) 2>/dev/null &
+    osascript -e 'quit app "Imagej"' &
     rm /tmp/DUALISO/*.tif
     rm /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".dng
     OLDIFS=$IFS
@@ -359,7 +359,7 @@ EOF
 please create them before selecting (s)!"
     sleep 2
     else
-    kill $(ps aux | pgrep java) 2>/dev/null 
+    osascript -e 'quit app "Imagej"' 
     rm /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif
     if ls "$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".$ext
     then
@@ -391,7 +391,7 @@ please create them before selecting (s)!"
 please create them before selecting (s)!"
     sleep 2
     else
-    kill $(ps aux | pgrep java) 2>/dev/null 
+    osascript -e 'quit app "Imagej"' 
     rm /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif 2>/dev/null
     if ! grep 'whitebalance' "$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".$ext
     then
@@ -411,7 +411,7 @@ please create them before selecting (s)!"
     echo "$(tail -n +2 /tmp/DUALISO/WB_MLV_list)" > /tmp/DUALISO/WB_MLV_list
     if ls "$(cat /tmp/DUALISO/WB_MLV_list | head -1)"
     then
-    kill $(ps aux | pgrep java) 2>/dev/null 
+    osascript -e 'quit app "Imagej"' 
     rm /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif 2>/dev/null
     fi
 #check extension
@@ -435,7 +435,7 @@ please create them before selecting (s)!"
     rm /tmp/DUALISO/*.wav 2>/dev/null
     IFS=$OLDIFS 
     fi
-    kill $(ps aux | pgrep java) 2>/dev/null 
+    osascript -e 'quit app "Imagej"' 
     rm /tmp/DUALISO/"$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".tif 2>/dev/null
     if ls "$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".$ext
     then
@@ -473,7 +473,7 @@ please create them before selecting (s)!"
     ;;
 
     "R") 
-    kill $(ps aux | pgrep java) 2>/dev/null
+    osascript -e 'quit app "Imagej"'
     rm /tmp/DUALISO/*.tif 2>/dev/null
 #enter parent folder
     cd "$(cat /tmp/DUALISO/path_1)"
@@ -543,7 +543,7 @@ please create them before selecting (s)!"
     echo "No wb points to erase!"
     sleep 1.5
     else
-    kill $(ps aux | pgrep java) 2>/dev/null &
+    osascript -e 'quit app "Imagej"' &
 #rename to WB
     mv "$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".txt "$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".WB 2>/dev/null
     ext=WB
@@ -571,7 +571,7 @@ please create them before selecting (s)!"
     else
     ext=txt
     fi
-    kill $(ps aux | pgrep java) 2>/dev/null 
+    osascript -e 'quit app "Imagej"' 
     mkdir -p A_TRASH
     mv "$(cat /tmp/DUALISO/WB_MLV_list | head -1)" A_TRASH
     rm "$(cat /tmp/DUALISO/WB_MLV_list | head -1 | cut -d "." -f1)".$ext
@@ -637,7 +637,7 @@ please create them before selecting (s)!"
 #rename if needed
     for old in M*.txt; do mv $old `basename $old .txt`.WB; done 2>/dev/null
     ext=WB
-    kill $(ps aux | pgrep java) 2>/dev/null &
+    osascript -e 'quit app "Imagej"' &
     rm /tmp/DUALISO/*.tif
     rm /tmp/DUALISO/*.dng
     rm /tmp/DUALISO/WB_MLV_list
