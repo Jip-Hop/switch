@@ -484,6 +484,12 @@ sleep 1
     mv -i ft_*.MLV A_ORIGINALS
     IFS=$OLDIFS
     fi
+#if skipping dng processing
+    if ls /tmp/NO_DNG
+    then
+    rm /tmp/NO_DNG
+    exit 0
+    fi
     fi
 ###############################################################
 #extra round to check if darkframe or flatframe still are present in root folder
