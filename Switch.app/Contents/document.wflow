@@ -548,7 +548,7 @@ else
     if grep 'mlv\|MLV\|RAW\|DNG\|dng' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
     then 
     echo &gt; /tmp/DUALISO/PREV
-#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
+#Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
     cd "$1"
     path_2=$(echo "$1")
 #workaround which lets all files preview through MLVFS
@@ -633,14 +633,14 @@ echo &gt; /tmp/DUALISO/PREV
     echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/path_1b
     fi
 
-#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
+#Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
     cd "$1"
     path_2=$(echo "$1")
 #Main menu command, afplayer
     find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/progress_bar.command -exec xattr -d -r com.apple.quarantine {} \;
-    find "$path_2"Contents/cr2hdr_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/Switch_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
     export PATH="$path_2"Contents:$PATH
     cd "$(cat /tmp/DUALISO/path_1)"
     rm "$(cat /tmp/DUALISO/path_1)"/LOG.txt
@@ -1653,7 +1653,7 @@ done
     if ! [ x"$(cat /tmp/folder_paths.txt)" = x ]
     then
     echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
-    "$path_2"Contents/cr2hdr_MAIN_DBG.command
+    "$path_2"Contents/Switch_MAIN_DBG.command
     else
 #The end
     sleep 1
@@ -2310,54 +2310,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>066BD023-35B8-4AF7-86F1-645DCF5D3881</key>
+		<key>0E4F1F64-2381-4DE3-9E51-1C204517CEC0</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>249249DA-3169-443E-A2B4-585BCE1B77F3</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>642309ED-676B-497F-8C89-EE04689103EB</key>
+		<key>4970D44D-6C94-4A83-92F0-7B65F62567A8</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>A6602BAD-D916-4C75-8471-940621E70AD0</key>
+		<key>677084E4-B383-4E4D-A891-856CA0633DFC</key>
+		<dict>
+			<key>from</key>
+			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+			<key>to</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+		</dict>
+		<key>7BC58DF7-51DC-4B09-BB51-C349F2F0BBE6</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>7EC28C39-C5B2-440C-B538-9A881ABF65A1</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>B696F56E-A77C-4B81-B5E5-E21010EC6CBB</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>C6FEBE28-342C-4844-92B1-A42AB84257EC</key>
+		<key>9FA39EDD-C3F2-44BC-99D6-FE89C112C038</key>
 		<dict>
 			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>FC2436D1-3AF1-4127-842F-CE8F088EBFD3</key>
+		<key>A88A450F-9980-4135-AD0A-476760339F1E</key>
 		<dict>
 			<key>from</key>
-			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

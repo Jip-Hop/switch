@@ -11,7 +11,7 @@ else
     if grep 'mlv\|MLV\|RAW\|DNG\|dng' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
     then 
     echo > /tmp/DUALISO/PREV
-#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
+#Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
     cd "$1"
     path_2=$(echo "$1")
 #workaround which lets all files preview through MLVFS
@@ -96,14 +96,14 @@ echo > /tmp/DUALISO/PREV
     echo "$(cat /tmp/folder_paths.txt | head -1)" > /tmp/path_1b
     fi
 
-#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
+#Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
     cd "$1"
     path_2=$(echo "$1")
 #Main menu command, afplayer
     find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/progress_bar.command -exec xattr -d -r com.apple.quarantine {} \;
-    find "$path_2"Contents/cr2hdr_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/Switch_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
     export PATH="$path_2"Contents:$PATH
     cd "$(cat /tmp/DUALISO/path_1)"
     rm "$(cat /tmp/DUALISO/path_1)"/LOG.txt
@@ -1116,7 +1116,7 @@ done
     if ! [ x"$(cat /tmp/folder_paths.txt)" = x ]
     then
     echo "$(cat /tmp/folder_paths.txt | head -1)" > /tmp/DUALISO/path_1
-    "$path_2"Contents/cr2hdr_MAIN_DBG.command
+    "$path_2"Contents/Switch_MAIN_DBG.command
     else
 #The end
     sleep 1
