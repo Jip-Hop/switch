@@ -2,12 +2,12 @@
 workingDir=`dirname "$0"`
 cd "${workingDir}"
 
-#A MAKE like solution which copies changes made in source txt files and migrates the changes into cr2hdr.app and at the end creates a dmg package
+#A MAKE like solution which copies changes made in source txt files and migrates the changes into Switch.app and at the end creates a dmg package
 
 
-#simple command to rename txt scripts to .command and copy these to cr2hdr.app content folder.
+#simple command to rename txt scripts to .command and copy these to Switch.app content folder.
 
-xattr -d com.apple.quarantine ../cr2hdr.app
+xattr -d com.apple.quarantine ../Switch.app
 
 for file in *.command; do
     mv "$file" "`basename $file .command`.txt" 
@@ -16,7 +16,7 @@ done
 for file in *.txt; do
     mv "$file" "`basename $file .txt`.command"
 
-yes | cp *.command  ../cr2hdr.app/Contents
+yes | cp *.command  ../Switch.app/Contents
 done
 
 for file in *.command; do
@@ -25,8 +25,8 @@ done
 
 mv Build_dmg_package.txt Build_dmg_package.command
 
-rm ../cr2hdr.app/Contents/Build_dmg_package.command
-rm ../cr2hdr.app/Contents/cr2hdr_MAIN.command
+rm ../Switch.app/Contents/Build_dmg_package.command
+rm ../Switch.app/Contents/Switch_MAIN.command
 
 cd ../
 
@@ -37,12 +37,12 @@ cd ../
 # http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
 
 source="install_temp"
-title="cr2hdr"
-finalDMGName="cr2hdr.dmg"
+title="Switch"
+finalDMGName="Switch.dmg"
 size=150000
 
 mkdir "${source}"
-cp -R cr2hdr.app "${source}"
+cp -R Switch.app "${source}"
 cp -R source_code "${source}"
 cp LICENSE "${source}"
 cp HOWTO.txt "${source}"

@@ -186,12 +186,12 @@ echo "
 2 - Choose ProRes render settings. Default is ProRes4444. Do NOT hit render"
 echo "
 3 - When done save your aep project settings template to your ProRes4444 folder and close AE. The template 
-    can be reused or altered when required. Rerun cr2hdr.app"
+    can be reused or altered when required. Rerun Switch"
 echo "
 4 - Change acr settings by applying changes to the first file in every dng sequence. This step
     is done OUTSIDE after effects"
 echo "
-5 - Run cr2hdr.app"
+5 - Run Switch"
 echo $(tput bold)$(tput setaf 1)"
 
 Important$(tput sgr0)"

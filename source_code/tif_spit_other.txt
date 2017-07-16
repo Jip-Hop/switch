@@ -184,8 +184,8 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ti) tif previews$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(o)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)  run cr2hdr$(tput sgr0)			 
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  run Switch$(tput sgr0)			 
   					        					
 Please enter your selection number below and hit enter:
 EOF
@@ -374,7 +374,7 @@ do
 
     $(tput bold)$(tput setaf 1)(1) Any footage$(tput sgr0)
     $(tput bold)$(tput setaf 1)(2) Crop mode 3x3 720p$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) exit cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
 
 Please enter your selection number below and hit enter:
 EOF
@@ -649,7 +649,7 @@ do
 
     $(tput bold)$(tput setaf 1)(1) Any footage$(tput sgr0)
     $(tput bold)$(tput setaf 1)(2) Crop mode 3x3 720p$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) exit cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
 
 Please enter your selection number below and hit enter:
 EOF
@@ -1066,7 +1066,7 @@ echo $(tput bold)1$(tput sgr0) - Choose a $(tput bold)ProRes4444, ProRes Proxy o
 echo $(tput bold)2$(tput sgr0) - Select any $(tput bold)other settings$(tput sgr0) you desire$(tput sgr0) 
 echo $(tput bold)3$(tput sgr0) - You can add up to three extra 3D luts"("cube")" in your output folders for creating
 echo     further looks."("ProRes4444 and Proxy folders inside your parent folder")"$(tput sgr0)
-echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run cr2hdr$(tput sgr0)
+echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run Switch$(tput sgr0)
 echo
 echo
 echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to ProRes output menu$(tput sgr0)

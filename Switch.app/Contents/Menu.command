@@ -154,7 +154,7 @@ do
     $(tput bold)(03)$(tput sgr0) Process RAW to dng (without creation of MLV files)  
 
 
-    $(tput bold)$(tput setaf 1)(q) exit cr2hdr$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)   					        					
 
 Please enter your selection number below:
 EOF
@@ -657,15 +657,15 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(O)  open up your working folder list$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(R)  reset cr2hdr to defaults$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(R)  reset Switch to defaults$(tput sgr0)
     $(tput bold)$(tput setaf 1)(A)  darkframe average automation$(tput sgr0)$(tput bold)$(tput sgr0) $DARK
     $(tput bold)$(tput setaf 1)(F)  flatframe average automation$(tput sgr0)$(tput bold)$(tput sgr0) $FLAT
     $(tput bold)$(tput setaf 1)(a)  full auto mode$(tput sgr0) $auto
     $(tput bold)$(tput setaf 1)(pl) afplay$(tput sgr0) $(tput bold)$afplay$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(DB) run cr2hdr in debug mode$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(DB) run Switch in debug mode$(tput sgr0)
     $(tput bold)$(tput setaf 1)(to) useful scripts(toolbox)$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)  run cr2hdr$(tput sgr0)   
+    $(tput bold)$(tput setaf 1)(r)  run Switch$(tput sgr0)   
 
 Please enter your selection number below:
 EOF
@@ -793,8 +793,8 @@ ${bold}Speed increase$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(d)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)  run cr2hdr$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  run Switch$(tput sgr0)   					        					
 
 Please enter your selection number below:
 EOF
@@ -1170,8 +1170,8 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(m)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run Switch$(tput sgr0)
 			 
   					        					
 Please enter your selection number below and hit enter:
@@ -1518,7 +1518,7 @@ do
 
     $(tput bold)$(tput setaf 1)(m) Main menu$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q) quit$(tput sgr0)  
-    $(tput bold)$(tput setaf 1)(r) run cr2hdr$(tput sgr0)					        					
+    $(tput bold)$(tput setaf 1)(r) run Switch$(tput sgr0)					        					
 
 Please enter your selection number below:
 EOF
@@ -1957,8 +1957,8 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ti) tif previews$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(p)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)  run cr2hdr$(tput sgr0)			 
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  run Switch$(tput sgr0)			 
   					        					
 Please enter your selection number below and hit enter:
 EOF
@@ -2789,7 +2789,7 @@ do
     $(tput bold)(r)$(tput sgr0) Continue without changes  
 
     $(tput bold)$(tput setaf 1)(p) Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) quit cr2hdr$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(q) quit Switch$(tput sgr0)   					        					
 
 Please enter your selection number below:
 EOF
@@ -2938,7 +2938,7 @@ do
     $(tput bold)(r)$(tput sgr0) Continue without changes  
 
     $(tput bold)$(tput setaf 1)(p) Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) quit cr2hdr$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(q) quit Switch$(tput sgr0)   					        					
 
 Please enter your selection number below:
 EOF
@@ -3046,7 +3046,7 @@ echo $(tput bold)1$(tput sgr0) - Choose a $(tput bold)ProRes4444, ProRes Proxy o
 echo $(tput bold)2$(tput sgr0) - Select any $(tput bold)other settings$(tput sgr0) you desire$(tput sgr0) 
 echo $(tput bold)3$(tput sgr0) - You can add up to three extra 3D luts"("cube")" in your output folders for creating
 echo     further looks."("ProRes4444 and Proxy folders inside your parent folder")"$(tput sgr0)
-echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run cr2hdr$(tput sgr0)
+echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run Switch$(tput sgr0)
 echo
 echo
 echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to ProRes output menu$(tput sgr0)
@@ -3445,8 +3445,8 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ti) tif previews$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(o)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit cr2hdr$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)  run cr2hdr$(tput sgr0)			 
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)  run Switch$(tput sgr0)			 
   					        					
 Please enter your selection number below and hit enter:
 EOF
@@ -3635,7 +3635,7 @@ do
 
     $(tput bold)$(tput setaf 1)(1) Any footage$(tput sgr0)
     $(tput bold)$(tput setaf 1)(2) Crop mode 3x3 720p$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) exit cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
 
 Please enter your selection number below and hit enter:
 EOF
@@ -3910,7 +3910,7 @@ do
 
     $(tput bold)$(tput setaf 1)(1) Any footage$(tput sgr0)
     $(tput bold)$(tput setaf 1)(2) Crop mode 3x3 720p$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) exit cr2hdr$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
 
 Please enter your selection number below and hit enter:
 EOF
@@ -4327,7 +4327,7 @@ echo $(tput bold)1$(tput sgr0) - Choose a $(tput bold)ProRes4444, ProRes Proxy o
 echo $(tput bold)2$(tput sgr0) - Select any $(tput bold)other settings$(tput sgr0) you desire$(tput sgr0) 
 echo $(tput bold)3$(tput sgr0) - You can add up to three extra 3D luts"("cube")" in your output folders for creating
 echo     further looks."("ProRes4444 and Proxy folders inside your parent folder")"$(tput sgr0)
-echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run cr2hdr$(tput sgr0)
+echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run Switch$(tput sgr0)
 echo
 echo
 echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to ProRes output menu$(tput sgr0)
@@ -4557,7 +4557,7 @@ do
     ==============
     ${bold}$(tput setaf 1)MLVFS workflow$(tput sgr0)             (Install MLVFS or this menu won,t work)
     --------------
-    ${bold}Start off by selecting processing options. When done $(tput bold)$(tput setaf 1)Activate MLVFS$(tput sgr0) $(tput bold)then $(tput setaf 1)run cr2hdr$(tput sgr0) 
+    ${bold}Start off by selecting processing options. When done $(tput bold)$(tput setaf 1)Activate MLVFS$(tput sgr0) $(tput bold)then $(tput setaf 1)run Switch$(tput sgr0) 
     $(tput bold)note! Reenter selection to erase!
 
 $(tput bold)input: $(tput setaf 4)$(cat /tmp/DUALISO/"path_1")/$(tput sgr0)
@@ -4607,8 +4607,8 @@ ${bold}- These settings only apply after activation of MLVFS $(tput setaf 1)(A)$
     $(tput bold)$(tput setaf 1)(S)   select new input$(tput sgr0)     Select a folder with MLV files	
     $(tput bold)$(tput setaf 1)(E)   erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)   exit cr2hdr$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(r)   run cr2hdr$(tput sgr0)            Select settings and $(tput bold)$(tput setaf 1)(A) Activate MLVFS$(tput sgr0) before running cr2hdr(last step)
+    $(tput bold)$(tput setaf 1)(q)   exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r)   run Switch$(tput sgr0)            Select settings and $(tput bold)$(tput setaf 1)(A) Activate MLVFS$(tput sgr0) before running Switch(last step)
 
 Please enter your selection number below:
 EOF
@@ -5149,7 +5149,7 @@ do
     $(tput bold)(r)$(tput sgr0) Continue without changes  
 
     $(tput bold)$(tput setaf 1)(p) Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) quit cr2hdr$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(q) quit Switch$(tput sgr0)   					        					
 
 Please enter your selection number below:
 EOF
@@ -5297,7 +5297,7 @@ do
     $(tput bold)(r)$(tput sgr0) Continue without changes  
 
     $(tput bold)$(tput setaf 1)(p) Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q) quit cr2hdr$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(q) quit Switch$(tput sgr0)   					        					
 
 Please enter your selection number below:
 EOF
@@ -6036,7 +6036,7 @@ rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
 clear
 printf '\e[8;10;60t'
 printf '\e[3;0;0t'
-. "$(cat /tmp/DUALISO/"path_2")"cr2hdr_MAIN_DBG.command 
+. "$(cat /tmp/DUALISO/"path_2")"Switch_MAIN_DBG.command 
 open "$(cat /tmp/DUALISO/path_1)"/LOG.txt
 printf '\e[8;30;55t'
 printf '\e[3;450;0t'

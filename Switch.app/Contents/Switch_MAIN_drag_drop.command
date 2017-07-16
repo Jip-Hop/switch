@@ -1,3 +1,64 @@
+
+if ! [ -d "$(cat /tmp/DUALISO/path_1)" ]
+then
+if grep 'mov\|MOV' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
+then 
+echo > /tmp/DUALISO/PREV
+. /etc/profile
+ffplay -vf tblend=all_mode=average "$(cat /tmp/DUALISO/path_1)"
+rm /tmp/DUALISO/path_1
+else
+    if grep 'mlv\|MLV\|RAW\|DNG\|dng' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
+    then 
+    echo > /tmp/DUALISO/PREV
+#Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
+    cd "$1"
+    path_2=$(echo "$1")
+#workaround which lets all files preview through MLVFS
+    killall mlvfss
+    rm -r /tmp/MLV_viewer
+    mkdir /tmp/MLV_viewer
+    mkdir /tmp/MLV_viewer/storage 
+    mkdir /tmp/MLV_viewer/mount 
+    ln -s "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MLV /tmp/MLV_viewer/storage
+    cd "$path_2"Contents/mlvfs
+
+./mlvfss /tmp/MLV_viewer/mount --mlv-dir=/tmp/MLV_viewer/storage -f -o local -o volname=/tmp/MLV_viewer/mount -o allow_other --resolve-naming & 
+ 
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer /tmp/MLV_viewer/mount & 
+ while pgrep mlrawviewer
+ do sleep 1
+ done
+    
+    killall mlvfss
+    rm -r /tmp/MLV_viewer
+    rm /tmp/DUALISO/path_1
+    cd "$1"
+    fi
+    fi
+    fi
+
+if grep 'C0000' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
+then 
+echo > /tmp/DUALISO/PREV
+    cd "$1"
+    path_2=$(echo "$1") 
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(dirname "$(cat /tmp/DUALISO/path_1)")" & sleep 2
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+while pgrep mlrawviewer
+do sleep 1
+done
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+rm /tmp/DUALISO/path_1
+fi
+
+if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ]
+then
+#stop trap
+echo > /tmp/DUALISO/PREV
+
 #GNU public license
 #This program is free software; you can redistribute it and/or
  # modify it under the terms of the GNU General Public License
@@ -29,16 +90,20 @@
 #Export to ProRes4444 and/or ProRes proxy
 #run cr2hdr 4 processes in parallel(CR2,DNG,dng files)
 
-#Main code. For it to take effect it has to be copied into cr2hdr(.app). Do so by opening cr2hdr(.app) in automator.
-#First output path
-    echo "$1" | perl -pi -e 's/Contents\/First_out.app\///g' 2>/dev/null | perl -p -e 's/^[ \t]*//' > /tmp/DUALISO/path_2
-    cd "$(cat /tmp/DUALISO/path_1)"
-    path_2=$(cat /tmp/DUALISO/path_2)
+#set first_out.app path
+    if [ -d "$(cat /tmp/folder_paths.txt | head -1)" ]
+    then
+    echo "$(cat /tmp/folder_paths.txt | head -1)" > /tmp/path_1b
+    fi
+
+#Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
+    cd "$1"
+    path_2=$(echo "$1")
 #Main menu command, afplayer
     find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/progress_bar.command -exec xattr -d -r com.apple.quarantine {} \;
-    find "$path_2"Contents/cr2hdr_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/Switch_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
     export PATH="$path_2"Contents:$PATH
     cd "$(cat /tmp/DUALISO/path_1)"
     rm "$(cat /tmp/DUALISO/path_1)"/LOG.txt
@@ -51,7 +116,7 @@
     if grep 'RAW' <<< $(ls *.RAW | head -1 | grep -o '[^/]*$')
     then
 #create app path
-    echo "$path_2"Contents/ > /tmp/DUALISO/path_2
+    echo "$1"Contents/ > /tmp/DUALISO/path_2
     ls *.RAW > /tmp/DUALISO/list_RAW
     echo > /tmp/DUALISO/RAW_demolish
     open "$path_2"Contents/Menu.command & sleep 1
@@ -129,9 +194,9 @@
     fi
 #Call menu selector
     echo > /tmp/DUALISO/DUALISO
-    echo "$path_2"Contents/ > /tmp/DUALISO/path_2
+    echo "$1"Contents/ > /tmp/DUALISO/path_2
 #in case of debug mode
-    echo "$path_2" > /tmp/DUALISO/DBG_path
+    echo "$1" > /tmp/DUALISO/DBG_path
     open "$path_2"Contents/Menu.command & sleep 1
     while ls /tmp/DUALISO/DUALISO 2>/dev/null
     do sleep 1
@@ -437,7 +502,7 @@ sleep 1
     then
 #list mlv files and send them for processing
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/DF_storage
-#split into 4 chunks
+# into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
@@ -641,6 +706,7 @@ sleep 1
     fi
     fi
 #Start MLV counter
+#Start MLV counter
     if ls *.MLV
     then 
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
@@ -666,10 +732,10 @@ sleep 1
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
     rm /tmp/DUALISO/MLVFILES
-    . "$path_2"Contents/mlv_dump_01.command & pid1=$!
-    . "$path_2"Contents/mlv_dump_02.command & pid2=$!
-    . "$path_2"Contents/mlv_dump_03.command & pid3=$!
-    . "$path_2"Contents/mlv_dump_04.command & pid4=$!
+    . "$path_2"Contents/mlv_dump_01.command & pid1=$! 
+    . "$path_2"Contents/mlv_dump_02.command & pid2=$! 
+    . "$path_2"Contents/mlv_dump_03.command & pid3=$! 
+    . "$path_2"Contents/mlv_dump_04.command & pid4=$! 
 #wait for jobs to end
     wait < <(jobs -p)
 #mlv_dump time command
@@ -1050,7 +1116,7 @@ done
     if ! [ x"$(cat /tmp/folder_paths.txt)" = x ]
     then
     echo "$(cat /tmp/folder_paths.txt | head -1)" > /tmp/DUALISO/path_1
-    "$path_2"Contents/cr2hdr_MAIN_DBG.command
+    "$path_2"Contents/Switch_MAIN_DBG.command
     else
 #The end
     sleep 1
@@ -1091,6 +1157,7 @@ done
     sleep 1
     printf "%d Days, %02d Hrs, %02d Min, %02d Sec\n" $dd $dh $dm $ds > /tmp/DUALISO/TOT_time  
     open "$path_2"Contents/progress_bar.command &
+    fi
     fi
  
 #Thanks to Bouncyball, A1ex(cr2hdr, raw2dng, mlv_dump) g3gg0(mlv_dump) Dave Coffin(dcraw) Fabrice Bellard(FFmpeg) Phil Harvey(Exiftool) Andreas Huggel(exiv2) BWF MetaEdit(FADGI) dfort(Focus pixel script).
