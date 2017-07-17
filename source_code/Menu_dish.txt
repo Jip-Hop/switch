@@ -186,12 +186,12 @@ echo "
 2 - Choose ProRes render settings. Default is ProRes4444. Do NOT hit render"
 echo "
 3 - When done save your aep project settings template to your ProRes4444 folder and close AE. The template 
-    can be reused or altered when required. Rerun Switch"
+    can be reused or altered when required. Rerun cr2hdr.app"
 echo "
 4 - Change acr settings by applying changes to the first file in every dng sequence. This step
     is done OUTSIDE after effects"
 echo "
-5 - Run Switch"
+5 - Run cr2hdr.app"
 echo $(tput bold)$(tput setaf 1)"
 
 Important$(tput sgr0)"
@@ -682,6 +682,14 @@ done
 
 
 #(11) MLV_COMPRESS
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    else
+    mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
+
     rm /tmp/DUALISO/MLV_cprs_del
     if [ -f /tmp/DUALISO/MLV_cprs ]
     then
@@ -870,7 +878,7 @@ EOF
 
 if ! grep -q 'MLV\|mlv' /tmp/DUALISO/MLV_cprs
 then
-while [ "$(pgrep mlv_dump </dev/null)" ];
+while [ "$(pgrep $mlv_dump </dev/null)" ];
 do
 sleep 1
 done
@@ -982,7 +990,7 @@ EOF
 
 if ! grep -q 'MLV\|mlv' /tmp/DUALISO/MLV_cprs
 then
-while [ "$(pgrep mlv_dump </dev/null)" ];
+while [ "$(pgrep $mlv_dump </dev/null)" ];
 do
 sleep 1
 done

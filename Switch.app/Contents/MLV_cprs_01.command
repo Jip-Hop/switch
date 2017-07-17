@@ -24,6 +24,13 @@
     else
     set=$(printf "%s\n" -c)
     fi
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    else
+    mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
 
     while ! [ x"$(cat /tmp/DUALISO/MLV_cprsaa)" = x ]
     do 
@@ -35,9 +42,9 @@
     then
 #safety check
     mkdir -p  "$(cat /tmp/DUALISO/MLV_cprs_output)"
-    mlv_dump $set -o "$(cat /tmp/DUALISO/MLV_cprs_output)"/tmp_"$FILE_01" "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
+    $mlv_dump $set -o "$(cat /tmp/DUALISO/MLV_cprs_output)"/tmp_"$FILE_01" "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
     else
-    mlv_dump $set -o tmp_"$FILE_01" "$FILE_01"
+    $mlv_dump $set -o tmp_"$FILE_01" "$FILE_01"
     fi
 #decompress or not
     if ! ls /tmp/DUALISO/MLV_dcmrs
