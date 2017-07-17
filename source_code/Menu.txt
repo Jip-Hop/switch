@@ -650,11 +650,11 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 $(tput bold)darkframe storage:$(tput setaf 4)$darkfr_storage$(tput setaf 4)$(tput sgr0)
 $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
 
-    $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
     $(tput bold)$(tput setaf 1)(m)  mlv_dump settings$(tput sgr0)$(tput bold)(MLV)$(tput sgr0) $mlv_dump_a
     $(tput bold)$(tput setaf 1)(ms) mlv_dump_steroids settings$(tput sgr0)$(tput bold)(MLV)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(p)  ProRes output$(tput sgr0)$(tput bold)(MLV,RAW,dng)$(tput sgr0) $pro_a
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
+    $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)$(tput bold)$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
@@ -1778,7 +1778,7 @@ white="$(tput setaf 7)"
 #disable dualiso automation as default
     echo > /tmp/dualisodisable
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
 if grep 'no-cs' /tmp/mlv_dump_steroids_settings 
 then
 nocs=$(echo "$bold""$green"added!"$normal")
@@ -1830,7 +1830,7 @@ c=$(echo "$bold""$green"added!"$normal")
 fi
 if [ -f /tmp/mlv_dump_steroids_UNC ] 
 then
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
 rm /tmp/mlv_dump_steroids_settings
 p=$(echo "$bold""$green"added!"$normal")
 fi
@@ -1868,6 +1868,14 @@ if grep 'no-bitpack' /tmp/mlv_dump_steroids_settings
 then
 fdepth=$(echo "$bold""$green"added!"$normal")
 fi
+if grep ' \--fpi' /tmp/mlv_dump_steroids_settings 
+then
+fcpm=$(grep -Eo '.{0,0}fpi.{0,2}' /tmp/mlv_dump_steroids_settings)
+fi
+if grep ' \--bpi' /tmp/mlv_dump_steroids_settings 
+then
+bpm=$(grep -Eo '.{0,0}bpi.{0,2}' /tmp/mlv_dump_steroids_settings)
+fi
 
 while :
 do 
@@ -1900,8 +1908,10 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(17) deflicker$(tput sgr0) 3072(default) $(tput bold)$(tput setaf 4)$dfl$(tput sgr0)
     $(tput bold)(18) convert to bit depth$(tput sgr0)(1-16) $(tput bold)$(tput setaf 4)$btp$(tput sgr0)
     $(tput bold)(19) write DNG to 16 bit$(tput sgr0) $fdepth
-    $(tput bold)(20) disable dualiso automation$(tput sgr0)  $dual
-    $(tput bold)(21) create a sample files package$(tput sgr0)
+    $(tput bold)(20) focus pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=0),default=1$(tput bold)$(tput setaf 4) $fcpm$(tput sgr0)
+    $(tput bold)(21) bad pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=0),default=1$(tput bold)$(tput setaf 4) $bpm$(tput sgr0)
+    $(tput bold)(22) disable dualiso automation$(tput sgr0)  $dual
+    $(tput bold)(23) create a sample files package$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
@@ -2175,7 +2185,7 @@ echo $(tput bold)"
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
 rm /tmp/mlv_dump_steroids_settings
 printf "%s\n" "-p" > /tmp/mlv_dump_steroids_UNC
 p=$(echo "$bold""$green"added!"$normal")
@@ -2309,6 +2319,62 @@ fi
 ;;
 
     "20")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep ' \--fpi' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ '"$(grep -Eo '.{0,0}--fpi.{0,2}' /tmp/mlv_dump_steroids_settings)"'//g'
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+focus pixel method reset"$(tput sgr0) ; 
+sleep 1
+fcpm=
+else
+printf '\e[8;16;65t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify focus pixel method:$(tput sgr0)(between$(tput sgr0) 0 or 1 and hit enter)"
+read input_variable
+echo "focus pixel method is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+printf "%s\n" " --fpi $input_variable" >> /tmp/mlv_dump_steroids_settings
+fcpm=$(grep -Eo '.{0,0}fpi.{0,2}' /tmp/mlv_dump_steroids_settings)
+fi
+sleep 1 
+printf '\e[8;41;67t'
+printf '\e[3;450;0t'
+;;
+
+    "21")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep ' \--bpi' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ '"$(grep -Eo '.{0,0}--bpi.{0,2}' /tmp/mlv_dump_steroids_settings)"'//g'
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+bad pixel method reset"$(tput sgr0) ; 
+sleep 1
+bpm=
+else
+printf '\e[8;16;65t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify bad pixel method:$(tput sgr0)(between$(tput sgr0) 0 or 1 and hit enter)"
+read input_variable
+echo "bad pixel method is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+printf "%s\n" " --bpi $input_variable" >> /tmp/mlv_dump_steroids_settings
+bpm=$(grep -Eo '.{0,0}bpi.{0,2}' /tmp/mlv_dump_steroids_settings)
+fi
+sleep 1 
+printf '\e[8;41;67t'
+printf '\e[3;450;0t'
+;;
+
+    "22")
 if ! ls /tmp/dualisodisable
 then 
 echo > /tmp/dualisodisable
@@ -2319,8 +2385,7 @@ dual=
 fi
 ;;
 
-
-    "21")
+    "23")
 if ! [ -f /tmp/mlv_dump_steroids_settings ]
 then
 echo > /tmp/mlv_dump_steroids_settings
@@ -2384,7 +2449,7 @@ rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
 ;;
 
     "E")
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
 rm /tmp/mlv_dump_steroids_UNC
 rm /tmp/mlv_dump_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
@@ -6229,7 +6294,7 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
@@ -6594,7 +6659,7 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
