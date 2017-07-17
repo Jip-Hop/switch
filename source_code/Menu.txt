@@ -24,6 +24,7 @@
 #Main menu
 #DUALISO_CR2
 #mlv_dump
+#mlv_dump_steroids
 #ProRes output
 #AE_question
 #tif spit raw to tif
@@ -651,6 +652,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
     $(tput bold)$(tput setaf 1)(m)  mlv_dump settings$(tput sgr0)$(tput bold)(MLV)$(tput sgr0) $mlv_dump_a
+    $(tput bold)$(tput setaf 1)(ms) mlv_dump_steroids settings$(tput sgr0)$(tput bold)(MLV)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(p)  ProRes output$(tput sgr0)$(tput bold)(MLV,RAW,dng)$(tput sgr0) $pro_a
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)$(tput bold)$(tput sgr0)
@@ -1039,6 +1041,10 @@ done
 
 #mlv_dump
     "m") 
+#erase mlv_dump_steroids settings
+rm /tmp/mlv_dump_steroids_UNC
+rm /tmp/mlv_dump_steroids_settings
+
 printf '\e[8;36;67t'
 printf '\e[3;450;0t'
 bold="$(tput bold)"
@@ -1354,7 +1360,7 @@ printf "%s\n" " --black-fix"=$input_variable >> /tmp/mlv_dump_settings
 bll=$(grep -Eo '.{0,0}black-fix.{0,6}' /tmp/mlv_dump_settings)
 fi
 sleep 1 
-printf '\e[8;35;60t'
+printf '\e[8;36;67t'
 printf '\e[3;450;0t'
 ;;
 
@@ -1382,7 +1388,7 @@ printf "%s\n" " --white-fix"=$input_variable >> /tmp/mlv_dump_settings
 wll=$(grep -Eo '.{0,0}white-fix.{0,6}' /tmp/mlv_dump_settings)
 fi
 sleep 1 
-printf '\e[8;35;60t'
+printf '\e[8;36;67t'
 printf '\e[3;450;0t'
 ;;
 
@@ -1738,6 +1744,677 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     sleep 0.5
 done
 ;;
+
+
+#mlv_dump_steroids
+    "ms")
+#erase mlv_dump settings 
+if ! [ -f /tmp/mlv_dump_steroids_settings ]
+then
+echo > /tmp/mlv_dump_steroids_settings
+fi
+rm /tmp/mlv_dump_UNC
+rm /tmp/mlv_dump_settings
+
+printf '\e[8;41;67t'
+printf '\e[3;450;0t'
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+#disable dualiso automation as default
+    echo > /tmp/dualisodisable
+
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+if grep 'no-cs' /tmp/mlv_dump_steroids_settings 
+then
+nocs=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'cs2' /tmp/mlv_dump_steroids_settings 
+then
+cs2=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'cs3' /tmp/mlv_dump_steroids_settings 
+then
+cs3=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'cs5' /tmp/mlv_dump_steroids_settings 
+then
+cs5=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'no-fixcp' /tmp/mlv_dump_steroids_settings 
+then
+fixcp=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' --fixcp2' /tmp/mlv_dump_steroids_settings 
+then
+fixcp=
+fixcp2=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'no-stripes' /tmp/mlv_dump_steroids_settings 
+then
+nostripes=$(echo "$bold""$green"added!"$normal")
+fi
+if ls "$(cat /tmp/DUALISO/list_dng_look)"/A_lut_hold/MLV_RAW_my_darkframes.txt
+then
+dafr=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'black-fix' /tmp/mlv_dump_steroids_settings 
+then
+bll=$(grep -Eo '.{0,0}black-fix.{0,6}' /tmp/mlv_dump_steroids_settings)
+fi
+if grep 'white-fix' /tmp/mlv_dump_steroids_settings 
+then
+wll=$(grep -Eo '.{0,0}white-fix.{0,6}' /tmp/mlv_dump_steroids_settings)
+fi
+if ls /tmp/dualisodisable
+then
+dual=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \-c' /tmp/mlv_dump_steroids_settings 
+then
+c=$(echo "$bold""$green"added!"$normal")
+fi
+if [ -f /tmp/mlv_dump_steroids_UNC ] 
+then
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+rm /tmp/mlv_dump_steroids_settings
+p=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'relaxed' /tmp/mlv_dump_steroids_settings 
+then
+ato=$(echo "$bold""$green"added!"$normal")
+else
+ato=
+fi
+if grep 'relaxed' /tmp/mlv_dump_steroids_UNC
+then
+ato=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'no-audio' /tmp/mlv_dump_steroids_settings 
+then
+w=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'force-stripes' /tmp/mlv_dump_steroids_settings 
+then
+fstripes=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'fpn' /tmp/mlv_dump_steroids_settings 
+then
+fpn=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'deflicker' /tmp/mlv_dump_steroids_settings 
+then
+dfl=$(grep -Eo '.{0,0}deflicker.{0,6}' /tmp/mlv_dump_steroids_settings)
+fi
+if grep ' \-b' /tmp/mlv_dump_steroids_settings 
+then
+btp=$(grep -Eo '.{0,0}-b.{0,3}' /tmp/mlv_dump_steroids_settings)
+fi
+if grep 'no-bitpack' /tmp/mlv_dump_steroids_settings 
+then
+fdepth=$(echo "$bold""$green"added!"$normal")
+fi
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    --------
+    $(tput bold)mlv_dump_steroids$(tput sgr0)(Bouncyball)
+    --------
+
+$(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
+	
+-- DNG output --
+    $(tput bold)(01) no chroma smoothing$(tput sgr0)   $nocs
+    $(tput bold)(02) 2x2 chroma smoothing$(tput sgr0)  $cs2	
+    $(tput bold)(03) 3x3 chroma smoothing$(tput sgr0)  $cs3
+    $(tput bold)(04) 5x5 chroma smoothing$(tput sgr0)  $cs5
+    $(tput bold)(05) turn off cold pixels$(tput sgr0)  $fixcp 
+    $(tput bold)(06) fix non-static$(tput sgr0)(moving) $(tput bold)cold pixels$(tput sgr0)(slow) $fixcp2
+    $(tput bold)(07) disable vertical stripes in highlights  $nostripes
+    $(tput bold)(08) force vertical stripes$(tput sgr0)(slow, every frame)  $fstripes
+    $(tput bold)(09) set black level  $(tput setaf 4)$bll$(tput sgr0)
+    $(tput bold)(10) set white level  $(tput setaf 4)$wll$(tput sgr0)
+    $(tput bold)(11) compress dng files using LJ92$(tput sgr0) $c
+    $(tput bold)(12) compress/decompress MLV files using LJ92$(tput sgr0) $cr
+    $(tput bold)(13) pass through original raw data without processing$(tput sgr0) $p
+    $(tput bold)(14) no audio$(tput sgr0)(no WAV file nor wav metadata) $w
+    $(tput bold)(15) relaxed$(tput sgr0)(skip blocks that are erroneous) $ato
+    $(tput bold)(16) fix pattern noise$(tput sgr0) $fpn
+    $(tput bold)(17) deflicker$(tput sgr0) 3072(default) $(tput bold)$(tput setaf 4)$dfl$(tput sgr0)
+    $(tput bold)(18) convert to bit depth$(tput sgr0)(1-16) $(tput bold)$(tput setaf 4)$btp$(tput sgr0)
+    $(tput bold)(19) write DNG to 16 bit$(tput sgr0) $fdepth
+    $(tput bold)(20) disable dualiso automation$(tput sgr0)  $dual
+    $(tput bold)(21) create a sample files package$(tput sgr0)
+
+    $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(ms) Main menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run Switch$(tput sgr0)
+			 
+  					        					
+Please enter your selection number below and hit enter:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "01")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'no-cs' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-cs//g' 
+nocs=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-cs" >> /tmp/mlv_dump_steroids_settings
+nocs=$(echo "$bold""$green"added!"$normal")
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs2x2//g'
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs5x5//g'
+cs2=
+cs3=
+cs5=
+fi
+;;
+
+    "02")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'cs2' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+cs2=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --cs2x2" >> /tmp/mlv_dump_steroids_settings
+cs2=$(echo "$bold""$green"added!"$normal")
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs5x5//g'
+nocs=
+cs3=
+cs5=
+fi
+;;
+
+    "03")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'cs3' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs3x3//g' 
+cs3=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --cs3x3" >> /tmp/mlv_dump_steroids_settings
+cs3=$(echo "$bold""$green"added!"$normal")
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs5x5//g'
+nocs=
+cs2=
+cs5=
+fi
+;;
+
+    "04")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'cs5' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs5x5//g' 
+cs5=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --cs5x5" >> /tmp/mlv_dump_steroids_settings
+cs5=$(echo "$bold""$green"added!"$normal")
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-cs//g'
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs2x2//g' 
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --cs3x3//g'
+nocs=
+cs2=
+cs3=
+fi
+;;
+
+
+
+    "05")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'no-fixcp' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-fixcp//g' 
+fixcp=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-fixcp" >> /tmp/mlv_dump_steroids_settings
+fixcp=$(echo "$bold""$green"added!"$normal")
+fixcp2=
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --fixcp2//g'
+fi
+;;
+
+
+
+    "06")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep ' --fixcp2' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --fixcp2//g' 
+fixcp2=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-fixcp//g'
+printf "%s\n" " --fixcp2" >> /tmp/mlv_dump_steroids_settings
+fixcp2=$(echo "$bold""$green"added!"$normal")
+fixcp=
+fi
+;;
+
+    "07")
+if grep 'no-stripes' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-stripes//g' 
+nostripes=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-stripes" >> /tmp/mlv_dump_steroids_settings
+nostripes=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "08")
+if grep 'force-stripes' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --force-stripes//g' 
+fstripes=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --force-stripes" >> /tmp/mlv_dump_steroids_settings
+fstripes=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "09")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'black-fix' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ '"$(grep -Eo '.{0,2}black-fix.{0,6}' /tmp/mlv_dump_steroids_settings)"'//g'
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+black level setting reset"$(tput sgr0) ; 
+sleep 1
+bll=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify black level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 2048 and hit enter)"
+read input_variable
+echo "black level is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+printf "%s\n" " --black-fix"=$input_variable >> /tmp/mlv_dump_steroids_settings
+bll=$(grep -Eo '.{0,0}black-fix.{0,6}' /tmp/mlv_dump_steroids_settings)
+fi
+sleep 1 
+printf '\e[8;41;67t'
+printf '\e[3;450;0t'
+;;
+
+    "10")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'white-fix' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ '"$(grep -Eo '.{0,2}white-fix.{0,6}' /tmp/mlv_dump_steroids_settings)"'//g'
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+white level setting reset"$(tput sgr0) ; 
+sleep 1
+wll=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify white level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 15000 and hit enter)"
+read input_variable
+echo "white level is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+printf "%s\n" " --white-fix"=$input_variable >> /tmp/mlv_dump_steroids_settings
+wll=$(grep -Eo '.{0,0}white-fix.{0,6}' /tmp/mlv_dump_steroids_settings)
+fi
+sleep 1 
+printf '\e[8;41;67t'
+printf '\e[3;450;0t'
+;;
+
+
+    "11")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep ' \-c' /tmp/mlv_dump_steroids_settings 
+then
+perl -pi -e 's/ -c//g' /tmp/mlv_dump_steroids_settings
+c=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " -c" >> /tmp/mlv_dump_steroids_settings
+c=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "12")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+echo > /tmp/DUALISO/MLV_cprs
+if ! [ -f /tmp/mlv_dump_steroids_settings ]
+then
+echo > /tmp/mlv_dump_steroids_settings
+fi
+. "$(cat /tmp/DUALISO/path_2)"Menu_dish.command
+;;
+
+
+    "13")
+if [ -f /tmp/mlv_dump_steroids_UNC ]
+then
+rm /tmp/mlv_dump_steroids_UNC
+p=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+rm /tmp/mlv_dump_steroids_settings
+printf "%s\n" "-p" > /tmp/mlv_dump_steroids_UNC
+p=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "14")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'no-audio' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-audio//g' 
+w=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-audio" >> /tmp/mlv_dump_steroids_settings
+w=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+
+    "15")  
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep ' \--relaxed' /tmp/mlv_dump_steroids_settings 
+then
+perl -pi -e 's/ --relaxed//g' /tmp/mlv_dump_steroids_settings
+ato=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --relaxed" >> /tmp/mlv_dump_steroids_settings
+ato=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "16")  
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'fpn' /tmp/mlv_dump_steroids_settings 
+then
+perl -pi -e 's/ --fpn//g' /tmp/mlv_dump_steroids_settings
+fpn=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --fpn" >> /tmp/mlv_dump_steroids_settings
+fpn=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+
+    "17")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'deflicker' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ '"$(grep -Eo '.{0,2}deflicker.{0,6}' /tmp/mlv_dump_steroids_settings)"'//g'
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+deflicker level setting reset"$(tput sgr0) ; 
+sleep 1
+dfl=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify deflicker level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 3072 and hit enter)"
+read input_variable
+echo "deflicker level is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+printf "%s\n" " --deflicker"=$input_variable >> /tmp/mlv_dump_steroids_settings
+dfl=$(grep -Eo '.{0,0}deflicker.{0,6}' /tmp/mlv_dump_steroids_settings)
+fi
+sleep 1 
+printf '\e[8;41;67t'
+printf '\e[3;450;0t'
+;;
+
+    "18")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep ' \-b' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ '"$(grep -Eo '.{0,0}-b.{0,3}' /tmp/mlv_dump_steroids_settings)"'//g'
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+bitdepth reset"$(tput sgr0) ; 
+sleep 1
+btp=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify bitdepth:$(tput sgr0)(between$(tput sgr0) 1-16 and hit enter)"
+read input_variable
+echo "bitdepth is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+printf "%s\n" " -b $input_variable" >> /tmp/mlv_dump_steroids_settings
+btp=$(grep -Eo '.{0,0}-b.{0,3}' /tmp/mlv_dump_steroids_settings)
+fi
+sleep 1 
+printf '\e[8;41;67t'
+printf '\e[3;450;0t'
+;;
+
+    "19")
+rm /tmp/mlv_dump_steroids_UNC
+p=
+if grep 'no-bitpack' /tmp/mlv_dump_steroids_settings 
+then
+find /tmp/mlv_dump_steroids_settings | xargs perl -pi -e 's/ --no-bitpack//g' 
+fdepth=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-bitpack" >> /tmp/mlv_dump_steroids_settings
+fdepth=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "20")
+if ! ls /tmp/dualisodisable
+then 
+echo > /tmp/dualisodisable
+dual=$(echo "$bold""$green"added!"$normal")
+else
+rm /tmp/dualisodisable
+dual=
+fi
+;;
+
+
+    "21")
+if ! [ -f /tmp/mlv_dump_steroids_settings ]
+then
+echo > /tmp/mlv_dump_steroids_settings
+fi
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    else
+    mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
+#mlv_dump settings
+    mlv=$(cat /tmp/mlv_dump_steroids_settings)
+cd "$(cat /tmp/DUALISO/"path_1")"
+#list all mlv files
+    ls *.MLV > /tmp/DUALISO/samples
+#menu
+    rm /tmp/DUALISO/MLVprogress_bar_key
+    open "$(cat /tmp/DUALISO/path_2)"progress_bar.command &
+    while grep 'MLV' /tmp/DUALISO/samples
+    do
+cd "$(cat /tmp/DUALISO/"path_1")"
+mkdir -p "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples
+#Debug log file
+    rm "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt
+    exec &> >(tee -a "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt >&2 )
+    OLDIFS=$IFS
+    $mlv_dump -f 4 -o "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1)" "$(cat /tmp/DUALISO/samples | head -1)" &
+    $mlv_dump $mlv --dng -f 0 -o "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)" "$(cat /tmp/DUALISO/samples | head -1)" & sleep 2
+    killall $mlv_dump
+    mv "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"000000.dng "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)".dng
+    $mlv_dump -v "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1)"
+echo ###################################################################################################################### > "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt
+echo ###################################################################################################################### > "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt
+    exiftool "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)".dng
+echo ###################################################################################################################### > "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt
+echo ###################################################################################################################### > "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt
+    if ls "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)".wav
+    then
+    rm "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)".MLV.wav
+    exiftool "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)".wav
+    fi
+    zip "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1)" "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)".dng "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)".wav
+    mv "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples.zip ./
+    rm -r "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples 
+    IFS=$OLDIFS 
+    echo "$(tail -n +2 /tmp/DUALISO/samples)" > /tmp/DUALISO/samples
+    done
+cd ..
+;;
+
+    "mp")
+"$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/"path_1")" & sleep 2
+rm "$(cat /tmp/DUALISO/"path_1")"/*.WAV
+rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
+while [ -n "$(pgrep mlrawviewer </dev/null)" ];
+do sleep 1
+done
+rm "$(cat /tmp/DUALISO/"path_1")"/*.WAV
+rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
+;;
+
+    "E")
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
+rm /tmp/mlv_dump_steroids_UNC
+rm /tmp/mlv_dump_steroids_settings 1> /dev/null 2>&1 &
+rm /tmp/dualisodisable 1> /dev/null 2>&1 &
+;;
+
+    "ms")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "r")  
+rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_Proxy/*.tif
+rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
+rm /tmp/DUALISO/tif_spit
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+;;
+
 
 #ProRes output
     "p") 
@@ -5552,9 +6229,11 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; ccc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
 rm /tmp/mlv_dump_UNC
+rm /tmp/mlv_dump_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
+rm /tmp/mlv_dump_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
 lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR=
@@ -5915,9 +6594,11 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; ccc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth=
 rm /tmp/mlv_dump_UNC
+rm /tmp/mlv_dump_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
+rm /tmp/mlv_dump_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
 lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR=

@@ -1,8 +1,17 @@
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    map=$(printf "%s\n" fpm)
+    else
+    mlv_dump=$(printf "%s\n" mlv_dump)
+    map=$(printf "%s\n" map)
+    fi
 #Processing MLV files into folders with dng files
     while ! [ x"$(cat /tmp/DUALISO/MLVFILESac)" = x ]
     do 
     FILE=$(cat /tmp/DUALISO/"MLVFILESac" | head -1 | grep -v 'avg_\|ft_')
-    date=$(mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
+    date=$($mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
     date_01=$(echo "$date" | head -c2)
     date_02=$(echo "$date" | cut -c4-5)
     date_03=$(echo "$date" | cut -c7-10)
@@ -29,10 +38,17 @@
 #check for white balance(WB) file
     mv "$BASE".WB "${BASE}_1_$date"
 #allbadpixel.map handling
-    if ls *"$BASE".map
+    if ls *"$BASE".$map
     then
-    mv "$BASE".map "${BASE}_1_$date"/allbadpixels.map
-    mv a_"$BASE".map "${BASE}_1_$date"/allbadpixels.map
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mv "$BASE".$map "${BASE}_1_$date"/"$BASE".$map
+    mv a_"$BASE".$map "${BASE}_1_$date"/"$BASE".$map
+    else
+    mv "$BASE".$map "${BASE}_1_$date"/allbadpixels.$map
+    mv a_"$BASE".$map "${BASE}_1_$date"/allbadpixels.$map
+    fi
     else
 #check for external allbadpixel.map file
     if ls allbadpixels.map
@@ -64,27 +80,33 @@
     cd "${BASE}_1_$date"
     fi
 #mlv_dump settings
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then
+    mlv="$(cat /tmp/"mlv_dump_steroids_settings" | perl -p -e 's/^[ \t]*//')"
+    else
 #Uncompressed setting then
     if [ -f /tmp/mlv_dump_UNC ]
     then
     rm /tmp/mlv_dump_settings
     mlv="$(cat /tmp/"mlv_dump_UNC" | perl -p -e 's/^[ \t]*//')"
     else
-    if grep '10\|12' <<< $(mlv_dump -v "$FILE" | grep 'bits_per_pixel' | awk 'FNR == 1 {print $2; }')
+    if grep '10\|12' <<< $($mlv_dump -v "$FILE" | grep 'bits_per_pixel' | awk 'FNR == 1 {print $2; }')
     then
     mlv="$(cat /tmp/"mlv_dump_settings" | perl -pi -e 's/ -c//g' 2>/dev/null | perl -p -e 's/^[ \t]*//')"
     else
     mlv="$(cat /tmp/"mlv_dump_settings" | perl -p -e 's/^[ \t]*//')"
     fi
     fi
+    fi
 #when going for dng files only(darkframes)
     if [ -f /tmp/only_DNG ]
     then
-    bit=$(mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$(mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$(mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$(mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$(mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     fi
 #create second output
     if ! [ x"$(cat /tmp/output)" = x ]
@@ -92,13 +114,20 @@
     mkdir -p "$(cat /tmp/output)"
     O2="$O${BASE}_1_$date"/
 #dfort focus pixel list in case you change output
-    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/Camera Name/ { print $5,$6; exit}')
+    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/Camera Name/ { print $5,$6; exit}')
     then 
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    map=$(printf "%s\n" fpm)
+    else
+    map=$(printf "%s\n" map)
+    fi 
     if ls /tmp/DUALISO/crop_rec
     then
-    fpm.sh -m crop_rec -o "$O2"allbadpixels.map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
+    fpm.sh -m crop_rec -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
     else
-    fpm.sh -o "$O2"allbadpixels.map "$(cat /tmp/DUALISO/path_1)"/"$FILE"   
+    fpm.sh -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"   
     fi 
     fi
 #enter new output
@@ -108,13 +137,13 @@
 #Do criterias match?
     if [ -f /tmp/only_DNG ] && [ -f "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
-    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     else
     if [ -f /tmp/only_DNG ] && [ -f "$(cat /tmp/DUALISO/path_1)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
-    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" -s "$(cat /tmp/DUALISO/path_1)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" -s "$(cat /tmp/DUALISO/path_1)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     else
-    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" 
+    $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$(cat /tmp/DUALISO/path_1)"/"$FILE" 
     fi
     fi
     cd "$(cat /tmp/DUALISO/path_1)"/
@@ -124,13 +153,13 @@
 #Do criterias match?
     if [ -f /tmp/only_DNG ] && [ -f "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
-    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     else
     if [ -f /tmp/only_DNG ] && [ -f ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
-    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     else
-    mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" 
+    $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" 
     fi
     fi
     fi
@@ -145,7 +174,7 @@
     fi
     fi
 #syncs audio to amount of dng frames
-    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
+    frct=$($mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
     FPS=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }')      
     frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
 #cut audio  
@@ -200,12 +229,12 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     fi
     else
 #check if cam was set to auto white balance. Non dualiso
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
 #check for new output location
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
@@ -226,7 +255,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
 #grabs white level
     wle=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
 #check if cam was set to auto white balance
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
@@ -246,7 +275,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     fi
     else 
 #check for new output location
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #rename DNG to dng fix 
@@ -256,7 +285,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     find "$O2". -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
     fi
 #check if cam was set to auto white balance. Non dualiso
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #rename DNG to dng fix 

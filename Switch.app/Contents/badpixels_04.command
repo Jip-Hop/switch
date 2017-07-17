@@ -18,6 +18,13 @@
 
 #print out trap note 1
     echo > /tmp/DUALISO/BP_TRAP4
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    map=$(printf "%s\n" fpm)
+    else
+    map=$(printf "%s\n" map)
+    fi 
     while ! [ x"$(cat /tmp/DUALISO/badpixelMLVad)" = x ]
     do 
 #get the file
@@ -28,12 +35,23 @@
 #run dfort focus pixel script
     if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$FILE_04" | awk '/Camera Name/ { print $5,$6; exit 0}')
     then 
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
     if ls /tmp/DUALISO/crop_rec
     then
-    fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
+    fpm.sh -f -n -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
-    fpm.sh -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"  
+    fpm.sh -f -n -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
+    fi
+    else
+    if ls /tmp/DUALISO/crop_rec
+    then
+    fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
+    else
+    fpm.sh -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"  
     fi 
+    fi
     fi
     done
 #remove trap

@@ -18,6 +18,13 @@
 
 #print out trap note 2
     echo > /tmp/DUALISO/DF_TRAP2
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    else
+    mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
     while ! [ x"$(cat /tmp/DUALISO/DF_storageab)" = x ]
     do 
 #get the file
@@ -25,15 +32,15 @@
 #cut to the next name on the list
     echo "$(tail -n +2 /tmp/DUALISO/DF_storageab)" > /tmp/DUALISO/DF_storageab
 #snatch necessary matching features
-    bit_02=$(mlv_dump -m -v "$FILE_02" | awk '/bits_per_pixel/ { print $2; exit }')
-    res_02=$(mlv_dump -m -v "$FILE_02" | awk '/Res/ { print $2; exit }')
-    iso_02=$(mlv_dump -m -v "$FILE_02" | awk '/ISO:/ { print $2; exit }')
-    fra_02=$(mlv_dump -m -v "$FILE_02" | awk '/FPS/ { print $3; exit }')
-    cn_02=$(mlv_dump -m -v "$FILE_02" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit_02=$($mlv_dump -m -v "$FILE_02" | awk '/bits_per_pixel/ { print $2; exit }')
+    res_02=$($mlv_dump -m -v "$FILE_02" | awk '/Res/ { print $2; exit }')
+    iso_02=$($mlv_dump -m -v "$FILE_02" | awk '/ISO:/ { print $2; exit }')
+    fra_02=$($mlv_dump -m -v "$FILE_02" | awk '/FPS/ { print $3; exit }')
+    cn_02=$($mlv_dump -m -v "$FILE_02" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
 #Do criterias match?
     if ls "$(cat /tmp/DARK_FOLDER)"/avg_"$bit_02"bit_"$cn_02"_res_"$res_02"_iso_"$iso_02"_fps_"$fra_02".MLV
     then
-    mlv_dump -o a_"$FILE_02" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit_02"bit_"$cn_02"_res_"$res_02"_iso_"$iso_02"_fps_"$fra_02".MLV "$FILE_02"
+    $mlv_dump -o a_"$FILE_02" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit_02"bit_"$cn_02"_res_"$res_02"_iso_"$iso_02"_fps_"$fra_02".MLV "$FILE_02"
     rm *MLV.wav
     mv "$FILE_02" A_ORIGINALS
     mv  "$(echo "$FILE_02" | cut -d "." -f1)".M* A_ORIGINALS

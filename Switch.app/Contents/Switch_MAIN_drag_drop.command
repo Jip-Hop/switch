@@ -213,6 +213,13 @@ echo > /tmp/DUALISO/PREV
     fi
 #Total time command starts here
     res1=$(date +%s)
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    else
+    mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
 ###############################################################
 #Export to ProRes4444 and/or ProRes proxy 
 #listing files(non raw)
@@ -290,10 +297,10 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'
     for FILE in `echo "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" 2>/dev/null`; do
-    mlv_dump --dng -f 1-1 "$FILE" & pid_flat=$!
+    $mlv_dump --dng -f 1-1 "$FILE" & pid_flat=$!
 #wait for jobs to finish   
     sleep 2
-#kill mlv_dump
+#kill $mlv_dump
     kill $pid_flat
     rm *_.wav
     ls *_000001.dng > /tmp/DUALISO/FLAT
@@ -305,15 +312,15 @@ sleep 1
     convert $(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1).jpeg -colorspace hsb -resize 1x1 $(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1).txt
     numb=$(echo $(grep '%' $(cat /tmp/DUALISO/FLAT| head -1 | cut -d "." -f1).txt | cut -d "%" -f3 | tr -d ',')) 
 #grab frame size and add info to the name of the file
-    fres=$(mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" | awk '/Res/ { print $2; exit }')
     if (( $(echo "$numb < 1.3" |bc -l) )); then
 #remove unwanted files
     rm "$(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1)".txt
     rm "$(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1)".jpeg
     rm "$(cat /tmp/DUALISO/FLAT | head -1)"
 #create the flat-dark, head -1 is the darkflat, head -2 is the FLATFRAMES
-    mlv_dump -s "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" -o F_lat_D_ark.MLV "$(cat /tmp/DUALISO/FLATFRAMES | tail -1)"
-    mlv_dump F_lat_D_ark.MLV -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | head -1 | grep -o '[^/]*$')"
+    $mlv_dump -s "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" -o F_lat_D_ark.MLV "$(cat /tmp/DUALISO/FLATFRAMES | tail -1)"
+    $mlv_dump F_lat_D_ark.MLV -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | head -1 | grep -o '[^/]*$')"
     rm F_lat_D_ark.MLV
 #move original files
     mv -i "$(cat /tmp/DUALISO/FLATFRAMES | tail -1)" A_ORIGINALS
@@ -323,8 +330,8 @@ sleep 1
     rm "$(cat /tmp/DUALISO/FLAT| head -1 | cut -d "." -f1)".txt
     rm "$(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1)".jpeg
     rm "$(cat /tmp/DUALISO/FLAT | head -1)"
-    mlv_dump -s "$(cat /tmp/DUALISO/FLATFRAMES | tail -1)" -o F_lat_D_ark.MLV "$(cat /tmp/DUALISO/FLATFRAMES | head -1)"
-    mlv_dump F_lat_D_ark.MLV -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | tail -1 | grep -o '[^/]*$')"
+    $mlv_dump -s "$(cat /tmp/DUALISO/FLATFRAMES | tail -1)" -o F_lat_D_ark.MLV "$(cat /tmp/DUALISO/FLATFRAMES | head -1)"
+    $mlv_dump F_lat_D_ark.MLV -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | tail -1 | grep -o '[^/]*$')"
     rm F_lat_D_ark.MLV
 #move original files
     mv -i "$(cat /tmp/DUALISO/FLATFRAMES | tail -1)" A_ORIGINALS
@@ -336,10 +343,10 @@ sleep 1
     if [ x"$(cat /tmp/DUALISO/FLATFRAMES | awk 'FNR == 2 {print $1}')" = x ]
     then
 #grab frame size and add info to the name of the file
-    fres=$(mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES)" | awk '/Res/ { print $2; exit }')
     OLDIFS=$IFS
     IFS=$'\n'
-    mlv_dump "$(cat /tmp/DUALISO/FLATFRAMES)" -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | grep -o '[^/]*$')"
+    $mlv_dump "$(cat /tmp/DUALISO/FLATFRAMES)" -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | grep -o '[^/]*$')"
     IFS=$OLDIFS 
     rm *_.wav
 #move original file
@@ -356,17 +363,17 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
-    if (( $(echo "$(mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
     then 
     echo "$FILE" >> /tmp/DUALISO/FLAT
     fi
     done
 #List files according to search criteria above
     for FILE in `echo "$(cat /tmp/DUALISO/FLAT)" 2>/dev/null`; do
-    mlv_dump --dng -f 1-1 "$FILE" & pid_flat=$!
+    $mlv_dump --dng -f 1-1 "$FILE" & pid_flat=$!
 #wait for jobs to finish   
     sleep 2
-#kill mlv_dump
+#kill $mlv_dump
     kill $pid_flat
     rm *_.wav
     ls *_000001.dng > /tmp/DUALISO/FLAT
@@ -395,10 +402,10 @@ sleep 1
     while grep 'MLV' My_flatfr
     do
 #grab frame size and add info to the name of the file
-    fres=$(mlv_dump -m -v "$(cat My_flatfr | head -1)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -m -v "$(cat My_flatfr | head -1)" | awk '/Res/ { print $2; exit }')
     OLDIFS=$IFS
     IFS=$'\n'
-    mlv_dump "$(cat My_flatfr | head -1)" -a -o ft_"$fres"_"$(cat My_flatfr | head -1 | grep -o '[^/]*$')"
+    $mlv_dump "$(cat My_flatfr | head -1)" -a -o ft_"$fres"_"$(cat My_flatfr | head -1 | grep -o '[^/]*$')"
     IFS=$OLDIFS 
     rm *_.wav
 #move original file
@@ -427,17 +434,17 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
-    if (( $(echo "$(mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
     then 
     echo "$FILE" >> /tmp/DUALISO/darkf.txt
     fi
     done
 #List files according to search criteria above
     for FILE in `echo "$(cat /tmp/DUALISO/darkf.txt)" 2>/dev/null`; do
-    mlv_dump --dng -f 1-1 "$FILE" & pid_dark=$!
+    $mlv_dump --dng -f 1-1 "$FILE" & pid_dark=$!
 #wait for jobs to finish   
     sleep 2
-#kill mlv_dump
+#kill $mlv_dump
     kill $pid_dark
     rm *_.wav
     ls *_000001.dng > /tmp/DUALISO/darkf.txt
@@ -465,13 +472,13 @@ sleep 1
 #Create the actual darkframes
     while grep 'MLV' My_darkfr
     do
-    mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
+    $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
     rm *MLV.wav
-    bit=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
-    iso=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
-    fra=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
-    cn=$(mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     mv avg_"$(cat My_darkfr | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     mkdir -p A_ORIGINALS/darkframe_originals
     mv "$(cat My_darkfr | head -1)" A_ORIGINALS/darkframe_originals
@@ -490,11 +497,11 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
-    bit=$(mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$(mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$(mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$(mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$(mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     if ls avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     then
 #Check for flatframe
@@ -521,10 +528,10 @@ sleep 1
 #Do frame size match?
     if [ "$res" = "$fres" ]
     then
-    mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -t ft_*.MLV "$FILE"
+    $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -t ft_*.MLV "$FILE"
     rm *MLV.wav
     else
-    mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
+    $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
     rm *MLV.wav
     fi
     fi
@@ -537,7 +544,7 @@ sleep 1
 #Do frame size match?
     if [ "$res" = "$fres" ]
     then
-    mlv_dump -o a_"$FILE" -t ft_*.MLV "$FILE"
+    $mlv_dump -o a_"$FILE" -t ft_*.MLV "$FILE"
     rm *MLV.wav
     fi
     mv -i "$FILE" A_ORIGINALS
@@ -565,29 +572,29 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
-    bit=$(mlv_dump -m -v "$FILE"| awk '/bits_per_pixel/ { print $2; exit }')
-    res=$(mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$(mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$(mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$(mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -m -v "$FILE"| awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
 #grab flatframe frame size 
-    fres=$(mlv_dump -m -v ft_*.MLV | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -m -v ft_*.MLV | awk '/Res/ { print $2; exit }')
     if ls avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     then
 #Check for flatframe
     if ! ls ft_*.MLV
     then
-    mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
+    $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
     rm *MLV.wav
     else
 #Do frame size match?
     if [ "$res" = "$fres" ]
     then
-    mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -t ft_*.MLV "$FILE"
+    $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -t ft_*.MLV "$FILE"
     rm *MLV.wav
     rm *_.wav
     else
-    mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
+    $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
     rm *MLV.wav
     fi
     fi
@@ -600,7 +607,7 @@ sleep 1
 #Do frame size match?
     if [ "$res" = "$fres" ]
     then
-    mlv_dump -o a_"$FILE" -t ft_*.MLV "$FILE"
+    $mlv_dump -o a_"$FILE" -t ft_*.MLV "$FILE"
     rm *MLV.wav
     fi
     mv -i "$FILE" A_ORIGINALS
@@ -624,13 +631,13 @@ sleep 1
     while grep 'MLV' /tmp/DUALISO/darkf.txt
     do
     mkdir -p darkfr_ORIGINALS
-    mlv_dump -o avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" -a "$(cat /tmp/DUALISO/darkf.txt | head -1)"
+    $mlv_dump -o avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" -a "$(cat /tmp/DUALISO/darkf.txt | head -1)"
     rm *MLV.wav
-    bit=$(mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$(mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
-    iso=$(mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
-    fra=$(mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
-    cn=$(mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     mv avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     mv "$(cat /tmp/DUALISO/darkf.txt | head -1)" darkfr_ORIGINALS
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" > /tmp/DUALISO/darkf.txt
@@ -712,7 +719,7 @@ sleep 1
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
-    mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' >> /tmp/DUALISO/MLVprogress_bar3 
+    $mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' >> /tmp/DUALISO/MLVprogress_bar3 
     done
     open "$path_2"Contents/progress_bar.command &
     fi

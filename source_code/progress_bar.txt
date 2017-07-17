@@ -43,6 +43,14 @@ white="$(tput setaf 7)"
 #Sample file PROCESSING
 
 
+#if using the steroid version
+    if [ -f /tmp/mlv_dump_steroids_settings ]
+    then 
+    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    else
+    mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
+
 rm /tmp/DUALISO/MLVprogress_bar_key
 
 
@@ -276,7 +284,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 killall sleep
 killall exiv2
 killall exiftool
-killall mlv_dump
+killall $mlv_dump
 killall bash
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
@@ -665,7 +673,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 killall sleep
 killall exiv2
 killall exiftool
-killall mlv_dump 
+killall $mlv_dump 
 killall ffmpeg
 killall bash
 osascript -e 'tell application "Terminal" to close first window' & exit
