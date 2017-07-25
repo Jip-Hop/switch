@@ -17,14 +17,14 @@ The Switch automator app is a multithreaded mac solution being able to process d
 * Multithreaded 
 * Full auto mode
 
-The program itself is depending on cr2hdr(a1ex), mlv_dump(g3gg0, a1ex), raw2dng(a1ex), [dcraw](https://www.cybercom.net/~dcoffin/dcraw/)(Dave Coffin) and [FFmpeg](https://www.ffmpeg.org/)(Fabrice Bellard) for processing the different dualiso generated files.
+The program itself is depending on cr2hdr(a1ex), mlv_dump(g3gg0, a1ex), mlv_dump_on_steroids(Bouncyball) raw2dng(a1ex), [dcraw](https://www.cybercom.net/~dcoffin/dcraw/)(Dave Coffin) and [FFmpeg](https://www.ffmpeg.org/)(Fabrice Bellard) for processing the different dualiso generated files.
 Processing includes white balance correction through [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/)(Phil Harvey), [exiv2](http://www.exiv2.org/)(Andreas Huggel) and [bwfmetaedit](http://bwfmetaedit.sourceforge.net/)(FADGI) audio metadata adding and if adobe dng converter is installed in applications folder Switch is able to include perfect correlation of white balance going from CR2 to dng files.
 Included in code as well is dfort [focus pixel](https://bitbucket.org/daniel_fort/ml-focus-pixels) lists for cameras with focus pixels such as eos m, 650D etc.
 Also incorporated is a MLVFS workflow menu. For this to work and take effect you need [MLVFS](Shttp://www.magiclantern.fm/forum/index.php?topic=13152.msg127218#msg127218)(dmilligan) installed onto your system. In conjunction with MLVFS I also put in very fine movie player [MlRawViewer](https://bitbucket.org/baldand/mlrawviewer)(baldand).
 Switch works with different menus created in bash from where the user can select or deselect different settings inside Switch. 
 The program is able to run all processes in a chain so just fill up the folder with various files and after selecting settings in the different menus simply run Switch and wait for it until it,s done.
 
-*A very special thanks to **Bouncyball** for dedicated support and groundbreaking development in general.*
+*A very special thanks to **Bouncyball** for dedicated support and groundbreaking development(mlv_dump_on_steroids, fpmutil, RAW to MLV converter) in general.*
 
 **Main menu**
 
@@ -52,4 +52,4 @@ Inside source_code folder there is a Build_dmg_package.command script. When doub
 If you want to include changes done to Switch_MAIN.txt these have to be copied into Switch in automator. Automator is installed onto your system by default.
 
 
-**Thanks to:** a1ex, g3gg0, Dave Coffin, Fabrice Bellard(FFmpeg community) Phil Harvey, Andreas Huggel, dmilligan, bouncyball, baldand, so-rose, Chmee, dfort, deafeyejedi.
+**Thanks to:** a1ex, g3gg0, bouncyball, Dave Coffin, Fabrice Bellard(FFmpeg community) Phil Harvey, Andreas Huggel, dmilligan, baldand, so-rose, Chmee, dfort, deafeyejedi.
