@@ -1,0 +1,86 @@
+Please follow Bouncyball development over at magic lantern forum
+http://www.magiclantern.fm/forum/index.php?topic=18975.0
+
+
+Branch and code here:
+https://bitbucket.org/bouncyball/magic-lantern/branch/mlv_dump-on-steroids
+
+Practically a reworked and refined version of mlv_dump including influences and code straight from g3gg0,a1ex mlv_dump and dmilligan MLVFS application.
+
+
+
+Parameters:
+  -o output_file      write video data into a MLV file
+  -v                  verbose output
+  --version           print version information
+  --batch             format output message suitable for batch processing
+  --relaxed           do not exit on every error, skip blocks that are erroneous
+  --no-audio          for DNG output WAV not saved, for MLV output WAVI/AUDF blocks are not included in destination MLV
+
+-- DNG output --
+  --dng               output frames into separate .dng files. set prefix with -o
+  --no-cs             no chroma smoothing (default)
+  --cs2x2             2x2 chroma smoothing
+  --cs3x3             3x3 chroma smoothing
+  --cs5x5             5x5 chroma smoothing
+  --no-fixcp          do not fix bad pixels
+  --fixcp2            use aggressive method for revealing more bad pixels
+  --no-stripes        do not fix vertical stripes in highlights
+  --force-stripes     compute stripe correction for every frame
+  --is-dualiso        use dual iso compatible horizontal interpolation of focus and bad pixels
+  --save-bpm          save bad pixels to .BPM file
+  --fixpn             fix pattern noise
+  --deflicker=value   per-frame exposure compensation. value is target median in raw units ex: 3072 (default)
+  --no-bitpack        write DNG files with unpacked to 16 bit raw data
+  --show-progress     show DNG file creation progress. ignored when -v or --batch is specified
+                      also works when compressing MLV to MLV and shows compression ratio for each frame
+  --fpi <method>      focus pixel interpolation method: 0 (mlvfs), 1 (raw2dng), default is 1
+  --bpi <method>      bad pixel interpolation method: 0 (mlvfs), 1 (raw2dng), default is 0
+
+-- RAW output --
+  -r                  output into a legacy raw file for e.g. raw2dng
+
+-- MLV output --
+  -b bits             convert image data to given bit depth per channel (1-16)
+  -z bits             zero the lowest bits, so we have only specified number of bits containing data (1-16) (improves compression rate)
+  -f frames           frames to save. e.g. '12' saves frames 0 to 12, '12-40' saves frames 12 to 40. forces --no-audio switch
+  -A fpsx1000         Alter the video file's FPS metadata
+  -x                  build xref file (indexing)
+
+-- MLV autopsy --
+  --skip-block <block#>        skip given block number, as if it wasn't present
+  --skip-type <type>           skip given block type (e.g. VIDF, AUDF, etc), as if they weren't present
+  --extract <block#>           extract the block at given position into autopsy file
+  --extract-type <type>        extract the block type (e.g. VERS, LENS, etc) into autopsy file
+  --replace <block#>           replace block with data from given autopsy file; requires --autopsy-file
+  --payload-only               extract/replace affect not the whole block, but only payload
+  --header-only                extract/replace affect not the whole block, but only header
+  --autopsy-file <file>        extract/replace from this file
+  --hex                        extract prints the selected data as hexdump on screen
+  --ascii                      extract prints the selected data as ASCII on screen (only suitable for VERS and DEBG)
+  --visualize                  visualize block types, most likely you want to use --skip-xref along with it
+
+-- MLV manipulation --
+  --skip-xref                  skip loading .IDX (XREF) file, read block in the MLV file's order instead of presorted
+  -m                           write only metadata, no audio or video frames
+  -n                           write no metadata, only audio and video frames
+  -I <mlv_file>                inject data from given MLV file right after MLVI header
+  -X type                      extract only block type int output file
+
+-- Image manipulation --
+  -a                  average all frames in <inputfile> and output a single-frame MLV from it
+  --avg-vertical      [DARKFRAME ONLY] average the resulting frame in vertical direction, so we will extract vertical banding
+  --avg-horizontal    [DARKFRAME ONLY] average the resulting frame in horizontal direction, so we will extract horizontal banding
+  -s mlv_file         subtract the reference frame in given file from every single frame during processing
+  -t mlv_file         use the reference frame in given file as flat field (gain correction)
+
+-- Processing --
+  -e                  delta-encode frames to improve compression, but lose random access capabilities
+  -c                  compress video frames using LJ92. if input is lossless, then decompress and recompress again.
+  -d                  decompress compressed video and audio frames using LZMA or LJ92
+  -p                  pass through original raw data without processing, it works for lossless or uncompressed raw
+
+-- bugfixes --
+  --black-fix=value   set black level to <value> (fix green/magenta cast). if no value given, it will be set to 2048.
+  --white-fix=value   set white level to <value>. if no value given, it will be set to 15000.
+  --fix-bug=id        fix some special bugs. *only* to be used if given instruction by developers.
