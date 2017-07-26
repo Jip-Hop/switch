@@ -1,7 +1,7 @@
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
-    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    mlv_dump=$(printf "%s\n" mlv_dump_on_steroids)
     map=$(printf "%s\n" fpm)
     else
     mlv_dump=$(printf "%s\n" mlv_dump)
@@ -41,7 +41,7 @@
     if ls *"$BASE".$map
     then
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
     mv "$BASE".$map "${BASE}_1_$date"/"$BASE".$map
     mv a_"$BASE".$map "${BASE}_1_$date"/"$BASE".$map
@@ -81,9 +81,9 @@
     fi
 #mlv_dump settings
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then
-    mlv="$(cat /tmp/"mlv_dump_steroids_settings" | perl -p -e 's/^[ \t]*//')"
+    mlv="$(cat /tmp/"mlv_dump_on_steroids_settings" | perl -p -e 's/^[ \t]*//')"
     else
 #Uncompressed setting then
     if [ -f /tmp/mlv_dump_UNC ]

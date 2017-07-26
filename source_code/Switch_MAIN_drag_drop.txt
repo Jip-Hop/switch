@@ -214,9 +214,9 @@ echo > /tmp/DUALISO/PREV
 #Total time command starts here
     res1=$(date +%s)
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
-    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    mlv_dump=$(printf "%s\n" mlv_dump_on_steroids)
     else
     mlv_dump=$(printf "%s\n" mlv_dump)
     fi

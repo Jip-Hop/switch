@@ -19,7 +19,7 @@
 #print out trap note 1
     echo > /tmp/DUALISO/BP_TRAP4
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
     map=$(printf "%s\n" fpm)
     else
@@ -36,13 +36,13 @@
     if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$FILE_04" | awk '/Camera Name/ { print $5,$6; exit 0}')
     then 
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
     if ls /tmp/DUALISO/crop_rec
     then
-    fpm.sh -f -n -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
+    fpmutil -m croprec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
-    fpm.sh -f -n -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
+    fpmutil -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     fi
     else
     if ls /tmp/DUALISO/crop_rec

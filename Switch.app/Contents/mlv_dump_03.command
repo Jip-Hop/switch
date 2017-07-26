@@ -1,7 +1,7 @@
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
-    mlv_dump=$(printf "%s\n" mlv_dump_steroids)
+    mlv_dump=$(printf "%s\n" mlv_dump_on_steroids)
     map=$(printf "%s\n" fpm)
     else
     mlv_dump=$(printf "%s\n" mlv_dump)
@@ -41,7 +41,7 @@
     if ls *"$BASE".$map
     then
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
     mv "$BASE".$map "${BASE}_1_$date"/"$BASE".$map
     mv a_"$BASE".$map "${BASE}_1_$date"/"$BASE".$map
@@ -81,9 +81,9 @@
     fi
 #mlv_dump settings
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then
-    mlv="$(cat /tmp/"mlv_dump_steroids_settings" | perl -p -e 's/^[ \t]*//')"
+    mlv="$(cat /tmp/"mlv_dump_on_steroids_settings" | perl -p -e 's/^[ \t]*//')"
     else
 #Uncompressed setting then
     if [ -f /tmp/mlv_dump_UNC ]
@@ -117,7 +117,7 @@
     if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/Camera Name/ { print $5,$6; exit}')
     then 
 #if using the steroid version
-    if [ -f /tmp/mlv_dump_steroids_settings ]
+    if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
     map=$(printf "%s\n" fpm)
     else
