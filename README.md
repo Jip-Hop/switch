@@ -28,7 +28,7 @@ The program is able to run all processes in a chain so just fill up the folder w
 
 **Main menu**
 
-![Screen Shot 2016-12-21 at 08.01.30.png](https://bitbucket.org/repo/Gkyeq9/images/3313539246-Screen%20Shot%202016-12-21%20at%2008.01.30.png)
+![Screen_Shot_2017-07-26_at_10.05.56.png](https://s3.postimg.org/nepet7vjn/Screen_Shot_2017-07-26_at_10.05.56.png)
 
 ## HOWTO ##
 
