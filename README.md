@@ -4,7 +4,7 @@ The Switch automator app is a multithreaded mac solution being able to process d
 **Following processing workflows are included:**
 
 * Process dual iso generated files from multiple cameras
-* Process CR2, DNG, dng, RAW and MLV files(both dualiso and non dualiso)
+* Process CR2, dng, RAW and MLV files(both dualiso and non dualiso)
 * Export to ProRes4444 and proxy(FFmpeg, dcraw)
 * Process other files such as mov, mts, mpeg etc to ProRes(X to ProRes menu)
 * HDR processing from MOV files. (ffmpeg tblend averaging filter. 48, 50, or 60fps recommended)
