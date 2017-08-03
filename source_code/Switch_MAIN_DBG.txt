@@ -521,10 +521,7 @@ sleep 1
     afplay /System/Library/Sounds/Tink.aiff
     fi
     fi
-#Multithreading badpixel lists. Script from dfort 
-#if no change of output
-    if [ x"$(cat /tmp/output)" = x ]
-    then   
+#Multithreading badpixel lists. Script from dfort   
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/badpixelMLV
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/badpixelMLV)" = x ]
@@ -541,7 +538,6 @@ sleep 1
     do
     sleep 2
     done
-    fi
     fi
 #Start MLV counter
     if ls *.MLV

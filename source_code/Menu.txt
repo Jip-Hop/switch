@@ -1097,10 +1097,6 @@ if grep 'no-stripes' /tmp/mlv_dump_settings
 then
 nostripes=$(echo "$bold""$green"added!"$normal")
 fi
-if ls "$(cat /tmp/DUALISO/list_dng_look)"/A_lut_hold/MLV_RAW_my_darkframes.txt
-then
-dafr=$(echo "$bold""$green"added!"$normal")
-fi
 if grep 'black-fix' /tmp/mlv_dump_settings 
 then
 bll=$(grep -Eo '.{0,0}black-fix.{0,6}' /tmp/mlv_dump_settings)
@@ -1807,10 +1803,6 @@ fi
 if grep 'no-stripes' /tmp/mlv_dump_on_steroids_settings 
 then
 nostripes=$(echo "$bold""$green"added!"$normal")
-fi
-if ls "$(cat /tmp/DUALISO/list_dng_look)"/A_lut_hold/MLV_RAW_my_darkframes.txt
-then
-dafr=$(echo "$bold""$green"added!"$normal")
 fi
 if grep 'black-fix' /tmp/mlv_dump_on_steroids_settings 
 then

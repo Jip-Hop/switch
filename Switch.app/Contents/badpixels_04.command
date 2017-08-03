@@ -38,19 +38,23 @@
 #if using the steroid version
     if [ -f /tmp/mlv_dump_on_steroids_settings ]
     then 
-    if ls /tmp/DUALISO/crop_rec
+    if [ -f /tmp/DUALISO/crop_rec ]
     then
     fpmutil -m croprec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
     fpmutil -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     fi
     else
-    if ls /tmp/DUALISO/crop_rec
+#check for new output folder
+    if ! [ -f /tmp/output ]
+    then
+    if [ -f /tmp/DUALISO/crop_rec ]
     then
     fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
     fpm.sh -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"  
     fi 
+    fi
     fi
     fi
     done
