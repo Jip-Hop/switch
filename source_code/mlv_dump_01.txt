@@ -38,7 +38,7 @@
 #check for white balance(WB) file
     mv "$BASE".WB "${BASE}_1_$date"
 #allbadpixel.map handling
-    if ls *"$BASE".$map
+    if [ -f *"$BASE".$map ]
     then
 #if using the steroid version
     if [ -f /tmp/mlv_dump_on_steroids_settings ]
@@ -51,12 +51,12 @@
     fi
     else
 #check for external allbadpixel.map file
-    if ls allbadpixels.map
+    if [ -f allbadpixels.map ]
     then
     cat allbadpixels.map >> "${BASE}_1_$date"/allbadpixels.map
     fi
 #move any additional pixel list from within root folder
-    if ls *.xls
+    if [ -f *.xls ]
     then
     mv *.xls allbadpixels.txt
     tail -n +2 allbadpixels.txt | awk '{print $2,"	 "$3"	 0"}' >> allbadpixels.map
@@ -64,14 +64,14 @@
     cat allbadpixels.map >> "${BASE}_1_$date"/allbadpixels.map
     fi
 #move any additional pixel list from within root folder
-    if ls allbadpixels.txt
+    if [ -f allbadpixels.txt ]
     then
     tail -n +2 allbadpixels.txt | awk '{print $2,"	 "$3"	 0"}' >> allbadpixels.map
     cat allbadpixels.map >> "${BASE}_1_$date"/allbadpixels.map
     rm allbadpixels.txt
     fi
 #move any additional pixel list from within root folder
-    if ls deadpixels.txt
+    if [ -f deadpixels.txt ]
     then
     mv deadpixels.txt allbadpixels.map
     cat allbadpixels.map >> "${BASE}_1_$date"/allbadpixels.map
@@ -119,7 +119,7 @@
     then 
     if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/Camera Name/ { print $5,$6; exit}')
     then 
-    if ls /tmp/DUALISO/crop_rec
+    if [ -f /tmp/DUALISO/crop_rec ]
     then
     fpm.sh -m crop_rec -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
     else
@@ -163,7 +163,7 @@
 #tail the MLVprogress_bar list
     echo "$(tail -n +2 /tmp/DUALISO/MLVprogress_bar)" > /tmp/DUALISO/MLVprogress_bar
 #try to determine if shooting footage with 3x3mv720cropmode
-    if ls /tmp/DUALISO/crop_rec
+    if [ -f /tmp/DUALISO/crop_rec ]
     then
     if [ $(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Default Scale/ { print $5;}') = 1.666666667 ]
     then
@@ -196,7 +196,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
 #move mlv originals to folder 
 #Check for darkframe workflow
-    if ls "$O2"avg
+    if [ -f "$O2"avg ]
     then
     mv -i "${BASE}".MLV "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/a_"${BASE}".MLV ;
     rm "$O2"avg
@@ -213,7 +213,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
 #Stored cr2hdr settings
     set=$(cat /tmp/"A_cr2hdr_settings.txt" | sed -e 's/^[ \t]*//')
 #disable dualiso automation
-    if ls /tmp/dualisodisable
+    if [ -f /tmp/dualisodisable ]
     then
 #check for imageJ multipoint white balance file
     if [ -f "$BASE".WB ]
