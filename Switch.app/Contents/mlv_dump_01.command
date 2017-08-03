@@ -38,7 +38,7 @@
 #check for white balance(WB) file
     mv "$BASE".WB "${BASE}_1_$date"
 #allbadpixel.map handling
-    if [ -f *"$BASE".$map ]
+    if ls *"$BASE".$map 
     then
 #if using the steroid version
     if [ -f /tmp/mlv_dump_on_steroids_settings ]
@@ -56,7 +56,7 @@
     cat allbadpixels.map >> "${BASE}_1_$date"/allbadpixels.map
     fi
 #move any additional pixel list from within root folder
-    if [ -f *.xls ]
+    if ls *.xls 
     then
     mv *.xls allbadpixels.txt
     tail -n +2 allbadpixels.txt | awk '{print $2,"	 "$3"	 0"}' >> allbadpixels.map

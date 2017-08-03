@@ -667,7 +667,7 @@ echo &gt; /tmp/DUALISO/PREV
     if grep '01_legacy_RAW_to_MLV' /tmp/DUALISO/RAW
     then 
 #if chosen alternate location
-    if ls /tmp/DUALISO/RAW_OUTPUT
+    if [ -f /tmp/DUALISO/RAW_OUTPUT ]
     then
     mkdir -p "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')"
     ln -s "$(cat /tmp/DUALISO/path_1)"/*.R* "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')"
@@ -677,7 +677,7 @@ echo &gt; /tmp/DUALISO/PREV
     do
     raw2dng "$(cat /tmp/DUALISO/list_RAW_02 | awk 'FNR == 1 {print; }')" --mlv
     mv -i "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
-    if ls "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00
+    if [ -f "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00 ]
     then
     mv -i "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R* "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
     fi
@@ -695,7 +695,7 @@ echo &gt; /tmp/DUALISO/PREV
     do
     raw2dng "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" --mlv 
     mv -i "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" A_ORIGINALS
-    if ls "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00
+    if [ -f "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00 ]
     then
     mv -i "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R* A_ORIGINALS
     fi
@@ -738,12 +738,12 @@ echo &gt; /tmp/DUALISO/PREV
     while ls /tmp/DUALISO/DUALISO 2&gt;/dev/null
     do sleep 1
     done
-    if ls /tmp/DUALISO/DUALISO_exit
+    if [ -f /tmp/DUALISO/DUALISO_exit ]
     then 
     exit 0
     fi
 #check for new output folder
-    if ls /tmp/output
+    if [ -f /tmp/output ]
     then
     mkdir -p "$(cat /tmp/output)"
     O=$(cat /tmp/"output")/
@@ -824,7 +824,7 @@ sleep 1
     printf "%d Days, %02d Hrs, %02d Min, %02d Sec\n" $dd5 $dh5 $dm5 $ds5 &gt; /tmp/DUALISO/TOT_xprores 
 ###############################################################
 #Manually selected FLATFRAMES processing
-    if ls /tmp/DUALISO/FLATFRAMES
+    if [ -f /tmp/DUALISO/FLATFRAMES ]
     then
     mkdir -p /tmp/DUALISO/
     mkdir -p A_ORIGINALS
@@ -892,7 +892,7 @@ sleep 1
 ###############################################################
 #Fully automated flatframe processing(if not manual flatframe processing selected)
 #Will take white space
-    if ls /tmp/DUALISO/FLATFRAME_A
+    if [ -f /tmp/DUALISO/FLATFRAME_A ]
     then
     mkdir -p /tmp/DUALISO/
     mkdir -p A_ORIGINALS
@@ -957,9 +957,9 @@ sleep 1
     if [ -f /tmp/DARK ]
     then
 #if full auto was chosen
-    if ls /tmp/DUALISO/FULL_AUTO
+    if [ -f /tmp/DUALISO/FULL_AUTO ]
     then
-    if ls *.MLV 
+    if ls *.MLV
     then
     osascript -e 'display notification "darkframe automation in progress" with title "Auto mode"'
     afplay /System/Library/Sounds/Tink.aiff   
@@ -1039,14 +1039,14 @@ sleep 1
     iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
     cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
-    if ls avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
     if ! ls ft_*.MLV
     then
 #list mlv files and send them for processing
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/DF_storage
-# into 4 chunks
+#split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
@@ -1076,7 +1076,7 @@ sleep 1
     mv -i  "$(echo "$FILE" | cut -d "." -f1)".M* A_ORIGINALS
 #if no darkframes suitable check for flatframes
     else
-    if ls ft_*.MLV
+    if [ -f ft_*.MLV ]
     then
 #Do frame size match?
     if [ "$res" = "$fres" ]
@@ -1094,7 +1094,7 @@ sleep 1
     IFS=$OLDIFS
     fi
 #if skipping dng processing
-    if ls /tmp/NO_DNG
+    if [ -f /tmp/NO_DNG ]
     then
     rm /tmp/NO_DNG
     exit 0
@@ -1116,7 +1116,7 @@ sleep 1
     cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
 #grab flatframe frame size 
     fres=$($mlv_dump -m -v ft_*.MLV | awk '/Res/ { print $2; exit }')
-    if ls avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
     if ! ls ft_*.MLV
@@ -1139,7 +1139,7 @@ sleep 1
     mv -i  "$(echo "$FILE" | cut -d "." -f1)".M* A_ORIGINALS
 #if no darkframes suitable check for flatframes
     else
-    if ls ft_*.MLV
+    if [ -f ft_*.MLV ]
     then
 #Do frame size match?
     if [ "$res" = "$fres" ]
@@ -1158,7 +1158,7 @@ sleep 1
     fi
 ###############################################################
 #Create darkframe MLV files from storage folder 
-    if ls /tmp/DARK_FOLDER
+    if [ -f /tmp/DARK_FOLDER ]
     then
 #Create the actual darkframes if needed
     OLDIFS=$IFS
@@ -1208,7 +1208,7 @@ sleep 1
     rm /tmp/DUALISO/DF_TRAP
     fi
 #NO_DNG processing after creation of darkframe processing
-    if ls /tmp/NO_DNG
+    if [ -f /tmp/NO_DNG ]
     then
     rm /tmp/NO_DNG
     exit 0
@@ -1219,9 +1219,9 @@ sleep 1
 #create the mlv time command list
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/MLVprogress_bar
 #if full auto was chosen
-    if ls /tmp/DUALISO/FULL_AUTO
+    if [ -f /tmp/DUALISO/FULL_AUTO ]
     then
-    if ls *.MLV 
+    if ls *.MLV
     then
     osascript -e 'display notification "MLV to dng processing" with title "Auto mode"'
     afplay /System/Library/Sounds/Tink.aiff
@@ -2313,54 +2313,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>21485D03-1881-47B6-8DDF-96C6E0307D7A</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>24EC1C1F-87C0-4CDB-99B6-D518A8624252</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>4FA4547F-98A2-444B-9EC1-1369B3F5F9FD</key>
+		<key>1594334F-4777-49E0-A3EB-40F8D5A24B37</key>
 		<dict>
 			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>533CCE5A-3B92-4E1C-8534-E3743CA3F679</key>
+		<key>359747BC-4980-4671-AB50-19B304D8132A</key>
 		<dict>
 			<key>from</key>
-			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
-			<key>to</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-		</dict>
-		<key>5951A582-69BE-4DCA-B225-0FBC2FC6CEE2</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>78AA4CEC-57E5-46BD-920A-2F625C19FE13</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>BEBE0123-D239-48D4-9B22-E80574CE8A9F</key>
+		<key>5AA9134D-637D-4214-B049-B60370F5016A</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>78850CF1-B4AE-4626-B1B7-A3B0FB08B8D9</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>E0C47D4E-CD82-408F-B188-FF65274A7336</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>F888372F-CD90-4BF3-8AF5-C85DB9B7AED9</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>FBD661D2-7B92-446F-8D3D-D351FB68D8FD</key>
+		<dict>
+			<key>from</key>
+			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+			<key>to</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
