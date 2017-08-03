@@ -130,7 +130,7 @@ echo > /tmp/DUALISO/PREV
     if grep '01_legacy_RAW_to_MLV' /tmp/DUALISO/RAW
     then 
 #if chosen alternate location
-    if ls /tmp/DUALISO/RAW_OUTPUT
+    if [ -f /tmp/DUALISO/RAW_OUTPUT ]
     then
     mkdir -p "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')"
     ln -s "$(cat /tmp/DUALISO/path_1)"/*.R* "$(cat /tmp/DUALISO/RAW_OUTPUT | awk 'FNR == 1 {print; }')"
@@ -140,7 +140,7 @@ echo > /tmp/DUALISO/PREV
     do
     raw2dng "$(cat /tmp/DUALISO/list_RAW_02 | awk 'FNR == 1 {print; }')" --mlv
     mv -i "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
-    if ls "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00
+    if [ -f "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00 ]
     then
     mv -i "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R* "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
     fi
@@ -158,7 +158,7 @@ echo > /tmp/DUALISO/PREV
     do
     raw2dng "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" --mlv 
     mv -i "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }')" A_ORIGINALS
-    if ls "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00
+    if [ -f "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R00 ]
     then
     mv -i "$(cat /tmp/DUALISO/list_RAW | awk 'FNR == 1 {print; }' | cut -d "." -f1)".R* A_ORIGINALS
     fi
@@ -201,12 +201,12 @@ echo > /tmp/DUALISO/PREV
     while ls /tmp/DUALISO/DUALISO 2>/dev/null
     do sleep 1
     done
-    if ls /tmp/DUALISO/DUALISO_exit
+    if [ -f /tmp/DUALISO/DUALISO_exit ]
     then 
     exit 0
     fi
 #check for new output folder
-    if ls /tmp/output
+    if [ -f /tmp/output ]
     then
     mkdir -p "$(cat /tmp/output)"
     O=$(cat /tmp/"output")/
@@ -287,7 +287,7 @@ sleep 1
     printf "%d Days, %02d Hrs, %02d Min, %02d Sec\n" $dd5 $dh5 $dm5 $ds5 > /tmp/DUALISO/TOT_xprores 
 ###############################################################
 #Manually selected FLATFRAMES processing
-    if ls /tmp/DUALISO/FLATFRAMES
+    if [ -f /tmp/DUALISO/FLATFRAMES ]
     then
     mkdir -p /tmp/DUALISO/
     mkdir -p A_ORIGINALS
@@ -355,7 +355,7 @@ sleep 1
 ###############################################################
 #Fully automated flatframe processing(if not manual flatframe processing selected)
 #Will take white space
-    if ls /tmp/DUALISO/FLATFRAME_A
+    if [ -f /tmp/DUALISO/FLATFRAME_A ]
     then
     mkdir -p /tmp/DUALISO/
     mkdir -p A_ORIGINALS
@@ -420,9 +420,9 @@ sleep 1
     if [ -f /tmp/DARK ]
     then
 #if full auto was chosen
-    if ls /tmp/DUALISO/FULL_AUTO
+    if [ -f /tmp/DUALISO/FULL_AUTO ]
     then
-    if ls *.MLV 
+    if ls *.MLV
     then
     osascript -e 'display notification "darkframe automation in progress" with title "Auto mode"'
     afplay /System/Library/Sounds/Tink.aiff   
@@ -502,14 +502,14 @@ sleep 1
     iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
     cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
-    if ls avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
     if ! ls ft_*.MLV
     then
 #list mlv files and send them for processing
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/DF_storage
-# into 4 chunks
+#split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/DF_storage ) / 4 + 1 )) /tmp/DUALISO/DF_storage /tmp/DUALISO/DF_storage
     rm /tmp/DUALISO/DF_storage
 #create a new folder path file
@@ -539,7 +539,7 @@ sleep 1
     mv -i  "$(echo "$FILE" | cut -d "." -f1)".M* A_ORIGINALS
 #if no darkframes suitable check for flatframes
     else
-    if ls ft_*.MLV
+    if [ -f ft_*.MLV ]
     then
 #Do frame size match?
     if [ "$res" = "$fres" ]
@@ -557,7 +557,7 @@ sleep 1
     IFS=$OLDIFS
     fi
 #if skipping dng processing
-    if ls /tmp/NO_DNG
+    if [ -f /tmp/NO_DNG ]
     then
     rm /tmp/NO_DNG
     exit 0
@@ -579,7 +579,7 @@ sleep 1
     cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
 #grab flatframe frame size 
     fres=$($mlv_dump -m -v ft_*.MLV | awk '/Res/ { print $2; exit }')
-    if ls avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
     if ! ls ft_*.MLV
@@ -602,7 +602,7 @@ sleep 1
     mv -i  "$(echo "$FILE" | cut -d "." -f1)".M* A_ORIGINALS
 #if no darkframes suitable check for flatframes
     else
-    if ls ft_*.MLV
+    if [ -f ft_*.MLV ]
     then
 #Do frame size match?
     if [ "$res" = "$fres" ]
@@ -621,7 +621,7 @@ sleep 1
     fi
 ###############################################################
 #Create darkframe MLV files from storage folder 
-    if ls /tmp/DARK_FOLDER
+    if [ -f /tmp/DARK_FOLDER ]
     then
 #Create the actual darkframes if needed
     OLDIFS=$IFS
@@ -671,7 +671,7 @@ sleep 1
     rm /tmp/DUALISO/DF_TRAP
     fi
 #NO_DNG processing after creation of darkframe processing
-    if ls /tmp/NO_DNG
+    if [ -f /tmp/NO_DNG ]
     then
     rm /tmp/NO_DNG
     exit 0
@@ -682,9 +682,9 @@ sleep 1
 #create the mlv time command list
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/MLVprogress_bar
 #if full auto was chosen
-    if ls /tmp/DUALISO/FULL_AUTO
+    if [ -f /tmp/DUALISO/FULL_AUTO ]
     then
-    if ls *.MLV 
+    if ls *.MLV
     then
     osascript -e 'display notification "MLV to dng processing" with title "Auto mode"'
     afplay /System/Library/Sounds/Tink.aiff
