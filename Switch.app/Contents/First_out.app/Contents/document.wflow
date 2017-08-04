@@ -1507,8 +1507,14 @@ done
     echo hej &gt;&gt; /tmp/DUALISO/NOT_list
 #cr2hdr time command
     res13=$(date +%s)
-    find . -maxdepth 1 -mindepth 1 -iname '*.DNG' -print0 | xargs -0 -P $cpu -n 1 cr2hdr $set $cmpr 
+    if grep 'DNG\|dng' &lt;&lt;&lt; "$(ls *.CR2 *.DNG *.dng)"
+    then
+    find . -maxdepth 1 -mindepth 1 -iname '*.DNG' -print0 | xargs -0 -P $cpu -n 1 cr2hdr $set $cmpr
+    fi 
+    if grep 'CR2' &lt;&lt;&lt; "$(ls *.CR2 *.DNG *.dng)"
+    then
     find . -maxdepth 1 -mindepth 1 -name '*.CR2' -print0 | xargs -0 -P $cpu -n 1 cr2hdr $set $cmpr
+    fi
 #cr2hdr time command
     res23=$(date +%s)
     if ! [ x"$res13" = x ]
@@ -1595,9 +1601,9 @@ done
     fi
 ###############################################################
 #multithread processing
-    . "$path_2"Contents/dualiso_to_DNG_A.command &amp; 
-    . "$path_2"Contents/dualiso_to_DNG_B.command &amp; 
-    . "$path_2"Contents/dualiso_to_DNG_C.command &amp; 
+    . "$path_2"Contents/dualiso_to_DNG_A.command &amp; pid1=$! 
+    . "$path_2"Contents/dualiso_to_DNG_B.command &amp; pid2=$! 
+    . "$path_2"Contents/dualiso_to_DNG_C.command &amp; pid3=$! 
     while grep -q 'CR2' /tmp/DUALISO/list_01
     do
     CR2=$(grep 'CR2' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
@@ -1640,6 +1646,8 @@ done
     exiftool "-AsShotNeutral=$CR2_01b 1 $CR2_02b" "-CalibrationIlluminant1=Standard Light A" "-CalibrationIlluminant2=D65" "$DNG" -overwrite_original
     mkdir -p A_ORIGINALS
     mv -i "$CR2" A_ORIGINALS
+#wait for jobs to end
+    wait &lt; &lt;(jobs -p)
     done
     fi
 #check if A_ORIGINALS is empty and the erase it
@@ -1822,33 +1830,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>1BD41CC9-1CE8-4CA8-A511-E7DE2FD7BA01</key>
+		<key>0AF0C005-52CB-48CB-B87B-DAD980E39C1E</key>
 		<dict>
 			<key>from</key>
+			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
+			<key>to</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
-			<key>to</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 		</dict>
-		<key>234821FE-15FD-40D2-89FE-32C800557BC9</key>
-		<dict>
-			<key>from</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
-			<key>to</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
-		</dict>
-		<key>45FB61C5-AA13-4872-93E8-32183DE4CDF0</key>
+		<key>1663CE04-D8E1-463D-8574-DF5FD8902EDB</key>
 		<dict>
 			<key>from</key>
 			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
 			<key>to</key>
 			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 		</dict>
-		<key>BE1F3FBD-F8FE-4963-BC59-6B50D4B41434</key>
+		<key>5F9A0437-C85B-4848-B59B-8781198F13EF</key>
 		<dict>
 			<key>from</key>
-			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
-			<key>to</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
+			<key>to</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+		</dict>
+		<key>EF703860-BC35-48D4-A685-37083CB9F3A3</key>
+		<dict>
+			<key>from</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+			<key>to</key>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
