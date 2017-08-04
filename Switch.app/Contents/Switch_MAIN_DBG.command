@@ -804,8 +804,14 @@ done
     echo hej >> /tmp/DUALISO/NOT_list
 #cr2hdr time command
     res13=$(date +%s)
+    if grep 'DNG\|dng' <<< "$(ls *.CR2 *.DNG *.dng)"
+    then
     find . -maxdepth 1 -mindepth 1 -iname '*.DNG' -print0 | xargs -0 -P $cpu -n 1 cr2hdr $set $cmpr 
+    fi
+    if grep 'CR2' <<< "$(ls *.CR2 *.DNG *.dng)"
+    then
     find . -maxdepth 1 -mindepth 1 -name '*.CR2' -print0 | xargs -0 -P $cpu -n 1 cr2hdr $set $cmpr
+    fi
 #cr2hdr time command
     res23=$(date +%s)
     if ! [ x"$res13" = x ]
@@ -892,9 +898,9 @@ done
     fi
 ###############################################################
 #multithread processing
-    . "$path_2"Contents/dualiso_to_DNG_A.command & 
-    . "$path_2"Contents/dualiso_to_DNG_B.command & 
-    . "$path_2"Contents/dualiso_to_DNG_C.command & 
+    . "$path_2"Contents/dualiso_to_DNG_A.command & pid1=$! 
+    . "$path_2"Contents/dualiso_to_DNG_B.command & pid2=$! 
+    . "$path_2"Contents/dualiso_to_DNG_C.command & pid3=$! 
     while grep -q 'CR2' /tmp/DUALISO/list_01
     do
     CR2=$(grep 'CR2' /tmp/DUALISO/list_01 | awk 'FNR == 1 {print}')
@@ -937,6 +943,8 @@ done
     exiftool "-AsShotNeutral=$CR2_01b 1 $CR2_02b" "-CalibrationIlluminant1=Standard Light A" "-CalibrationIlluminant2=D65" "$DNG" -overwrite_original
     mkdir -p A_ORIGINALS
     mv -i "$CR2" A_ORIGINALS
+#wait for jobs to end
+    wait < <(jobs -p)
     done
     fi
 #check if A_ORIGINALS is empty and the erase it
