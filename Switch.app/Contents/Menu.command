@@ -88,7 +88,7 @@ cp -r "$(cat /tmp/DUALISO/"path_2")"mlvfs/crop_rec/crop80000331_1808x727.fpm "$(
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
-crop_rec footage"$(tput sgr0) ; sleep 2
+crop_rec footage"$(tput sgr0) ; sleep 1
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
@@ -98,7 +98,7 @@ cp -r "$(cat /tmp/DUALISO/"path_2")"mlvfs/crop_rec/80000331_1808x727.fpm "$(cat 
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
-not crop_rec footage"$(tput sgr0) ; sleep 2
+not crop_rec footage"$(tput sgr0) ; sleep 1
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
@@ -6343,7 +6343,7 @@ rm /tmp/DUALISO/FULL_AUTO 1> /dev/null 2>&1 &
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;19;95t'
+printf '\e[8;22;95t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -6411,11 +6411,13 @@ do
     $(tput bold)(5) select darkframe storage$(tput sgr0)(MLV+dng processing default) $DARK_FOLDER
 
     $(tput bold)$(tput setaf 1)(R) reset all settings$(tput sgr0) 
-    $(tput bold)$(tput setaf 1)(m) back to main menu$(tput sgr0)   					        					
+    $(tput bold)$(tput setaf 1)(m) back to main menu$(tput sgr0)  
+    $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(r) run Switch$(tput sgr0) 					        					
 
 Please enter your selection number below:
 EOF
-    read -n1
+    read -n2
     case "$REPLY" in
 
 
@@ -6581,6 +6583,17 @@ rm /tmp/only_DARK
     "m") 
 clear
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "r") 
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
 
