@@ -1,0 +1,17 @@
+Switch for linux
+http://www.magiclantern.fm/forum/index.php?topic=15108.msg146822#msg146822
+
+In order for Switch to work follow these steps:
+
+1 - Move the folder named "Switch" to your home directory. All paths will point to this folder.
+2 - Right click the desktop file named "Switch" choose "properties" then "Permissions". On "Execute" select "Allow executing file as a program"
+3 - Done. You can place your desktop file wherever and double click to get started.
+
+Good to know. 
+Switch will ask that you installs YAD. A program that is needed for Switch to be able to select folders. Simply follow instructions when asked to install. 
+
+If you are working with darkframes/flatframes Switch will ask to install imagemagick. Simply follow instructions when asked to install.
+
+
+
+Thanks to Magic lantern community and Bouncyball for testing and support
