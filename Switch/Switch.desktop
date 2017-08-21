@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Name=Switch
+Comment=Magic lantern
+Exec=bash -c '~/Switch/bin/Switch_MAIN.sh'
+Terminal=true
+Type=Application
+Categories=Utility;Application;
+
+
+
+
+
+
+
