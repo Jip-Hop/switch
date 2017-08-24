@@ -2706,7 +2706,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(24) Export HDR footage through AE(aerender)$(tput sgr0) $AE_HDR
     $(tput bold)(25) open first dng in every folder(ACR)$(tput sgr0)
 
-    $(tput bold)$(tput setaf 1)(X)  Delete dng folders after ProRes is created$(tput sgr0) $DEL_DNG
+    $(tput bold)$(tput setaf 1)(X)  Delete dng folder after ProRes is created$(tput sgr0) $DEL_DNG
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ho) HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ti) tif previews$(tput sgr0)
