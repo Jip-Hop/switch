@@ -510,6 +510,12 @@ fi
 
 
 #Main menu
+#remove destructive switch
+if [ -f /tmp/DUALISO/DEL_DNG ]
+then
+rm /tmp/DUALISO/DEL_DNG
+fi
+
 if ls /tmp/DUALISO/DUALISO
 then
 #!/bin/bash
@@ -2526,7 +2532,7 @@ mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 fi
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
 
 if grep 'lincineon' /tmp/FFmpeg_settings 
 then
@@ -2600,6 +2606,10 @@ fi
 if grep 'codec_422' /tmp/FFmpeg_settings
 then
 codec_422=$(echo "$bold""$green"added!"$normal")
+fi
+if [ -f /tmp/DUALISO/DEL_DNG ]
+then
+DEL_DNG=$(echo "$bold""$green"added!"$normal")
 fi
 if ! [ x$(cat /tmp/prox_SCALE) = x ] 
 then
@@ -2696,6 +2706,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(24) Export HDR footage through AE(aerender)$(tput sgr0) $AE_HDR
     $(tput bold)(25) open first dng in every folder(ACR)$(tput sgr0)
 
+    $(tput bold)$(tput setaf 1)(X)  Delete dng folders after ProRes is created$(tput sgr0) $DEL_DNG
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ho) HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ti) tif previews$(tput sgr0)
@@ -3611,7 +3622,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; codec_422= ; DEL_DNG=
 fi
 ;;
 
@@ -3760,7 +3771,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
 fi
 ;;
 
@@ -3780,6 +3791,17 @@ rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
 rm /tmp/DUALISO/tif_spit
 rm /tmp/DUALISO/DUALISO  
 osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "X")
+if [ -f /tmp/DUALISO/DEL_DNG ]
+then
+rm /tmp/DUALISO/DEL_DNG
+DEL_DNG=
+else
+echo > /tmp/DUALISO/DEL_DNG
+DEL_DNG=$(echo "$bold""$green"added!"$normal")
+fi
 ;;
 
     "mp")
@@ -4000,7 +4022,8 @@ done
 ;;
 
     "E")
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+rm /tmp/DUALISO/DEL_DNG
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_settings 1> /dev/null 2>&1 &
@@ -5971,7 +5994,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; codec_422= ; DEL_DNG=
 fi
 ;;
 
@@ -6119,7 +6142,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
 fi
 ;;
 
@@ -6341,7 +6364,8 @@ rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+rm /tmp/DUALISO/DEL_DNG
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_settings 1> /dev/null 2>&1 &
@@ -6720,7 +6744,8 @@ rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+rm /tmp/DUALISO/DEL_DNG
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_settings 1> /dev/null 2>&1 &

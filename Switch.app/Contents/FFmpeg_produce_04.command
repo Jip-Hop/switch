@@ -588,6 +588,11 @@ fi
     rm *.aep
     find . -name '*.aep Logs' -type d -exec rm -r {} \;
     fi
+#deletion of dng folders to save space
+    if [ -f /tmp/DUALISO/DEL_DNG ]
+    then
+    rm -r "$out""$out3""$name"
+    fi
     cd ..
     done
     OLDIFS=$IFS
