@@ -115,6 +115,15 @@ echo 3trap >> /tmp/DUALISO/prores_TRAP
     o=$(printf "%s\n" -o 6)
     h2=$(printf "%s\n" -H 2)
     fi
+#check for prores422 
+    if grep 'codec_422' /tmp/FFmpeg_settings
+    then 
+    Pcodec=$(printf "%s\n" -vcodec prores -pix_fmt yuv422p10le)
+    qual=$(printf "%s\n" -q 0)
+    else
+    Pcodec=$(printf "%s\n" -vcodec prores_ks -pix_fmt yuv444p10)
+    qual=$(printf "%s\n" -q 3)
+    fi
 #check for additional 3D luts in ProRes4444 folder
     if ls ../"$date"_ProRes4444/*.cube
     then 
@@ -483,9 +492,9 @@ echo 3trap >> /tmp/DUALISO/prores_TRAP
     if grep -q 'halfhdr' /tmp/pr4444_HDR && grep -q 'HDR' /tmp/pr4444_HDR && ! [ x"$tbl" = x ]
     then
 #export ProRes4444
-    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb $pix $br | ffmpeg -loglevel warning $wav3 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r $(echo $fps / 2 | bc -l) $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".mov 
+    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W $qual $gam $wb $pix $br | ffmpeg -loglevel warning $wav3 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $Pcodec -n -r $(echo $fps / 2 | bc -l) $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".mov 
     else
-    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb $pix $br | ffmpeg -loglevel warning $wav3 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".mov
+    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W $qual $gam $wb $pix $br | ffmpeg -loglevel warning $wav3 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $Pcodec -n -r "$fps" $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".mov
     fi
     fi
 #check if proxy settings file contains information 
