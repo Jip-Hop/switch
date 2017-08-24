@@ -562,8 +562,19 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' > /tmp/DUALISO/MLVFILES
 #reset IFS
     IFS=$OLDIFS
+#specify THREADS if
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    else
+    THR=$(echo 4)
+    fi
+#safety check
+    if (( $THR > 4 )); then
+    THR=$(echo 4)
+    fi
 #split into 4 chunks
-    split -l $(( $( wc -l < /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
+    split -l $(( $( wc -l < /tmp/DUALISO/MLVFILES ) / $THR + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
     rm /tmp/DUALISO/MLVFILES
     . "$path_2"Contents/mlv_dump_01.command & pid1=$!
     . "$path_2"Contents/mlv_dump_02.command & pid2=$!
@@ -713,9 +724,26 @@ done
 #ProRes time command
     res14=$(date +%s)
     . "$path_2"Contents/FFmpeg_produce_01.command & sleep 1
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    if (( $THR > 1 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_02.command & sleep 1
+    fi
+    if (( $THR > 2 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_03.command & sleep 1
+    fi
+    if (( $THR > 3 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_04.command & sleep 1
+    fi
+    else
     . "$path_2"Contents/FFmpeg_produce_02.command & sleep 1
     . "$path_2"Contents/FFmpeg_produce_03.command & sleep 1
     . "$path_2"Contents/FFmpeg_produce_04.command & sleep 1
+    fi
     fi
     fi
 #check for proxy ProRes first
@@ -735,9 +763,26 @@ done
 #ProRes time command
     res14=$(date +%s)
     . "$path_2"Contents/FFmpeg_produce_01.command & sleep 1
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    if (( $THR > 1 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_02.command & sleep 1
+    fi
+    if (( $THR > 2 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_03.command & sleep 1
+    fi
+    if (( $THR > 3 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_04.command & sleep 1
+    fi
+    else
     . "$path_2"Contents/FFmpeg_produce_02.command & sleep 1
     . "$path_2"Contents/FFmpeg_produce_03.command & sleep 1
     . "$path_2"Contents/FFmpeg_produce_04.command & sleep 1
+    fi
     fi
     fi
     fi

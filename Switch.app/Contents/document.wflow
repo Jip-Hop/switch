@@ -1269,8 +1269,19 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/MLVFILES
 #reset IFS
     IFS=$OLDIFS
+#specify THREADS if
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    else
+    THR=$(echo 4)
+    fi
+#safety check
+    if (( $THR &gt; 4 )); then
+    THR=$(echo 4)
+    fi
 #split into 4 chunks
-    split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
+    split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / $THR + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
     rm /tmp/DUALISO/MLVFILES
     . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$! 
     . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$! 
@@ -1420,9 +1431,26 @@ done
 #ProRes time command
     res14=$(date +%s)
     . "$path_2"Contents/FFmpeg_produce_01.command &amp; sleep 1
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    if (( $THR &gt; 1 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 2 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 3 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
+    else
     . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
     fi
     fi
 #check for proxy ProRes first
@@ -1442,9 +1470,26 @@ done
 #ProRes time command
     res14=$(date +%s)
     . "$path_2"Contents/FFmpeg_produce_01.command &amp; sleep 1
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    if (( $THR &gt; 1 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 2 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 3 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
+    else
     . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
     fi
     fi
     fi
@@ -2321,54 +2366,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>18F63BEC-1E28-47AF-B8E2-5C626539E283</key>
+		<key>13F46306-E8BD-4A30-BAFA-88CC6B00CECE</key>
 		<dict>
 			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
-		<key>23E6D224-6A7D-47F9-B41B-A8AA63AC1892</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>2B32BC5B-6315-424A-9CEE-52F38FCFB747</key>
+		<key>22369D42-EC2A-44C9-93C3-AC7599FC78CC</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>61F24B12-55FE-47C2-88A1-36F76B92E237</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>C81BC026-08FF-4CA8-9415-C674F6B06C90</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>CE343ED6-33DD-41A7-B59B-9E0BEF923082</key>
+		<key>2F99A306-3E79-4D7C-830C-4AD96F004252</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>EB65F33B-C3AC-46D8-A343-B623E1508CCD</key>
+		<key>92CFDF7A-6B86-4490-BBFB-7F45A39E77F0</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>B651F372-B375-43BD-BCFF-4B8EEA68FC60</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>C11C438F-097B-4C6C-B0FE-FFDA7028416C</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>C9608312-1157-4EAC-98E2-EBA5436ED185</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

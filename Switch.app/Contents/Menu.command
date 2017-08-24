@@ -568,7 +568,7 @@ fi
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;30;55t'
+printf '\e[8;32;60t'
 printf '\e[3;450;0t'
 open -a Terminal
 bold="$(tput bold)"
@@ -588,7 +588,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-FLAT= ; DARK= ; darkfr_storage= ; cr2hdr_a= ; mlv_dump_a= ; X_pro_a= ; pro_a=
+FLAT= ; DARK= ; darkfr_storage= ; cr2hdr_a= ; mlv_dump_a= ; X_pro_a= ; pro_a= ; THREADS= 
 
 if ls /tmp/DUALISO/FLATFRAMES
 then
@@ -636,6 +636,10 @@ then
 DARK=$(echo "$bold""$green"auto mode!"$normal")
 fi
 fi
+if [ -f /tmp/THREADS ]
+then
+THREADS=$(cat /tmp/THREADS)
+fi
 
 while :
 do 
@@ -658,6 +662,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)$(tput bold)$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(CP) set running threads manually(max 4)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS
     $(tput bold)$(tput setaf 1)(O)  open up your working folder list$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset Switch to defaults$(tput sgr0)
     $(tput bold)$(tput setaf 1)(A)  darkframe average automation$(tput sgr0)$(tput bold)$(tput sgr0) $DARK
@@ -6267,12 +6272,34 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 fi
 ;;
 
+    "CP")
+if [ -f /tmp/THREADS ]
+then
+rm /tmp/THREADS
+THREADS=
+else
+
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"set thread amount:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 2 and hit enter)"
+read input_variable
+echo "thread amount is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+echo -n "Threads" $input_variable > /tmp/THREADS
+THREADS=$(cat /tmp/THREADS)
+fi
+sleep 1 
+printf '\e[8;32;60t'
+printf '\e[3;450;0t'
+    ;;
+
     "O")
 open /tmp/folder_paths.txt
     ;;
 
     "R")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= 
+rm /tmp/THREADS
 rm /tmp/DUALISO/crop_rec?
 rm /tmp/DUALISO/crop_rec
 rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
@@ -6654,7 +6681,8 @@ fi
 
 
     "a") 
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; 
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= 
+rm /tmp/THREADS
 rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
 rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
 rm /tmp/cpuboost 1> /dev/null 2>&1 &
@@ -6789,7 +6817,7 @@ printf '\e[8;10;60t'
 printf '\e[3;0;0t'
 . "$(cat /tmp/DUALISO/"path_2")"Switch_MAIN_DBG.command 
 open "$(cat /tmp/DUALISO/path_1)"/LOG.txt
-printf '\e[8;30;55t'
+printf '\e[8;32;60t'
 printf '\e[3;450;0t'
 ;;
 

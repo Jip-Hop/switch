@@ -1265,8 +1265,19 @@ sleep 1
     ls *.MLV *.mlv | grep -v 'avg_\|ft_' &gt; /tmp/DUALISO/MLVFILES
 #reset IFS
     IFS=$OLDIFS
+#specify THREADS if
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    else
+    THR=$(echo 4)
+    fi
+#safety check
+    if (( $THR &gt; 4 )); then
+    THR=$(echo 4)
+    fi
 #split into 4 chunks
-    split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / 4 + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
+    split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / $THR + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
     rm /tmp/DUALISO/MLVFILES
     . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$!
     . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$!
@@ -1416,9 +1427,26 @@ done
 #ProRes time command
     res14=$(date +%s)
     . "$path_2"Contents/FFmpeg_produce_01.command &amp; sleep 1
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    if (( $THR &gt; 1 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 2 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 3 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
+    else
     . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
     fi
     fi
 #check for proxy ProRes first
@@ -1438,9 +1466,26 @@ done
 #ProRes time command
     res14=$(date +%s)
     . "$path_2"Contents/FFmpeg_produce_01.command &amp; sleep 1
+    if [ -f /tmp/THREADS ]
+    then
+    THR=$(cat /tmp/THREADS | tr -d Threads)
+    if (( $THR &gt; 1 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 2 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
+    fi
+    if (( $THR &gt; 3 ))
+    then
+    . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
+    else
     . "$path_2"Contents/FFmpeg_produce_02.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_03.command &amp; sleep 1
     . "$path_2"Contents/FFmpeg_produce_04.command &amp; sleep 1
+    fi
     fi
     fi
     fi
@@ -1830,33 +1875,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0AF0C005-52CB-48CB-B87B-DAD980E39C1E</key>
+		<key>175C1D10-8E29-4D86-8575-CFF1108EDDF9</key>
+		<dict>
+			<key>from</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+			<key>to</key>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+		</dict>
+		<key>253199D1-377D-4987-8C5F-E576885C66CE</key>
 		<dict>
 			<key>from</key>
 			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 			<key>to</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
 		</dict>
-		<key>1663CE04-D8E1-463D-8574-DF5FD8902EDB</key>
-		<dict>
-			<key>from</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
-			<key>to</key>
-			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
-		</dict>
-		<key>5F9A0437-C85B-4848-B59B-8781198F13EF</key>
+		<key>6AB529B4-77E0-4A82-B791-95599382C4D9</key>
 		<dict>
 			<key>from</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
 			<key>to</key>
 			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 		</dict>
-		<key>EF703860-BC35-48D4-A685-37083CB9F3A3</key>
+		<key>D32661F9-1DB4-458B-BF56-0DAA5194D3E3</key>
 		<dict>
 			<key>from</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
-			<key>to</key>
 			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+			<key>to</key>
+			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
