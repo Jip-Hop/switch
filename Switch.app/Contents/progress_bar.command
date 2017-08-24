@@ -688,7 +688,7 @@ fi
 fi
 
 
-
+exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 
 #The end
 printf '\e[8;16;35t'
