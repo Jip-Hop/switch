@@ -36,7 +36,7 @@ sleep 1
 fi
 fi
 
-printf '\e[8;55;65t'
+printf '\e[8;57;65t'
 printf '\e[3;450;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -66,7 +66,7 @@ mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 fi
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; codec_422=
 
 if grep 'lincineon' /tmp/FFmpeg_settings 
 then
@@ -137,6 +137,10 @@ if grep 'Pcodec_lt' /tmp/FFmpeg_settingsPR
 then
 Pcodec_lt=$(echo "$bold""$green"added!"$normal")
 fi
+if grep 'codec_422' /tmp/FFmpeg_settings
+then
+codec_422=$(echo "$bold""$green"added!"$normal")
+fi
 if ! [ x$(cat /tmp/prox_SCALE) = x ] 
 then
 Xscale=$(echo "$bold""$green"added!"$normal")
@@ -194,42 +198,43 @@ do
 $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 
 -- ProRes4444 output --
-    $(tput bold)(01) linear to cineon$(tput sgr0)(recommended)   $lincin
-    $(tput bold)(02) linear to logC$(tput sgr0)(recommended)  $linlogC	
-    $(tput bold)(03) linear$(tput sgr0)  $linear
-    $(tput bold)(04) rec709$(tput sgr0)  $rec709 
-    $(tput bold)(05) xyz$(tput sgr0)  $xyz
-    $(tput bold)(06) aces$(tput sgr0)  $aces
+    $(tput bold)(01) linear to cineon$(tput sgr0)(recommended) $lincin
+    $(tput bold)(02) linear to logC$(tput sgr0)(recommended) $linlogC	
+    $(tput bold)(03) linear$(tput sgr0) $linear
+    $(tput bold)(04) rec709$(tput sgr0) $rec709 
+    $(tput bold)(05) xyz$(tput sgr0) $xyz
+    $(tput bold)(06) aces$(tput sgr0) $aces
+    $(tput bold)(07) switch to ProRes 422 codec(faster)$(tput sgr0) $codec_422
 -- other settings(ProRes4444)
-    $(tput bold)(07) scale output$(tput sgr0)  $(tput bold)$(tput setaf 4)$Paspect$(tput sgr0) $Pscale
+    $(tput bold)(08) scale output$(tput sgr0)  $(tput bold)$(tput setaf 4)$Paspect$(tput sgr0) $Pscale
 
 -- ProRes Proxy output —
-    $(tput bold)(08) linear to cineon$(tput sgr0)   $lincinpr
-    $(tput bold)(09) linear to logC$(tput sgr0)  $linlogCpr
-    $(tput bold)(10) linear$(tput sgr0)  $linearpr
-    $(tput bold)(11) rec709$(tput sgr0)  $rec709pr 
-    $(tput bold)(12) xyz$(tput sgr0)  $xyzpr
-    $(tput bold)(13) aces$(tput sgr0)  $acespr
-    $(tput bold)(14) Switch to ProRes LT codec$(tput sgr0)  $Pcodec_lt
+    $(tput bold)(09) linear to cineon$(tput sgr0) $lincinpr
+    $(tput bold)(10) linear to logC$(tput sgr0) $linlogCpr
+    $(tput bold)(11) linear$(tput sgr0) $linearpr
+    $(tput bold)(12) rec709$(tput sgr0) $rec709pr 
+    $(tput bold)(13) xyz$(tput sgr0) $xyzpr
+    $(tput bold)(14) aces$(tput sgr0) $acespr
+    $(tput bold)(15) switch to ProRes LT codec$(tput sgr0) $Pcodec_lt
 -- other settings(proxy)
-    $(tput bold)(15) scale output$(tput sgr0)  $(tput bold)$(tput setaf 4)$Xaspect$(tput sgr0) $Xscale
+    $(tput bold)(16) scale output$(tput sgr0)  $(tput bold)$(tput setaf 4)$Xaspect$(tput sgr0) $Xscale
 
 -- Denoise and sharpen filters --
-    $(tput bold)(16) set denoise and sharpening$(tput sgr0)  $denoise $sharpen
+    $(tput bold)(17) set denoise and sharpening$(tput sgr0)  $denoise $sharpen
 
 -- misc settings --
-    $(tput bold)(17) auto white balance$(tput sgr0)(median of 6 dng files)$(tput sgr0) $AWB
-    $(tput bold)(18) dcraw auto white balance$(tput sgr0)$(tput sgr0) $dcrawA
-    $(tput bold)(19) set white level  $(tput setaf 4)$wle$(tput sgr0)
+    $(tput bold)(18) auto white balance$(tput sgr0)(median of 6 dng files)$(tput sgr0) $AWB
+    $(tput bold)(19) dcraw auto white balance$(tput sgr0)$(tput sgr0) $dcrawA
+    $(tput bold)(20) set white level  $(tput setaf 4)$wle$(tput sgr0)
 
 -- HDR output(affects both prores4444 and proxy) --
-    $(tput bold)(20) HDR footage$(tput sgr0)(e.g 100/1600iso) $HDRa
-    $(tput bold)(21) drop frames$(tput sgr0)(50fps to 25fps etc) $halfhdra
+    $(tput bold)(21) HDR footage$(tput sgr0)(e.g 100/1600iso) $HDRa
+    $(tput bold)(22) drop frames$(tput sgr0)(50fps to 25fps etc) $halfhdra
 
 -- AE template -- 
-    $(tput bold)(22) Export footage through AE(aerender)$(tput sgr0) $AE
-    $(tput bold)(23) Export HDR footage through AE(aerender)$(tput sgr0) $AE_HDR
-    $(tput bold)(24) open first dng in every folder(ACR)$(tput sgr0)
+    $(tput bold)(23) Export footage through AE(aerender)$(tput sgr0) $AE
+    $(tput bold)(24) Export HDR footage through AE(aerender)$(tput sgr0) $AE_HDR
+    $(tput bold)(25) open first dng in every folder(ACR)$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ho) HOWTO$(tput sgr0)
@@ -412,7 +417,23 @@ xyz=
 fi
 ;;
 
-     "07")
+    "07")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
+if grep 'codec_422' /tmp/FFmpeg_settings
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/codec_422//g' 
+codec_422=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "codec_422" >> /tmp/FFmpeg_settings
+codec_422=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+     "08")
 if ! [ x$(cat /tmp/_X_pres_SCALE) = x ]
 then
 rm /tmp/_X_pres_SCALE 1> /dev/null 2>&1 &
@@ -442,11 +463,11 @@ Paspect=
 fi
 fi
 sleep 1 
-printf '\e[8;55;65t'
+printf '\e[8;57;65t'
 printf '\e[3;450;0t'
 ;;
 
-    "08")
+    "09")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'lincineonpr' /tmp/FFmpeg_settingsPR 
 then
@@ -472,7 +493,7 @@ acespr=
 fi
 ;;
 
-    "09")
+    "10")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'linlogCpr' /tmp/FFmpeg_settingsPR 
 then
@@ -498,7 +519,7 @@ acespr=
 fi
 ;;
 
-    "10")
+    "11")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'linearpr' /tmp/FFmpeg_settingsPR 
 then
@@ -524,7 +545,7 @@ acespr=
 fi
 ;;
 
-    "11")
+    "12")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'rec709pr' /tmp/FFmpeg_settingsPR 
 then
@@ -551,7 +572,7 @@ fi
 ;;
 
 
-    "12")
+    "13")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'xyzpr' /tmp/FFmpeg_settingsPR 
 then
@@ -577,7 +598,7 @@ acespr=
 fi
 ;;
 
-    "13")
+    "14")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'acespr' /tmp/FFmpeg_settingsPR 
 then
@@ -603,7 +624,7 @@ xyzpr=
 fi
 ;;
 
-    "14")
+    "15")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 if grep 'Pcodec_lt' /tmp/FFmpeg_settingsPR 
 then
@@ -619,7 +640,7 @@ Pcodec_lt=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
 
-     "15")
+     "16")
 if ! [ x$(cat /tmp/prox_SCALE) = x ]
 then
 rm /tmp/prox_SCALE 1> /dev/null 2>&1 &
@@ -649,11 +670,11 @@ Xaspect=
 fi
 fi
 sleep 1 
-printf '\e[8;55;65t'
+printf '\e[8;57;65t'
 printf '\e[3;450;0t'
 ;;
 
-    "16")
+    "17")
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 printf '\e[8;25;60t'
 printf '\e[3;410;100t'
@@ -890,7 +911,7 @@ rm /tmp/sharpen 1> /dev/null 2>&1 &
 done
 ;;
 
-    "17")
+    "18")
 if grep 'AWB' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/AWB//g' 
@@ -907,7 +928,7 @@ dcrawA=
 fi
 ;;
 
-    "18")
+    "19")
 if grep 'dcrawA' /tmp/FFmpeg_settings 
 then
 find /tmp/FFmpeg_settings | xargs perl -pi -e 's/dcrawA//g' 
@@ -924,7 +945,7 @@ AWB=
 fi
 ;;
 
-    "19")
+    "20")
 if [ -f /tmp/FFmpeg_white_level ]
 then
 rm /tmp/FFmpeg_white_level
@@ -948,11 +969,11 @@ printf "%s\n" "$input_variable" > /tmp/FFmpeg_white_level
 wle=$(cat /tmp/FFmpeg_white_level)
 fi
 sleep 1 
-printf '\e[8;55;65t'
+printf '\e[8;57;65t'
 printf '\e[3;450;0t'
 ;;
 
-    "20")
+    "21")
 mkdir -p "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
 if grep 'HDR' /tmp/pr4444_HDR
 then
@@ -970,7 +991,7 @@ HDRa=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
 
-    "21")
+    "22")
 mkdir -p "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
 if grep 'halfhdr' /tmp/pr4444_HDR 
 then
@@ -992,7 +1013,7 @@ fi
 ;;
 
 
-    "22")
+    "23")
 #AE_question
 if ! grep 'AE_template' /tmp/FFmpeg_settings 
 then
@@ -1130,12 +1151,12 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= 
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; codec_422=
 fi
 ;;
 
 
-    "23")
+    "24")
 #AE_question
 if ! grep 'AE_temp_HDR' /tmp/FFmpeg_settings 
 then
@@ -1279,11 +1300,11 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422=
 fi
 ;;
 
-    "24")
+    "25")
 cd "$(cat /tmp/DUALISO/path_1)"
 open $(find . -maxdepth 2 -name '*C0000_000000.dng')
 cd -
@@ -1333,7 +1354,7 @@ echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to P
     case "$REPLY" in
 
     * )  
-printf '\e[8;55;65t'
+printf '\e[8;57;65t'
 printf '\e[3;450;0t'
 ;;
     esac
