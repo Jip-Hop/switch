@@ -30,6 +30,42 @@
     mkdir "$O""${BASE}"
     fi
     mv "$O""${BASE}" "$O""${BASE}_1_$date" 
+#check for proxy files
+    if ls *.MOV >/dev/null 2>&1;
+    then
+    MOV=$(echo "${BASE}" | tail -c 5).MOV
+    if [ -f *$MOV ]
+    then
+    mv *"$MOV" "$O""${BASE}_1_$date"
+    cd "$O""${BASE}_1_$date"
+    duration=$(ffprobe -loglevel quiet -of compact=p=0:nk=1 -show_entries format=duration -i *"$MOV")
+    if (( $(echo "$duration < 5" |bc -l) )); then
+    snippet=$(echo 2)
+    else
+    snippet=$(echo 5)
+    fi
+    first_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "blackdetect=d=0.1:pix_th=0.08" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
+    last_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "reverse,""blackdetect=d=0.1:pix_th=0.08" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
+    if ! [ x"$last_black" = x ]; then
+    last_black=$(echo $duration - $last_black | bc -l)
+    fi
+    trimmed=$(echo $last_black - $first_black - 0.01 | bc -l)
+    if ! [ x"$first_black" = x ] && ! [ x"$last_black" = x ]; then
+    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    ffmpeg -ss $first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
+    elif ! [ x"$first_black" = x ] && [ x"$last_black" = x ]; then
+    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    ffmpeg -ss $first_black -i *"$MOV" -t $duration -vcodec copy -acodec copy n"${BASE}".MOV
+    elif [ x"$first_black" = x ] && ! [ x"$last_black" = x ]; then
+    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    ffmpeg -ss 0 -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
+    fi
+#move transcoded proxy to parent folder
+    mv -i n"${BASE}".MOV "$(cat /tmp/DUALISO/path_1)"/"${BASE}_1_$date".MOV
+    mv -i *"$MOV" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
+    cd ..
+    fi
+    fi
 #check for output
     if [ x"$(cat /tmp/output)" = x ]
     then
