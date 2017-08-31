@@ -51,13 +51,13 @@
     fi
     trimmed=$(echo $last_black - $first_black - 0.01 | bc -l)
     if ! [ x"$first_black" = x ] && ! [ x"$last_black" = x ]; then
-    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O""${BASE}_1_$date"_.wav
     ffmpeg -ss $first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
     elif ! [ x"$first_black" = x ] && [ x"$last_black" = x ]; then
-    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O""${BASE}_1_$date"_.wav
     ffmpeg -ss $first_black -i *"$MOV" -t $duration -vcodec copy -acodec copy n"${BASE}".MOV
     elif [ x"$first_black" = x ] && ! [ x"$last_black" = x ]; then
-    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O""${BASE}_1_$date"_.wav
     ffmpeg -ss 0 -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
     fi
 #move transcoded proxy to parent folder
