@@ -38,7 +38,7 @@
     then
     mv *"$MOV" "$O""${BASE}_1_$date"
     cd "$O""${BASE}_1_$date"
-    duration=$(ffprobe -loglevel quiet -of compact=p=0:nk=1 -show_entries format=duration -i *"$MOV")
+    duration=$(exiftool  *"$MOV" | grep 'Media Duration' | awk 'FNR == 1 {print $4}')
     if (( $(echo "$duration < 5" |bc -l) )); then
     snippet=$(echo 2)
     else
