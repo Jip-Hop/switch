@@ -38,7 +38,7 @@
     then
     mv *"$MOV" "$O""${BASE}_1_$date"
     cd "$O""${BASE}_1_$date"
-    duration=$(exiftool  *"$MOV" -b -MediaDuration)
+    duration=$(exiftool *"$MOV" -b -MediaDuration)
     if (( $(echo "$duration < 5" |bc -l) )); then
     snippet=$(echo 2)
     else
