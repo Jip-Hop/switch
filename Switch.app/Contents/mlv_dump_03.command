@@ -200,7 +200,7 @@
 #extract audio
     if ! ls "$O2"*.wav >/dev/null 2>&1;
     then
-    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    ffmpeg -ss 0$first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
     fi
     if ! [ x"$first_black" = x ]; then
     ffmpeg -ss $first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
