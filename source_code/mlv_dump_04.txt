@@ -36,7 +36,11 @@
     MOV=$(echo "${BASE}" | tail -c 5).MOV
     if [ -f *$MOV ]
     then
+#check for output
+    if [ x"$(cat /tmp/output)" = x ]
+    then
     mv *"$MOV" "$O""${BASE}_1_$date"
+    fi
     fi
     fi
 #check for output
@@ -200,9 +204,15 @@
     elif [ x"$first_black" = x ]; then
     ffmpeg -ss 0 -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
     fi
+#check for output
+    if ! [ x"$(cat /tmp/output)" = x ]
+    then
+    mv -i n"${BASE}".MOV "$(cat /tmp/output)"/"${BASE}_1_$date".MOV
+    else
 #move transcoded proxy to parent folder
     mv -i n"${BASE}".MOV "$(cat /tmp/DUALISO/path_1)"/"${BASE}_1_$date".MOV
     mv -i *"$MOV" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
+    fi
     fi
 #syncs audio to amount of dng frames
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
