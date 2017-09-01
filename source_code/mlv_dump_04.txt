@@ -30,40 +30,13 @@
     mkdir "$O""${BASE}"
     fi
     mv "$O""${BASE}" "$O""${BASE}_1_$date" 
-#check for proxy files
+#check for proxy file part 1
     if ls *.MOV >/dev/null 2>&1;
     then
     MOV=$(echo "${BASE}" | tail -c 5).MOV
     if [ -f *$MOV ]
     then
     mv *"$MOV" "$O""${BASE}_1_$date"
-    cd "$O""${BASE}_1_$date"
-    duration=$(exiftool *"$MOV" -b -MediaDuration)
-    if (( $(echo "$duration < 5" |bc -l) )); then
-    snippet=$(echo 2)
-    else
-    snippet=$(echo 5)
-    fi
-    first_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "blackdetect=d=0.1:pix_th=0.08" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
-    last_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "reverse,""blackdetect=d=0.1:pix_th=0.08" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
-    if ! [ x"$last_black" = x ]; then
-    last_black=$(echo $duration - $last_black | bc -l)
-    fi
-    trimmed=$(echo $last_black - $first_black - 0.01 | bc -l)
-    if ! [ x"$first_black" = x ] && ! [ x"$last_black" = x ]; then
-    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O""${BASE}_1_$date"_.wav
-    ffmpeg -ss $first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
-    elif ! [ x"$first_black" = x ] && [ x"$last_black" = x ]; then
-    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O""${BASE}_1_$date"_.wav
-    ffmpeg -ss $first_black -i *"$MOV" -t $duration -vcodec copy -acodec copy n"${BASE}".MOV
-    elif [ x"$first_black" = x ] && ! [ x"$last_black" = x ]; then
-    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O""${BASE}_1_$date"_.wav
-    ffmpeg -ss 0 -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
-    fi
-#move transcoded proxy to parent folder
-    mv -i n"${BASE}".MOV "$(cat /tmp/DUALISO/path_1)"/"${BASE}_1_$date".MOV
-    mv -i *"$MOV" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
-    cd ..
     fi
     fi
 #check for output
@@ -206,12 +179,37 @@
     find "$O2". -maxdepth 1 -mindepth 1 -iname '*.dng' -print0 | xargs -0 exiv2 -M"set Exif.Image.DefaultScale Rational 1/1 1/1"
     fi
     fi
+#check for proxy file part 2
+    if [ -f *$MOV ]
+    then
+    duration=$(exiftool *"$MOV" -b -MediaDuration)
+    if (( $(echo "$duration < 5" |bc -l) )); then
+    snippet=$(echo 2)
+    else
+    snippet=$(echo 5)
+    fi
+    first_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "blackdetect=d=0.1:pix_th=0.08" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
+#grab amount of dng frames from MLV metadata
+    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
+    FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')     
+    trimmed=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}') 
+#extract audio
+    ffmpeg -ss $first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+    if ! [ x"$first_black" = x ]; then
+    ffmpeg -ss $first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
+    elif [ x"$first_black" = x ]; then
+    ffmpeg -ss 0 -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
+    fi
+#move transcoded proxy to parent folder
+    mv -i n"${BASE}".MOV "$(cat /tmp/DUALISO/path_1)"/"${BASE}_1_$date".MOV
+    mv -i *"$MOV" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
+    fi
 #syncs audio to amount of dng frames
-    frct=$($mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
-    FPS=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }')      
+    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
+    FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')      
     frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
 #cut audio  
-    ffmpeg -ss 0 -t $frct_result -i "$O2""${BASE}_1_$date"_.wav "$O2""${BASE}_1_$date".wav ;
+    ffmpeg -ss 0 -i "$O2""${BASE}_1_$date"_.wav -t $frct_result -acodec copy "$O2""${BASE}_1_$date".wav ;
     rm "$O2""${BASE}_1_$date"_.wav
 #adding fps to wav metadata
     fps_au=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }' | tr -d . )
