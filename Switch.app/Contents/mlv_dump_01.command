@@ -202,11 +202,7 @@
     then
     ffmpeg -ss 0$first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
     fi
-    if ! [ x"$first_black" = x ]; then
-    ffmpeg -ss $first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
-    elif [ x"$first_black" = x ]; then
-    ffmpeg -ss 0 -i *"$MOV" -t $trimmed -vcodec copy -acodec copy n"${BASE}".MOV
-    fi
+    ffmpeg -ss 0$first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy -timecode 00:00:00:00 n"${BASE}".MOV
 #check for output
     if ! [ x"$(cat /tmp/output)" = x ]
     then
