@@ -1056,7 +1056,7 @@ done
 rm /tmp/mlv_dump_on_steroids_UNC
 rm /tmp/mlv_dump_on_steroids_settings
 
-printf '\e[8;36;67t'
+printf '\e[8;38;73t'
 printf '\e[3;450;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -1078,7 +1078,7 @@ white="$(tput setaf 7)"
 #disable dualiso automation as default
     echo > /tmp/dualisodisable
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; c= ; cc= ; ccc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; c= ; cc= ; ccc= ; ato= ; proxy=
 if grep 'no-cs' /tmp/mlv_dump_settings 
 then
 nocs=$(echo "$bold""$green"added!"$normal")
@@ -1126,14 +1126,14 @@ c=$(echo "$bold""$green"added!"$normal")
 fi
 if [ -f /tmp/mlv_dump_UNC ] 
 then
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; cc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; cc= ; ato= ; proxy=
 rm /tmp/mlv_dump_settings
 ccc=$(echo "$bold""$green"added!"$normal")
 cc=
 fi
 if grep 'd' /tmp/mlv_dump_UNC 
 then
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; ccc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; ccc= ; ato= ; proxy=
 rm /tmp/mlv_dump_settings
 cc=$(echo "$bold""$green"added!"$normal")
 ccc=
@@ -1147,6 +1147,10 @@ fi
 if grep 'relaxed' /tmp/mlv_dump_UNC
 then
 ato=$(echo "$bold""$green"added!"$normal")
+fi
+if [ -f /tmp/PROXYONLY ] 
+then
+proxy=$(echo "$bold""$green"added!"$normal")
 fi
 
 while :
@@ -1179,6 +1183,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(16) build a hot/dead pixel list$(tput sgr0)(ImageJ)$(tput sgr0)
     $(tput bold)(17) create a sample files package$(tput sgr0)$(tput sgr0) 
     $(tput bold)(18) white balance picker$(tput sgr0)$(tput sgr0)(ImageJ)$(tput sgr0)
+    $(tput bold)(19) MLV+proxy$(tput sgr0)$(tput sgr0)(outputs only MOV(default MOV+MLV)$(tput sgr0) $proxy
 
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
@@ -1367,7 +1372,7 @@ printf "%s\n" " --black-fix"=$input_variable >> /tmp/mlv_dump_settings
 bll=$(grep -Eo '.{0,0}black-fix.{0,6}' /tmp/mlv_dump_settings)
 fi
 sleep 1 
-printf '\e[8;36;67t'
+printf '\e[8;38;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -1395,7 +1400,7 @@ printf "%s\n" " --white-fix"=$input_variable >> /tmp/mlv_dump_settings
 wll=$(grep -Eo '.{0,0}white-fix.{0,6}' /tmp/mlv_dump_settings)
 fi
 sleep 1 
-printf '\e[8;36;67t'
+printf '\e[8;38;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -1437,14 +1442,14 @@ echo $(tput bold)"
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; ccc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; ccc= ; ato= ; proxy=
 rm /tmp/mlv_dump_settings
 printf "%s\n" "-c -c -d" > /tmp/mlv_dump_UNC
 cc=$(echo "$bold""$green"added!"$normal")
 ccc=
 fi
 else
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; ccc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; c= ; ccc= ; ato= ; proxy=
 rm /tmp/mlv_dump_settings
 printf "%s\n" "-c -c -d" > /tmp/mlv_dump_UNC
 cc=$(echo "$bold""$green"added!"$normal")
@@ -1709,6 +1714,17 @@ echo > /tmp/DUALISO/WB_PICK_MLV
 fi
 ;;
 
+    "19")
+if ! ls /tmp/PROXYONLY
+then 
+echo > /tmp/PROXYONLY
+proxy=$(echo "$bold""$green"added!"$normal")
+else
+rm /tmp/PROXYONLY
+proxy=
+fi
+;;
+
     "mp")
 "$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/"path_1")" & sleep 2
 rm "$(cat /tmp/DUALISO/"path_1")"/*.WAV
@@ -1721,7 +1737,8 @@ rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
 ;;
 
     "E")
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; c= ; cc= ; ccc= ; ato=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; c= ; cc= ; ccc= ; ato= ; proxy=
+rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
@@ -1763,7 +1780,7 @@ fi
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_settings
 
-printf '\e[8;41;67t'
+printf '\e[8;43;73t'
 printf '\e[3;450;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -1785,7 +1802,7 @@ white="$(tput setaf 7)"
 #disable dualiso automation as default
     echo > /tmp/dualisodisable
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 if grep 'no-cs' /tmp/mlv_dump_on_steroids_settings 
 then
 nocs=$(echo "$bold""$green"added!"$normal")
@@ -1833,7 +1850,7 @@ c=$(echo "$bold""$green"added!"$normal")
 fi
 if [ -f /tmp/mlv_dump_on_steroids_UNC ] 
 then
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 rm /tmp/mlv_dump_on_steroids_settings
 p=$(echo "$bold""$green"added!"$normal")
 fi
@@ -1879,6 +1896,10 @@ if grep ' \--bpi' /tmp/mlv_dump_on_steroids_settings
 then
 bpm=$(grep -Eo '.{0,0}bpi.{0,2}' /tmp/mlv_dump_on_steroids_settings)
 fi
+if [ -f /tmp/PROXYONLY ] 
+then
+proxy=$(echo "$bold""$green"added!"$normal")
+fi
 
 while :
 do 
@@ -1915,6 +1936,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(21) bad pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=1$(tput bold)$(tput setaf 4) $bpm$(tput sgr0)
     $(tput bold)(22) disable dualiso automation$(tput sgr0)  $dual
     $(tput bold)(23) create a sample files package$(tput sgr0)
+    $(tput bold)(24) MLV+proxy$(tput sgr0)$(tput sgr0)(outputs only MOV(default MOV+MLV)$(tput sgr0) $proxy
 
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
@@ -2116,7 +2138,7 @@ printf "%s\n" " --black-fix"=$input_variable >> /tmp/mlv_dump_on_steroids_settin
 bll=$(grep -Eo '.{0,0}black-fix.{0,6}' /tmp/mlv_dump_on_steroids_settings)
 fi
 sleep 1 
-printf '\e[8;41;67t'
+printf '\e[8;43;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2144,7 +2166,7 @@ printf "%s\n" " --white-fix"=$input_variable >> /tmp/mlv_dump_on_steroids_settin
 wll=$(grep -Eo '.{0,0}white-fix.{0,6}' /tmp/mlv_dump_on_steroids_settings)
 fi
 sleep 1 
-printf '\e[8;41;67t'
+printf '\e[8;43;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2188,7 +2210,7 @@ echo $(tput bold)"
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 rm /tmp/mlv_dump_on_steroids_settings
 printf "%s\n" "-p" > /tmp/mlv_dump_on_steroids_UNC
 p=$(echo "$bold""$green"added!"$normal")
@@ -2272,7 +2294,7 @@ printf "%s\n" " --deflicker"=$input_variable >> /tmp/mlv_dump_on_steroids_settin
 dfl=$(grep -Eo '.{0,0}deflicker.{0,6}' /tmp/mlv_dump_on_steroids_settings)
 fi
 sleep 1 
-printf '\e[8;41;67t'
+printf '\e[8;43;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2300,7 +2322,7 @@ printf "%s\n" " -b $input_variable" >> /tmp/mlv_dump_on_steroids_settings
 btp=$(grep -Eo '.{0,0}-b.{0,3}' /tmp/mlv_dump_on_steroids_settings)
 fi
 sleep 1 
-printf '\e[8;41;67t'
+printf '\e[8;43;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2345,7 +2367,7 @@ printf "%s\n" " --fpi $input_variable" >> /tmp/mlv_dump_on_steroids_settings
 fcpm=$(grep -Eo '.{0,0}fpi.{0,2}' /tmp/mlv_dump_on_steroids_settings)
 fi
 sleep 1 
-printf '\e[8;41;67t'
+printf '\e[8;43;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2373,7 +2395,7 @@ printf "%s\n" " --bpi $input_variable" >> /tmp/mlv_dump_on_steroids_settings
 bpm=$(grep -Eo '.{0,0}bpi.{0,2}' /tmp/mlv_dump_on_steroids_settings)
 fi
 sleep 1 
-printf '\e[8;41;67t'
+printf '\e[8;43;73t'
 printf '\e[3;450;0t'
 ;;
 
@@ -2440,6 +2462,17 @@ echo ###########################################################################
 cd ..
 ;;
 
+    "24")
+if ! ls /tmp/PROXYONLY
+then 
+echo > /tmp/PROXYONLY
+proxy=$(echo "$bold""$green"added!"$normal")
+else
+rm /tmp/PROXYONLY
+proxy=
+fi
+;;
+
     "mp")
 "$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/"path_1")" & sleep 2
 rm "$(cat /tmp/DUALISO/"path_1")"/*.WAV
@@ -2452,7 +2485,8 @@ rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
 ;;
 
     "E")
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_on_steroids_UNC
 rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
@@ -6357,7 +6391,8 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_on_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
@@ -6737,7 +6772,8 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_on_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
