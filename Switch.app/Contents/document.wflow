@@ -1283,10 +1283,19 @@ sleep 1
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/MLVFILES ) / $THR + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
     rm /tmp/DUALISO/MLVFILES
-    . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$! 
-    . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$! 
-    . "$path_2"Contents/mlv_dump_03.command &amp; pid3=$! 
-    . "$path_2"Contents/mlv_dump_04.command &amp; pid4=$! 
+#if processing PROXYONLY
+    if ! [ -f /tmp/PROXYONLY ]
+    then
+    . "$path_2"Contents/mlv_dump_01.command &amp; pid1=$!
+    . "$path_2"Contents/mlv_dump_02.command &amp; pid2=$!
+    . "$path_2"Contents/mlv_dump_03.command &amp; pid3=$!
+    . "$path_2"Contents/mlv_dump_04.command &amp; pid4=$!
+    else
+    . "$path_2"Contents/proxy_only_01.command &amp; pid1=$!
+    . "$path_2"Contents/proxy_only_02.command &amp; pid2=$!
+    . "$path_2"Contents/proxy_only_03.command &amp; pid3=$!
+    . "$path_2"Contents/proxy_only_04.command &amp; pid4=$! 
+    fi
 #wait for jobs to end
     wait &lt; &lt;(jobs -p)
 #mlv_dump time command
@@ -2366,54 +2375,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>13F46306-E8BD-4A30-BAFA-88CC6B00CECE</key>
+		<key>14A9C9DF-350F-41AA-9C20-B0906D780431</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>22369D42-EC2A-44C9-93C3-AC7599FC78CC</key>
+		<key>32578404-CE71-466E-8C2B-66CEA5AEA162</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>2F99A306-3E79-4D7C-830C-4AD96F004252</key>
-		<dict>
-			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>92CFDF7A-6B86-4490-BBFB-7F45A39E77F0</key>
+		<key>97BCF4BE-1287-40FF-8F9E-47346B342FFE</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>B651F372-B375-43BD-BCFF-4B8EEA68FC60</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>C11C438F-097B-4C6C-B0FE-FFDA7028416C</key>
+		<key>A7E9D687-DB8D-48C0-A5CA-358A523CA042</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>C9608312-1157-4EAC-98E2-EBA5436ED185</key>
+		<key>AA65C804-E014-4F21-9ACD-077FA6C556A0</key>
 		<dict>
 			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>C0A3C291-57FD-4756-92DC-0D49D71A8411</key>
+		<dict>
+			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>DBE024BD-015F-4787-9F90-AEC41A0845FA</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

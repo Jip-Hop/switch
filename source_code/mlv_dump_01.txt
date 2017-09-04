@@ -192,7 +192,13 @@
     else
     snippet=$(echo 5)
     fi
+    first_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "blackdetect=d=0.1:pix_th=0.01" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
+    if [ x"$first_black" = x ]; then
+    first_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "blackdetect=d=0.1:pix_th=0.04" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
+    if [ x"$first_black" = x ]; then
     first_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "blackdetect=d=0.1:pix_th=0.08" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
+    fi
+    fi
 #grab amount of dng frames from MLV metadata
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
     FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')     

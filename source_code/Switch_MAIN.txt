@@ -680,10 +680,19 @@ sleep 1
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/MLVFILES ) / $THR + 1 )) /tmp/DUALISO/MLVFILES /tmp/DUALISO/MLVFILES
     rm /tmp/DUALISO/MLVFILES
+#if processing PROXYONLY
+    if ! [ -f /tmp/PROXYONLY ]
+    then
     . "$path_2"Contents/mlv_dump_01.command & pid1=$!
     . "$path_2"Contents/mlv_dump_02.command & pid2=$!
     . "$path_2"Contents/mlv_dump_03.command & pid3=$!
     . "$path_2"Contents/mlv_dump_04.command & pid4=$!
+    else
+    . "$path_2"Contents/proxy_only_01.command & pid1=$!
+    . "$path_2"Contents/proxy_only_02.command & pid2=$!
+    . "$path_2"Contents/proxy_only_03.command & pid3=$!
+    . "$path_2"Contents/proxy_only_04.command & pid4=$! 
+    fi
 #wait for jobs to end
     wait < <(jobs -p)
 #mlv_dump time command
