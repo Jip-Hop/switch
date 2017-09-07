@@ -6753,7 +6753,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 else
 clear
 echo "Done!"
-printf '\e[8;25;55t'
+printf '\e[8;32;60t'
 printf '\e[3;450;0t'
 fi
 fi
