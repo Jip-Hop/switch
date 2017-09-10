@@ -117,6 +117,7 @@ echo 3trap >> /tmp/DUALISO/prores_TRAP
     fi
 #check for alternate codec
     Pcodec=$(printf "%s\n" -vcodec prores_ks -pix_fmt yuv444p10)
+    ext=$(echo mov) 
     if grep 'qual0' /tmp/FFmpeg_settings
     then
     qual=$(printf "%s\n" -q 0)
