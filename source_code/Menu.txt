@@ -2566,7 +2566,7 @@ mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_Proxy
 mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
 fi
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; DEL_DNG=
 
 if grep 'lincineon' /tmp/FFmpeg_settings 
 then
@@ -2637,10 +2637,6 @@ if grep 'Pcodec_lt' /tmp/FFmpeg_settingsPR
 then
 Pcodec_lt=$(echo "$bold""$green"added!"$normal")
 fi
-if grep 'codec_422' /tmp/FFmpeg_settings
-then
-codec_422=$(echo "$bold""$green"added!"$normal")
-fi
 if [ -f /tmp/DUALISO/DEL_DNG ]
 then
 DEL_DNG=$(echo "$bold""$green"added!"$normal")
@@ -2708,7 +2704,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(04) rec709$(tput sgr0) $rec709 
     $(tput bold)(05) xyz$(tput sgr0) $xyz
     $(tput bold)(06) aces$(tput sgr0) $aces
-    $(tput bold)(07) switch to ProRes 422 codec(faster)$(tput sgr0) $codec_422
+    $(tput bold)(07) switch to another codec$(tput sgr0) $bold$blue$(if [ -f /tmp/FFmpeg_settings ]; then cat /tmp/FFmpeg_settings | grep 'x264a\|x264b\|prores_422\|DNxHD_422' ; fi)$normal
 -- other settings(ProRes4444)
     $(tput bold)(08) scale output$(tput sgr0)  $(tput bold)$(tput setaf 4)$Paspect$(tput sgr0) $Pscale
 
@@ -2922,21 +2918,193 @@ xyz=
 fi
 ;;
 
+
     "07")
-mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
-if grep 'codec_422' /tmp/FFmpeg_settings
+mkdir -p "$(cat /tmp/DUALISO/"path_1")"/$(date +%F)_ProRes4444
+
+#!/bin/bash
+#changes size of terminal window
+#tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
+printf '\e[8;20;67t'
+printf '\e[3;410;100t'
+open -a Terminal
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+H2a= ; H2b= ; pr422= ; dc=
+
+if grep -q 'x264a' /tmp/FFmpeg_settings 
 then
-find /tmp/FFmpeg_settings | xargs perl -pi -e 's/codec_422//g' 
-codec_422=
+H2a=$(echo "$bold""$green"added!"$normal")
+fi
+if grep -q 'x264b' /tmp/FFmpeg_settings 
+then
+H2b=$(echo "$bold""$green"added!"$normal")
+fi
+if grep -q 'prores_422' /tmp/FFmpeg_settings 
+then
+pr422=$(echo "$bold""$green"added!"$normal")
+fi
+if grep -q 'qual0' /tmp/FFmpeg_settings 
+then
+dc=$(echo "$bold""$green"added!"$normal")
+fi
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    =======================
+    ${bold}$(tput setaf 1)Alternate codec setting$(tput sgr0)
+    -----------------------
+ 
+    $(tput bold)(01)$(tput sgr0) lossless x264(ultrafast - crf 10 - recommended) $H2a
+    $(tput bold)(02)$(tput sgr0) lossless x264(ultrafast,huge files) $H2b
+    $(tput bold)(03)$(tput sgr0) prores_422 $pr422				   
+
+    $(tput bold)$(tput setaf 1)(dc) set dcraw quality to 0 (faster)$(tput sgr0) $dc
+    $(tput bold)$(tput setaf 1)(p)  return to prores menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(R)  reset$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  quit Switch$(tput sgr0)   					        					
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+
+    "01")  
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
+if grep 'x264a' /tmp/FFmpeg_settings
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264a//g' 
+H2a=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-echo "codec_422" >> /tmp/FFmpeg_settings
-codec_422=$(echo "$bold""$green"added!"$normal")
+echo "x264a" >> /tmp/FFmpeg_settings
+H2a=$(echo "$bold""$green"added!"$normal")
+#remove unwanted codecs
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264b//g'
+H2b=
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/prores_422//g' 
+pr422=
 fi
 ;;
+
+    "02")  
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
+if grep 'x264b' /tmp/FFmpeg_settings
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264b//g' 
+H2b=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "x264b" >> /tmp/FFmpeg_settings
+H2b=$(echo "$bold""$green"added!"$normal")
+#remove unwanted codecs
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264a//g'
+H2a=
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/prores_422//g' 
+pr422=
+fi
+;;
+
+    "03")  
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
+if grep 'prores_422' /tmp/FFmpeg_settings
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/prores_422//g' 
+pr422=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "prores_422" >> /tmp/FFmpeg_settings
+pr422=$(echo "$bold""$green"added!"$normal")
+#remove unwanted codecs
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264a//g'
+H2a=
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264b//g'
+H2b=
+fi
+;;
+
+    "dc")
+mkdir -p "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_ProRes4444
+if grep 'qual0' /tmp/FFmpeg_settings
+then
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/qual0//g' 
+dc=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo "qual0" >> /tmp/FFmpeg_settings
+dc=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "p")  
+echo > /tmp/DUALISO/tif_back  
+. "$(cat /tmp/DUALISO/path_2)"tif_spit.command
+;;
+
+
+    "R")  
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/prores_422//g' 
+pr422=
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264a//g'
+H2a=
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/x264b//g'
+H2b=
+find /tmp/FFmpeg_settings | xargs perl -pi -e 's/qual0//g' 
+dc=
+;;
+
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+;;
+
+
+
+
+
+
+
 
      "08")
 if ! [ x$(cat /tmp/_X_pres_SCALE) = x ]
@@ -3656,7 +3824,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; DEL_DNG=
 fi
 ;;
 
@@ -3805,7 +3973,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; DEL_DNG=
 fi
 ;;
 
@@ -4056,7 +4224,7 @@ done
 ;;
 
     "E")
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; DEL_DNG=
 rm /tmp/DUALISO/DEL_DNG
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
@@ -6028,7 +6196,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; DEL_DNG=
 fi
 ;;
 
@@ -6176,7 +6344,7 @@ else
 rm /tmp/pr4444_HDR
 rm /tmp/FFmpeg_white_level
 rm /tmp/FFmpeg_settings
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; DEL_DNG=
 fi
 ;;
 
@@ -6399,7 +6567,7 @@ rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; DEL_DNG=
 rm /tmp/DUALISO/DEL_DNG
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
@@ -6780,7 +6948,7 @@ rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
-lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; codec_422= ; DEL_DNG=
+lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; DEL_DNG=
 rm /tmp/DUALISO/DEL_DNG
 rm /tmp/FFmpeg_white_level
 rm /tmp/pr4444_HDR
