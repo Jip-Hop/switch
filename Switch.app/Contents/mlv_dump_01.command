@@ -34,6 +34,17 @@
     if ls *.MOV >/dev/null 2>&1;
     then
     MOV=$(echo "${BASE}" | tail -c 5).MOV
+#check for sequenced MOV files
+    cat=$(echo "${BASE}" | tail -c 5 | rev | cut -c 2- | rev)
+    if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
+    then 
+    mv "$O""${BASE}_1_$date""$MOV" ./ 
+    cat $(ls *"$cat"*.MOV) > "n${BASE}".mov
+    mv -i *"$cat"*.MOV A_ORIGINALS
+    mv "n${BASE}".mov "${BASE}".MOV
+    else
+    cat=
+    fi
     if [ -f *$MOV ]
     then
 #check for output
@@ -219,6 +230,11 @@
     mv -i *"$MOV" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
     fi
     fi
+#if already created a cat file erase instead of keep(4gb limit)
+    if ! [ x"$cat" = x ]
+    then
+    rm "${BASE}".MOV
+    fi 
 #syncs audio to amount of dng frames
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
     FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')      
