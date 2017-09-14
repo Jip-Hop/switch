@@ -714,7 +714,7 @@ sleep 1
     then 
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
-    for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
+    for FILE in `ls -A1 *.MLV *.mlv *.M0* *.M1* *.M2* *.M3* *.M4* *.M5* | grep -v 'avg_\|ft_' 2>/dev/null`; do
     $mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' >> /tmp/DUALISO/MLVprogress_bar3 
     done
     open "$path_2"Contents/progress_bar.command &

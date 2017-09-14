@@ -1247,7 +1247,7 @@ sleep 1
     then 
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
-    for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
+    for FILE in `ls -A1 *.MLV *.mlv *.M0* *.M1* *.M2* *.M3* *.M4* *.M5* | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
     $mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &gt;&gt; /tmp/DUALISO/MLVprogress_bar3 
     done
     open "$path_2"Contents/progress_bar.command &amp;
@@ -1884,33 +1884,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>4A3B7D3F-96F1-4FA7-85FF-814F2B0E256C</key>
-		<dict>
-			<key>from</key>
-			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
-			<key>to</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
-		</dict>
-		<key>6ABAEB36-073F-49F6-AA70-85C64D613539</key>
-		<dict>
-			<key>from</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
-			<key>to</key>
-			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
-		</dict>
-		<key>7C3C3986-5677-4F2C-9893-BD4D928D55A2</key>
+		<key>57292099-1163-4684-B35C-31C5B7C4DABB</key>
 		<dict>
 			<key>from</key>
 			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 			<key>to</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
 		</dict>
-		<key>CF13BB9E-22E3-4E7A-9FCC-FB77F6A635DB</key>
+		<key>61E9DFCE-0466-405B-A198-4542243B738D</key>
 		<dict>
 			<key>from</key>
 			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 			<key>to</key>
 			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+		</dict>
+		<key>80041155-C0A7-4F5C-B6AC-0B92C65C6BD5</key>
+		<dict>
+			<key>from</key>
+			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
+			<key>to</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+		</dict>
+		<key>DBFE59D5-74AC-4EB8-908D-957A50F4F610</key>
+		<dict>
+			<key>from</key>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+			<key>to</key>
+			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

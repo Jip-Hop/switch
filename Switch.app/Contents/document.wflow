@@ -1251,7 +1251,7 @@ sleep 1
     then 
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
-    for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
+    for FILE in `ls -A1 *.MLV *.mlv *.M0* *.M1* *.M2* *.M3* *.M4* *.M5* | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
     $mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &gt;&gt; /tmp/DUALISO/MLVprogress_bar3 
     done
     open "$path_2"Contents/progress_bar.command &amp;
@@ -2375,54 +2375,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>14A9C9DF-350F-41AA-9C20-B0906D780431</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>32578404-CE71-466E-8C2B-66CEA5AEA162</key>
+		<key>04FCE90E-698F-453E-86BA-E8225BD6D23B</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>97BCF4BE-1287-40FF-8F9E-47346B342FFE</key>
+		<key>1BF74C4D-15FE-4069-991C-A5266608610F</key>
 		<dict>
 			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>A7E9D687-DB8D-48C0-A5CA-358A523CA042</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>AA65C804-E014-4F21-9ACD-077FA6C556A0</key>
+		<key>2C776A54-93BF-4A8B-B499-107930DC922E</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>C0A3C291-57FD-4756-92DC-0D49D71A8411</key>
+		<key>5506A0BF-F62C-4504-A88F-F808305B3A0B</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>5B48B8D0-01AB-4D41-A279-FB4D3582D518</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>8AE6BC12-C962-4D85-A9F4-AC46C5CBD1F9</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>C9CD12BC-9BBC-47CC-8E47-AD88EE5DDB90</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>DBE024BD-015F-4787-9F90-AEC41A0845FA</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
