@@ -42,18 +42,23 @@
     then 
     mv "$O""${BASE}_1_$date""$MOV" ./
     ls *"$cat"*.MOV > /tmp/MOVtmp01
+    rm catlist01.txt
     rm /tmp/catlist01
     while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp01 | awk 'FNR == 2')" | awk '/Modification/ { print $6; exit}')" ] 
     do 
+    echo file "$(cat "/tmp/MOVtmp01" | head -1)" >> catlist01.txt
     echo -n " $(cat "/tmp/MOVtmp01" | head -1)" >> /tmp/catlist01
     echo "$(tail -n +2 /tmp/MOVtmp01)" > /tmp/MOVtmp01
-    done 
-    if [ -f /tmp/catlist01 ]
+    done
+    if [ -f catlist01.txt ]
     then 
+    echo file "$(cat "/tmp/MOVtmp01" | head -1)" >> catlist01.txt
     echo -n " $(cat "/tmp/MOVtmp01" | head -1)" >> /tmp/catlist01
-    cat $(cat /tmp/catlist01 | head -1) > "n${BASE}".mov  
+    ffmpeg -f concat -i catlist01.txt -c copy "n${BASE}".mov 
     mv -i $(cat /tmp/catlist01 | head -1) A_ORIGINALS
     mv "n${BASE}".mov "${BASE}".MOV
+    rm catlist01.txt
+    rm /tmp/catlist01
     else
     mv "$O""${BASE}_1_$date""$MOV" "$O""${BASE}_1_$date"
     cat=
