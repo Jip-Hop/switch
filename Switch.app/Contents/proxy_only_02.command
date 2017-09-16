@@ -34,18 +34,24 @@
     if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
     then 
     ls *"$cat"*.MOV > /tmp/MOVtmp02
+    rm catlist02.txt
     rm /tmp/catlist02
+    rm 
     while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp02 | awk 'FNR == 2')" | awk '/Modification/ { print $6; exit}')" ] 
     do 
+    echo file "$(cat "/tmp/MOVtmp02" | head -1)" >> catlist02.txt
     echo -n " $(cat "/tmp/MOVtmp02" | head -1)" >> /tmp/catlist02
     echo "$(tail -n +2 /tmp/MOVtmp02)" > /tmp/MOVtmp02
     done
-    if [ -f /tmp/catlist02 ]
+    if [ -f catlist02.txt ]
     then 
+    echo file "$(cat "/tmp/MOVtmp02" | head -1)" >> catlist02.txt
     echo -n " $(cat "/tmp/MOVtmp02" | head -1)" >> /tmp/catlist02
-    cat $(cat /tmp/catlist02 | head -1) > "n${BASE}".mov  
+    ffmpeg -f concat -i catlist02.txt -c copy "n${BASE}".mov 
     mv -i $(cat /tmp/catlist02 | head -1) A_ORIGINALS
     mv "n${BASE}".mov "${BASE}".MOV
+    rm catlist02.txt
+    rm /tmp/catlist02
     else
     cat=
     fi 
