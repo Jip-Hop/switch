@@ -27,6 +27,8 @@
     if ls *.MOV >/dev/null 2>&1;
     then
     MOV=$(echo "${BASE}" | tail -c 5).MOV
+    if [ -f *$MOV ]
+    then
 #check for sequenced MOV files
     cat=$(echo "${BASE}" | tail -c 5 | rev | cut -c 3- | rev)
     if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
@@ -48,8 +50,6 @@
     cat=
     fi 
     fi 
-    if [ -f *$MOV ]
-    then
 #Straight proxy making
     duration=$(exiftool *"$MOV" -b -MediaDuration)
     if (( $(echo "$duration < 5" |bc -l) )); then
