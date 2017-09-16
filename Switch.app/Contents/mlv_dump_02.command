@@ -34,6 +34,28 @@
     if ls *.MOV >/dev/null 2>&1;
     then
     MOV=$(echo "${BASE}" | tail -c 5).MOV
+#check for sequenced MOV files
+    cat=$(echo "${BASE}" | tail -c 5 | rev | cut -c 3- | rev)
+    if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
+    then 
+    mv "$O""${BASE}_1_$date""$MOV" ./
+    ls *"$cat"*.MOV > /tmp/MOVtmp
+    rm /tmp/catlist
+    while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp | awk 'FNR == 1')" | awk '/Modification/ { print $6; exit}')" ] 
+    do 
+    echo -n " $(cat "/tmp/MOVtmp" | head -1)" >> /tmp/catlist
+    echo "$(tail -n +2 /tmp/MOVtmp)" > /tmp/MOVtmp
+    done 
+    if [ -f /tmp/catlist ]
+    then 
+    cat $(cat /tmp/catlist | head -1) > "n${BASE}".mov  
+    mv -i $(cat /tmp/catlist | head -1) A_ORIGINALS
+    mv "n${BASE}".mov "${BASE}".MOV
+    else
+    mv "$O""${BASE}_1_$date""$MOV" "$O""${BASE}_1_$date"
+    cat=
+    fi 
+    fi 
     if [ -f *$MOV ]
     then
 #check for output
@@ -219,6 +241,11 @@
     mv -i *"$MOV" "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS
     fi
     fi
+#if already created a cat file erase instead of keep(4gb limit)
+    if ! [ x"$cat" = x ]
+    then
+    rm "${BASE}".MOV
+    fi 
 #syncs audio to amount of dng frames
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
     FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')      

@@ -27,6 +27,26 @@
     if ls *.MOV >/dev/null 2>&1;
     then
     MOV=$(echo "${BASE}" | tail -c 5).MOV
+#check for sequenced MOV files
+    cat=$(echo "${BASE}" | tail -c 5 | rev | cut -c 3- | rev)
+    if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
+    then 
+    ls *"$cat"*.MOV > /tmp/MOVtmp
+    rm /tmp/catlist
+    while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp | awk 'FNR == 1')" | awk '/Modification/ { print $6; exit}')" ] 
+    do 
+    echo -n " $(cat "/tmp/MOVtmp" | head -1)" >> /tmp/catlist
+    echo "$(tail -n +2 /tmp/MOVtmp)" > /tmp/MOVtmp
+    done
+    if [ -f /tmp/catlist ]
+    then 
+    cat $(cat /tmp/catlist | head -1) > "n${BASE}".mov  
+    mv -i $(cat /tmp/catlist | head -1) A_ORIGINALS
+    mv "n${BASE}".mov "${BASE}".MOV
+    else
+    cat=
+    fi 
+    fi 
     if [ -f *$MOV ]
     then
 #Straight proxy making
@@ -50,11 +70,17 @@
     ffmpeg -ss 0$first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy -timecode 00:00:00:00 "$out"n"${BASE}".MOV
     mv -i "$out"n"${BASE}".MOV "$out""${BASE}_1_$date".MOV
 #move transcoded proxy to parent folder
+#if already created a cat file erase instead of keep(4gb limit)
+    if ! [ x"$cat" = x ]
+    then
+    rm "${BASE}".MOV
+    else
 #check for output
     if [ x"$(cat /tmp/output)" = x ]
     then
     mv -i n"${BASE}".MOV "${BASE}_1_$date".MOV
     mv -i *"$MOV" A_ORIGINALS
+    fi
     fi
     fi
     fi
