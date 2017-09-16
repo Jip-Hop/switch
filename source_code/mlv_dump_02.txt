@@ -39,17 +39,18 @@
     if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
     then 
     mv "$O""${BASE}_1_$date""$MOV" ./
-    ls *"$cat"*.MOV > /tmp/MOVtmp
-    rm /tmp/catlist
-    while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp | awk 'FNR == 1')" | awk '/Modification/ { print $6; exit}')" ] 
+    ls *"$cat"*.MOV > /tmp/MOVtmp02
+    rm /tmp/catlist02
+    while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp02 | awk 'FNR == 2')" | awk '/Modification/ { print $6; exit}')" ] 
     do 
-    echo -n " $(cat "/tmp/MOVtmp" | head -1)" >> /tmp/catlist
-    echo "$(tail -n +2 /tmp/MOVtmp)" > /tmp/MOVtmp
+    echo -n " $(cat "/tmp/MOVtmp02" | head -1)" >> /tmp/catlist02
+    echo "$(tail -n +2 /tmp/MOVtmp02)" > /tmp/MOVtmp02
     done 
-    if [ -f /tmp/catlist ]
+    if [ -f /tmp/catlist02 ]
     then 
-    cat $(cat /tmp/catlist | head -1) > "n${BASE}".mov  
-    mv -i $(cat /tmp/catlist | head -1) A_ORIGINALS
+    echo -n " $(cat "/tmp/MOVtmp02" | head -1)" >> /tmp/catlist02
+    cat $(cat /tmp/catlist02 | head -1) > "n${BASE}".mov  
+    mv -i $(cat /tmp/catlist02 | head -1) A_ORIGINALS
     mv "n${BASE}".mov "${BASE}".MOV
     else
     mv "$O""${BASE}_1_$date""$MOV" "$O""${BASE}_1_$date"

@@ -31,17 +31,18 @@
     cat=$(echo "${BASE}" | tail -c 5 | rev | cut -c 3- | rev)
     if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
     then 
-    ls *"$cat"*.MOV > /tmp/MOVtmp
-    rm /tmp/catlist
-    while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp | awk 'FNR == 1')" | awk '/Modification/ { print $6; exit}')" ] 
+    ls *"$cat"*.MOV > /tmp/MOVtmp01
+    rm /tmp/catlist01
+    while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp01 | awk 'FNR == 2')" | awk '/Modification/ { print $6; exit}')" ] 
     do 
-    echo -n " $(cat "/tmp/MOVtmp" | head -1)" >> /tmp/catlist
-    echo "$(tail -n +2 /tmp/MOVtmp)" > /tmp/MOVtmp
+    echo -n " $(cat "/tmp/MOVtmp01" | head -1)" >> /tmp/catlist01
+    echo "$(tail -n +2 /tmp/MOVtmp01)" > /tmp/MOVtmp01
     done
-    if [ -f /tmp/catlist ]
+    if [ -f /tmp/catlist01 ]
     then 
-    cat $(cat /tmp/catlist | head -1) > "n${BASE}".mov  
-    mv -i $(cat /tmp/catlist | head -1) A_ORIGINALS
+    echo -n " $(cat "/tmp/MOVtmp01" | head -1)" >> /tmp/catlist01
+    cat $(cat /tmp/catlist01 | head -1) > "n${BASE}".mov  
+    mv -i $(cat /tmp/catlist01 | head -1) A_ORIGINALS
     mv "n${BASE}".mov "${BASE}".MOV
     else
     cat=
