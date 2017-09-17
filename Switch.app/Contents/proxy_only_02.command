@@ -27,20 +27,25 @@
     if ls *.MOV >/dev/null 2>&1;
     then
     MOV=$(echo "${BASE}" | tail -c 5).MOV
+    num=$(echo "${BASE}" | tail -c 5)
     if [ -f *$MOV ]
     then
 #check for sequenced MOV files
-    cat=$(echo "${BASE}" | tail -c 5 | rev | cut -c 3- | rev)
-    if ls *"$cat"*.MOV | grep -v "$MOV" >/dev/null 2>&1;
-    then 
-    ls *"$cat"*.MOV > /tmp/MOVtmp02
+    if [ -f *$(($num + 1)).MOV ]
+    then
+    echo *$MOV > /tmp/MOVtmp02
+    echo *$(($num + 1)).MOV >> /tmp/MOVtmp02
     rm catlist02.txt
     rm /tmp/catlist02
-    rm 
-    while [ "$(exiftool *"$cat"*.MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp02 | awk 'FNR == 2')" | awk '/Modification/ { print $6; exit}')" ] 
+    while [ "$(exiftool *$MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp02 | awk 'FNR == 2')" | awk '/Modification/ { print $6; exit}')" ] 
     do 
     echo file "$(cat "/tmp/MOVtmp02" | head -1)" >> catlist02.txt
     echo -n " $(cat "/tmp/MOVtmp02" | head -1)" >> /tmp/catlist02
+#check for file
+    if [ -f *$(($num + 2)).MOV ]
+    then
+    echo *$(($num + 2)).MOV >> /tmp/MOVtmp02
+    fi
     echo "$(tail -n +2 /tmp/MOVtmp02)" > /tmp/MOVtmp02
     done
     if [ -f catlist02.txt ]
