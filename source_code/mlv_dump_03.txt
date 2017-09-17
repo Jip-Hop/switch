@@ -65,6 +65,7 @@
     mv "n${BASE}".mov "${BASE}".MOV
     rm catlist03.txt
     rm /tmp/catlist03
+    cat=$(echo do erase)
     else
     mv "$O""${BASE}_1_$date""$MOV" "$O""${BASE}_1_$date"
     cat=
