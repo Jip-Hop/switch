@@ -1,0 +1,3 @@
+useful when counting file content to overcome "argument list too long" issue.
+
+ls -1 | grep -v 'wav' | wc -l
