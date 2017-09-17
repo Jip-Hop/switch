@@ -236,14 +236,12 @@
     fi
 #grab amount of dng frames from MLV metadata
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
-    FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')     
-    trimmed=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}') 
 #extract audio
     if ! ls "$O2"*.wav >/dev/null 2>&1;
     then
     ffmpeg -ss 0$first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
     fi
-    ffmpeg -ss 0$first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy -timecode 00:00:00:00 n"${BASE}".MOV
+    ffmpeg -ss 0$first_black -i *"$MOV" -vframes $frct -vcodec copy -acodec copy -timecode 00:00:00:00 n"${BASE}".MOV
 #check for output
     if ! [ x"$(cat /tmp/output)" = x ]
     then

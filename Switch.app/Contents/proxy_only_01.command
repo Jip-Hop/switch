@@ -77,10 +77,8 @@
     fi
     fi
 #grab amount of dng frames from MLV metadata
-    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
-    FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')     
-    trimmed=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}') 
-    ffmpeg -ss 0$first_black -i *"$MOV" -t $trimmed -vcodec copy -acodec copy -timecode 00:00:00:00 "$out"n"${BASE}".MOV
+    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }') 
+    ffmpeg -ss 0$first_black -i *"$MOV" -vframes $frct -vcodec copy -acodec copy -timecode 00:00:00:00 "$out"n"${BASE}".MOV
     mv -i "$out"n"${BASE}".MOV "$out""${BASE}_1_$date".MOV
 #move transcoded proxy to parent folder
 #if already created a cat file erase instead of keep(4gb limit)
