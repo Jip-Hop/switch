@@ -239,7 +239,9 @@
 #extract audio
     if ! ls "$O2"*.wav >/dev/null 2>&1;
     then
-    ffmpeg -ss 0$first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
+#proxy audio
+    proxy_audio=(echo proxy audio)
+    ffmpeg -ss 0$first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date".wav
     fi
     ffmpeg -ss 0$first_black -i *"$MOV" -vframes $frct -vcodec copy -acodec copy -timecode 00:00:00:00 n"${BASE}".MOV
 #check for output
@@ -261,9 +263,13 @@
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
     FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')      
     frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
+#if proxy audio
+    if [ x"$proxy_audio" = x ]
+    then
 #cut audio  
     ffmpeg -ss 0 -i "$O2""${BASE}_1_$date"_.wav -t $frct_result -acodec copy "$O2""${BASE}_1_$date".wav ;
     rm "$O2""${BASE}_1_$date"_.wav
+    fi
 #adding fps to wav metadata
     fps_au=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }' | tr -d . )
 #adding zeros
