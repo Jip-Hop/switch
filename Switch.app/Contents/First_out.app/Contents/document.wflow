@@ -780,6 +780,11 @@ end run</string>
     echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') &gt;&gt; /tmp/DUALISO/LIST
     fi
     done
+#HDRCR2 settings
+    if [ -f /tmp/HDRCR2_settings ]
+    then
+    HDR="$(cat /tmp/"HDRCR2_settings" | perl -p -e 's/^[ \t]*//')"
+    fi
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
     . "$path_2"Contents/HDR2.command &amp; pid2=$!
@@ -787,7 +792,7 @@ end run</string>
     . "$path_2"Contents/HDR4.command &amp; pid4=$!
     while grep 'CR2' /tmp/DUALISO/LISTaa &gt;/dev/null 2&gt;&amp;1
     do 
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -b 16 -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
     mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
     echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" &gt; /tmp/DUALISO/LISTaa
     done
@@ -1926,33 +1931,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>05B95F30-058F-4D0A-A67C-37F7B2502040</key>
+		<key>0CB03B20-7CB0-459C-930B-BA2042FAB479</key>
+		<dict>
+			<key>from</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+			<key>to</key>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+		</dict>
+		<key>133983A0-D2E5-4111-B38E-41D8D5E066F2</key>
 		<dict>
 			<key>from</key>
 			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 			<key>to</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
 		</dict>
-		<key>1CC559A9-28E3-4710-A70E-90C2183D1D55</key>
-		<dict>
-			<key>from</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
-			<key>to</key>
-			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
-		</dict>
-		<key>36733896-BA7E-42DC-84DA-EFE06461CF27</key>
+		<key>2BB95F19-CE8B-4FB5-8193-2F1D4149BA60</key>
 		<dict>
 			<key>from</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
 			<key>to</key>
 			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 		</dict>
-		<key>A9D0CDF6-826C-4EE9-9096-66D0DA5D6AE3</key>
+		<key>6DF586E8-C587-48D5-9F8A-20F59F14DA25</key>
 		<dict>
 			<key>from</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
-			<key>to</key>
 			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+			<key>to</key>
+			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

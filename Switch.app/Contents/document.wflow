@@ -783,6 +783,11 @@ echo &gt; /tmp/DUALISO/PREV
     echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') &gt;&gt; /tmp/DUALISO/LIST
     fi
     done
+#HDRCR2 settings
+    if [ -f /tmp/HDRCR2_settings ]
+    then
+    HDR="$(cat /tmp/"HDRCR2_settings" | perl -p -e 's/^[ \t]*//')"
+    fi
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
     . "$path_2"Contents/HDR2.command &amp; pid2=$!
@@ -790,7 +795,7 @@ echo &gt; /tmp/DUALISO/PREV
     . "$path_2"Contents/HDR4.command &amp; pid4=$!
     while grep 'CR2' /tmp/DUALISO/LISTaa &gt;/dev/null 2&gt;&amp;1
     do 
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -b 16 -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
     mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
     echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" &gt; /tmp/DUALISO/LISTaa
     done
@@ -2417,54 +2422,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>305A6F94-E99D-4755-980B-A2990DEC82C5</key>
+		<key>32B05EA2-2049-46A4-9CED-2BAD0912C3AF</key>
 		<dict>
 			<key>from</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
-		<key>4995AD63-4363-4D5B-8531-FAA4D91C46B6</key>
+		<key>42A608EB-D5D3-43B8-A040-7FF14F5FBAD7</key>
 		<dict>
 			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>55EDF721-9349-4DEF-905C-106BAECE44E6</key>
+		<key>597CFDDA-6BE3-4290-AD27-743F1CBAA6CB</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>64295840-79EF-4831-A8A7-51F9526E89B8</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>91EB69BF-35BD-41CE-8CED-F1E8F527C7A2</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>709AA130-EDAB-48D1-88B3-7F614B1098C1</key>
+		<key>D57EDB2C-B022-4871-BD80-BA903C41E7A7</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>D620D877-6856-4999-8190-8C917EC41FB5</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>884AF358-92D3-46DE-9FD9-EA310E22B6C3</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>A7436C05-56C0-4EB4-BF3E-FD8A47E5E0D9</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>B328D014-7B2E-48CA-94C0-D493B8C4F741</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
