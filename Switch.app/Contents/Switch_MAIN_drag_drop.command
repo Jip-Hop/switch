@@ -77,6 +77,7 @@ echo > /tmp/DUALISO/PREV
  # Boston, MA  02110-1301, USA.
 
 #Processing order(if files included in root folder)
+#HDR_PROCESSING
 #Export to ProRes4444 and/or ProRes proxy(MOV, mts etc, includes HDR mov) 
 #Manually selected FLATFRAMES processing
 #Fully automated flatframe processing
@@ -219,6 +220,47 @@ echo > /tmp/DUALISO/PREV
     mlv_dump=$(printf "%s\n" mlv_dump_on_steroids)
     else
     mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
+###############################################################
+#HDR_PROCESSING
+    if [ -f /tmp/DUALISO/HDRCR2 ]
+    then
+    rm /tmp/DUALISO/HDRCR2
+    rm /tmp/DUALISO/CR2LIST
+    rm /tmp/DUALISO/LIST
+    ls *.CR2 > /tmp/DUALISO/CR2LIST
+    echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') >> /tmp/DUALISO/LIST
+    while grep 'CR2' /tmp/DUALISO/CR2LIST >/dev/null 2>&1
+    do
+    num1=$(exiftool "$(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }') 
+    num2=$(exiftool "$(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num1" - "$num2" | bc -l)
+#group CR2 files accordingly
+    if (( $(echo "$num < 10" |bc -l) ))
+    then
+    echo -n " $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 2')" >> /tmp/DUALISO/LIST
+    echo -n "$(tail -n +2 /tmp/DUALISO/CR2LIST)" > /tmp/DUALISO/CR2LIST
+    else
+    echo "" >> /tmp/DUALISO/LIST
+    echo -n "$(tail -n +2 /tmp/DUALISO/CR2LIST)" > /tmp/DUALISO/CR2LIST
+    echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') >> /tmp/DUALISO/LIST
+    fi
+    done
+#split into 4 chunks
+    split -l $(( $( wc -l < /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
+    . "$path_2"Contents/HDR2.command & pid2=$!
+    . "$path_2"Contents/HDR3.command & pid3=$!
+    . "$path_2"Contents/HDR4.command & pid4=$!
+    while grep 'CR2' /tmp/DUALISO/LISTaa >/dev/null 2>&1
+    do 
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -b 16 -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
+    echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" > /tmp/DUALISO/LISTaa
+    done
+#wait for jobs to end
+    wait < <(jobs -p)
+    rm /tmp/DUALISO/LISTaa
+    rm /tmp/DUALISO/LIST
     fi
 ###############################################################
 #Export to ProRes4444 and/or ProRes proxy 

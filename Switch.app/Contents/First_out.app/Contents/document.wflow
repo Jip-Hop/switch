@@ -105,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:112.000000</string>
+				<string>449.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -264,7 +264,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:154.000000</string>
+				<string>449.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -439,7 +439,7 @@ echo "$1" &gt; /tmp/path_1b
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:196.000000</string>
+				<string>449.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -541,7 +541,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:238.000000</string>
+				<string>449.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -615,6 +615,7 @@ end run</string>
  # Boston, MA  02110-1301, USA.
 
 #Processing order(if files included in root folder)
+#HDR_PROCESSING
 #Export to ProRes4444 and/or ProRes proxy(MOV, mts etc, includes HDR mov) 
 #Manually selected FLATFRAMES processing
 #Fully automated flatframe processing
@@ -753,6 +754,47 @@ end run</string>
     mlv_dump=$(printf "%s\n" mlv_dump_on_steroids)
     else
     mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
+###############################################################
+#HDR_PROCESSING
+    if [ -f /tmp/DUALISO/HDRCR2 ]
+    then
+    rm /tmp/DUALISO/HDRCR2
+    rm /tmp/DUALISO/CR2LIST
+    rm /tmp/DUALISO/LIST
+    ls *.CR2 &gt; /tmp/DUALISO/CR2LIST
+    echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') &gt;&gt; /tmp/DUALISO/LIST
+    while grep 'CR2' /tmp/DUALISO/CR2LIST &gt;/dev/null 2&gt;&amp;1
+    do
+    num1=$(exiftool "$(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }') 
+    num2=$(exiftool "$(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num1" - "$num2" | bc -l)
+#group CR2 files accordingly
+    if (( $(echo "$num &lt; 10" |bc -l) ))
+    then
+    echo -n " $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 2')" &gt;&gt; /tmp/DUALISO/LIST
+    echo -n "$(tail -n +2 /tmp/DUALISO/CR2LIST)" &gt; /tmp/DUALISO/CR2LIST
+    else
+    echo "" &gt;&gt; /tmp/DUALISO/LIST
+    echo -n "$(tail -n +2 /tmp/DUALISO/CR2LIST)" &gt; /tmp/DUALISO/CR2LIST
+    echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') &gt;&gt; /tmp/DUALISO/LIST
+    fi
+    done
+#split into 4 chunks
+    split -l $(( $( wc -l &lt; /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
+    . "$path_2"Contents/HDR2.command &amp; pid2=$!
+    . "$path_2"Contents/HDR3.command &amp; pid3=$!
+    . "$path_2"Contents/HDR4.command &amp; pid4=$!
+    while grep 'CR2' /tmp/DUALISO/LISTaa &gt;/dev/null 2&gt;&amp;1
+    do 
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -b 16 -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
+    echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" &gt; /tmp/DUALISO/LISTaa
+    done
+#wait for jobs to end
+    wait &lt; &lt;(jobs -p)
+    rm /tmp/DUALISO/LISTaa
+    rm /tmp/DUALISO/LIST
     fi
 ###############################################################
 #Export to ProRes4444 and/or ProRes proxy 
@@ -1874,7 +1916,7 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:280.000000</string>
+				<string>449.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1884,28 +1926,28 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>05020FBB-2A5F-41F1-98E3-C085BE48F311</key>
-		<dict>
-			<key>from</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
-			<key>to</key>
-			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
-		</dict>
-		<key>125B5491-9F2A-4FB5-A2B2-1FE4225F6089</key>
-		<dict>
-			<key>from</key>
-			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
-			<key>to</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
-		</dict>
-		<key>903DA256-BEC8-476B-8438-7E54214A48A9</key>
+		<key>05B95F30-058F-4D0A-A67C-37F7B2502040</key>
 		<dict>
 			<key>from</key>
 			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 			<key>to</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
 		</dict>
-		<key>95D893E3-922C-411A-9446-7676A3AACD52</key>
+		<key>1CC559A9-28E3-4710-A70E-90C2183D1D55</key>
+		<dict>
+			<key>from</key>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+			<key>to</key>
+			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
+		</dict>
+		<key>36733896-BA7E-42DC-84DA-EFE06461CF27</key>
+		<dict>
+			<key>from</key>
+			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
+			<key>to</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+		</dict>
+		<key>A9D0CDF6-826C-4EE9-9096-66D0DA5D6AE3</key>
 		<dict>
 			<key>from</key>
 			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
