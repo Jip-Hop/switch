@@ -1072,7 +1072,7 @@ fi
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;25;76t'
+printf '\e[8;32;76t'
 printf '\e[3;410;0t'
 open -a Terminal
 bold="$(tput bold)"
@@ -1092,29 +1092,132 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
+b24= ; b32= ; na= ; nc=
+
+
+if grep ' \-b 24' /tmp/HDRCR2_settings 
+then
+b24=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \-b 32' /tmp/HDRCR2_settings 
+then
+b32=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \--no-align' /tmp/HDRCR2_settings 
+then
+na=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \--no-crop' /tmp/HDRCR2_settings 
+then
+nc=$(echo "$bold""$green"added!"$normal")
+fi
+
+
 while :
 do 
 
     clear
     cat<<EOF
-    ==============
-    ${bold}$(tput setaf 1)HDR processing$(tput sgr0)
-    --------------
-Dependency(install to applications folder):
+    ==================
+    ${bold}$(tput setaf 1)HDR automation$(tput sgr0)(CR2)
+    ------------------
+Dependency(install into applications folder):
 ${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg
 
 $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 
-    $(tput bold)(r)$(tput sgr0) run HDRmerge(defaults,16bits,10sec/gap) 			 
+    $(tput bold)(t)$(tput sgr0)  specify time gap(default 10sec)
+    $(tput bold)(24)$(tput sgr0) output to 24bit(default 16bit) $b24
+    $(tput bold)(32)$(tput sgr0) output to 32bit(default 16bit) $b32
+    $(tput bold)(bl)$(tput sgr0) mask blur radius between images(default 3 pixels)
+    $(tput bold)(na)$(tput sgr0) no aligning $na
+    $(tput bold)(nc)$(tput sgr0) no cropping $nc
+    $(tput bold)(O)$(tput sgr0)  select a new output folder for your dng files
+
+${bold}Fast button$(tput sgr0)(starts immediately)$(tput sgr0)
+    $(tput bold)(s)$(tput sgr0)  run HDRmerge(defaults,16bit,10sec/gap if nothing else selected)
+ 			 
 
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(h)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)  					        					
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)  
+    $(tput bold)$(tput setaf 1)(r)  run Switch$(tput sgr0)
+					        					
 
 Please enter your selection number below:
 EOF
     read -n2
     case "$REPLY" in
+
+    "24")
+if grep ' \-b 24' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 24//g' 
+b24=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " -b 24" >> /tmp/HDRCR2_settings
+b24=$(echo "$bold""$green"added!"$normal")
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 32//g'
+b32=
+fi
+;;
+
+    "32")
+if grep ' \-b 32' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 32//g' 
+b32=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " -b 32" >> /tmp/HDRCR2_settings
+b32=$(echo "$bold""$green"added!"$normal")
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 24//g'
+b24=
+fi
+;;
+
+    "na")
+if grep ' \--no-align' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ --no-align//g' 
+na=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-align" >> /tmp/HDRCR2_settings
+na=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "nc")
+if grep ' \--no-crop' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ --no-crop//g' 
+nc=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-crop" >> /tmp/HDRCR2_settings
+nc=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "s")  
+echo > /tmp/DUALISO/HDRCR2
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
 
     "r")  
 echo > /tmp/DUALISO/HDRCR2
@@ -1124,11 +1227,8 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
 
     "E")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out=
-rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
-rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
-rm /tmp/cpuboost 1> /dev/null 2>&1 &
-rm /tmp/DUALISO/O_trap 1> /dev/null 2>&1 &
+b24= ; b32= ; na= ; nc=
+rm /tmp/HDRCR2_settings
 ;;
 
     "h")  
@@ -6643,7 +6743,8 @@ open /tmp/folder_paths.txt
     ;;
 
     "R")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= 
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc=
+rm /tmp/HDRCR2_settings
 rm /tmp/THREADS
 rm /tmp/DUALISO/crop_rec?
 rm /tmp/DUALISO/crop_rec
@@ -7028,7 +7129,8 @@ fi
 
 
     "a") 
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= 
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc=
+rm /tmp/HDRCR2_settings
 rm /tmp/THREADS
 rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
 rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &

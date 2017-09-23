@@ -77,6 +77,11 @@ export PATH="$(cat /tmp/DUALISO/path_2)":$PATH
     echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') >> /tmp/DUALISO/LIST
     fi
     done
+#HDRCR2 settings
+    if [ -f /tmp/HDRCR2_settings ]
+    then
+    HDR="$(cat /tmp/"HDRCR2_settings" | perl -p -e 's/^[ \t]*//')"
+    fi
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
     . "$path_2"Contents/HDR2.command & pid2=$!
@@ -84,7 +89,7 @@ export PATH="$(cat /tmp/DUALISO/path_2)":$PATH
     . "$path_2"Contents/HDR4.command & pid4=$!
     while grep 'CR2' /tmp/DUALISO/LISTaa >/dev/null 2>&1
     do 
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -b 16 -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
     mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
     echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" > /tmp/DUALISO/LISTaa
     done
