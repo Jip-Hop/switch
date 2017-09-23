@@ -23,6 +23,7 @@
 #new output folder
 #Main menu
 #DUALISO_CR2
+#HDR processing
 #mlv_dump
 #mlv_dump_on_steroids
 #ProRes output
@@ -665,6 +666,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(p)  ProRes output$(tput sgr0)$(tput bold)(MLV,RAW,dng)$(tput sgr0) $pro_a
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
     $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
+    $(tput bold)$(tput setaf 1)(h)  HDR processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)$(tput bold)$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
@@ -1048,6 +1050,103 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 done
 ;;
 
+#HDR processing
+    "h")
+#Erase full auto setting
+if ls /tmp/DUALISO/FULL_AUTO
+then
+if ls /tmp/A_cr2hdr_settings.txt
+then
+cr2hdr_a=
+rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
+rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
+rm /tmp/cpuboost 1> /dev/null 2>&1 &
+clear 
+echo "$(tput setaf 1)""Erased cr2hdr auto settings"
+sleep 1
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+fi
+fi
+
+#changes size of terminal window
+#tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[8;25;76t'
+printf '\e[3;410;0t'
+open -a Terminal
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ==============
+    ${bold}$(tput setaf 1)HDR processing$(tput sgr0)
+    --------------
+Dependency(install to applications folder):
+${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg
+
+$(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
+
+    $(tput bold)(r)$(tput sgr0) run HDRmerge(defaults,16bits,10sec/gap) 			 
+
+    $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(h)  Main menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)  					        					
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "r")  
+echo > /tmp/DUALISO/HDRCR2
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+
+    "E")
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out=
+rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
+rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
+rm /tmp/cpuboost 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/O_trap 1> /dev/null 2>&1 &
+;;
+
+    "h")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+;;
 
 
 #mlv_dump

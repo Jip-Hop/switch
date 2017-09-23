@@ -204,7 +204,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:112.000000</string>
+				<string>449.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/New Text File.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -377,7 +377,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:154.000000</string>
+				<string>449.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -479,7 +479,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:196.000000</string>
+				<string>449.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -614,6 +614,7 @@ echo &gt; /tmp/DUALISO/PREV
  # Boston, MA  02110-1301, USA.
 
 #Processing order(if files included in root folder)
+#HDR_PROCESSING
 #Export to ProRes4444 and/or ProRes proxy(MOV, mts etc, includes HDR mov) 
 #Manually selected FLATFRAMES processing
 #Fully automated flatframe processing
@@ -756,6 +757,47 @@ echo &gt; /tmp/DUALISO/PREV
     mlv_dump=$(printf "%s\n" mlv_dump_on_steroids)
     else
     mlv_dump=$(printf "%s\n" mlv_dump)
+    fi
+###############################################################
+#HDR_PROCESSING
+    if [ -f /tmp/DUALISO/HDRCR2 ]
+    then
+    rm /tmp/DUALISO/HDRCR2
+    rm /tmp/DUALISO/CR2LIST
+    rm /tmp/DUALISO/LIST
+    ls *.CR2 &gt; /tmp/DUALISO/CR2LIST
+    echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') &gt;&gt; /tmp/DUALISO/LIST
+    while grep 'CR2' /tmp/DUALISO/CR2LIST &gt;/dev/null 2&gt;&amp;1
+    do
+    num1=$(exiftool "$(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }') 
+    num2=$(exiftool "$(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num1" - "$num2" | bc -l)
+#group CR2 files accordingly
+    if (( $(echo "$num &lt; 10" |bc -l) ))
+    then
+    echo -n " $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 2')" &gt;&gt; /tmp/DUALISO/LIST
+    echo -n "$(tail -n +2 /tmp/DUALISO/CR2LIST)" &gt; /tmp/DUALISO/CR2LIST
+    else
+    echo "" &gt;&gt; /tmp/DUALISO/LIST
+    echo -n "$(tail -n +2 /tmp/DUALISO/CR2LIST)" &gt; /tmp/DUALISO/CR2LIST
+    echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') &gt;&gt; /tmp/DUALISO/LIST
+    fi
+    done
+#split into 4 chunks
+    split -l $(( $( wc -l &lt; /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
+    . "$path_2"Contents/HDR2.command &amp; pid2=$!
+    . "$path_2"Contents/HDR3.command &amp; pid3=$!
+    . "$path_2"Contents/HDR4.command &amp; pid4=$!
+    while grep 'CR2' /tmp/DUALISO/LISTaa &gt;/dev/null 2&gt;&amp;1
+    do 
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -b 16 -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
+    echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" &gt; /tmp/DUALISO/LISTaa
+    done
+#wait for jobs to end
+    wait &lt; &lt;(jobs -p)
+    rm /tmp/DUALISO/LISTaa
+    rm /tmp/DUALISO/LIST
     fi
 ###############################################################
 #Export to ProRes4444 and/or ProRes proxy 
@@ -1877,7 +1919,7 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:238.000000</string>
+				<string>449.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1979,7 +2021,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:280.000000</string>
+				<string>449.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2081,7 +2123,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:322.000000</string>
+				<string>449.000000:322.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2183,7 +2225,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:364.000000</string>
+				<string>449.000000:364.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2365,7 +2407,7 @@ open "$1"/Contents/First_out.app</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:406.000000</string>
+				<string>449.000000:406.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -2375,54 +2417,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>21E6BB78-CDF0-4880-B237-2499A17CC490</key>
+		<key>305A6F94-E99D-4755-980B-A2990DEC82C5</key>
 		<dict>
 			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>33439382-4A90-4010-86C2-725A99082378</key>
-		<dict>
-			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>33AD4897-ECF9-43B8-B548-68F1257E26FA</key>
+		<key>4995AD63-4363-4D5B-8531-FAA4D91C46B6</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>751AA7DC-3072-41D5-A48D-9DF1D7768309</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>9D0067D7-CCA0-44BB-906A-807C5C780F41</key>
+		<key>55EDF721-9349-4DEF-905C-106BAECE44E6</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>ACE50F7E-C487-4F67-B3AE-A42A9E83B316</key>
+		<key>709AA130-EDAB-48D1-88B3-7F614B1098C1</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>E2FD6592-FFFB-4755-A7DE-CB206A7F8227</key>
+		<key>884AF358-92D3-46DE-9FD9-EA310E22B6C3</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>A7436C05-56C0-4EB4-BF3E-FD8A47E5E0D9</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>B328D014-7B2E-48CA-94C0-D493B8C4F741</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
