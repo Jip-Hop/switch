@@ -1092,7 +1092,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-b24= ; b32= ; na= ; nc=
+b24= ; b32= ; na= ; nc= ; gap= ; blur=
 
 
 if grep ' \-b 24' /tmp/HDRCR2_settings 
@@ -1111,7 +1111,14 @@ if grep ' \--no-crop' /tmp/HDRCR2_settings
 then
 nc=$(echo "$bold""$green"added!"$normal")
 fi
-
+if grep ' \-g' /tmp/HDRCR2_settings 
+then
+gap=$(tput bold)$(tput setaf 4)$(grep ' \-g' /tmp/HDRCR2_settings | tr -d " \-g")sec$(tput sgr0)
+fi
+if grep ' \-r' /tmp/HDRCR2_settings 
+then
+blur="$(tput bold)$(tput setaf 4)$(grep ' \-r' /tmp/HDRCR2_settings | tr -d " \-r") pixels$(tput sgr0)"
+fi
 
 while :
 do 
@@ -1126,10 +1133,10 @@ ${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg
 
 $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 
-    $(tput bold)(t)$(tput sgr0)  specify time gap(default 10sec)
+    $(tput bold)(t)$(tput sgr0)  specify time gap(default 10sec) $gap
     $(tput bold)(24)$(tput sgr0) output to 24bit(default 16bit) $b24
     $(tput bold)(32)$(tput sgr0) output to 32bit(default 16bit) $b32
-    $(tput bold)(bl)$(tput sgr0) mask blur radius between images(default 3 pixels)
+    $(tput bold)(bl)$(tput sgr0) mask blur radius between images(default 3 pixels) $blur
     $(tput bold)(na)$(tput sgr0) no aligning $na
     $(tput bold)(nc)$(tput sgr0) no cropping $nc
     $(tput bold)(O)$(tput sgr0)  select a new output folder for your dng files
@@ -1148,6 +1155,26 @@ Please enter your selection number below:
 EOF
     read -n2
     case "$REPLY" in
+
+    "t")
+if grep ' \-g' /tmp/HDRCR2_settings 
+then
+echo "removing"
+perl -pi -e 's/'"$(grep ' \-g' /tmp/HDRCR2_settings)"'//g' /tmp/HDRCR2_settings
+gap=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify time gap:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 12 and hit enter)"
+read input_variable
+echo "time gap is set to: $(tput bold)$(tput setaf 4)$input_variable sec"$(tput sgr0)
+printf "%s\n" " -g $input_variable" >> /tmp/HDRCR2_settings
+gap=$(tput bold)$(tput setaf 4)$(grep ' \-g' /tmp/HDRCR2_settings | tr -d " \-g")sec$(tput sgr0)
+fi
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+;;
 
     "24")
 if grep ' \-b 24' /tmp/HDRCR2_settings 
@@ -1181,6 +1208,26 @@ b32=$(echo "$bold""$green"added!"$normal")
 find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 24//g'
 b24=
 fi
+;;
+
+    "bl")
+if grep ' \-r' /tmp/HDRCR2_settings 
+then
+echo "removing"
+perl -pi -e 's/'"$(grep ' \-r' /tmp/HDRCR2_settings)"'//g' /tmp/HDRCR2_settings
+blur=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify radius blur:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 15 and hit enter)"
+read input_variable
+echo "radius blur set to: $(tput bold)$(tput setaf 4)$input_variable pixels"$(tput sgr0)
+printf "%s\n" " -r $input_variable" >> /tmp/HDRCR2_settings
+blur="$(tput bold)$(tput setaf 4)$(grep ' \-r' /tmp/HDRCR2_settings | tr -d " \-r") pixels$(tput sgr0)"
+fi
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
 ;;
 
     "na")
@@ -1227,7 +1274,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
 
     "E")
-b24= ; b32= ; na= ; nc=
+b24= ; b32= ; na= ; nc= ; gap= ; blur=
 rm /tmp/HDRCR2_settings
 ;;
 
@@ -6743,7 +6790,7 @@ open /tmp/folder_paths.txt
     ;;
 
     "R")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur=
 rm /tmp/HDRCR2_settings
 rm /tmp/THREADS
 rm /tmp/DUALISO/crop_rec?
@@ -7129,7 +7176,7 @@ fi
 
 
     "a") 
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur=
 rm /tmp/HDRCR2_settings
 rm /tmp/THREADS
 rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
