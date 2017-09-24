@@ -1144,7 +1144,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 ${bold}Fast button$(tput sgr0)(starts immediately)$(tput sgr0)
     $(tput bold)(s)$(tput sgr0)  run HDRmerge(defaults,16bit,10sec/gap if nothing else selected)
  			 
-
+    $(tput bold)$(tput setaf 1)(ho) how does it work$(tput sgr0)
     $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
     $(tput bold)$(tput setaf 1)(h)  Main menu$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)  
@@ -1272,6 +1272,28 @@ rm /tmp/DUALISO/DUALISO
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
+    "ho") 
+printf '\e[8;12;90t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)How to work with CR2 files through HDRmerge http://jcelaya.github.io/hdrmerge/
+echo 
+echo $(tput bold)1$(tput sgr0) - Download and install: "
+${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg"
+echo $(tput bold)2$(tput sgr0) - Move HDRmerge into applications folder 
+echo $(tput bold)3$(tput sgr0) - Add HDR CR2 files in your folder and add any settings you wish from the menu
+echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run Switch$(tput sgr0)
+echo
+echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to HDR automation menu$(tput sgr0)
+    read -n1
+    case "$REPLY" in
+
+    * )  
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+;;
+    esac
+;;
 
     "E")
 b24= ; b32= ; na= ; nc= ; gap= ; blur=
