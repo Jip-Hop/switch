@@ -223,9 +223,8 @@ echo > /tmp/DUALISO/PREV
     fi
 ###############################################################
 #HDR_PROCESSING
-    if [ -f /tmp/DUALISO/HDRCR2 ]
+    if [ -f /tmp/HDRCR2 ]
     then
-    rm /tmp/DUALISO/HDRCR2
     rm /tmp/DUALISO/CR2LIST
     rm /tmp/DUALISO/LIST
     ls *.CR2 > /tmp/DUALISO/CR2LIST
