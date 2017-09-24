@@ -575,7 +575,7 @@ fi
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;32;60t'
+printf '\e[8;34;60t'
 printf '\e[3;450;0t'
 open -a Terminal
 bold="$(tput bold)"
@@ -595,7 +595,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-FLAT= ; DARK= ; darkfr_storage= ; cr2hdr_a= ; mlv_dump_a= ; X_pro_a= ; pro_a= ; THREADS= 
+FLAT= ; DARK= ; darkfr_storage= ; cr2hdr_a= ; mlv_dump_a= ; X_pro_a= ; pro_a= ; THREADS= ; HDR=
 
 if ls /tmp/DUALISO/FLATFRAMES
 then
@@ -647,6 +647,10 @@ if [ -f /tmp/THREADS ]
 then
 THREADS=$(cat /tmp/THREADS)
 fi
+if [ -f /tmp/HDRCR2 ]
+then 
+HDR=$(echo "$bold""$green"HDR_CR2_added!"$normal")
+fi
 
 while :
 do 
@@ -666,7 +670,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(p)  ProRes output$(tput sgr0)$(tput bold)(MLV,RAW,dng)$(tput sgr0) $pro_a
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
     $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
-    $(tput bold)$(tput setaf 1)(h)  HDR processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(h)  HDR processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $HDR
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)$(tput bold)$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
@@ -1052,20 +1056,14 @@ done
 
 #HDR processing
     "h")
-#Erase full auto setting
-if ls /tmp/DUALISO/FULL_AUTO
-then
-if ls /tmp/A_cr2hdr_settings.txt
-then
-cr2hdr_a=
-rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
-rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
-rm /tmp/cpuboost 1> /dev/null 2>&1 &
-clear 
-echo "$(tput setaf 1)""Erased cr2hdr auto settings"
-sleep 1
+#identifier
+if ! [ -f /tmp/HDRCR2 ]
+then 
+    echo > /tmp/HDRCR2
+else
+rm /tmp/HDRCR2
+HDR=
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
-fi
 fi
 
 #changes size of terminal window
@@ -1261,13 +1259,13 @@ fi
 ;;
 
     "s")  
-echo > /tmp/DUALISO/HDRCR2
+echo > /tmp/HDRCR2
 rm /tmp/DUALISO/DUALISO 
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
     "r")  
-echo > /tmp/DUALISO/HDRCR2
+echo > /tmp/HDRCR2
 rm /tmp/DUALISO/DUALISO 
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
@@ -1296,8 +1294,9 @@ printf '\e[3;410;0t'
 ;;
 
     "E")
-b24= ; b32= ; na= ; nc= ; gap= ; blur=
+b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR=
 rm /tmp/HDRCR2_settings
+rm /tmp/HDRCR2
 ;;
 
     "h")  
@@ -6803,7 +6802,7 @@ echo -n "Threads" $input_variable > /tmp/THREADS
 THREADS=$(cat /tmp/THREADS)
 fi
 sleep 1 
-printf '\e[8;32;60t'
+printf '\e[8;34;60t'
 printf '\e[3;450;0t'
     ;;
 
@@ -6812,8 +6811,9 @@ open /tmp/folder_paths.txt
     ;;
 
     "R")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR=
 rm /tmp/HDRCR2_settings
+rm /tmp/HDRCR2
 rm /tmp/THREADS
 rm /tmp/DUALISO/crop_rec?
 rm /tmp/DUALISO/crop_rec
@@ -7190,7 +7190,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 else
 clear
 echo "Done!"
-printf '\e[8;32;60t'
+printf '\e[8;34;60t'
 printf '\e[3;450;0t'
 fi
 fi
@@ -7198,8 +7198,9 @@ fi
 
 
     "a") 
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR=
 rm /tmp/HDRCR2_settings
+rm /tmp/HDRCR2
 rm /tmp/THREADS
 rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
 rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
@@ -7337,7 +7338,7 @@ printf '\e[8;10;60t'
 printf '\e[3;0;0t'
 . "$(cat /tmp/DUALISO/"path_2")"Switch_MAIN_DBG.command 
 open "$(cat /tmp/DUALISO/path_1)"/LOG.txt
-printf '\e[8;32;60t'
+printf '\e[8;34;60t'
 printf '\e[3;450;0t'
 ;;
 
