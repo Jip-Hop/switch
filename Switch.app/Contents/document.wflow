@@ -1568,6 +1568,9 @@ done
     printf "%d Days, %02d Hrs, %02d Min, %02d Sec\n" $dd4 $dh4 $dm4 $ds4 &gt; /tmp/DUALISO/TOT_prores
 ###############################################################
 #Start RAW counter
+#HDR_PROCESSING(don´t interfere with HDRCR2 processing)
+    if ! [ -f /tmp/HDRCR2 ]
+    then
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
     ls *.CR2 &gt; /tmp/DUALISO/CR2progress_bar
@@ -1753,6 +1756,7 @@ done
 #wait for jobs to end
     wait &lt; &lt;(jobs -p)
     done
+    fi
     fi
 #check if A_ORIGINALS is empty and the erase it
     if [ x"$(ls A_ORIGINALS/*)" = x ]
@@ -2421,54 +2425,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0B4A000B-D051-4AF9-832F-8DE959BED0B5</key>
+		<key>0FF55DCA-4BD8-4A97-B025-BFE26D087F69</key>
 		<dict>
 			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>0CB5BA60-3DDB-437B-86C7-F7F10E2191AC</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>44C57325-FCEA-47A9-87E6-E5FD06442925</key>
-		<dict>
-			<key>from</key>
-			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
-			<key>to</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-		</dict>
-		<key>7EADEF4C-232B-43A8-85F1-986FDCBC8226</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>7F2FAFBF-8771-4A07-BD75-32589E6EFEEA</key>
+		<key>101D3091-360D-4E06-9C1D-B9569FD3894B</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>8667C085-427E-4BF8-A426-AF3E302F7771</key>
+		<key>13885C91-99F9-4F27-95F3-394377A16762</key>
 		<dict>
 			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>92956906-6C69-4A69-8708-F721E4F751C8</key>
+		<key>2DE037E2-6360-4C91-B6C9-368EBE72B7E8</key>
 		<dict>
 			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>49791860-5DE3-4FD6-BEC1-88A15B5531E0</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>58590741-DCAD-4D62-B74F-0925E24FCBFC</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>5F0EB409-D1F2-4DF5-8C54-79F88E9A0973</key>
+		<dict>
+			<key>from</key>
+			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+			<key>to</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

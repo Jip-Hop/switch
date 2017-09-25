@@ -965,6 +965,9 @@ done
     printf "%d Days, %02d Hrs, %02d Min, %02d Sec\n" $dd4 $dh4 $dm4 $ds4 > /tmp/DUALISO/TOT_prores
 ###############################################################
 #Start RAW counter
+#HDR_PROCESSING(don´t interfere with HDRCR2 processing)
+    if ! [ -f /tmp/HDRCR2 ]
+    then
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
     ls *.CR2 > /tmp/DUALISO/CR2progress_bar
@@ -1150,6 +1153,7 @@ done
 #wait for jobs to end
     wait < <(jobs -p)
     done
+    fi
     fi
 #check if A_ORIGINALS is empty and the erase it
     if [ x"$(ls A_ORIGINALS/*)" = x ]
