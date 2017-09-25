@@ -105,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:112.000000</string>
+				<string>527.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -264,7 +264,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:154.000000</string>
+				<string>527.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -439,7 +439,7 @@ echo "$1" &gt; /tmp/path_1b
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:196.000000</string>
+				<string>527.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -541,7 +541,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:238.000000</string>
+				<string>527.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -791,8 +791,14 @@ end run</string>
     . "$path_2"Contents/HDR4.command &amp; pid4=$!
     while grep 'CR2' /tmp/DUALISO/LISTaa &gt;/dev/null 2&gt;&amp;1
     do 
+#check for alternate output
+if ! [ -d "$(cat /tmp/HDRCR2output)" ]
+    then
     /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
     mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
+    else
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o "$(cat /tmp/HDRCR2output)"/%iF[0]-%in[-1].dng $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    fi
     echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" &gt; /tmp/DUALISO/LISTaa
     done
 #wait for jobs to end
@@ -1924,7 +1930,7 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:280.000000</string>
+				<string>527.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1934,33 +1940,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>3D27336B-01E4-4562-AB7F-1E157A91ECEA</key>
+		<key>5DFEC71F-546E-4348-BAC4-57931F9E457A</key>
+		<dict>
+			<key>from</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+			<key>to</key>
+			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+		</dict>
+		<key>743DF8A2-73BB-460B-8D53-99F05B84FBEB</key>
+		<dict>
+			<key>from</key>
+			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
+			<key>to</key>
+			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+		</dict>
+		<key>B86EF528-BA4B-4954-96F9-7F89B6EF514C</key>
 		<dict>
 			<key>from</key>
 			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
 			<key>to</key>
 			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
 		</dict>
-		<key>6B088C73-0E51-468A-A139-69633915E6D1</key>
+		<key>D2F47FD3-C67F-4C38-836A-93B98110DE87</key>
 		<dict>
 			<key>from</key>
 			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
 			<key>to</key>
 			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
-		</dict>
-		<key>6C86E84C-17E2-43A1-BC25-12D8B8480A51</key>
-		<dict>
-			<key>from</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
-			<key>to</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
-		</dict>
-		<key>9E081FB2-B39B-48D5-BC04-0C8251343AD5</key>
-		<dict>
-			<key>from</key>
-			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
-			<key>to</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

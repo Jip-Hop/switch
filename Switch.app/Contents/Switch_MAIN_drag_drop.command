@@ -257,8 +257,14 @@ echo > /tmp/DUALISO/PREV
     . "$path_2"Contents/HDR4.command & pid4=$!
     while grep 'CR2' /tmp/DUALISO/LISTaa >/dev/null 2>&1
     do 
+#check for alternate output
+if ! [ -d "$(cat /tmp/HDRCR2output)" ]
+    then
     /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -a $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
     mv $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1') A_ORIGINALS
+    else
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o "$(cat /tmp/HDRCR2output)"/%iF[0]-%in[-1].dng $(cat /tmp/DUALISO/LISTaa | awk 'FNR == 1')
+    fi
     echo "$(tail -n +2 /tmp/DUALISO/LISTaa)" > /tmp/DUALISO/LISTaa
     done
 #wait for jobs to end

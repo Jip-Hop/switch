@@ -1117,9 +1117,8 @@ if grep ' \-r' /tmp/HDRCR2_settings
 then
 blur="$(tput bold)$(tput setaf 4)$(grep ' \-r' /tmp/HDRCR2_settings | tr -d " \-r") pixels$(tput sgr0)"
 fi
-if [ -f /tmp/HDRCR2output ]; 
-then 
-mkdir -p "$(cat /tmp/"HDRCR2output")"
+if [ -d "$(cat /tmp/HDRCR2output)" ]
+then
 CR2OUT=$(cat /tmp/"HDRCR2output"); 
 HDROUT=$(echo "$bold""$green"added!"$normal");
 fi 
