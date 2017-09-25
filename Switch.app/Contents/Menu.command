@@ -1090,7 +1090,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-b24= ; b32= ; na= ; nc= ; gap= ; blur=
+b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDROUT= ; CR2OUT=
 
 
 if grep ' \-b 24' /tmp/HDRCR2_settings 
@@ -1117,6 +1117,12 @@ if grep ' \-r' /tmp/HDRCR2_settings
 then
 blur="$(tput bold)$(tput setaf 4)$(grep ' \-r' /tmp/HDRCR2_settings | tr -d " \-r") pixels$(tput sgr0)"
 fi
+if [ -f /tmp/HDRCR2output ]; 
+then 
+mkdir -p "$(cat /tmp/"HDRCR2output")"
+CR2OUT=$(cat /tmp/"HDRCR2output"); 
+HDROUT=$(echo "$bold""$green"added!"$normal");
+fi 
 
 while :
 do 
@@ -1129,7 +1135,7 @@ do
 Dependency(install into applications folder):
 ${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg
 
-$(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
+$(tput bold)output: $(tput setaf 4)$CR2OUT$(tput sgr0)
 
     $(tput bold)(t)$(tput sgr0)  specify time gap(default 10sec) $gap
     $(tput bold)(24)$(tput sgr0) output to 24bit(default 16bit) $b24
@@ -1137,7 +1143,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(bl)$(tput sgr0) mask blur radius between images(default 3 pixels) $blur
     $(tput bold)(na)$(tput sgr0) no aligning $na
     $(tput bold)(nc)$(tput sgr0) no cropping $nc
-    $(tput bold)(O)$(tput sgr0)  select a new output folder for your dng files
+    $(tput bold)(O)$(tput sgr0)  select a new output folder for your dng files $HDROUT
 
 ${bold}Fast button$(tput sgr0)(starts immediately)$(tput sgr0)
     $(tput bold)(s)$(tput sgr0)  run HDRmerge(defaults,16bit,10sec/gap if nothing else selected)
@@ -1258,6 +1264,43 @@ nc=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
 
+    "O")
+if [ -f /tmp/HDRCR2output ]
+then
+rm /tmp/HDRCR2output
+HDROUT=
+CR2OUT=
+else
+echo > /tmp/HDRCR2OUT
+open "$(cat /tmp/DUALISO/path_2)"new_output.app
+printf '\e[8;10;50t'
+printf '\e[3;410;0t'
+clear
+echo "
+
+
+$(tput bold)Select an output folder"
+sleep 2
+
+#trap
+    while ls /tmp/HDRCR2OUT &>/dev/null
+    do
+    sleep 0.3
+    done
+clear &
+echo "
+
+
+$(tput bold)$(tput setaf 2)New output folder selected"$(tput sgr0)
+sleep 1
+HDROUT=$(echo "$bold""$green"added!"$normal")
+CR2OUT=$(cat /tmp/"HDRCR2output");
+clear &
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+fi
+;;
+
     "s")  
 echo > /tmp/HDRCR2
 rm /tmp/DUALISO/DUALISO 
@@ -1271,7 +1314,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
     "ho") 
-printf '\e[8;12;90t'
+printf '\e[8;14;90t'
 printf '\e[3;410;100t'
 clear
 echo $(tput bold)How to work with CR2 files through HDRmerge http://jcelaya.github.io/hdrmerge/
@@ -1281,6 +1324,8 @@ ${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg
 echo $(tput bold)2$(tput sgr0) - Move HDRmerge into applications folder 
 echo $(tput bold)3$(tput sgr0) - Add HDR CR2 files in your folder and add any settings you wish from the menu
 echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run Switch$(tput sgr0)
+echo
+echo $(tput bold)TIP!$(tput sgr0) -If output looks strange add around 30 pixels of radius blur "(bl)"
 echo
 echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to HDR automation menu$(tput sgr0)
     read -n1
@@ -1294,7 +1339,8 @@ printf '\e[3;410;0t'
 ;;
 
     "E")
-b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR=
+b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT=
+rm /tmp/HDRCR2output
 rm /tmp/HDRCR2_settings
 rm /tmp/HDRCR2
 ;;
@@ -6811,7 +6857,8 @@ open /tmp/folder_paths.txt
     ;;
 
     "R")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT=
+rm /tmp/HDRCR2output
 rm /tmp/HDRCR2_settings
 rm /tmp/HDRCR2
 rm /tmp/THREADS
@@ -7198,7 +7245,8 @@ fi
 
 
     "a") 
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT=
+rm /tmp/HDRCR2output
 rm /tmp/HDRCR2_settings
 rm /tmp/HDRCR2
 rm /tmp/THREADS

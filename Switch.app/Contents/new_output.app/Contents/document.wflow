@@ -268,7 +268,12 @@ echo "$1" &gt; /tmp/DUALISO/MLV_cprs_output
 rm /tmp/DUALISO/MLV_cprs_out
 fi
 
-</string>
+#HDRCR2 output
+if [ -f /tmp/HDRCR2OUT ]
+then
+echo "$1" &gt; /tmp/HDRCR2output
+rm /tmp/HDRCR2OUT
+fi</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -391,7 +396,7 @@ fi
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>33EDFA34-78FA-4FD9-A802-E6AEE260FED1</key>
+		<key>F67D63EA-341C-459D-9400-632372FC361D</key>
 		<dict>
 			<key>from</key>
 			<string>CDF6DEB5-CF07-4EBE-A521-62C31265001C - CDF6DEB5-CF07-4EBE-A521-62C31265001C</string>
