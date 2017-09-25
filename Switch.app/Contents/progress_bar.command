@@ -41,6 +41,8 @@ white="$(tput setaf 7)"
 #PRORES PROCESSING
 #CR2 PROCESSING
 #Sample file PROCESSING
+#HDRCR2_grouping
+#HDRCR2 brackets
 
 
 #if using the steroid version
@@ -687,6 +689,197 @@ fi
 fi
 fi
 
+#HDRCR2_grouping
+if grep -q 'CR2' /tmp/DUALISO/CR2LIST
+then
+cd "$(cat /tmp/DUALISO/path_1)"
+    clear
+cat<<EOF
+  ----------------
+  $(tput setaf 0)$(tput bold)HDR CR2 grouping$(tput sgr0)
+  ----------------
+
+  $(tput bold)$black$(cat /tmp/DUALISO/CR2LIST |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+
+if ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
+then
+    clear
+cat<<EOF
+  ----------------
+  $(tput setaf 0)$(tput bold)HDR CR2 grouping$(tput sgr0)
+  ----------------
+
+  $(tput bold)$black$(cat /tmp/DUALISO/CR2LIST |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+else
+
+if ! ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
+then
+printf '\e[8;09;20t'
+printf '\e[3;955;0t'
+while sleep 1; 
+do
+cat<<EOF
+  ----------------
+  $(tput setaf 0)$(tput bold)HDR CR2 grouping$(tput sgr0)
+  ----------------
+
+  $(tput bold)$black$(cat /tmp/DUALISO/CR2LIST |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+
+if ! grep -q 'CR2' /tmp/DUALISO/CR2LIST
+then
+echo -n -e "\033]0;CR2window\007"
+kill $(echo $$)
+osascript -e 'tell application "Terminal" to close (every window whose name contains "CR2window")' & exit
+fi
+done & 
+
+if ! ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
+then
+echo > /tmp/DUALISO/MLVprogress_bar_key
+while : 
+do 
+    clear
+cat<<EOF
+  ----------------
+  $(tput setaf 0)$(tput bold)HDR CR2 grouping$(tput sgr0)
+  ----------------
+
+  $(tput bold)$black$(cat /tmp/DUALISO/CR2LIST |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+    read -n1
+    case "$REPLY" in
+
+    "q") 
+echo > /tmp/DUALISO/NOCOUNT
+killall sleep
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "K") 
+killall sleep
+killall HDRmerge
+killall bash
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac 
+done 
+fi
+fi
+fi
+fi
+
+#HDRCR2 brackets
+if grep -q 'CR2' /tmp/DUALISO/LISTaa
+then
+cd "$(cat /tmp/DUALISO/path_1)"
+    clear
+cat<<EOF
+  ----------
+  $(tput setaf 0)$(tput bold)HDR brackets$(tput sgr0)
+  ----------
+
+ $(tput bold)$black$(cat $(ls /tmp/DUALISO/LISTa*) |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+
+if ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
+then
+    clear
+cat<<EOF
+  ------------
+  $(tput setaf 0)$(tput bold)HDR brackets$(tput sgr0)
+  ------------
+
+ $(tput bold)$black$(cat $(ls /tmp/DUALISO/LISTa*) |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+else
+
+if ! ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
+then
+printf '\e[8;09;20t'
+printf '\e[3;955;0t'
+while sleep 3; 
+do
+cat<<EOF
+  ------------
+  $(tput setaf 0)$(tput bold)HDR brackets$(tput sgr0)
+  ------------
+
+ $(tput bold)$black$(cat $(ls /tmp/DUALISO/LISTa*) |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+
+if ! grep -q 'CR2' <<< "$(cat $(ls /tmp/DUALISO/LISTa*))" 
+then
+echo -n -e "\033]0;CR2window\007"
+kill $(echo $$)
+osascript -e 'tell application "Terminal" to close (every window whose name contains "CR2window")' & exit
+fi
+done & 
+
+if ! ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
+then
+echo > /tmp/DUALISO/MLVprogress_bar_key
+while : 
+do 
+    clear
+cat<<EOF
+  ------------
+  $(tput setaf 0)$(tput bold)HDR brackets$(tput sgr0)
+  ------------
+
+ $(tput bold)$black$(cat $(ls /tmp/DUALISO/LISTa*) |wc -l)
+
+ $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+    read -n1
+    case "$REPLY" in
+
+    "q") 
+echo > /tmp/DUALISO/NOCOUNT
+killall sleep
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "K") 
+killall sleep
+killall HDRmerge
+killall bash
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac 
+done 
+fi
+fi
+fi
+fi
 
 exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 

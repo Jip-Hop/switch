@@ -228,6 +228,15 @@ echo > /tmp/DUALISO/PREV
     rm /tmp/DUALISO/CR2LIST
     rm /tmp/DUALISO/LIST
     ls *.CR2 > /tmp/DUALISO/CR2LIST
+#Start HDRCR2_grouping counter
+    if ! [ -f /tmp/DUALISO/NOCOUNT ]
+    then
+    if grep -q 'CR2' /tmp/DUALISO/CR2LIST
+    then
+    rm /tmp/DUALISO/MLVprogress_bar_key
+    open "$path_2"Contents/progress_bar.command & 
+    fi
+    fi
     echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') >> /tmp/DUALISO/LIST
     while grep 'CR2' /tmp/DUALISO/CR2LIST >/dev/null 2>&1
     do
@@ -252,6 +261,16 @@ echo > /tmp/DUALISO/PREV
     fi
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
+
+#Start HDRCR2 counter
+    if ! [ -f /tmp/DUALISO/NOCOUNT ]
+    then
+    if grep -q 'CR2' /tmp/DUALISO/LISTaa 
+    then
+    rm /tmp/DUALISO/MLVprogress_bar_key
+    open "$path_2"Contents/progress_bar.command & 
+    fi
+    fi
     . "$path_2"Contents/HDR2.command & pid2=$!
     . "$path_2"Contents/HDR3.command & pid3=$!
     . "$path_2"Contents/HDR4.command & pid4=$!

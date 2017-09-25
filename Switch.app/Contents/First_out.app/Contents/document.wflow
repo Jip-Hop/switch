@@ -68,15 +68,15 @@
 				<key>Class Name</key>
 				<string>RunScriptAction</string>
 				<key>InputUUID</key>
-				<string>AEC99350-C5BA-484E-8336-798420C93EC0</string>
+				<string>3D56558E-8952-48CB-BFEF-37B7918CF190</string>
 				<key>Keywords</key>
 				<array>
 					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>F075F178-3E45-43A0-80D6-94F6E8DA82AC</string>
+				<string>6696F47E-4544-4ACB-A06A-E9D4813E3CEF</string>
 				<key>UUID</key>
-				<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
+				<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -102,10 +102,12 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:112.000000</string>
+				<string>449.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -187,7 +189,7 @@ end run</string>
 				<key>Class Name</key>
 				<string>AMAskForFinderItemsAction</string>
 				<key>InputUUID</key>
-				<string>59DACEB5-0D9E-45D2-95FF-DA5EC2E89E67</string>
+				<string>FF5B234C-CF86-42B6-93BB-7D920A7C3267</string>
 				<key>Keywords</key>
 				<array>
 					<string>Find</string>
@@ -199,9 +201,9 @@ end run</string>
 					<string>Prompt</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>4986BB3D-BA64-4132-9634-4F83AEBC45DE</string>
+				<string>681F1477-7620-443E-8789-8F0BAA24714D</string>
 				<key>UUID</key>
-				<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
+				<string>1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Finder</string>
@@ -261,10 +263,12 @@ end run</string>
 						<string>3</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:154.000000</string>
+				<string>449.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -351,7 +355,7 @@ echo "$1" &gt; /tmp/path_1b
 				<key>Class Name</key>
 				<string>RunShellScriptAction</string>
 				<key>InputUUID</key>
-				<string>37F0FC2F-B088-41FD-B7A5-7E2AA149829C</string>
+				<string>D419118B-B246-45EF-A9AB-A5DB43675084</string>
 				<key>Keywords</key>
 				<array>
 					<string>Shell</string>
@@ -361,9 +365,9 @@ echo "$1" &gt; /tmp/path_1b
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>404C915D-A913-47A4-AB5B-AAC6DA7B9125</string>
+				<string>F2A3EDC1-7B88-4A84-A9D7-AC71E1167E58</string>
 				<key>UUID</key>
-				<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+				<string>C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -436,10 +440,12 @@ echo "$1" &gt; /tmp/path_1b
 						<string>4</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:196.000000</string>
+				<string>449.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -504,15 +510,15 @@ echo "$1" &gt; /tmp/path_1b
 				<key>Class Name</key>
 				<string>RunScriptAction</string>
 				<key>InputUUID</key>
-				<string>1B120A1C-16F7-4160-8F3F-4D91E3D83F2D</string>
+				<string>7C24AD1A-887B-4252-BD1B-8E84AAB1FF18</string>
 				<key>Keywords</key>
 				<array>
 					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>CE635CD8-F696-41D3-BB3F-10695FD039BE</string>
+				<string>BB45ABEF-0FC5-4C66-8242-0FBB8E521D06</string>
 				<key>UUID</key>
-				<string>B8988361-62C5-4B6D-B5EF-87096E259449</string>
+				<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -538,10 +544,12 @@ end run</string>
 						<string>0</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:238.000000</string>
+				<string>449.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -762,6 +770,15 @@ end run</string>
     rm /tmp/DUALISO/CR2LIST
     rm /tmp/DUALISO/LIST
     ls *.CR2 &gt; /tmp/DUALISO/CR2LIST
+#Start HDRCR2_grouping counter
+    if ! [ -f /tmp/DUALISO/NOCOUNT ]
+    then
+    if grep -q 'CR2' /tmp/DUALISO/CR2LIST
+    then
+    rm /tmp/DUALISO/MLVprogress_bar_key
+    open "$path_2"Contents/progress_bar.command &amp; 
+    fi
+    fi
     echo -n $(cat /tmp/DUALISO/CR2LIST | awk 'FNR == 1') &gt;&gt; /tmp/DUALISO/LIST
     while grep 'CR2' /tmp/DUALISO/CR2LIST &gt;/dev/null 2&gt;&amp;1
     do
@@ -786,6 +803,16 @@ end run</string>
     fi
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
+
+#Start HDRCR2 counter
+    if ! [ -f /tmp/DUALISO/NOCOUNT ]
+    then
+    if grep -q 'CR2' /tmp/DUALISO/LISTaa 
+    then
+    rm /tmp/DUALISO/MLVprogress_bar_key
+    open "$path_2"Contents/progress_bar.command &amp; 
+    fi
+    fi
     . "$path_2"Contents/HDR2.command &amp; pid2=$!
     . "$path_2"Contents/HDR3.command &amp; pid3=$!
     . "$path_2"Contents/HDR4.command &amp; pid4=$!
@@ -1839,10 +1866,8 @@ done
 				</array>
 				<key>Class Name</key>
 				<string>RunShellScriptAction</string>
-				<key>Disabled</key>
-				<false/>
 				<key>InputUUID</key>
-				<string>19BB8CF3-8EA7-4E3E-86C1-7942A42B45E6</string>
+				<string>1D760BE8-BCB2-4602-B724-1FD0827AF649</string>
 				<key>Keywords</key>
 				<array>
 					<string>Shell</string>
@@ -1852,9 +1877,9 @@ done
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>377E7D9E-A170-49CB-82CF-97AFD6CFD46A</string>
+				<string>B584764B-B4CF-45FC-8F51-B1D249FA132E</string>
 				<key>UUID</key>
-				<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
+				<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 				<key>UnlocalizedApplications</key>
 				<array>
 					<string>Automator</string>
@@ -1927,10 +1952,12 @@ done
 						<string>4</string>
 					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>527.000000:280.000000</string>
+				<string>449.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1940,33 +1967,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>5DFEC71F-546E-4348-BAC4-57931F9E457A</key>
+		<key>2E672E08-B748-4266-B71E-788F42213192</key>
 		<dict>
 			<key>from</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 			<key>to</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
-		<key>743DF8A2-73BB-460B-8D53-99F05B84FBEB</key>
+		<key>A2E0391F-8F4B-4F61-87AC-33A1C174DC7C</key>
 		<dict>
 			<key>from</key>
-			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 			<key>to</key>
-			<string>365F1486-6A13-4E7C-B7AE-70E32DE80FB5 - 365F1486-6A13-4E7C-B7AE-70E32DE80FB5</string>
+			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
-		<key>B86EF528-BA4B-4954-96F9-7F89B6EF514C</key>
+		<key>A41726CD-4005-485B-954F-BA4FFB975A06</key>
 		<dict>
 			<key>from</key>
-			<string>B8988361-62C5-4B6D-B5EF-87096E259449 - B8988361-62C5-4B6D-B5EF-87096E259449</string>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 			<key>to</key>
-			<string>0DD2D400-7FBB-4E57-8CAE-3B6B75E44820 - 0DD2D400-7FBB-4E57-8CAE-3B6B75E44820</string>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 		</dict>
-		<key>D2F47FD3-C67F-4C38-836A-93B98110DE87</key>
+		<key>B5E24FB6-2DAB-4C9D-95E8-BDAEBB628CAC</key>
 		<dict>
 			<key>from</key>
-			<string>E8E23895-9ACD-4513-ADB7-780E47BBEF69 - E8E23895-9ACD-4513-ADB7-780E47BBEF69</string>
+			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
-			<string>6BBAC6AB-0360-48ED-B455-64B57EAF07D1 - 6BBAC6AB-0360-48ED-B455-64B57EAF07D1</string>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
