@@ -240,7 +240,7 @@
     if ! ls "$O2"*.wav >/dev/null 2>&1;
     then
 #proxy audio
-    ffmpeg -ss 0$first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date".wav
+    ffmpeg -ss 0$first_black -i *"$MOV" -c copy -map 0:a "$O2""${BASE}_1_$date"_.wav
     fi
     ffmpeg -ss 0$first_black -i *"$MOV" -vframes $frct -vcodec copy -acodec copy -timecode 00:00:00:00 n"${BASE}".MOV
 #check for output
