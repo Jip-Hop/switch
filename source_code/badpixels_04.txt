@@ -40,7 +40,13 @@
     then 
     if [ -f /tmp/DUALISO/crop_rec ]
     then
-    fpmutil -m croprec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
+#check for a 100D
+    dpass4=
+    if grep '100D\|SL1\|X7' <<< $(mlv_dump -v -m "$FILE_04" | awk '/Camera Name/ { print $5,$6,$7; exit 0}')
+    then
+    dpass4=$(printf "%s\n" -c 100D)
+    fi
+    fpmutil -m croprec $dpass4 -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
     fpmutil -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     fi
