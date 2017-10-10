@@ -44,7 +44,6 @@
 # crop_rec    - 1808x727   -  Requires crop_rec module.
 #                             Uses mv720 raw buffer but records in
 #                             3x3 line skipping like mv1080.
-#                             Currently only works on the EOSM.
 #
 # With zoom mode a new badpixels file should to be made every time
 # that the pan position changes. The may happen when using Digital Dolly.
@@ -90,17 +89,18 @@ Parameters:
     -s WIDTHxHEIGHT Image Size in pixels (no spaces)
     -o filename     Customize Filename
     -f              fpm file format. Same as dcraw ".badpixels" without the
-                    UNIX time of death field which is set to zero in this script.
+                    UNIX time of death field which is set to zero in this script
     -n              Do not subtract cropX/Y values from x/y coordinates
+                    creates a focus pixel map that covers the full raw buffer
     -v              Verbose messages
 Any spaces in parameters must be quoted i.e., "Canon EOS 700D"
 
 example:
-    ./fpm.sh -mv -o M21-1747_1_2015-12-06_0001_C0000.txt M21-1747.MLV
+    ./fpm.sh -o M21-1747_1_2015-12-06_0001_C0000.txt M21-1747.MLV
 
     creates a dcraw ".badpixels" formatted file named
-    M21-1747_1_2015-12-06_0001_C0000.txt that can be used to remove the focus pixels
-    on the dng files extracted from M21-1747.MLV and outputs messages to stdout.
+    M21-1747_1_2015-12-06_0001_C0000.txt that can be used to remove
+    the focus pixels from a Magic Lantern raw video file named M21-1747.MLV
 
 This script will create a dcraw "badpixels" file
 to remove focus pixels from an MLV file shot with
@@ -111,7 +111,8 @@ EOS Rebel T5i / 700D / Kiss X7i
 EOS Rebel SL1 / 100D / Kiss X7
 EOS M
 
-Works with MLV, RAW (requires -c and -m parameters) and DNG (requires -m parameter)
+Works with MLV, RAW (requires -c and -m parameters)
+and DNG (requires -m parameter)
 
 EOF
 }
@@ -153,7 +154,7 @@ get_camera_info() {
 #
 output_row() {
   for i in $(seq 72 $((raw_width)) ); do # 0-71 is out of bounds
-    if (( (($i + $shift1)) % x_rep == 0 )) || (( (($i + $shift2)) % x_rep == 0 )); then
+    if (( (($i + $skip)) % x_rep == 0 )); then
       if [[ "$cropXY" == no ]]; then
         ((x = $i))
         ((y = $j))
@@ -191,13 +192,13 @@ mv720() {
   fi
 
   for j in $(seq $((fp_start)) $((fp_end)) ); do
-    if   (( (($j +  3)) % y_rep == 0 )); then shift1=7; shift2=7
-    elif (( (($j +  4)) % y_rep == 0 )); then shift1=6; shift2=6
-    elif (( (($j +  9)) % y_rep == 0 )); then shift1=3; shift2=3
-    elif (( (($j + 10)) % y_rep == 0 )); then shift1=2; shift2=2
+    if   (( (($j +  3)) % y_rep == 0 )); then skip=7
+    elif (( (($j +  4)) % y_rep == 0 )); then skip=6
+    elif (( (($j +  9)) % y_rep == 0 )); then skip=3
+    elif (( (($j + 10)) % y_rep == 0 )); then skip=2
     else continue
     fi
-    output_row 
+    output_row
   done
 }
 
@@ -212,13 +213,13 @@ mv1080() {
   fi
 
   for j in $(seq $((fp_start)) $((fp_end)) ); do
-    if   (( (($j +  0)) % y_rep == 0 )); then shift1=0; shift2=0
-    elif (( (($j +  1)) % y_rep == 0 )); then shift1=1; shift2=1
-    elif (( (($j +  5)) % y_rep == 0 )); then shift1=5; shift2=5
-    elif (( (($j +  6)) % y_rep == 0 )); then shift1=4; shift2=4
+    if   (( (($j +  0)) % y_rep == 0 )); then skip=0
+    elif (( (($j +  1)) % y_rep == 0 )); then skip=1
+    elif (( (($j +  5)) % y_rep == 0 )); then skip=5
+    elif (( (($j +  6)) % y_rep == 0 )); then skip=4
     else continue
     fi
-    output_row 
+    output_row
   done
 }
 
@@ -233,29 +234,29 @@ mv1080crop() {
   fi
   for j in $(seq $((fp_start)) $((fp_end)) ); do
     if [ $pattern == "A" ]; then
-      if   (( (($j +   7)) % $y_rep == 0 )); then shift1=19; shift2=19
-      elif (( (($j +  11)) % $y_rep == 0 )); then shift1=13; shift2=13
-      elif (( (($j +  12)) % $y_rep == 0 )); then shift1=18; shift2=18
-      elif (( (($j +  14)) % $y_rep == 0 )); then shift1=12; shift2=12
-      elif (( (($j +  26)) % $y_rep == 0 )); then shift1=0;  shift2=0
-      elif (( (($j +  29)) % $y_rep == 0 )); then shift1=1;  shift2=1
-      elif (( (($j +  37)) % $y_rep == 0 )); then shift1=7;  shift2=7
-      elif (( (($j +  41)) % $y_rep == 0 )); then shift1=13; shift2=13
-      elif (( (($j +  42)) % $y_rep == 0 )); then shift1=6;  shift2=6
-      elif (( (($j +  44)) % $y_rep == 0 )); then shift1=12; shift2=12
-      elif (( (($j +  56)) % $y_rep == 0 )); then shift1=0;  shift2=0
-      elif (( (($j +  59)) % $y_rep == 0 )); then shift1=1;  shift2=1
+      if   (( (($j +   7)) % $y_rep == 0 )); then skip=19
+      elif (( (($j +  11)) % $y_rep == 0 )); then skip=13
+      elif (( (($j +  12)) % $y_rep == 0 )); then skip=18
+      elif (( (($j +  14)) % $y_rep == 0 )); then skip=12
+      elif (( (($j +  26)) % $y_rep == 0 )); then skip=0
+      elif (( (($j +  29)) % $y_rep == 0 )); then skip=1
+      elif (( (($j +  37)) % $y_rep == 0 )); then skip=7
+      elif (( (($j +  41)) % $y_rep == 0 )); then skip=13
+      elif (( (($j +  42)) % $y_rep == 0 )); then skip=6
+      elif (( (($j +  44)) % $y_rep == 0 )); then skip=12
+      elif (( (($j +  56)) % $y_rep == 0 )); then skip=0
+      elif (( (($j +  59)) % $y_rep == 0 )); then skip=1
       else continue
       fi
     elif [ $pattern == "B" ]; then
-      if   (( (($j +  2)) % $y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j +  5)) % $y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j +  6)) % $y_rep == 0 )); then shift1=6; shift2=6
-      elif (( (($j +  7)) % $y_rep == 0 )); then shift1=7; shift2=7
+      if   (( (($j +  2)) % $y_rep == 0 )); then skip=0
+      elif (( (($j +  5)) % $y_rep == 0 )); then skip=1
+      elif (( (($j +  6)) % $y_rep == 0 )); then skip=6
+      elif (( (($j +  7)) % $y_rep == 0 )); then skip=7
       else continue
       fi
     fi
-    output_row 
+    output_row
   done
 }
 
@@ -270,29 +271,29 @@ zoom() {
   fi
   for j in $(seq $((fp_start)) $((fp_end)) ); do
     if [ $pattern == "A" ]; then
-      if   (( (($j +   7)) % $y_rep == 0 )); then shift1=19; shift2=19
-      elif (( (($j +  11)) % $y_rep == 0 )); then shift1=13; shift2=13
-      elif (( (($j +  12)) % $y_rep == 0 )); then shift1=18; shift2=18
-      elif (( (($j +  14)) % $y_rep == 0 )); then shift1=12; shift2=12
-      elif (( (($j +  26)) % $y_rep == 0 )); then shift1=0;  shift2=0
-      elif (( (($j +  29)) % $y_rep == 0 )); then shift1=1;  shift2=1
-      elif (( (($j +  37)) % $y_rep == 0 )); then shift1=7;  shift2=7
-      elif (( (($j +  41)) % $y_rep == 0 )); then shift1=13; shift2=13
-      elif (( (($j +  42)) % $y_rep == 0 )); then shift1=6;  shift2=6
-      elif (( (($j +  44)) % $y_rep == 0 )); then shift1=12; shift2=12
-      elif (( (($j +  56)) % $y_rep == 0 )); then shift1=0;  shift2=0
-      elif (( (($j +  59)) % $y_rep == 0 )); then shift1=1;  shift2=1
+      if   (( (($j +   7)) % $y_rep == 0 )); then skip=19
+      elif (( (($j +  11)) % $y_rep == 0 )); then skip=13
+      elif (( (($j +  12)) % $y_rep == 0 )); then skip=18
+      elif (( (($j +  14)) % $y_rep == 0 )); then skip=12
+      elif (( (($j +  26)) % $y_rep == 0 )); then skip=0
+      elif (( (($j +  29)) % $y_rep == 0 )); then skip=1
+      elif (( (($j +  37)) % $y_rep == 0 )); then skip=7
+      elif (( (($j +  41)) % $y_rep == 0 )); then skip=13
+      elif (( (($j +  42)) % $y_rep == 0 )); then skip=6
+      elif (( (($j +  44)) % $y_rep == 0 )); then skip=12
+      elif (( (($j +  56)) % $y_rep == 0 )); then skip=0
+      elif (( (($j +  59)) % $y_rep == 0 )); then skip=1
       else continue
       fi
     elif [ $pattern == "B" ]; then
-      if   (( (($j +  2)) % $y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j +  5)) % $y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j +  6)) % $y_rep == 0 )); then shift1=6; shift2=6
-      elif (( (($j +  7)) % $y_rep == 0 )); then shift1=7; shift2=7
+      if   (( (($j +  2)) % $y_rep == 0 )); then skip=0
+      elif (( (($j +  5)) % $y_rep == 0 )); then skip=1
+      elif (( (($j +  6)) % $y_rep == 0 )); then skip=6
+      elif (( (($j +  7)) % $y_rep == 0 )); then skip=7
       else continue
       fi
     fi
-    output_row 
+    output_row
   done
 }
 
@@ -300,81 +301,24 @@ zoom() {
 # crop_rec() function
 # Draw the focus pixel pattern for crop_rec video mode.
 # Requires the crop_rec module.
-#
+# Combines the patterns for mv720 and a portion of mv1080
+# in two separate passes.
 crop_rec() {
-  if [ $pattern == "A" ]; then
-
-    # top part has same pattern as mv1080
-    fp_start=219; fp_end=289;  x_rep=8; y_rep=10
-    for j in $(seq $((fp_start)) $((fp_end)) ); do
-      if   (( (($j +  0)) % y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j +  1)) % y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j +  5)) % y_rep == 0 )); then shift1=5; shift2=5
-      elif (( (($j +  6)) % y_rep == 0 )); then shift1=4; shift2=4
-      else continue
-      fi
-      output_row &
-    done
-
-
-    # middle part combines the mv1080 and mv720 patterns
-    fp_start=290; fp_end=468; x_rep=8; y_rep=60
-    for j in $(seq $((fp_start)) $((fp_end)) ); do
-      if   (( (($j +  0)) % y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j +  1)) % y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j +  3)) % y_rep == 0 )); then shift1=7; shift2=7
-      elif (( (($j +  4)) % y_rep == 0 )); then shift1=6; shift2=6
-      elif (( (($j +  5)) % y_rep == 0 )); then shift1=5; shift2=5
-      elif (( (($j +  6)) % y_rep == 0 )); then shift1=4; shift2=4
-      elif (( (($j +  9)) % y_rep == 0 )); then shift1=3; shift2=3
-      elif (( (($j + 10)) % y_rep == 0 )); then shift1=0; shift2=2
-      elif (( (($j + 11)) % y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j + 15)) % y_rep == 0 )); then shift1=7; shift2=5
-      elif (( (($j + 16)) % y_rep == 0 )); then shift1=6; shift2=4
-      elif (( (($j + 20)) % y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j + 21)) % y_rep == 0 )); then shift1=3; shift2=1
-      elif (( (($j + 22)) % y_rep == 0 )); then shift1=2; shift2=2
-      elif (( (($j + 25)) % y_rep == 0 )); then shift1=5; shift2=5
-      elif (( (($j + 26)) % y_rep == 0 )); then shift1=4; shift2=4
-      elif (( (($j + 27)) % y_rep == 0 )); then shift1=7; shift2=7
-      elif (( (($j + 28)) % y_rep == 0 )); then shift1=6; shift2=6
-      elif (( (($j + 30)) % y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j + 31)) % y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j + 33)) % y_rep == 0 )); then shift1=3; shift2=3
-      elif (( (($j + 34)) % y_rep == 0 )); then shift1=2; shift2=2
-      elif (( (($j + 35)) % y_rep == 0 )); then shift1=5; shift2=5
-      elif (( (($j + 36)) % y_rep == 0 )); then shift1=4; shift2=4
-      elif (( (($j + 39)) % y_rep == 0 )); then shift1=7; shift2=7
-      elif (( (($j + 40)) % y_rep == 0 )); then shift1=0; shift2=6
-      elif (( (($j + 41)) % y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j + 45)) % y_rep == 0 )); then shift1=5; shift2=3
-      elif (( (($j + 46)) % y_rep == 0 )); then shift1=4; shift2=2
-      elif (( (($j + 50)) % y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j + 51)) % y_rep == 0 )); then shift1=7; shift2=1
-      elif (( (($j + 52)) % y_rep == 0 )); then shift1=6; shift2=6
-      elif (( (($j + 55)) % y_rep == 0 )); then shift1=5; shift2=5
-      elif (( (($j + 56)) % y_rep == 0 )); then shift1=4; shift2=4
-      elif (( (($j + 57)) % y_rep == 0 )); then shift1=3; shift2=3
-      elif (( (($j + 58)) % y_rep == 0 )); then shift1=2; shift2=2
-      else continue
-      fi
-      output_row &
-    done
-
-    # bottom part has same pattern as mv1080
-    fp_start=469; fp_end=515;  x_rep=8; y_rep=10
-    for j in $(seq $((fp_start)) $((fp_end)) ); do
-      if   (( (($j +  0)) % y_rep == 0 )); then shift1=0; shift2=0
-      elif (( (($j +  1)) % y_rep == 0 )); then shift1=1; shift2=1
-      elif (( (($j +  5)) % y_rep == 0 )); then shift1=5; shift2=5
-      elif (( (($j +  6)) % y_rep == 0 )); then shift1=4; shift2=4
-      else continue
-      fi
-      output_row 
-    done
+  mv720;
+  if   [ $pattern == "A" ]; then fp_start=219; fp_end=515;  x_rep=8; y_rep=10
+  elif [ $pattern == "B" ]; then fp_start=89;  fp_end=724;  x_rep=8; y_rep=10
+  else exit 1
   fi
 
-  if [ $pattern == "B" ]; then mv720; fi # crop_rec not yet available on the 100D
+  for j in $(seq $((fp_start)) $((fp_end)) ); do
+    if   (( (($j +  0)) % y_rep == 0 )); then skip=0
+    elif (( (($j +  1)) % y_rep == 0 )); then skip=1
+    elif (( (($j +  5)) % y_rep == 0 )); then skip=5
+    elif (( (($j +  6)) % y_rep == 0 )); then skip=4
+    else continue
+    fi
+    output_row
+  done
 }
 
 ##
@@ -662,7 +606,6 @@ case $raw_buffer in
     if [ "$video_mode" != "crop_rec" ]; then video_mode=mv720; fi
 
     # These cameras don't have crop_rec yet. Remove from list once the crop_rec modules is available.
-    if [ "$camera" == "100D" ] || [ "$camera" == "650D" ]; then video_mode=mv720; fi
     ;;
   1872x10**)
     video_mode=mv1080crop
@@ -679,21 +622,27 @@ esac
 # or default to a descriptive file name.
 #
 if [ -z "$output" ]; then
-    output=$camera"_"$video_mode"_"$resolution".txt"
+  if [[ "$cropXY" == no ]]; then
+	output=$camera"_"$video_mode"_"$raw_buffer".txt"
+  else output=$camera"_"$video_mode"_"$resolution".txt"
+  fi
 fi
 
 ##
 # Non-error verbose statements are here.
 #
 if [ $VERBOSE ]; then
-  echo Camera:"       $camera"
-  echo Camera Model:" $camera_model"
-  echo Resolution:"   $resolution"
-  echo Video Mode:"   $video_mode"
-  echo Pan:"          $panPosX"x"$panPosY"
-  echo Crop:"         $cropX"x"$cropY"
-  echo Output File:"  $output"
-  echo File Format:"  $format"
+  echo
+  echo Camera:"               $camera"
+  echo Camera Model:"         $camera_model"
+  echo Resolution:"           $resolution"
+  echo Video Mode:"           $video_mode"
+  echo Full Raw Buffer Size: "$raw_buffer"
+  echo Pan:"                  $panPosX"x"$panPosY"
+  echo Crop:"                 $cropX"x"$cropY"
+  echo Output File:"          $output"
+  echo File Format:"          $format"
+  echo
 fi
 
 if test -f "$output"; then
