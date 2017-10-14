@@ -306,7 +306,7 @@ zoom() {
 crop_rec() {
   mv720;
   if   [ $pattern == "A" ]; then fp_start=219; fp_end=515;  x_rep=8; y_rep=10
-  elif [ $pattern == "B" ]; then fp_start=89;  fp_end=724;  x_rep=8; y_rep=10
+  elif [ $pattern == "B" ]; then fp_start=28;  fp_end=724;  x_rep=8; y_rep=10
   else exit 1
   fi
 
@@ -603,9 +603,9 @@ case $raw_buffer in
     video_mode=mv1080
     ;;
   1808x72*)
+    # mv_720 and crop_rec use the same buffer size
+    # maybe consider using the 2-pass crop_rec pixel map for both video modes?
     if [ "$video_mode" != "crop_rec" ]; then video_mode=mv720; fi
-
-    # These cameras don't have crop_rec yet. Remove from list once the crop_rec modules is available.
     ;;
   1872x10**)
     video_mode=mv1080crop
