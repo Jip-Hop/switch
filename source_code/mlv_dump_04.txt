@@ -171,8 +171,14 @@
     then
     fpm.sh -m crop_rec -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
     else
+#if your file includes RAWC metadata
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep 'sampling' | grep -v 'samplingRATE')
+    then
+    fpm.sh -m crop_rec -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
+    else
     fpm.sh -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"   
     fi 
+    fi
     fi
     fi
 #enter new output
@@ -216,6 +222,18 @@
     if [ $(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Default Scale/ { print $5;}') = 1.666666667 ]
     then
     find "$O2". -maxdepth 1 -mindepth 1 -iname '*.dng' -print0 | xargs -0 exiv2 -M"set Exif.Image.DefaultScale Rational 1/1 1/1"
+    fi
+    fi
+#extra check for crop_rec in RAWC
+    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $($mlv_dump -v -m "$FILE" | awk '/Camera Name/ { print $5,$6; exit}')
+    then 
+#if your file includes RAWC metadata
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $($mlv_dump -v -m "$FILE" | grep 'sampling' | grep -v 'samplingRATE')
+    then
+    if [ $(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Default Scale/ { print $5;}') = 1.666666667 ]
+    then
+    find "$O2". -maxdepth 1 -mindepth 1 -iname '*.dng' -print0 | xargs -0 exiv2 -M"set Exif.Image.DefaultScale Rational 1/1 1/1"
+    fi
     fi
     fi
 #check for proxy file part 2
