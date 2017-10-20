@@ -127,8 +127,8 @@
     echo > /tmp/DUALISO/crop_rec? 
     fi
     fi
-#check if filmed crop_rec 700D or 100D
-    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
+#check if filmed crop_rec 700D,100D,650D
+    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
     then 
 #if your file includes RAWC metadata
     if ! grep 'RAWC' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | grep 'RAWC')
