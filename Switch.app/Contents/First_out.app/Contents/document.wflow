@@ -726,8 +726,8 @@ end run</string>
     echo &gt; /tmp/DUALISO/crop_rec? 
     fi
     fi
-#check if filmed crop_rec 700D or 100D
-    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
+#check if filmed crop_rec 700D,100D,650D
+    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
     then 
 #if your file includes RAWC metadata
     if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | grep 'RAWC')
@@ -1965,28 +1965,28 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>034D96A6-92FF-4592-90DC-1B6BE06ABE21</key>
-		<dict>
-			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-			<key>to</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-		</dict>
-		<key>22C332DE-900D-4163-8D40-78768831916E</key>
-		<dict>
-			<key>from</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-			<key>to</key>
-			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
-		</dict>
-		<key>8C729485-7A62-4156-9209-79B186E50C67</key>
+		<key>47EA0719-EA40-4D00-B1C8-36B88CD16B72</key>
 		<dict>
 			<key>from</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 			<key>to</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
-		<key>E9E0E911-188B-405B-9D7F-B9107EB0C79A</key>
+		<key>75509050-D2CD-4F15-83EC-D89D3DC6EDA1</key>
+		<dict>
+			<key>from</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+		</dict>
+		<key>9BA96EE1-678B-49DE-A9C9-7A6CA2BB1B5E</key>
+		<dict>
+			<key>from</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<key>to</key>
+			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
+		</dict>
+		<key>B78FBA98-EBC6-4E3A-9819-826E52C6110E</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
