@@ -724,7 +724,7 @@ echo &gt; /tmp/DUALISO/PREV
     if grep 'M' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $5; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | grep 'RAWC')
+    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo &gt; /tmp/DUALISO/crop_rec? 
     fi
@@ -733,7 +733,7 @@ echo &gt; /tmp/DUALISO/PREV
     if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | grep 'RAWC')
+    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo &gt; /tmp/DUALISO/crop_rec? 
     fi
@@ -2458,54 +2458,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>457E70FD-3AAE-4B3F-B660-ED98E4B22B43</key>
+		<key>26172B81-0D0A-4AFE-8EEB-66BAF375549C</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>3F6D8B9E-3456-48E1-92AB-BD03E8996349</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>5C521A5F-2CE4-4C03-8F19-1776CD74254B</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>AFFCEDF4-338A-4FC4-BE4E-E850CE2F2CB5</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>C6FDC833-1BE6-4579-9638-BF91BC1E4F1B</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>5D7961E6-E191-438C-A097-79C17ADB0364</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>97EBDDBD-F201-4E73-9CB9-AD687BCF088B</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>A265B440-0CD2-4BAE-8512-5F9AC377AF8A</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>CEE817CD-E0F2-4195-B1C9-625005143885</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>D0927EFB-7220-4FEB-816F-7DFD7B63A606</key>
+		<key>D0FCA085-EFC4-424A-9B22-73B2DE8AA254</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>E623F1D3-3675-4DEC-9D7A-9B8C0A888BDD</key>
+		<key>FCEB21F5-9877-48D9-8AA8-8EFA2DF615A9</key>
 		<dict>
 			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
