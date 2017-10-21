@@ -172,7 +172,7 @@
     fpm.sh -m crop_rec -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
     else
 #if your file includes RAWC metadata
-    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep 'sampling' | grep -v 'samplingRATE')
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
     fpm.sh -m crop_rec -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
     else
@@ -228,7 +228,7 @@
     if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $($mlv_dump -v -m "$FILE" | awk '/Camera Name/ { print $5,$6; exit}')
     then 
 #if your file includes RAWC metadata
-    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $($mlv_dump -v -m "$FILE" | grep 'sampling' | grep -v 'samplingRATE')
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $($mlv_dump -v -m "$FILE" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
     if [ $(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Default Scale/ { print $5;}') = 1.666666667 ]
     then

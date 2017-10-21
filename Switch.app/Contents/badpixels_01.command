@@ -48,7 +48,7 @@
     fpmutil -m croprec $dpass1 -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
     else
 #if your file includes RAWC metadata
-    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_01" | grep 'sampling' | grep -v 'samplingRATE')
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_01" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
     fpmutil -m croprec $dpass1 -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
     else
@@ -64,7 +64,7 @@
     fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
     else
 #if your file includes RAWC metadata
-    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_01" | grep 'sampling' | grep -v 'samplingRATE')
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_01" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
     fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
     else

@@ -187,7 +187,7 @@ echo > /tmp/DUALISO/PREV
     if grep 'M' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $5; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | grep 'RAWC')
+    if ! grep 'RAWC' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo > /tmp/DUALISO/crop_rec? 
     fi
@@ -196,7 +196,7 @@ echo > /tmp/DUALISO/PREV
     if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | grep 'RAWC')
+    if ! grep 'RAWC' <<< $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo > /tmp/DUALISO/crop_rec? 
     fi
