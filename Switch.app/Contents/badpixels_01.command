@@ -50,7 +50,12 @@
 #if your file includes RAWC metadata
     if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_01" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
+    if grep '72*' <<< $(mlv_dump -v -m "$FILE_01" | awk '/height/ { print $2; exit}')
+    then
     fpmutil -m croprec $dpass1 -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
+    else
+    fpmutil -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01" 
+    fi
     else
     fpmutil -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
     fi
@@ -66,7 +71,12 @@
 #if your file includes RAWC metadata
     if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_01" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
+    if grep '72*' <<< $(mlv_dump -v -m "$FILE_01" | awk '/height/ { print $2; exit}')
+    then
     fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01"
+    else
+    fpm.sh -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01" 
+    fi
     else
     fpm.sh -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_01o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_01" 
     fi 

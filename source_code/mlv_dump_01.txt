@@ -174,7 +174,12 @@
 #if your file includes RAWC metadata
     if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
+    if grep '72*' <<< $(mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | awk '/height/ { print $2; exit}')
+    then
     fpm.sh -m crop_rec -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"
+    else
+    fpm.sh -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"   
+    fi
     else
     fpm.sh -o "$O2"allbadpixels.$map "$(cat /tmp/DUALISO/path_1)"/"$FILE"   
     fi 
