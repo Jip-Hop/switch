@@ -154,6 +154,7 @@ fi
 #MLV PROCESSING
 if grep -q 'MLV\|mlv' /tmp/DUALISO/MLVprogress_bar
 then
+
 NUM=$(cat /tmp/DUALISO/"MLVprogress_bar"|wc -l | perl -p -e 's/^[ \t]*//')
 #percentage start
 percent=$(echo 0)
@@ -164,7 +165,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)MLV queue $NUM$(tput sgr0)
     -----------
 
-        $(tput bold)$percent%
+    $(tput bold)starting soon!
 
  $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
  $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
@@ -174,7 +175,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)MLV queue $NUM$(tput sgr0)
     -----------
 
-        $(tput bold)$percent%
+    $(tput bold)starting soon!
 
  $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
  $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
@@ -188,7 +189,7 @@ cat<<EOF
     -----------
     $(tput setaf 0)$(tput bold)MLV queue $NUM$(tput sgr0)
     -----------
-       	     $percent%
+    $(tput bold)starting soon!
    $(tput bold)$(tput setaf 0) 
     -----------
 
@@ -204,10 +205,9 @@ if ! ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
 then
 #now do percent
 total=$(echo $(awk '{ sum += $1 } END { print sum }' /tmp/DUALISO/MLVprogress_bar3))
-rm /tmp/DUALISO/MLVprogress_bar3
 #percentage start
 NUMB=$(echo 100)
-printf '\e[8;09;20t'
+printf '\e[8;10;23t'
 printf '\e[3;955;0t'
 if [ -f /tmp/output ]
 then
@@ -216,7 +216,7 @@ fi
 #only countdown newer files
 DATE=`date +%Y-%m-%d`
 TIME=`date +%H:%M:%S`
-while sleep 2; 
+while sleep 1; 
 do
 NUM=$(cat /tmp/DUALISO/"MLVprogress_bar"|wc -l | perl -p -e 's/^[ \t]*//')
 if [ x"$OUT" = x ]
@@ -232,15 +232,24 @@ item=$(echo $total - $deduct | bc -l)
 percent=`expr 200 \* $item / $total % 2 + $NUMB \* $item / $total`
 fi
 
+#time approximator
+amount=$(echo $(echo $(awk '{ sum += $1 } END { print sum }' /tmp/DUALISO/MLVprogress_bar3)) - $(find . -maxdepth 2 -iname '*.dng' -newermt "$DATE $TIME" |wc -l) | bc -l | cut -d "." -f1)
+ded=$(find . -maxdepth 2 -iname '*.dng' -newermt "$DATE $TIME" |wc -l)
+chunk=$(echo $ded / 25 | bc -l)
+all=$(echo $amount / $ded | bc -l)
+secs=$(echo "$chunk * $all" | bc -l | cut -d "." -f1)
+
 #let´s count from zero to 100
 percent=$(echo 100 - $percent | bc -l)
 
-cat<<EOF
-    -----------
-    $(tput setaf 0)$(tput bold)MLV queue $NUM$(tput sgr0)
-    -----------
 
-        $(tput bold)$percent%
+cat<<EOF
+      ------------
+      $(tput setaf 0)$(tput bold)MLV queue $NUM
+      ------------
+
+  time left: $(printf '%02d:%02d:%02d\n' $(($secs/3600)) $(($secs%3600/60)) $(($secs%60)))
+ percentage: $percent%
 
  $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
  $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
@@ -261,14 +270,15 @@ echo > /tmp/DUALISO/MLVprogress_bar_key
 while : 
 do 
 
-printf '\e[8;09;20t'
+printf '\e[8;10;23t'
 printf '\e[3;955;0t'
 cat<<EOF
-    -----------
-    $(tput setaf 0)$(tput bold)MLV queue $NUM$(tput sgr0)
-    -----------
+      ------------
+      $(tput setaf 0)$(tput bold)MLV queue $NUM
+      ------------
 
-        $(tput bold)$percent%
+  time left: $(printf '%02d:%02d:%02d\n' $(($secs/3600)) $(($secs%3600/60)) $(($secs%60)))
+ percentage: $percent%
 
  $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
  $(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
