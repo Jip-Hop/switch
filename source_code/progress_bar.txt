@@ -277,7 +277,7 @@ cat<<EOF
       $(tput setaf 0)$(tput bold)MLV queue $NUM
       ------------
 
-  time left: $(printf '%02d:%02d:%02d\n' $(($secs/3600)) $(($secs%3600/60)) $(($secs%60)))
+  time left: 
  percentage: $percent%
 
  $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
