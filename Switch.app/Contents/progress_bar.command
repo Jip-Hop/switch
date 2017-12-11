@@ -235,7 +235,7 @@ fi
 #time approximator
 amount=$(echo $(echo $(awk '{ sum += $1 } END { print sum }' /tmp/DUALISO/MLVprogress_bar3)) - $(find . -maxdepth 2 -iname '*.dng' -newermt "$DATE $TIME" |wc -l) | bc -l | cut -d "." -f1)
 ded=$(find . -maxdepth 2 -iname '*.dng' -newermt "$DATE $TIME" |wc -l)
-chunk=$(echo $ded / 25 | bc -l)
+chunk=$(echo $ded / 30 | bc -l)
 all=$(echo $amount / $ded | bc -l)
 secs=$(echo "$chunk * $all" | bc -l | cut -d "." -f1)
 
