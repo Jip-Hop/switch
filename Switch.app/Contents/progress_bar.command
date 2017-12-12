@@ -201,6 +201,9 @@ cat<<EOF
 EOF
 else
 
+#time estimation number, follow up in time approximator below
+num=$(echo 30)
+
 if ! ls 2>/dev/null /tmp/DUALISO/MLVprogress_bar_key
 then
 #now do percent
@@ -235,13 +238,28 @@ fi
 #time approximator
 amount=$(echo $(echo $(awk '{ sum += $1 } END { print sum }' /tmp/DUALISO/MLVprogress_bar3)) - $(find . -maxdepth 2 -iname '*.dng' -newermt "$DATE $TIME" |wc -l) | bc -l | cut -d "." -f1)
 ded=$(find . -maxdepth 2 -iname '*.dng' -newermt "$DATE $TIME" |wc -l)
-chunk=$(echo $ded / 30 | bc -l)
 all=$(echo $amount / $ded | bc -l)
+chunk=$(echo $ded / $num | bc -l)
+#let´s strive for 1 second down counting
+if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "0" ]
+    then
+    num=$(echo $num - 1 | bc -l)
+echo $num >> /tmp/num
+fi
+if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "2" ]
+    then
+    num=$(echo $num + 1 | bc -l)
+echo $num >> /tmp/num
+fi
+if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "3" ]
+    then
+    num=$(echo $num + 2 | bc -l)
+fi
+#time estimation result in seconds
 secs=$(echo "$chunk * $all" | bc -l | cut -d "." -f1)
 
 #let´s count from zero to 100
 percent=$(echo 100 - $percent | bc -l)
-
 
 cat<<EOF
       ------------
