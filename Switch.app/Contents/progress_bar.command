@@ -244,12 +244,10 @@ chunk=$(echo $ded / $num | bc -l)
 if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "0" ]
     then
     num=$(echo $num - 1 | bc -l)
-echo $num >> /tmp/num
 fi
 if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "2" ]
     then
     num=$(echo $num + 1 | bc -l)
-echo $num >> /tmp/num
 fi
 if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "3" ]
     then
