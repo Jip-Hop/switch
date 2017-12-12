@@ -243,15 +243,15 @@ chunk=$(echo $ded / $num | bc -l)
 #let´s strive for 1 second down counting
 if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "0" ]
     then
-    num=$(echo $num - 1 | bc -l)
+    num=$(echo $num - 3 | bc -l)
 fi
 if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "2" ]
     then
-    num=$(echo $num + 1 | bc -l)
+    num=$(echo $num + 3 | bc -l)
 fi
 if [ "$(echo $secs - $(echo "$chunk * $all" | bc -l | cut -d "." -f1) | bc -l | cut -d "." -f1)" = "3" ]
     then
-    num=$(echo $num + 2 | bc -l)
+    num=$(echo $num + 5 | bc -l)
 fi
 #time estimation result in seconds
 secs=$(echo "$chunk * $all" | bc -l | cut -d "." -f1)
