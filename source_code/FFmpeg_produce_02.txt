@@ -506,9 +506,9 @@ echo 2trap >> /tmp/DUALISO/prores_TRAP
     if grep -q 'halfhdr' /tmp/pr4444_HDR && grep -q 'HDR' /tmp/pr4444_HDR && ! [ x"$tbl" = x ]
     then
 #export ProRes4444
-    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W $qual $gam $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $Pcodec -n -r $(echo $fps / 2 | bc -l) $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".$ext 
+    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W $qual $gam $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $Pcodec -n -r $(echo $fps / 2 | bc -l) $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".$ext 
     else
-    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W $qual $gam $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $Pcodec -n -r "$fps" $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".$ext
+    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W $qual $gam $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $Pcodec -n -r "$fps" $tbl$cin$cin_01$cin_02$cin_03$cin_01b$cin_02b$cin_03b$scale$denoise$sharpen "$out""$out2""$date"_ProRes4444/"$name".$ext
     fi
     fi
 #check if proxy settings file contains information 
@@ -519,9 +519,9 @@ echo 2trap >> /tmp/DUALISO/prores_TRAP
     if grep -q 'halfhdr' /tmp/pr4444_HDR && grep -q 'HDR' /tmp/pr4444_HDR && ! [ x"$tbl" = x ]
     then
 #export ProRes proxy
-    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $codec -n -r $(echo $fps / 2 | bc -l) $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov 
+    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $codec -n -r $(echo $fps / 2 | bc -l) $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov 
     else
-    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $codec -n -r "$fps" $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov
+    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav2 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $codec -n -r "$fps" $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov
     fi
     fi
     else
@@ -530,13 +530,13 @@ echo 2trap >> /tmp/DUALISO/prores_TRAP
     if ! [ x"$(cat /tmp/FFmpeg_settings | grep -v 'AWB\|dcrawA')" = x ]
     then
     mkdir -p "$out""$out2""$date"_ProRes4444
-        find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb $pix $br | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 $tbl$cin$cin_01$cin_02$cin_03$denoise$sharpen -t 1 "$out""$out2""$date"_ProRes4444/"$name".tif 2> /tmp/what
+        find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2 $o $S -c -6 -W -q 3 $gam $wb $pix $br | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 $tbl$cin$cin_01$cin_02$cin_03$denoise$sharpen -t 1 "$out""$out2""$date"_ProRes4444/"$name".tif 2> /tmp/what
     fi
 #check if proxy settings file contains information
     if ! [ x"$(cat /tmp/FFmpeg_settingsPR | grep -v 'AWB\|dcrawA')" = x ]
     then
     mkdir -p "$out""$out2""$date"_Proxy
-    find "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$denoisePR$sharpenPR -t 1 "$out""$out2""$date"_Proxy/"$name".tif
+    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -y -pix_fmt rgb24 $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$denoisePR$sharpenPR -t 1 "$out""$out2""$date"_Proxy/"$name".tif
     fi
     fi
     else
@@ -594,9 +594,9 @@ fi
     echo > tmp 
     if grep 'AE_temp_HDR' /tmp/FFmpeg_settings
     then
-    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find . -iname '*.dng' | wc -l) / 2 - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep
+    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find -s . -iname '*.dng' | wc -l) / 2 - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep
     else
-    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find . -iname '*.dng' | wc -l) - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep 
+    "$(cd "$(cat /tmp/DUALISO/AErenderPATH | head -1)" ; find "$(pwd)" -name "aerender")" -comp "$name" -output "$out""$out2""$date"_ProRes4444/"$name".mov -e "$(echo $(find -s . -iname '*.dng' | wc -l) - 1 | bc)" -project "$(cat /tmp/DUALISO/"path_1")"/"$name"/AE_prores_template.aep 
     fi
     rm tmp
     rm *.aep
