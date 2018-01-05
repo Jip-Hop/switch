@@ -1,4 +1,0 @@
-If working with HDR
-Might require timeblend filter fix for later versions of after effects CC
-http://cycorefx.com/dloads_ccfxhd.php
-http://cycorefx.com/downloads/cfx_hd_std/CC_Time_Blend_Plug-ins_FFX_-_Ae_CC2015.zip

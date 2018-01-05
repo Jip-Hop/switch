@@ -1,3 +1,8 @@
+Switch is using this version which works with 10/12bit and lossless MLV files:
+ttps://bitbucket.org/hwdbk/mlrawviewer/
+
+
+
 https://bitbucket.org/baldand/mlrawviewer/src
 
 https://bitbucket.org/baldand/mlrawviewer/overview

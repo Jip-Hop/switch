@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>428</string>
+	<string>444.4</string>
 	<key>AMApplicationVersion</key>
-	<string>2.7</string>
+	<string>2.8</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -30,7 +30,7 @@
 				<key>AMApplication</key>
 				<array>
 					<string>Finder</string>
-					<string>TextEdit</string>
+					<string>Textredigerare</string>
 				</array>
 				<key>AMParameterProperties</key>
 				<dict>
@@ -69,7 +69,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/New Text File.action</string>
 				<key>ActionName</key>
-				<string>New Text File</string>
+				<string>Ny textfil</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>checkedForDefaultEncoding</key>
@@ -103,13 +103,13 @@
 				<string>8280662A-736C-439E-BB2A-0E63C0B648C2</string>
 				<key>Keywords</key>
 				<array>
-					<string>Create</string>
-					<string>Make</string>
-					<string>File</string>
+					<string>Skapa</string>
+					<string>Märke</string>
+					<string>Arkiv</string>
 					<string>Text</string>
-					<string>Save</string>
-					<string>New</string>
-					<string>Document</string>
+					<string>Spara</string>
+					<string>Ny</string>
+					<string>Dokument</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>5066824E-C73A-4055-9A2C-371900B45459</string>
@@ -177,7 +177,7 @@
 					<key>4</key>
 					<dict>
 						<key>default value</key>
-						<string>Untitled.txt</string>
+						<string>Namnlös.txt</string>
 						<key>name</key>
 						<string>newFileName</string>
 						<key>required</key>
@@ -204,7 +204,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:112.000000</string>
+				<string>309.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/New Text File.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -256,7 +256,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Run Shell Script</string>
+				<string>Kör kommandotolkskript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -292,10 +292,10 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<string>735C27A7-2242-4F01-84F5-4364403332CB</string>
 				<key>Keywords</key>
 				<array>
-					<string>Shell</string>
-					<string>Script</string>
-					<string>Command</string>
-					<string>Run</string>
+					<string>Kommandotolk</string>
+					<string>Skript</string>
+					<string>Kommando</string>
+					<string>Kör</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -377,9 +377,9 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:154.000000</string>
+				<string>309.000000:154.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/sv.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -421,7 +421,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Run AppleScript</string>
+				<string>Kör AppleScript-skript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -445,7 +445,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<string>FFDBB40B-0694-4992-8072-6DFC0F5919EC</string>
 				<key>Keywords</key>
 				<array>
-					<string>Run</string>
+					<string>Kör</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>C18F0413-DDCB-4CF6-B125-1449AEC7A4A4</string>
@@ -479,7 +479,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:196.000000</string>
+				<string>309.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -531,7 +531,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Run Shell Script</string>
+				<string>Kör kommandotolkskript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -550,27 +550,16 @@ else
     echo &gt; /tmp/DUALISO/PREV
 #Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
     cd "$1"
-    path_2=$(echo "$1")
-#workaround which lets all files preview through MLVFS
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer/storage 
-    mkdir /tmp/MLV_viewer/mount 
-    ln -s "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MLV /tmp/MLV_viewer/storage
-    cd "$path_2"Contents/mlvfs
-
-./mlvfss /tmp/MLV_viewer/mount --mlv-dir=/tmp/MLV_viewer/storage -f -o local -o volname=/tmp/MLV_viewer/mount -o allow_other --resolve-naming &amp; 
- 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer /tmp/MLV_viewer/mount &amp; 
- while pgrep mlrawviewer
- do sleep 1
- done
-    
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    rm /tmp/DUALISO/path_1
-    cd "$1"
+    path_2=$(echo "$1") 
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/path_1)" &amp; 
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+while pgrep mlrawviewer
+do sleep 1
+done
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+rm /tmp/DUALISO/path_1
     fi
     fi
     fi
@@ -580,7 +569,7 @@ then
 echo &gt; /tmp/DUALISO/PREV
     cd "$1"
     path_2=$(echo "$1") 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(dirname "$(cat /tmp/DUALISO/path_1)")" &amp; sleep 2
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/path_1)" &amp; sleep 2
 rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
 rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
 while pgrep mlrawviewer
@@ -1875,10 +1864,10 @@ done
 				<string>5D9E7713-294C-42C6-AFDA-C1DE09D0A440</string>
 				<key>Keywords</key>
 				<array>
-					<string>Shell</string>
-					<string>Script</string>
-					<string>Command</string>
-					<string>Run</string>
+					<string>Kommandotolk</string>
+					<string>Skript</string>
+					<string>Kommando</string>
+					<string>Kör</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -1960,9 +1949,9 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:238.000000</string>
+				<string>309.000000:238.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/sv.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -2004,7 +1993,7 @@ done
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Run AppleScript</string>
+				<string>Kör AppleScript-skript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -2028,7 +2017,7 @@ done
 				<string>301BEE26-7BF4-4906-96CD-02B06D9C4135</string>
 				<key>Keywords</key>
 				<array>
-					<string>Run</string>
+					<string>Kör</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>A4A007F6-414D-4BD5-847B-CE74143483BA</string>
@@ -2062,7 +2051,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:280.000000</string>
+				<string>309.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2106,7 +2095,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Run AppleScript</string>
+				<string>Kör AppleScript-skript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -2130,7 +2119,7 @@ end run</string>
 				<string>71D11FE5-5D08-44AC-8E0B-1BBDA9E45CE6</string>
 				<key>Keywords</key>
 				<array>
-					<string>Run</string>
+					<string>Kör</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>20AA426E-40FF-4D39-B371-251CAA5F73BA</string>
@@ -2164,7 +2153,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:322.000000</string>
+				<string>309.000000:322.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2208,7 +2197,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Run AppleScript</string>
+				<string>Kör AppleScript-skript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -2232,7 +2221,7 @@ end run</string>
 				<string>288F5397-BAF9-4E14-9FC0-06D08BE36A44</string>
 				<key>Keywords</key>
 				<array>
-					<string>Run</string>
+					<string>Kör</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>E0FC5B7D-CF34-4684-BD22-E0F622BE05E6</string>
@@ -2266,7 +2255,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:364.000000</string>
+				<string>309.000000:364.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2318,7 +2307,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Run Shell Script</string>
+				<string>Kör kommandotolkskript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -2363,10 +2352,10 @@ open "$1"/Contents/First_out.app</string>
 				<string>7EC6C97A-255D-47FC-95F9-711E96D29452</string>
 				<key>Keywords</key>
 				<array>
-					<string>Shell</string>
-					<string>Script</string>
-					<string>Command</string>
-					<string>Run</string>
+					<string>Kommandotolk</string>
+					<string>Skript</string>
+					<string>Kommando</string>
+					<string>Kör</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -2448,9 +2437,9 @@ open "$1"/Contents/First_out.app</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:406.000000</string>
+				<string>309.000000:406.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/sv.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -2458,54 +2447,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>26172B81-0D0A-4AFE-8EEB-66BAF375549C</key>
+		<key>025479EE-47EE-4CE4-9F95-98F63949D83F</key>
 		<dict>
 			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>3F6D8B9E-3456-48E1-92AB-BD03E8996349</key>
-		<dict>
-			<key>from</key>
+			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>5C521A5F-2CE4-4C03-8F19-1776CD74254B</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>AFFCEDF4-338A-4FC4-BE4E-E850CE2F2CB5</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>C6FDC833-1BE6-4579-9638-BF91BC1E4F1B</key>
+		<key>1621DB58-872D-4906-8654-4DA6C48D4C50</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>D0FCA085-EFC4-424A-9B22-73B2DE8AA254</key>
+		<key>6C513972-C569-4884-A245-889B75075046</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>78D2BDD9-03D3-44CA-A555-0FA53AE79656</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>8EB68E3F-5E50-43C1-9D42-2285733AADEF</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>FCEB21F5-9877-48D9-8AA8-8EFA2DF615A9</key>
+		<key>EF615DAE-3F3E-45E7-8FDA-9CDE0A07EFC1</key>
 		<dict>
 			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>F651C1CA-6FAE-4221-B5CE-D8C5AE2537AE</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
