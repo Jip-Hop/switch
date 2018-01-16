@@ -2399,7 +2399,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)(17) deflicker$(tput sgr0) 3072(default) $(tput bold)$(tput setaf 4)$dfl$(tput sgr0)
     $(tput bold)(18) convert to bit depth$(tput sgr0)(1-16) $(tput bold)$(tput setaf 4)$btp$(tput sgr0)
     $(tput bold)(19) write DNG to 16 bit$(tput sgr0) $fdepth
-    $(tput bold)(20) focus pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=1$(tput bold)$(tput setaf 4) $fcpm$(tput sgr0)
+    $(tput bold)(20) focus pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=0$(tput bold)$(tput setaf 4) $fcpm$(tput sgr0)
     $(tput bold)(21) bad pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=1$(tput bold)$(tput setaf 4) $bpm$(tput sgr0)
     $(tput bold)(22) disable dualiso automation$(tput sgr0)  $dual
     $(tput bold)(23) create a sample files package$(tput sgr0)
