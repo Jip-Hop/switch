@@ -17,6 +17,7 @@
  # Boston, MA  02110-1301, USA.
 
 
+#check for sd or cf card
 #Check if filmed crop_rec
 #menu RAW_demolish settings
 #RAW pixel fix
@@ -33,6 +34,160 @@
 #tif spit X to tif
 
 export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
+
+
+
+#check for sd or cf card
+if ! [ -f /tmp/DUALISO/CF_set ]
+then
+if [ -d /Volumes/EOS_DIGITAL/DCIM/*CANON ]
+then 
+echo > /tmp/DUALISO/CF_set
+#!/bin/bash
+#changes size of terminal window
+#tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[8;7;60t'
+printf '\e[3;410;100t'
+
+open -a Terminal
+
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+clear
+echo "
+
+
+${bold}$(tput setaf 2)Seems we have a CF or SD card attached, please wait$(tput sgr0)"
+sleep 3
+
+
+#printf '\e[3;0;0t'
+printf '\e[8;16;95t'
+printf '\e[3;410;100t'
+
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ====================  
+    ${bold}$(tput setaf 1)Copy files to folder$(tput sgr0)
+    --------------------
+ 
+    $(tput bold)(01) Copy all content from card(CF/SD) to selected folder$(tput sgr0)(MLV,RAW,CR2,MOV,DNG,etc)	
+    $(tput bold)(1X) Copy all content from CF/SD to selected folder then DELETE files from CF/SD card			 
+    $(tput bold)(02) $(tput sgr0)Copy only $(tput bold)MLV and RAW $(tput sgr0)to selected folder
+    $(tput bold)(03) $(tput sgr0)Copy only $(tput bold)DNG $(tput sgr0)to selected folder	
+    $(tput bold)(04) $(tput sgr0)Copy only $(tput bold)MOV $(tput sgr0)to selected folder
+    $(tput bold)(05) $(tput sgr0)Copy only $(tput bold)CR2 $(tput sgr0)to selected folder
+
+    $(tput bold)$(tput setaf 1)(m)  Main menu$(tput sgr0)
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "01")  
+cp -r /Volumes/EOS_DIGITAL/DCIM/*CANON/* "$(cat /tmp/DUALISO/"path_1")" &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Copying..."$(tput sgr0) ; sleep 2
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "1X")  
+clear
+read -p $(tput bold)"Are you sure about this?$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+cp -r /Volumes/EOS_DIGITAL/DCIM/*CANON/* "$(cat /tmp/DUALISO/"path_1")" && rm -r /Volumes/EOS_DIGITAL/DCIM/*CANON/* &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Copying to selected folder then DELETING files from CF card"$(tput sgr0) ; sleep 3
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+else
+rm /tmp/DUALISO/CF_set
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+fi
+;;
+
+    "02")  
+cp /Volumes/EOS_DIGITAL/DCIM/*CANON/*.{MLV,M0*,M1*,M2*,M3*,M4*,M5*,RAW,R0*,R1*,R2*,R3*,R4*,R5*} 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Copying MLV and RAW..."$(tput sgr0) ; sleep 2
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "03")  
+cp /Volumes/EOS_DIGITAL/DCIM/*CANON/*.DNG 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Copying DNG..."$(tput sgr0) ; sleep 2
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "04")  
+cp /Volumes/EOS_DIGITAL/DCIM/*CANON/*.MOV 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Copying MOV..."$(tput sgr0) ; sleep 2
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "05")  
+cp /Volumes/EOS_DIGITAL/DCIM/*CANON/*.CR2 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Copying CR2..."$(tput sgr0) ; sleep 2
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "m")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+fi
+fi
+
 
 
 #Check if filmed crop_rec
