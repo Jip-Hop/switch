@@ -28,10 +28,10 @@ MODLIBS=        $(LOCALMODLIBS) $(BASEMODLIBS)
 VERSION=	2.7
 srcdir=		.
 
-abs_srcdir=	/Library/Caches/com.apple.xbs/Binaries/python/python-97.50.7~5/TempContent/Objects/2.7/python
-abs_builddir=	/Library/Caches/com.apple.xbs/Binaries/python/python-97.50.7~5/TempContent/Objects/2.7/python
-build=		x86_64-apple-darwin16.0
-host=		x86_64-apple-darwin16.0
+abs_srcdir=	/BuildRoot/Library/Caches/com.apple.xbs/Binaries/python/install/TempContent/Objects/2.7/python
+abs_builddir=	/BuildRoot/Library/Caches/com.apple.xbs/Binaries/python/install/TempContent/Objects/2.7/python
+build=		x86_64-apple-darwin17.0
+host=		x86_64-apple-darwin17.0
 
 CC=		cc
 CXX=		c++
@@ -79,7 +79,7 @@ CPPFLAGS=	-I. -IInclude -I$(srcdir)/Include
 LDFLAGS=	-arch x86_64 -arch i386            -Wl,-F.
 LDLAST=		
 SGI_ABI=	
-CCSHARED=	-arch x86_64 -arch i386 -pipe
+CCSHARED=	-arch i386 -arch x86_64 -pipe
 LINKFORSHARED=	-u _PyMac_Error $(PYTHONFRAMEWORKINSTALLDIR)/Versions/$(VERSION)/$(PYTHONFRAMEWORK)
 ARFLAGS=	rc
 # Extra C flags added for building the interpreter object files.
@@ -140,14 +140,14 @@ PYTHONFRAMEWORKINSTALLDIR= /System/Library/Frameworks/Python.framework
 # Deployment target selected during configure, to be checked
 # by distutils. The export statement is needed to ensure that the
 # deployment target is active during build.
-MACOSX_DEPLOYMENT_TARGET=10.12
+MACOSX_DEPLOYMENT_TARGET=10.13
 export MACOSX_DEPLOYMENT_TARGET
 
 # Options to enable prebinding (for fast startup prior to Mac OS X 10.3)
 OTHER_LIBTOOL_OPT=
 
 # Environment to run shared python without installed libraries
-RUNSHARED=       DYLD_FRAMEWORK_PATH=/Library/Caches/com.apple.xbs/Binaries/python/python-97.50.7~5/TempContent/Objects/2.7/python:/AppleInternal/XBS/Bundles/XBS.bundle/Contents/Frameworks
+RUNSHARED=       DYLD_FRAMEWORK_PATH=/BuildRoot/Library/Caches/com.apple.xbs/Binaries/python/install/TempContent/Objects/2.7/python:/AppleInternal/XBS/Bundles/XBS.bundle/Contents/Frameworks
 
 # ensurepip options
 ENSUREPIP=      no
@@ -202,7 +202,7 @@ BUILDPYTHON=	python$(BUILDEXE)
 
 PYTHON_FOR_BUILD=./$(BUILDPYTHON) -E
 _PYTHON_HOST_PLATFORM=
-HOST_GNU_TYPE=  x86_64-apple-darwin16.0
+HOST_GNU_TYPE=  x86_64-apple-darwin17.0
 
 # Tcl and Tk config info from --with-tcltk-includes and -libs options
 TCLTK_INCLUDES=	
