@@ -109,7 +109,7 @@ EOF
     case "$REPLY" in
 
     "01")  
-find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; &
+find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && diskutil unmount /Volumes/EOS_DIGITAL &
 clear
 echo $(tput bold)"
 
@@ -125,7 +125,7 @@ read -p $(tput bold)"Are you sure about this?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; &
+find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; && diskutil unmount /Volumes/EOS_DIGITAL &
 
 clear
 echo $(tput bold)"
