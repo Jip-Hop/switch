@@ -40,7 +40,7 @@ export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
 #check for sd or cf card
 if ! [ -f /tmp/DUALISO/CF_set ]
 then
-if [ -d /Volumes/EOS_DIGITAL/DCIM/*CANON ]
+if [ -d $(ls -d /Volumes/EOS_DIGITAL/DCIM/*CANON | head -1) ]
 then 
 echo > /tmp/DUALISO/CF_set
 #!/bin/bash
