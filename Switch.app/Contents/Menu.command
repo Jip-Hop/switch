@@ -40,10 +40,8 @@ export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
 #check for sd or cf card
 if ! [ -f /tmp/DUALISO/CF_set ]
 then
-if [ -d $(ls -d /Volumes/EOS_DIGITAL/DCIM/ | head -1) ]
+if [ -d /Volumes/EOS_DIGITAL/DCIM/ ]
 then 
-echo yes
-fi
 echo > /tmp/DUALISO/CF_set
 #!/bin/bash
 #changes size of terminal window
@@ -188,6 +186,7 @@ Copying CR2..."$(tput sgr0) ; sleep 2
     esac
     sleep 0.5
 done
+fi
 fi
 
 
