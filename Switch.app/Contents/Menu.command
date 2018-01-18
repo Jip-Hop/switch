@@ -1221,6 +1221,43 @@ HDR=
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 fi
 
+
+if ! [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ]
+then
+clear
+echo $(tput bold)"
+Checking for HDRMerge, please wait..."
+sleep 2
+read -p $(tput bold)"
+HDRMerge is not installed would you like to install it?$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+#!/bin/bash
+clear
+echo "Follow instructions in terminal window"
+sleep 2
+[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+[ ! -f "`which wget`" ] && brew install wget
+wget -O HDRMerge.dmg https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg && hdiutil attach HDRMerge.dmg && cp -r /Volumes/HDRMerge\ for\ Mac/HDRMerge.app /Applications && diskutil unmount /Volumes/HDRMerge\ for\ Mac && rm HDRMerge.dmg
+if [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ]
+then
+clear && echo "HDRMerge is intalled and ready for use"
+else
+clear && echo "HDRMerge did not install, please check terminal window for any error or install manually"
+fi
+sleep 2
+else
+clear && echo "
+Please install HDRMerge manually"
+sleep 2
+fi
+fi
+
+
+
+
 #changes size of terminal window
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
@@ -1286,8 +1323,14 @@ do
     ==================
     ${bold}$(tput setaf 1)HDR automation$(tput sgr0)(CR2)
     ------------------
-Dependency(install into applications folder):
-${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg
+(install into /Applications folder):
+${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg 
+$(if [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ] 
+then 
+echo $blue"HDRMerge is installed"$normal 
+else 
+echo $red"HDRMerge is NOT installed"$normal 
+fi)
 
 $(tput bold)output: $(tput setaf 4)$CR2OUT$(tput sgr0)
 
