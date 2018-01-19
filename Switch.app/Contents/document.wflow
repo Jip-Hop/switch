@@ -550,27 +550,16 @@ else
     echo &gt; /tmp/DUALISO/PREV
 #Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
     cd "$1"
-    path_2=$(echo "$1")
-#workaround which lets all files preview through MLVFS
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer/storage 
-    mkdir /tmp/MLV_viewer/mount 
-    ln -s "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MLV /tmp/MLV_viewer/storage
-    cd "$path_2"Contents/mlvfs
-
-./mlvfss /tmp/MLV_viewer/mount --mlv-dir=/tmp/MLV_viewer/storage -f -o local -o volname=/tmp/MLV_viewer/mount -o allow_other --resolve-naming &amp; 
- 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer /tmp/MLV_viewer/mount &amp; 
- while pgrep mlrawviewer
- do sleep 1
- done
-    
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    rm /tmp/DUALISO/path_1
-    cd "$1"
+    path_2=$(echo "$1") 
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/path_1)" &amp; 
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+while pgrep mlrawviewer
+do sleep 1
+done
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+rm /tmp/DUALISO/path_1
     fi
     fi
     fi
@@ -580,7 +569,7 @@ then
 echo &gt; /tmp/DUALISO/PREV
     cd "$1"
     path_2=$(echo "$1") 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(dirname "$(cat /tmp/DUALISO/path_1)")" &amp; sleep 2
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/path_1)" &amp; sleep 2
 rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
 rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
 while pgrep mlrawviewer
@@ -2462,54 +2451,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>08EF30F6-37E9-488A-9DF7-E6755A43A5BF</key>
+		<key>19BAAED3-0911-46E8-B43C-F89E73F876B0</key>
 		<dict>
 			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>262F5689-586C-4889-9E64-2757C7A06E15</key>
+		<key>469DBE5A-F66A-4C17-8AFC-DD8BA14F7E73</key>
+		<dict>
+			<key>from</key>
+			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+			<key>to</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+		</dict>
+		<key>499A4BEC-67B2-4AE5-831D-D8EF47AFBA5D</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>2AF76889-7F61-42DF-9EC0-6A536DFD3E9C</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>30D8FF36-DCF0-4CE9-A3D0-774DA4F9849C</key>
+		<key>7D76C831-86B6-4FD2-9B69-C5A8CCEFDBDE</key>
 		<dict>
 			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>3FFE8D7E-E648-4544-8DD9-1C3916A10F87</key>
+		<key>7E90754E-C7C7-4A0A-9A1D-E58DDDFD72B3</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>45D94EBB-C4E5-487B-BE72-315FE557A6FB</key>
+		<key>98F81B9B-5911-427B-8F97-F17D6059B730</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>93A957BB-45FA-4904-BB93-53F4B1FD7E14</key>
+		<key>9A15827B-B073-4855-AB3B-4E1115A37433</key>
 		<dict>
 			<key>from</key>
-			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
-			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
