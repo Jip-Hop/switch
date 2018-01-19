@@ -13,27 +13,16 @@ else
     echo > /tmp/DUALISO/PREV
 #Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
     cd "$1"
-    path_2=$(echo "$1")
-#workaround which lets all files preview through MLVFS
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer
-    mkdir /tmp/MLV_viewer/storage 
-    mkdir /tmp/MLV_viewer/mount 
-    ln -s "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MLV /tmp/MLV_viewer/storage
-    cd "$path_2"Contents/mlvfs
-
-./mlvfss /tmp/MLV_viewer/mount --mlv-dir=/tmp/MLV_viewer/storage -f -o local -o volname=/tmp/MLV_viewer/mount -o allow_other --resolve-naming & 
- 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer /tmp/MLV_viewer/mount & 
- while pgrep mlrawviewer
- do sleep 1
- done
-    
-    killall mlvfss
-    rm -r /tmp/MLV_viewer
-    rm /tmp/DUALISO/path_1
-    cd "$1"
+    path_2=$(echo "$1") 
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/path_1)" & 
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+while pgrep mlrawviewer
+do sleep 1
+done
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
+rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
+rm /tmp/DUALISO/path_1
     fi
     fi
     fi
@@ -43,7 +32,7 @@ then
 echo > /tmp/DUALISO/PREV
     cd "$1"
     path_2=$(echo "$1") 
-"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(dirname "$(cat /tmp/DUALISO/path_1)")" & sleep 2
+"$path_2"Contents/bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/path_1)" & sleep 2
 rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.WAV
 rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
 while pgrep mlrawviewer
