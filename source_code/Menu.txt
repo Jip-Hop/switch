@@ -2312,7 +2312,7 @@ white="$(tput setaf 7)"
 #disable dualiso automation as default
     echo > /tmp/dualisodisable
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 if grep 'no-cs' /tmp/mlv_dump_on_steroids_settings 
 then
 nocs=$(echo "$bold""$green"added!"$normal")
@@ -2328,6 +2328,10 @@ fi
 if grep 'cs5' /tmp/mlv_dump_on_steroids_settings 
 then
 cs5=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'no-fixfp' /tmp/mlv_dump_on_steroids_settings 
+then
+fixfp=$(echo "$bold""$green"added!"$normal")
 fi
 if grep 'no-fixcp' /tmp/mlv_dump_on_steroids_settings 
 then
@@ -2360,7 +2364,7 @@ c=$(echo "$bold""$green"added!"$normal")
 fi
 if [ -f /tmp/mlv_dump_on_steroids_UNC ] 
 then
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 rm /tmp/mlv_dump_on_steroids_settings
 p=$(echo "$bold""$green"added!"$normal")
 fi
@@ -2423,11 +2427,12 @@ do
 $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 	
 -- DNG output --
-    $(tput bold)(01) no chroma smoothing$(tput sgr0)   $nocs
-    $(tput bold)(02) 2x2 chroma smoothing$(tput sgr0)  $cs2	
-    $(tput bold)(03) 3x3 chroma smoothing$(tput sgr0)  $cs3
-    $(tput bold)(04) 5x5 chroma smoothing$(tput sgr0)  $cs5
-    $(tput bold)(05) turn off cold pixels$(tput sgr0)  $fixcp 
+    $(tput bold)(00) no chroma smoothing$(tput sgr0)   $nocs
+    $(tput bold)(01) 2x2 chroma smoothing$(tput sgr0)  $cs2	
+    $(tput bold)(02) 3x3 chroma smoothing$(tput sgr0)  $cs3
+    $(tput bold)(03) 5x5 chroma smoothing$(tput sgr0)  $cs5
+    $(tput bold)(04) do not fix focus pixels$(tput sgr0)  $fixfp
+    $(tput bold)(05) do not fix cold pixels$(tput sgr0)  $fixcp 
     $(tput bold)(06) fix non-static$(tput sgr0)(moving) $(tput bold)cold pixels$(tput sgr0)(slow) $fixcp2
     $(tput bold)(07) disable vertical stripes in highlights  $nostripes
     $(tput bold)(08) force vertical stripes$(tput sgr0)(slow, every frame)  $fstripes
@@ -2460,7 +2465,7 @@ EOF
     read -n2
     case "$REPLY" in
 
-    "01")
+    "00")
 rm /tmp/mlv_dump_on_steroids_UNC
 p=
 if grep 'no-cs' /tmp/mlv_dump_on_steroids_settings 
@@ -2483,7 +2488,7 @@ cs5=
 fi
 ;;
 
-    "02")
+    "01")
 rm /tmp/mlv_dump_on_steroids_UNC
 p=
 if grep 'cs2' /tmp/mlv_dump_on_steroids_settings 
@@ -2506,7 +2511,7 @@ cs5=
 fi
 ;;
 
-    "03")
+    "02")
 rm /tmp/mlv_dump_on_steroids_UNC
 p=
 if grep 'cs3' /tmp/mlv_dump_on_steroids_settings 
@@ -2529,7 +2534,7 @@ cs5=
 fi
 ;;
 
-    "04")
+    "03")
 rm /tmp/mlv_dump_on_steroids_UNC
 p=
 if grep 'cs5' /tmp/mlv_dump_on_steroids_settings 
@@ -2552,7 +2557,26 @@ cs3=
 fi
 ;;
 
+    "04")
+rm /tmp/mlv_dump_on_steroids_UNC
+p=
+if grep 'no-fixfp' /tmp/mlv_dump_on_steroids_settings 
+then
+find /tmp/mlv_dump_on_steroids_settings | xargs perl -pi -e 's/ --no-fixfp//g' 
+fixfp=
+echo $(tput bold)"
 
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-fixfp" >> /tmp/mlv_dump_on_steroids_settings
+fixfp=$(echo "$bold""$green"added!"$normal")
+fixcp2=
+find /tmp/mlv_dump_on_steroids_settings | xargs perl -pi -e 's/ --fixcp2//g'
+find /tmp/mlv_dump_on_steroids_settings | xargs perl -pi -e 's/ --no-fixcp//g' 
+fixcp=
+fi
+;;
 
     "05")
 rm /tmp/mlv_dump_on_steroids_UNC
@@ -2570,10 +2594,10 @@ printf "%s\n" " --no-fixcp" >> /tmp/mlv_dump_on_steroids_settings
 fixcp=$(echo "$bold""$green"added!"$normal")
 fixcp2=
 find /tmp/mlv_dump_on_steroids_settings | xargs perl -pi -e 's/ --fixcp2//g'
+find /tmp/mlv_dump_on_steroids_settings | xargs perl -pi -e 's/ --no-fixfp//g' 
+fixfp=
 fi
 ;;
-
-
 
     "06")
 rm /tmp/mlv_dump_on_steroids_UNC
@@ -2591,6 +2615,8 @@ find /tmp/mlv_dump_on_steroids_settings | xargs perl -pi -e 's/ --no-fixcp//g'
 printf "%s\n" " --fixcp2" >> /tmp/mlv_dump_on_steroids_settings
 fixcp2=$(echo "$bold""$green"added!"$normal")
 fixcp=
+find /tmp/mlv_dump_on_steroids_settings | xargs perl -pi -e 's/ --no-fixfp//g' 
+fixfp=
 fi
 ;;
 
@@ -2720,7 +2746,7 @@ echo $(tput bold)"
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Removed"$(tput sgr0) ; 
 else 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 rm /tmp/mlv_dump_on_steroids_settings
 printf "%s\n" "-p" > /tmp/mlv_dump_on_steroids_UNC
 p=$(echo "$bold""$green"added!"$normal")
@@ -2995,7 +3021,7 @@ rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
 ;;
 
     "E")
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_on_steroids_UNC
 rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
@@ -7072,7 +7098,7 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_on_steroids_UNC
@@ -7456,7 +7482,7 @@ sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
 rm /tmp/denoise 1> /dev/null 2>&1 &
 rm /tmp/sharpen 1> /dev/null 2>&1 &
 
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; dual= ; c= ; cc= ; p= ; ccc= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
 rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_on_steroids_UNC
