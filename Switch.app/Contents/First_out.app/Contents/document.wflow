@@ -105,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:112.000000</string>
+				<string>309.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -264,7 +264,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:154.000000</string>
+				<string>309.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -439,7 +439,7 @@ echo "$1" &gt; /tmp/path_1b
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:196.000000</string>
+				<string>309.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -541,7 +541,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:238.000000</string>
+				<string>309.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -1308,6 +1308,9 @@ sleep 1
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/badpixelMLV)" = x ]
     then
+#check for disabling of fpm files
+    if ! grep 'no-fixfp' /tmp/mlv_dump_on_steroids_settings
+    then
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/badpixelMLV ) / 4 + 1 )) /tmp/DUALISO/badpixelMLV /tmp/DUALISO/badpixelMLV
     rm /tmp/DUALISO/badpixelMLV
@@ -1320,6 +1323,7 @@ sleep 1
     do
     sleep 2
     done
+    fi
     fi
 #Start MLV counter
     if ls *.MLV 
@@ -1955,7 +1959,7 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:280.000000</string>
+				<string>309.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -1965,33 +1969,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0894CEC5-1FC7-4029-A21E-3D05E9D38CC4</key>
-		<dict>
-			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-			<key>to</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-		</dict>
-		<key>27870310-1D93-4D8C-8457-873A4AFC61C1</key>
+		<key>735621D5-2D18-4DE8-8D5F-F03A1B27ED51</key>
 		<dict>
 			<key>from</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 			<key>to</key>
 			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
-		<key>7B5AD138-037B-4265-B251-AB19CFC861AB</key>
+		<key>757ACE03-89D7-4127-9E99-8945D3547BC8</key>
 		<dict>
 			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 		</dict>
-		<key>B35E377B-003F-4D45-9431-80C70AF40372</key>
+		<key>AD9FCA0F-0627-4F6A-86A8-8952F36FE582</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+		</dict>
+		<key>C42C0D57-74FE-4EDB-AB91-A283964EF9B5</key>
+		<dict>
+			<key>from</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+			<key>to</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

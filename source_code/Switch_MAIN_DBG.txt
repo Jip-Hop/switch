@@ -597,6 +597,9 @@ sleep 1
 #do files exist or not
     if ! [ x"$(cat /tmp/DUALISO/badpixelMLV)" = x ]
     then
+#check for disabling of fpm files
+    if ! grep 'no-fixfp' /tmp/mlv_dump_on_steroids_settings
+    then
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/badpixelMLV ) / 4 + 1 )) /tmp/DUALISO/badpixelMLV /tmp/DUALISO/badpixelMLV
     rm /tmp/DUALISO/badpixelMLV
@@ -609,6 +612,7 @@ sleep 1
     do
     sleep 2
     done
+    fi
     fi
 #Start MLV counter
     if ls *.MLV
