@@ -70,8 +70,3 @@ rm switch/Switch.dmg
 rm utbb_httpcode
 fi
 
-cd switch
-hg commit -m 'upload fixes to package command, rawc metadata fix(bouncyball)'
-hg push
-cd ~
-
