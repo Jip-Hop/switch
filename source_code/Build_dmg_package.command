@@ -62,4 +62,16 @@ rm -f pack.temp.dmg
 rm -R "${source}"
 
 
+if [ -f ~/switch_upload.sh ] 
+then 
+cd ~
+~/switch_upload.sh $(cat ~/switch_upload.sh | head -1 | tr -d '#')
+rm switch/Switch.dmg 
+rm utbb_httpcode
+fi
+
+cd switch
+hg commit -m 'upload fixes to package command, rawc metadata fix(bouncyball)'
+hg push
+cd ~
 
