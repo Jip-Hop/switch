@@ -62,6 +62,15 @@ rm -f pack.temp.dmg
 rm -R "${source}"
 
 
+if ! [ -f ~/switch_upload.sh ] 
+then 
+cd ~
+
+
+echo "#$(grep 'bitbucket.org' /Users/air/switch/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2)" /"$(grep 'bitbucket.org' ~/switch/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2,3)"/downloads switch/Switch.dmg
+
+
+
 if [ -f ~/switch_upload.sh ] 
 then 
 cd ~
