@@ -112,7 +112,7 @@ clear
    echo $(tput bold)"Write your email adress:$(tput sgr0) then press enter"
    read email
 
-   password replacement:
+#password replacement:
    end="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d "@" -f2)"
    begin="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d "@" -f1)"
    pass="$(echo :"$password"@)"
