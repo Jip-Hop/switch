@@ -41,7 +41,6 @@ clear
     cp "$dir"/.hg/hgrc "$dir"/.hg/hgrc_orig
     fi
 
-
 #what´s added and not
     password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     username="$(grep 'username' "$dir"/.hg/hgrc)"
@@ -66,7 +65,6 @@ clear
     username="$bold$blue$(grep 'username' "$dir"/.hg/hgrc)"
     fi
     fi
-
 
 while :
 do 
@@ -153,7 +151,6 @@ fi
 . Build_dmg_package.command
 ;;
 
-
    "RE")  
 mv "$dir"/.hg/hgrc_orig "$dir"/.hg/hgrc
 rm "$dir"/.hg/hgrc_orig
@@ -169,7 +166,6 @@ hgrc file is now reset"$(tput sgr0) ; sleep 2
    "q")  
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
-
 
    "r")  
 #commit and push in one swoop
