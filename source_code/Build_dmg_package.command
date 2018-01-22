@@ -130,16 +130,22 @@ clear
 
 #Replace bitbucket hgrc info
     sed -i".bak" "$(grep -n '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
-    sed -i".bak1" "$(grep -n '# username' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
+    sed -i".bak1" "$(grep -n '\[paths\]' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
+    sed -i".bak2" "$(grep -n '# username' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
+    sed -i".bak3" "$(grep -n '\[ui\]' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
 
 #path with password
+    echo "[paths]" >> "$dir"/.hg/hgrc
     echo "$begin""$pass""$end" >> "$dir"/.hg/hgrc
 
 #remove bak files
     rm "$dir"/.hg/hgrc.bak
     rm "$dir"/.hg/hgrc.bak1
+    rm "$dir"/.hg/hgrc.bak2
+    rm "$dir"/.hg/hgrc.bak3
 
 #write username and email
+    echo "[ui]" >> "$dir"/.hg/hgrc
     echo "username = "$user" <"$email">" >> "$dir"/.hg/hgrc
 
 fi
@@ -179,7 +185,7 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
-   hg commit -m '$commit'
+   hg commit -m 'one more test'
    hg push
 
 
