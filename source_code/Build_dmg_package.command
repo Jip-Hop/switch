@@ -265,6 +265,7 @@ EOF
 #run the upload automation script
 . switch_upload $(cat switch_upload | head -1 | tr -d '#')
 rm switch_upload
+rm "$dir"/Switch.dmg
 
     fi
 
