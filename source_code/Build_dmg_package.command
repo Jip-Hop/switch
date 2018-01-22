@@ -185,7 +185,7 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
-   hg commit -m 'one more test'
+   hg commit -m "$(echo $commit)"
    hg push
 
 
