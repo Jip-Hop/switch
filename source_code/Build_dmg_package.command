@@ -92,9 +92,9 @@ do
 
     clear
     cat<<EOF
-    ====================================== 			   
-    $(tput sgr0)${bold}$(tput setaf 1)Commit, push, upload automation script$(tput sgr0)
-    --------------------------------------
+    ===========================			   
+    $(tput sgr0)${bold}$(tput setaf 1)hg upload automation script$(tput sgr0)
+    ---------------------------
  
     $(tput bold)(01) Add password, username and email to your hgrc file 
     $(tput bold)(RE) Reset hgrc to default settings$(tput sgr0)
