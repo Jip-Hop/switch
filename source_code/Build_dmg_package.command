@@ -205,6 +205,8 @@ clear
    hg pull
    hg update
    hg commit -m "$(echo $commit)"
+   
+   cd source_code
 . Build_dmg_package.command
     fi
 ;;
@@ -270,6 +272,8 @@ rm -R "${source}"
 clear
    hg pull https://Dannephoto@bitbucket.org/Dannephoto/switch
    hg update
+
+   cd source_code
 . Build_dmg_package.command
 ;;
 
@@ -291,6 +295,8 @@ clear
    hg update
    hg commit -m "$(echo $commit)"
    hg push
+   
+   cd source_code
 . Build_dmg_package.command
     fi
 ;;
