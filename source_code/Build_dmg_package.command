@@ -189,6 +189,26 @@ hgrc file is now reset"$(tput sgr0) ; sleep 2
 ;;
 
    "c")  
+  cd "$dir"/source_code
+clear
+#A MAKE like solution which copies changes made in source txt files and migrates the changes into Switch.app and at the end creates a dmg package
+#simple command to rename txt scripts to .command and copy these to Switch.app content folder.
+xattr -d com.apple.quarantine ../Switch.app
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+for file in *.txt; do
+    mv "$file" "`basename $file .txt`.command"
+yes | cp *.command  ../Switch.app/Contents
+done
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+mv Build_dmg_package.txt Build_dmg_package.command
+rm ../Switch.app/Contents/Build_dmg_package.command
+rm ../Switch.app/Contents/Switch_MAIN.command
+cd ../
+
 #commit and push in one swoop
 #if username is missing 
     if [ "$username" = $(tput setaf 1)MISSING ]
@@ -196,6 +216,7 @@ hgrc file is now reset"$(tput sgr0) ; sleep 2
 clear
    echo $(tput bold)$(tput setaf 1)"Please add password, username and email before proceeding"
    sleep 2
+   cd "$dir"/source_code
 . Build_dmg_package.command
    else
    cd "$dir"/
@@ -278,6 +299,26 @@ clear
 ;;
 
    "p")  
+  cd "$dir"/source_code
+clear
+#A MAKE like solution which copies changes made in source txt files and migrates the changes into Switch.app and at the end creates a dmg package
+#simple command to rename txt scripts to .command and copy these to Switch.app content folder.
+xattr -d com.apple.quarantine ../Switch.app
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+for file in *.txt; do
+    mv "$file" "`basename $file .txt`.command"
+yes | cp *.command  ../Switch.app/Contents
+done
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+mv Build_dmg_package.txt Build_dmg_package.command
+rm ../Switch.app/Contents/Build_dmg_package.command
+rm ../Switch.app/Contents/Switch_MAIN.command
+cd ../
+
 #commit and push in one swoop
 #if username is missing 
     if [ "$username" = $(tput setaf 1)MISSING ]
@@ -285,6 +326,7 @@ clear
 clear
    echo $(tput bold)$(tput setaf 1)"Please add password, username and email before proceeding"
    sleep 2
+  cd "$dir"/source_code
 . Build_dmg_package.command
    else
    cd "$dir"/
@@ -306,26 +348,6 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
    "r")  
-#commit, push and upload in one swoop
-#if username is missing 
-    if [ "$username" = $(tput setaf 1)MISSING ]
-    then 
-clear
-   echo $(tput bold)$(tput setaf 1)"Please add password, username and email before proceeding"
-   sleep 2
-. Build_dmg_package.command
-   else
-   cd "$dir"/
-clear
-   echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
-   read commit
-   hg pull
-   hg update
-   hg commit -m "$(echo $commit)"
-   hg push
-
-
-#let´s build the dmg file
   cd source_code
 clear
 #A MAKE like solution which copies changes made in source txt files and migrates the changes into Switch.app and at the end creates a dmg package
@@ -345,6 +367,26 @@ mv Build_dmg_package.txt Build_dmg_package.command
 rm ../Switch.app/Contents/Build_dmg_package.command
 rm ../Switch.app/Contents/Switch_MAIN.command
 cd ../
+
+#commit, push and upload in one swoop
+#if username is missing 
+    if [ "$username" = $(tput setaf 1)MISSING ]
+    then 
+clear
+   echo $(tput bold)$(tput setaf 1)"Please add password, username and email before proceeding"
+   sleep 2
+. Build_dmg_package.command
+   else
+   cd "$dir"/
+clear
+   echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
+   read commit
+   hg pull
+   hg update
+   hg commit -m "$(echo $commit)"
+   hg push
+
+#let´s build the dmg file
 #Script originally for MLVFS
 #https://bitbucket.org/dmilligan/mlvfs/src/9f8191808407bb49112b9ab14c27053ae5022749/build_installer.sh?at=master&fileviewer=file-view-default
 # A lot of this script came from here:
