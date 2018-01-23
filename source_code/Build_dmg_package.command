@@ -66,6 +66,9 @@ clear
     fi
     fi
 
+#reset colors etc
+    $(tput sgr0)
+
 while :
 do 
 
