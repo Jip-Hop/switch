@@ -96,14 +96,14 @@ do
     ${bold}$(tput setaf 1)hg automation script$(tput sgr0)
     --------------------
  
-    $(tput bold)(01) Add password, username and email to your hgrc file 
-    $(tput bold)(RE) Reset hgrc to default settings$(tput sgr0)
+    $(tput bold)(01) add password, username and email to your hgrc file 
+    $(tput bold)(RE) reset hgrc to default settings$(tput sgr0)
     $(tput bold)(c)  pull, update, commit$(tput sgr0)(skips push and dmg creation)
     $(tput bold)(p)  pull, update, commit, push$(tput sgr0)(skips dmg creation)
     $(tput bold)(dm) create only the Switch.dmg file$(tput sgr0)
     $(tput bold)$(tput setaf 4)(s)  pull and update from Switch main source$(tput sgr0)(fork,branch developer)
     $(tput bold)$(tput setaf 2)(r)  pull, update, commit, push and Switch.dmg upload$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  Exit from this menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit from this menu$(tput sgr0)
 
     	 $(tput sgr0)$(tput smul)Your password:$(tput sgr0)$(tput setaf 2) $password$(tput sgr0)
     $(tput sgr0)$(tput smul)Username and email:$(tput sgr0)$(tput setaf 2) $username$(tput sgr0)
