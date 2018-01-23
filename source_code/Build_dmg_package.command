@@ -78,7 +78,9 @@ do
     $(tput bold)(01) Add password, username and email to your hgrc file 
     $(tput bold)(RE) Reset hgrc to default settings$(tput sgr0)
     $(tput bold)(q)  Exit from this menu$(tput sgr0)
-    $(tput bold)$(tput setaf 2)(r)  commit, push and Switch.dmg upload$(tput sgr0)
+    $(tput bold)(c)  pull, update, commit$(tput sgr0)(skips push and dmg creation)
+    $(tput bold)(p)  pull, update, commit, push$(tput sgr0)(skips dmg creation)
+    $(tput bold)$(tput setaf 2)(r)  pull, update, commit, push and Switch.dmg upload$(tput sgr0)
 
     	 $(tput sgr0)$(tput smul)Your password:$(tput sgr0) $password$(tput sgr0)
     $(tput sgr0)$(tput smul)Username and email:$(tput sgr0) $username$(tput sgr0)
@@ -161,6 +163,49 @@ $(tput sgr0)$(tput bold)$(tput setaf 1)
 hgrc file is now reset"$(tput sgr0) ; sleep 2
 
 . Build_dmg_package.command
+;;
+
+   "p")  
+#commit and push in one swoop
+#if username is missing 
+    if [ "$username" = $(tput setaf 1)MISSING ]
+    then 
+clear
+   echo $(tput bold)$(tput setaf 1)"Please add password, username and email before proceeding"
+   sleep 2
+. Build_dmg_package.command
+   else
+   cd "$dir"/
+clear
+   echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
+   read commit
+   hg pull
+   hg update
+   hg commit -m "$(echo $commit)"
+. Build_dmg_package.command
+    fi
+;;
+
+   "c")  
+#commit and push in one swoop
+#if username is missing 
+    if [ "$username" = $(tput setaf 1)MISSING ]
+    then 
+clear
+   echo $(tput bold)$(tput setaf 1)"Please add password, username and email before proceeding"
+   sleep 2
+. Build_dmg_package.command
+   else
+   cd "$dir"/
+clear
+   echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
+   read commit
+   hg pull
+   hg update
+   hg commit -m "$(echo $commit)"
+   hg push
+. Build_dmg_package.command
+    fi
 ;;
 
    "q")  
