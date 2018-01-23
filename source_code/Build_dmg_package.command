@@ -234,6 +234,7 @@ hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${finalD
 rm -f pack.temp.dmg
 rm -R "${source}"
 
+clear
 
 #create the upload automation script
     cd ../
@@ -267,8 +268,10 @@ EOF
 rm switch_upload
 rm "$dir"/Switch.dmg
 
+#back to start
+    cd "$dir"/source_code
+. Build_dmg_package.command
     fi
-
 ;;
 
     "Q")  echo "case sensitive!!"   ;;
