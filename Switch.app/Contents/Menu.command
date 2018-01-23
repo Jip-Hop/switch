@@ -6934,13 +6934,6 @@ open "$(cat /tmp/DUALISO/"path_1")"/
 else 
 rm /tmp/no_files 1> /dev/null 2>&1 &
 fi
-"$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/"path_1")" & sleep 2
-rm "$(cat /tmp/DUALISO/"path_1")"/*.WAV
-while [ -n "$(pgrep mlrawviewer </dev/null)" ];
-do sleep 1 
-done
-rm "$(cat /tmp/DUALISO/"path_1")"/*.WAV
-rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
 ;;
 
     "mp")
