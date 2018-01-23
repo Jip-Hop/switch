@@ -6,7 +6,7 @@ cd "${workingDir}"
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 
-printf '\e[8;18;95t'
+printf '\e[8;20;95t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -92,19 +92,21 @@ do
 
     clear
     cat<<EOF
-    ===========================			   
-    $(tput sgr0)${bold}$(tput setaf 1)hg upload automation script$(tput sgr0)
-    ---------------------------
+    $(tput sgr0)====================			   
+    ${bold}$(tput setaf 1)hg automation script$(tput sgr0)
+    --------------------
  
     $(tput bold)(01) Add password, username and email to your hgrc file 
     $(tput bold)(RE) Reset hgrc to default settings$(tput sgr0)
     $(tput bold)(c)  pull, update, commit$(tput sgr0)(skips push and dmg creation)
     $(tput bold)(p)  pull, update, commit, push$(tput sgr0)(skips dmg creation)
+    $(tput bold)(dm) create only the Switch.dmg file$(tput sgr0)
+    $(tput bold)$(tput setaf 4)(s)  pull and update from Switch main source$(tput sgr0)(fork,branch developer)
     $(tput bold)$(tput setaf 2)(r)  pull, update, commit, push and Switch.dmg upload$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  Exit from this menu$(tput sgr0)
 
-    	 $(tput sgr0)$(tput smul)Your password:$(tput sgr0) $password$(tput sgr0)
-    $(tput sgr0)$(tput smul)Username and email:$(tput sgr0) $username$(tput sgr0)
+    	 $(tput sgr0)$(tput smul)Your password:$(tput sgr0)$(tput setaf 2) $password$(tput sgr0)
+    $(tput sgr0)$(tput smul)Username and email:$(tput sgr0)$(tput setaf 2) $username$(tput sgr0)
 
 
 Please enter your selection number below:
@@ -207,6 +209,70 @@ clear
     fi
 ;;
 
+   "dm")  
+#let´s build the dmg file
+  cd "$dir"/source_code
+clear
+#A MAKE like solution which copies changes made in source txt files and migrates the changes into Switch.app and at the end creates a dmg package
+#simple command to rename txt scripts to .command and copy these to Switch.app content folder.
+xattr -d com.apple.quarantine ../Switch.app
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+for file in *.txt; do
+    mv "$file" "`basename $file .txt`.command"
+yes | cp *.command  ../Switch.app/Contents
+done
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+mv Build_dmg_package.txt Build_dmg_package.command
+rm ../Switch.app/Contents/Build_dmg_package.command
+rm ../Switch.app/Contents/Switch_MAIN.command
+cd ../
+#Script originally for MLVFS
+#https://bitbucket.org/dmilligan/mlvfs/src/9f8191808407bb49112b9ab14c27053ae5022749/build_installer.sh?at=master&fileviewer=file-view-default
+# A lot of this script came from here:
+# http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
+source="install_temp"
+title="Switch"
+finalDMGName="Switch.dmg"
+size=150000
+
+mkdir "${source}"
+cp -R Switch.app "${source}"
+cp -R source_code "${source}"
+cp LICENSE "${source}"
+cp HOWTO.txt "${source}"
+
+#remove any previously existing build
+rm -f "${finalDMGName}"
+
+hdiutil create -srcfolder "${source}" -volname "${title}" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size ${size}k pack.temp.dmg
+device=$(hdiutil attach -readwrite -noverify -noautoopen "pack.temp.dmg" | egrep '^/dev/' | sed 1q | awk '{print $1}')
+sleep 2
+chmod -Rf go-w /Volumes/"${title}"
+sync
+sync
+hdiutil detach ${device}
+hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${finalDMGName}"
+rm -f pack.temp.dmg
+rm -R "${source}"
+
+#back to start
+    cd "$dir"/source_code
+. Build_dmg_package.command
+;;
+
+   "s")  
+#pull from source
+   cd "$dir"/
+clear
+   hg pull https://Dannephoto@bitbucket.org/Dannephoto/switch
+   hg update
+. Build_dmg_package.command
+;;
+
    "p")  
 #commit and push in one swoop
 #if username is missing 
@@ -234,7 +300,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
    "r")  
-#commit and push in one swoop
+#commit, push and upload in one swoop
 #if username is missing 
     if [ "$username" = $(tput setaf 1)MISSING ]
     then 
