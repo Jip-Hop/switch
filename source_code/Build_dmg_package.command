@@ -257,7 +257,7 @@ cat <<'EOF' >> switch_upload
          --fail                   `# ensure that we are not succeeding when the server replies okay but with an error code             ` \
          --user "$usr:$pwd"       `# basic auth so that it lets us in                                                                ` \
          --form files=@"$fil" "https://api.bitbucket.org/2.0/repositories/${pge#/}" 1> tmp1 #
-    rm tmp1" 
+    rm tmp1 
 
 EOF
     
