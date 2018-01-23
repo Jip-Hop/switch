@@ -31,6 +31,27 @@ white="$(tput setaf 7)"
 clear
 
 
+#check for dependencies:
+if ! [ -f "`which hg`" ]
+then 
+clear
+echo $(tput bold)"
+Checking for mercurial, please wait..."
+sleep 2
+read -p $(tput bold)"
+mercurial(hg) is not installed would you like to install it?
+(this action might install homebrew as well)$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+clear
+echo "Follow instructions in terminal window"
+sleep 2
+[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install mercurial
+fi
+fi
 #Did we run hgrc changes?:
     cd ../
     dir=$PWD
@@ -66,16 +87,13 @@ clear
     fi
     fi
 
-#reset colors etc
-    $(tput sgr0)
-
 while :
 do 
 
     clear
     cat<<EOF
     ====================================== 			   
-    ${bold}$(tput setaf 1)Commit, push, upload automation script$(tput sgr0)
+    $(tput sgr0)${bold}$(tput setaf 1)Commit, push, upload automation script$(tput sgr0)
     --------------------------------------
  
     $(tput bold)(01) Add password, username and email to your hgrc file 
