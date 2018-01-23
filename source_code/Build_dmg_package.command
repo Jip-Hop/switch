@@ -71,7 +71,7 @@ fi
     then 
     password=$red$(echo "MISSING")
     else
-    password="$bold$blue$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
+    password="$bold$blue$(echo "password added$(tput sgr0)(not shown)")"
     fi
 
 #Check for username
