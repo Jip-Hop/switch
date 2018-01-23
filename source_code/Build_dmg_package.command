@@ -165,7 +165,7 @@ hgrc file is now reset"$(tput sgr0) ; sleep 2
 . Build_dmg_package.command
 ;;
 
-   "p")  
+   "c")  
 #commit and push in one swoop
 #if username is missing 
     if [ "$username" = $(tput setaf 1)MISSING ]
@@ -186,7 +186,7 @@ clear
     fi
 ;;
 
-   "c")  
+   "p")  
 #commit and push in one swoop
 #if username is missing 
     if [ "$username" = $(tput setaf 1)MISSING ]
