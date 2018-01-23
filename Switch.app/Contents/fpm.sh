@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # fpm.sh
 #
@@ -32,8 +32,10 @@
 #                             shooting MLV/RAW.
 #                             Canon menu setting 640x480 25/30.
 #
-# mv1080crop  - 1872x1060  -  Highest resolution and largest
-#                             sustainable frame sizes on all cameras.
+# mv1080crop  - 1872x1060  -  CROP_MODE_HACK
+#                             This hack brings video crop mode back to
+#                             cameras that initially didn't support it
+#                             (e.g. 650D 700D 100D EOSM)
 #
 # mv640crop   -            -  Not available on these cameras.
 #
@@ -88,12 +90,13 @@ Parameters:
     -c              Camera [EOSM, 100D, 650D, 700D]
     -s WIDTHxHEIGHT Image Size in pixels (no spaces)
     -o filename     Customize Filename
-    -f              fpm file format. Same as dcraw ".badpixels" without the
-                    UNIX time of death field which is set to zero in this script
+    -f fpm dcraw    Output format - dcraw is in the ".badpixels" format with
+                    the UNIX time of death field set to zero
     -n              Do not subtract cropX/Y values from x/y coordinates
                     creates a focus pixel map that covers the full raw buffer
-    -v              Verbose messages
-Any spaces in parameters must be quoted i.e., "Canon EOS 700D"
+                    usable in MLVFS
+    -v              Verbose messages - for debugging
+Any spaces in parameters must be quoted i.e., -c "Canon EOS 700D"
 
 example:
     ./fpm.sh -o M21-1747_1_2015-12-06_0001_C0000.txt M21-1747.MLV
@@ -102,14 +105,15 @@ example:
     M21-1747_1_2015-12-06_0001_C0000.txt that can be used to remove
     the focus pixels from a Magic Lantern raw video file named M21-1747.MLV
 
-This script will create a dcraw "badpixels" file
-to remove focus pixels from an MLV file shot with
-cameras that show their focus pixels in raw video.
+This script will create a focus pixel map file "fpm" or dcraw ".badpixels"
+format to remove focus pixels from an MLV file shot with cameras that show
+focus pixels in raw video.
 
 EOS Rebel T4i / 650D / Kiss X6i
 EOS Rebel T5i / 700D / Kiss X7i
 EOS Rebel SL1 / 100D / Kiss X7
 EOS M
+EOS M2 (not yet implimented)
 
 Works with MLV, RAW (requires -c and -m parameters)
 and DNG (requires -m parameter)
@@ -153,7 +157,7 @@ get_camera_info() {
 # Write a row of focus pixel coordinates to the output file.
 #
 output_row() {
-  for i in $(seq 72 $((raw_width)) ); do # 0-71 is out of bounds
+  for i in $(seq 72 $((raw_width - 1)) ); do # 0-71 is out of bounds
     if (( (($i + $skip)) % x_rep == 0 )); then
       if [[ "$cropXY" == no ]]; then
         ((x = $i))
@@ -186,8 +190,8 @@ output_row() {
 # Draw the focus pixel pattern for mv720 video mode.
 #
 mv720() {
-  if   [ $pattern == "A" ]; then fp_start=290; fp_end=465; x_rep=8; y_rep=12
-  elif [ $pattern == "B" ]; then fp_start=86;  fp_end=669; x_rep=8; y_rep=12
+  if   [ $pattern == "A" ]; then fp_start=28; fp_end=726; x_rep=8; y_rep=12
+  elif [ $pattern == "B" ]; then fp_start=28; fp_end=726; x_rep=8; y_rep=12
   else exit 1
   fi
 
@@ -207,8 +211,8 @@ mv720() {
 # Draw the focus pixel pattern for mv1080 video mode.
 #
 mv1080() {
-  if   [ $pattern == "A" ]; then fp_start=459; fp_end=755;  x_rep=8; y_rep=10
-  elif [ $pattern == "B" ]; then fp_start=119; fp_end=1095; x_rep=8; y_rep=10
+  if   [ $pattern == "A" ]; then fp_start=28; fp_end=1189; x_rep=8; y_rep=10
+  elif [ $pattern == "B" ]; then fp_start=28; fp_end=1189; x_rep=8; y_rep=10
   else exit 1
   fi
 
@@ -227,23 +231,68 @@ mv1080() {
 # mv1080crop() function
 # Draw the focus pixel pattern for mv1080crop video mode.
 #
-mv1080crop() {
-  if   [ $pattern == "A" ]; then fp_start=121; fp_end=1013; x_rep=24; y_rep=60
-  elif [ $pattern == "B" ]; then fp_start=29;  fp_end=1057; x_rep=12; y_rep=6
+# This is a 2-pass map. First the regular map file and then
+# shift everything one pixel to the right for pattern A cameras
+# and eight pixels to the right for pattern B cameras to cover those
+# focus pixels that show up on 8...12-bit lossless compression.
+#
+mv1080crop_shifted() {
+  if   [ $pattern == "A" ]; then fp_start=28;  fp_end=1058; x_rep=8;  y_rep=60
+  elif [ $pattern == "B" ]; then fp_start=28;  fp_end=1058; x_rep=12; y_rep=6
   else exit 1
   fi
   for j in $(seq $((fp_start)) $((fp_end)) ); do
     if [ $pattern == "A" ]; then
-      if   (( (($j +   7)) % $y_rep == 0 )); then skip=19
-      elif (( (($j +  11)) % $y_rep == 0 )); then skip=13
-      elif (( (($j +  12)) % $y_rep == 0 )); then skip=18
-      elif (( (($j +  14)) % $y_rep == 0 )); then skip=12
+      if   (( (($j +   7)) % $y_rep == 0 )); then skip=2
+      elif (( (($j +  11)) % $y_rep == 0 )); then skip=4
+      elif (( (($j +  12)) % $y_rep == 0 )); then skip=1
+      elif (( (($j +  26)) % $y_rep == 0 )); then skip=7
+      elif (( (($j +  29)) % $y_rep == 0 )); then skip=0
+      elif (( (($j +  37)) % $y_rep == 0 )); then skip=6
+      elif (( (($j +  41)) % $y_rep == 0 )); then skip=4
+      elif (( (($j +  42)) % $y_rep == 0 )); then skip=5
+      elif (( (($j +  44)) % $y_rep == 0 )); then skip=3
+      elif (( (($j +  56)) % $y_rep == 0 )); then skip=7
+      elif (( (($j +  59)) % $y_rep == 0 )); then skip=0
+      else continue
+      fi
+    elif [ $pattern == "B" ]; then
+      if   (( (($j +  2)) % $y_rep == 0 )); then skip=4
+      elif (( (($j +  5)) % $y_rep == 0 )); then skip=5
+      elif (( (($j +  6)) % $y_rep == 0 )); then skip=10
+      elif (( (($j +  7)) % $y_rep == 0 )); then skip=11
+      else continue
+      fi
+    fi
+    output_row
+  done
+  for j in $(seq $((fp_start)) $((fp_end)) ); do
+    if [ $pattern == "A" ]; then
+      if (( (($j +  14)) % $y_rep == 0 )); then skip=3
+      else continue
+      fi
+    elif [ $pattern == "B" ]; then break
+    fi
+    output_row
+  done
+}
+
+mv1080crop() {
+  if   [ $pattern == "A" ]; then fp_start=28;  fp_end=1058; x_rep=8;  y_rep=60
+  elif [ $pattern == "B" ]; then fp_start=28;  fp_end=1058; x_rep=12; y_rep=6
+  else exit 1
+  fi
+  for j in $(seq $((fp_start)) $((fp_end)) ); do
+    if [ $pattern == "A" ]; then
+      if   (( (($j +   7)) % $y_rep == 0 )); then skip=3
+      elif (( (($j +  11)) % $y_rep == 0 )); then skip=5
+      elif (( (($j +  12)) % $y_rep == 0 )); then skip=2
       elif (( (($j +  26)) % $y_rep == 0 )); then skip=0
       elif (( (($j +  29)) % $y_rep == 0 )); then skip=1
       elif (( (($j +  37)) % $y_rep == 0 )); then skip=7
-      elif (( (($j +  41)) % $y_rep == 0 )); then skip=13
+      elif (( (($j +  41)) % $y_rep == 0 )); then skip=5
       elif (( (($j +  42)) % $y_rep == 0 )); then skip=6
-      elif (( (($j +  44)) % $y_rep == 0 )); then skip=12
+      elif (( (($j +  44)) % $y_rep == 0 )); then skip=4
       elif (( (($j +  56)) % $y_rep == 0 )); then skip=0
       elif (( (($j +  59)) % $y_rep == 0 )); then skip=1
       else continue
@@ -258,6 +307,25 @@ mv1080crop() {
     fi
     output_row
   done
+
+  ##
+  # This row needs to be run in a separate pass in order to
+  # support applications that average adjacent diagonal pixels
+  if [ $pattern == "A" ]; then
+    for j in $(seq $((fp_start)) $((fp_end)) ); do
+      if (( (($j +  14)) % $y_rep == 0 )); then skip=4
+      else continue
+      fi
+      output_row
+    done
+  fi
+
+  ##
+  # Here we could test for 8...12-bit lossless compression
+  # to see if we need to run a second pass offset by 1-pixel
+  # for the pattern A or 8-pixels for pattern B cameras.
+  #
+  mv1080crop_shifted;
 }
 
 ##
@@ -265,22 +333,21 @@ mv1080crop() {
 # Draw the focus pixel pattern for zoom video mode.
 #
 zoom() {
-  if   [ $pattern == "A" ]; then fp_start=31; fp_end=1103; x_rep=24; y_rep=60
-  elif [ $pattern == "B" ]; then fp_start=28; fp_end=1105; x_rep=12; y_rep=6
+  if   [ $pattern == "A" ]; then fp_start=28; fp_end=1107; x_rep=8;  y_rep=60
+  elif [ $pattern == "B" ]; then fp_start=28; fp_end=1107; x_rep=12; y_rep=6
   else exit 1
   fi
   for j in $(seq $((fp_start)) $((fp_end)) ); do
     if [ $pattern == "A" ]; then
-      if   (( (($j +   7)) % $y_rep == 0 )); then skip=19
-      elif (( (($j +  11)) % $y_rep == 0 )); then skip=13
-      elif (( (($j +  12)) % $y_rep == 0 )); then skip=18
-      elif (( (($j +  14)) % $y_rep == 0 )); then skip=12
+      if   (( (($j +   7)) % $y_rep == 0 )); then skip=3
+      elif (( (($j +  11)) % $y_rep == 0 )); then skip=5
+      elif (( (($j +  12)) % $y_rep == 0 )); then skip=2
       elif (( (($j +  26)) % $y_rep == 0 )); then skip=0
       elif (( (($j +  29)) % $y_rep == 0 )); then skip=1
       elif (( (($j +  37)) % $y_rep == 0 )); then skip=7
-      elif (( (($j +  41)) % $y_rep == 0 )); then skip=13
+      elif (( (($j +  41)) % $y_rep == 0 )); then skip=5
       elif (( (($j +  42)) % $y_rep == 0 )); then skip=6
-      elif (( (($j +  44)) % $y_rep == 0 )); then skip=12
+      elif (( (($j +  44)) % $y_rep == 0 )); then skip=4
       elif (( (($j +  56)) % $y_rep == 0 )); then skip=0
       elif (( (($j +  59)) % $y_rep == 0 )); then skip=1
       else continue
@@ -295,18 +362,54 @@ zoom() {
     fi
     output_row
   done
+
+  ##
+  # This row needs to be run in a separate pass in order to
+  # support applications that average adjacent diagonal pixels
+  if [ $pattern == "A" ]; then
+    for j in $(seq $((fp_start)) $((fp_end)) ); do
+      if (( (($j +  14)) % $y_rep == 0 )); then skip=4
+      else continue
+      fi
+      output_row
+    done
+  fi
+
+  ##
+  # The 100D in 8...12bit lossless mode has the focus pixels
+  # shifted 8 pixels to the right (or 4 to the left).
+  # Is this consistant or something that might happen on occasion?
+  # Since we don't know we'll always cover them in a second pass.
+  # This is another place to check for 8..12bit lossless compression.
+  if [ $pattern == "B" ]; then
+    for j in $(seq $((fp_start)) $((fp_end)) ); do
+      if   (( (($j +  2)) % $y_rep == 0 )); then skip=4
+      elif (( (($j +  5)) % $y_rep == 0 )); then skip=5
+      elif (( (($j +  6)) % $y_rep == 0 )); then skip=10
+      elif (( (($j +  7)) % $y_rep == 0 )); then skip=11
+      else continue
+      fi
+      output_row
+    done
+  fi
 }
 
 ##
 # crop_rec() function
 # Draw the focus pixel pattern for crop_rec video mode.
-# Requires the crop_rec module.
-# Combines the patterns for mv720 and a portion of mv1080
-# in two separate passes.
+#
+# EOSM always requires a two passes that basically combines the
+# mv1080 and mv720 focus pixel patterns.
+#
+# When selecting the -n "no crop" option we could assume that
+# we're making a map file to be used in MLVFS which doesn't
+# differentiate between mv720 and crop_rec so the script
+# creates a 2-pass map that can be used with either video mode.
+#
 crop_rec() {
-  mv720;
-  if   [ $pattern == "A" ]; then fp_start=219; fp_end=515;  x_rep=8; y_rep=10
-  elif [ $pattern == "B" ]; then fp_start=28;  fp_end=724;  x_rep=8; y_rep=10
+  if [ $camera == "EOSM" ] || [ $cropXY == "no" ]; then mv720; fi
+  if   [ $pattern == "A" ]; then fp_start=28;  fp_end=726;  x_rep=8; y_rep=10
+  elif [ $pattern == "B" ]; then fp_start=28;  fp_end=726;  x_rep=8; y_rep=10
   else exit 1
   fi
 
@@ -336,7 +439,8 @@ RAW=
 DNG=
 VERBOSE=
 output=
-format=
+format="fpm"
+output_file_ext=
 cropXY="yes"
 camera=
 camera_model=
@@ -344,6 +448,7 @@ video_mode=
 width=
 height=
 resolution=
+sampling=
 
 ##
 # Allow for upper or lower case user input
@@ -351,12 +456,12 @@ resolution=
 #
 shopt -s nocasematch
 
-while getopts "c:fnhm:o:s:v" OPTION; do
+while getopts "c:f:nhm:o:s:v" OPTION; do
   case $OPTION in
   c)camera="$OPTARG"
     get_camera_info
     ;;
-  f)format="fpm"
+  f)format="$OPTARG"
     ;;
   n)cropXY="no"
     ;;
@@ -397,9 +502,16 @@ extension="${filename##*.}"
 
 ##
 # Use plain x [tab] y formatted output
-# or dcraw format (default).
+# or dcraw format.
 #
-if [ -z $format ]; then format=dcraw; fi
+if [ "$format" == "fpm" ]; then
+  output_file_ext=".fpm"
+elif [ "$format" == "dcraw" ]; then
+  output_file_ext=".txt"
+else
+  usage
+  exit 1
+fi
 
 ##
 # Determine file type using the
@@ -425,7 +537,10 @@ esac
 if [ "$filetype" == "mlv" ]; then
   MLV="$1"
 
-  camera_model=`mlv_dump -m -v "$MLV" | grep Camera"[[:space:]]"Model | head -1 | sed -e 's/^[ Camera \s Model: \s 0x]*//'`
+  if [ -z "$camera_model" ]; then
+    camera_model=`mlv_dump -m -v "$MLV" | grep Camera"[[:space:]]"Model | head -1 | sed -e 's/^[ Camera \s Model: \s 0x]*//'`
+  fi
+
   get_camera_info
 
   if [[ -z $resolution ]]; then
@@ -436,11 +551,17 @@ if [ "$filetype" == "mlv" ]; then
   raw_height=`mlv_dump -m -v "$MLV" | grep height | head -1 | sed -e 's/^[ height]*//'`
   raw_buffer=$raw_width"x"$raw_height
 
+  sampling=`mlv_dump -m -v "$MLV" | grep -w sampling | head -1 | sed -e 's/^[ sampling]*//'`
+
   pan=`mlv_dump -m -v "$MLV" | grep Pan | head -1 | sed -e 's/^[ Pan:]*//'`
 
   IFS='x'
     read -r panPosX panPosY <<< "$pan"
   unset IFS
+
+  bits_per_pixel=`mlv_dump -m -v "$MLV" | grep bits_per_pixel | head -1 | sed -e 's/^[ bits_per_pixel]*//'`
+  black_level=`mlv_dump -m -v "$MLV" | grep black_level | head -1 | sed -e 's/^[ black_level]*//'`
+  white_level=`mlv_dump -m -v "$MLV" | grep white_level | head -1 | sed -e 's/^[ white_level]*//'`
 fi
 
 ##
@@ -583,9 +704,11 @@ cropY=$((panPosY & ~1))
 # Determine which pattern group, A or B
 # to use depending on the camera.
 # If the EOSM2 gets ported to ML it would
-# belong to the pattern B group.
+# probably belong to the pattern B group.
 #
-if [ $camera == 650D ] || [ $camera == 700D ] || [ $camera == EOSM ]; then
+if ! [[ "$camera" =~ ^(100D|650D|700D|EOSM)$ ]]; then
+  echo "Camera is not supported in this application."; exit 1
+elif [ $camera == 650D ] || [ $camera == 700D ] || [ $camera == EOSM ]; then
   pattern="A"
 elif [ $camera == 100D ]; then
   pattern="B"
@@ -604,8 +727,19 @@ case $raw_buffer in
     ;;
   1808x72*)
     # mv_720 and crop_rec use the same buffer size
-    # maybe consider using the 2-pass crop_rec pixel map for both video modes?
-    if [ "$video_mode" != "crop_rec" ]; then video_mode=mv720; fi
+    # if the video_mode isn't defined, see if we can
+    # determine it using sampling. Default to crop_rec
+    # if auto detection fails because the crop_rec map
+    # works with mv720 but not vice versa.
+    if [ -z "$video_mode" ]; then
+      if [[ "$sampling" == "5x3"* ]]; then video_mode=mv720; fi
+    fi
+    if [ "$video_mode" != "mv720" ]; then video_mode=crop_rec; fi
+    # When selecting the -n "no crop" option we could assume that
+    # we're making a map file to be used in MLVFS which doesn't
+    # differentiate between mv720 and crop_rec so the script
+    # creates a 2-pass map that can be used with either video mode.
+    if [ "$video_mode" == "mv720" ] && [ "$cropXY" == "no" ]; then video_mode=crop_rec; fi
     ;;
   1872x10**)
     video_mode=mv1080crop
@@ -619,12 +753,14 @@ esac
 
 ##
 # Use the output file from the -o filename option
-# or default to a descriptive file name.
+# or default to using the input filename.
+# When outputting a full raw buffer map file
+# use the MLVFS naming convention.
 #
 if [ -z "$output" ]; then
   if [[ "$cropXY" == no ]]; then
-	output=$camera"_"$video_mode"_"$raw_buffer".txt"
-  else output=$camera"_"$video_mode"_"$resolution".txt"
+	output=$camera_model"_"$raw_buffer"$output_file_ext"
+  else output=${filename%.*}_$resolution$output_file_ext
   fi
 fi
 
@@ -633,16 +769,21 @@ fi
 #
 if [ $VERBOSE ]; then
   echo
+  echo Input File:"           $filename"
   echo Camera:"               $camera"
   echo Camera Model:"         $camera_model"
   echo Resolution:"           $resolution"
+  echo Sampling:"             $sampling"
   echo Video Mode:"           $video_mode"
   echo Full Raw Buffer Size: "$raw_buffer"
   echo Pan:"                  $panPosX"x"$panPosY"
   echo Crop:"                 $cropX"x"$cropY"
+  echo Bits Per Pixel:"       $bits_per_pixel"
+  echo Black Level:"          $black_level"
+  echo White Level:"          $white_level"
+  if [ $bits_per_pixel -eq 14 ] && [ $white_level -lt 15000 ]; then echo "Detected a 12 or lower logical bit depth lossless compressed file"; fi
   echo Output File:"          $output"
   echo File Format:"          $format"
-  echo
 fi
 
 if test -f "$output"; then
