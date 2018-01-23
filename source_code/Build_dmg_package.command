@@ -181,6 +181,8 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
+   hg pull
+   hg update
    hg commit -m "$(echo $commit)"
    hg push
 
