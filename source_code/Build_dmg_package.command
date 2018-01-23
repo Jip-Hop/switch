@@ -239,7 +239,7 @@ cd ../
 source="install_temp"
 title="Switch"
 finalDMGName="Switch.dmg"
-size=150000
+size=200000
 
 mkdir "${source}"
 cp -R Switch.app "${source}"
@@ -352,7 +352,7 @@ cd ../
 source="install_temp"
 title="Switch"
 finalDMGName="Switch.dmg"
-size=150000
+size=200000
 
 mkdir "${source}"
 cp -R Switch.app "${source}"
