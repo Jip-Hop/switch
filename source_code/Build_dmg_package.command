@@ -102,7 +102,7 @@ do
     $(tput bold)(p)  pull, update, commit, push$(tput sgr0)(skips dmg creation)
     $(tput bold)(dm) create only the Switch.dmg file$(tput sgr0)
     $(tput bold)$(tput setaf 4)(s)  pull and update from Switch main source$(tput sgr0)(fork,branch developer)
-    $(tput bold)$(tput setaf 2)(r)  pull, update, commit, push and Switch.dmg upload$(tput sgr0)
+    $(tput bold)$(tput setaf 2)(r)  pull, update, commit, addremove, push and Switch.dmg upload$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  exit from this menu$(tput sgr0)
 
     	 $(tput sgr0)$(tput smul)Your password:$(tput sgr0)$(tput setaf 2) $password$(tput sgr0)
@@ -384,6 +384,7 @@ clear
    hg pull
    hg update
    hg commit -m "$(echo $commit)"
+   hg addremove
    hg push
 
 #let´s build the dmg file
