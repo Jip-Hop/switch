@@ -6,7 +6,7 @@ cd "${workingDir}"
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 
-printf '\e[8;20;95t'
+printf '\e[8;21;95t'
 printf '\e[3;410;100t'
 
 open -a Terminal
