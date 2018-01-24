@@ -172,7 +172,6 @@ clear
 #write username and email
     echo "[ui]" >> "$dir"/.hg/hgrc
     echo "username = "$user" <"$email">" >> "$dir"/.hg/hgrc
-
 fi
 
 . Build_dmg_package.command
@@ -480,6 +479,7 @@ cd ../
 clear
    echo $(tput bold)$(tput setaf 1)"Please add password, username and email before proceeding"
    sleep 2
+    cd "$dir"/source_code
 . Build_dmg_package.command
    else
    cd "$dir"/
