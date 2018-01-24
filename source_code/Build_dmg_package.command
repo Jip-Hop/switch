@@ -63,7 +63,7 @@ fi
     fi
 
 #what´s added and not
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
+    password="$(grep 'default = https' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     username="$(grep 'username' "$dir"/.hg/hgrc)"
 
 #Check for password
@@ -140,8 +140,8 @@ clear
    read email
 
 #password replacement:
-   end="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d "@" -f2)"
-   begin="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d "@" -f1)"
+   end="$(grep 'default = https' "$dir"/.hg/hgrc | cut -d "@" -f2)"
+   begin="$(grep 'default = https' "$dir"/.hg/hgrc | cut -d "@" -f1)"
    pass="$(echo :"$password"@)"
 
 #Check for password
@@ -154,7 +154,7 @@ clear
     fi
 
 #Replace bitbucket hgrc info
-    sed -i".bak" "$(grep -n '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
+    sed -i".bak" "$(grep -n 'default = https' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
     sed -i".bak1" "$(grep -n '\[paths\]' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
     sed -i".bak2" "$(grep -n '# username' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
     sed -i".bak3" "$(grep -n '\[ui\]' "$dir"/.hg/hgrc | cut -d ":" -f1)"d "$dir"/.hg/hgrc
@@ -343,7 +343,7 @@ clear
 #create the upload automation script
     cd ../
     user="#$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2)"
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
+    password="$(grep 'default = https' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     downloads="/"$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2,3)"/downloads"
     item="$(echo " "$dir"/Switch.dmg")"
 
@@ -527,7 +527,7 @@ clear
 #create the upload automation script
     cd ../
     user="#$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2)"
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
+    password="$(grep 'default = https' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     downloads="/"$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2,3)"/downloads"
     item="$(echo " "$dir"/Switch.dmg")"
 
