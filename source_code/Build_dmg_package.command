@@ -6,7 +6,7 @@ cd "${workingDir}"
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 
-printf '\e[8;21;95t'
+printf '\e[8;22;95t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -102,6 +102,7 @@ do
     $(tput bold)(p)  pull, update, commit, push$(tput sgr0)(skips dmg creation)
     $(tput bold)(dm) create only the Switch.dmg file$(tput sgr0)
     $(tput bold)(du) create Switch.dmg and upload to downloads section$(tput sgr0)
+    $(tput bold)(st) show changed files$(tput sgr0)
     $(tput bold)$(tput setaf 4)(s)  pull and update from Switch main source$(tput sgr0)(fork,branch developer)
     $(tput bold)$(tput setaf 2)(r)  pull, update, commit, addremove, push and Switch.dmg upload$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  exit from this menu$(tput sgr0)
@@ -375,6 +376,21 @@ rm "$dir"/Switch.dmg
     cd "$dir"/source_code
 . Build_dmg_package.command
 ;;
+
+
+   "st")  
+   cd "$dir"/
+clear
+echo "Following files changed:
+"
+   hg status
+echo ""  
+   echo $(tput bold)"Hit enter when done checking status"
+   read anything
+   cd source_code
+. Build_dmg_package.command
+;;
+
 
    "s")  
 #pull from source
