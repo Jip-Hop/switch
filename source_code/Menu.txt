@@ -6955,6 +6955,15 @@ find "$(cat /tmp/DUALISO/"path_1")"/ -maxdepth 1 -type l -delete
 rm "$(cat /tmp/DUALISO/"path_1")"/A_ORIGINALS/"$root"_storage/*.IDX 
 rm -r "$(cat /tmp/DUALISO/"path_1")"/A_ORIGINALS/"$root"_storage/*.MLD
 mv -i "$(cat /tmp/DUALISO/"path_1")"/A_ORIGINALS/"$root"_storage/* "$(cat /tmp/DUALISO/"path_1")"/
+#check if created root folder is empty and erase if so 
+    if [ x"$(ls $(cat /tmp/DUALISO/"path_1")/A_ORIGINALS/"$root"_storage/*)" = x ]
+    then
+    rm -r "$(cat /tmp/DUALISO/"path_1")"/A_ORIGINALS/"$root"_storage
+    fi
+    if [ x"$(ls $(cat /tmp/DUALISO/"path_1")/A_ORIGINALS/"$root"_mount/*)" = x ]
+    then
+    rm -r "$(cat /tmp/DUALISO/"path_1")"/A_ORIGINALS/"$root"_mount
+    fi
 ;;
 
     "S")
