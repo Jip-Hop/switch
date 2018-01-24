@@ -101,6 +101,7 @@ do
     $(tput bold)(c)  pull, update, commit$(tput sgr0)(skips push and dmg creation)
     $(tput bold)(p)  pull, update, commit, push$(tput sgr0)(skips dmg creation)
     $(tput bold)(dm) create only the Switch.dmg file$(tput sgr0)
+    $(tput bold)(du) create Switch.dmg and upload to downloads section$(tput sgr0)
     $(tput bold)$(tput setaf 4)(s)  pull and update from Switch main source$(tput sgr0)(fork,branch developer)
     $(tput bold)$(tput setaf 2)(r)  pull, update, commit, addremove, push and Switch.dmg upload$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  exit from this menu$(tput sgr0)
@@ -281,6 +282,94 @@ hdiutil detach ${device}
 hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${finalDMGName}"
 rm -f pack.temp.dmg
 rm -R "${source}"
+
+#back to start
+    cd "$dir"/source_code
+. Build_dmg_package.command
+;;
+
+   "du")  
+#let´s build the dmg file
+  cd "$dir"/source_code
+clear
+#A MAKE like solution which copies changes made in source txt files and migrates the changes into Switch.app and at the end creates a dmg package
+#simple command to rename txt scripts to .command and copy these to Switch.app content folder.
+xattr -d com.apple.quarantine ../Switch.app
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+for file in *.txt; do
+    mv "$file" "`basename $file .txt`.command"
+yes | cp *.command  ../Switch.app/Contents
+done
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+mv Build_dmg_package.txt Build_dmg_package.command
+rm ../Switch.app/Contents/Build_dmg_package.command
+rm ../Switch.app/Contents/Switch_MAIN.command
+cd ../
+#Script originally for MLVFS
+#https://bitbucket.org/dmilligan/mlvfs/src/9f8191808407bb49112b9ab14c27053ae5022749/build_installer.sh?at=master&fileviewer=file-view-default
+# A lot of this script came from here:
+# http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
+source="install_temp"
+title="Switch"
+finalDMGName="Switch.dmg"
+size=200000
+
+mkdir "${source}"
+cp -R Switch.app "${source}"
+cp -R source_code "${source}"
+cp LICENSE "${source}"
+cp HOWTO.txt "${source}"
+
+#remove any previously existing build
+rm -f "${finalDMGName}"
+
+hdiutil create -srcfolder "${source}" -volname "${title}" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size ${size}k pack.temp.dmg
+device=$(hdiutil attach -readwrite -noverify -noautoopen "pack.temp.dmg" | egrep '^/dev/' | sed 1q | awk '{print $1}')
+sleep 2
+chmod -Rf go-w /Volumes/"${title}"
+sync
+sync
+hdiutil detach ${device}
+hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "${finalDMGName}"
+rm -f pack.temp.dmg
+rm -R "${source}"
+
+clear
+
+#create the upload automation script
+    cd ../
+    user="#$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2)"
+    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
+    downloads="/"$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2,3)"/downloads"
+    item="$(echo " "$dir"/Switch.dmg")"
+
+#print password to external upload script
+    echo "$user"" $password"" $downloads""$item" > switch_upload
+
+#external upload script. Will be placed in home folder
+cat <<'EOF' >> switch_upload
+
+#!/bin/bash
+    usr=$1; pwd=$2; pge=$3; fil=$4
+
+    echo "actual upload progress should appear right now as a progress bar, be patient:"
+    curl --progress-bar           `# print the progress visually                                                                          ` \
+         --location               `# follow redirects if we are told so                                                                 ` \
+         --fail                   `# ensure that we are not succeeding when the server replies okay but with an error code             ` \
+         --user "$usr:$pwd"       `# basic auth so that it lets us in                                                                ` \
+         --form files=@"$fil" "https://api.bitbucket.org/2.0/repositories/${pge#/}" 1> tmp1 #
+    rm tmp1 
+
+EOF
+    
+#run the upload automation script
+. switch_upload $(cat switch_upload | head -1 | tr -d '#')
+rm switch_upload
+rm "$dir"/Switch.dmg
 
 #back to start
     cd "$dir"/source_code
