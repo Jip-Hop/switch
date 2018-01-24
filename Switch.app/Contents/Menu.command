@@ -6937,7 +6937,7 @@ fi
 ;;
 
     "mp")
-"$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app1/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/"path_1")" & sleep 2
+"$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer1.app/Contents/MacOS/mlrawviewer "$(cat /tmp/DUALISO/"path_1")" & sleep 2
 rm "$(cat /tmp/DUALISO/"path_1")"/*.WAV
 rm "$(cat /tmp/DUALISO/"path_1")"/*.MRX
 while [ -n "$(pgrep mlrawviewer </dev/null)" ]; 
