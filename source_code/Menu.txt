@@ -79,7 +79,7 @@ sleep 3
 
 
 #printf '\e[3;0;0t'
-printf '\e[8;16;95t'
+printf '\e[8;21;95t'
 printf '\e[3;410;100t'
 
 
@@ -98,6 +98,11 @@ do
     $(tput bold)(03) $(tput sgr0)Copy only $(tput bold)DNG $(tput sgr0)to selected folder	
     $(tput bold)(04) $(tput sgr0)Copy only $(tput bold)MOV $(tput sgr0)to selected folder
     $(tput bold)(05) $(tput sgr0)Copy only $(tput bold)CR2 $(tput sgr0)to selected folder
+    $(tput bold)(ML) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) MLV files from CF/SD card$(tput bold)
+    $(tput bold)(MO) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) MOV files from CF/SD card$(tput bold)
+    $(tput bold)(DN) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) DNG files from CF/SD card$(tput bold)
+    $(tput bold)(CR) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) CR2 files from CF/SD card$(tput bold)
+    $(tput bold)$(tput setaf 1)(Xx) DELETE all files from CF/SD card$(tput bold)
 
     $(tput bold)$(tput setaf 1)(m)  Main menu$(tput sgr0)
 
@@ -176,6 +181,92 @@ $(tput sgr0)$(tput bold)$(tput setaf 1)
 Copying CR2..."$(tput sgr0) ; sleep 2
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
+
+   "ML")
+clear
+read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then  
+find /Volumes/EOS_DIGITAL/DCIM/ -name "*.MLV" -type f -delete &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+DELETING MLV files from SD/CF card..."$(tput sgr0) ; sleep 2
+fi
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "MO") 
+clear
+read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then 
+find /Volumes/EOS_DIGITAL/DCIM/ -name "*.MOV" -type f -delete &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+DELETING MOV files from SD/CF card..."$(tput sgr0) ; sleep 2
+fi
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "DNG")  
+clear
+read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then 
+find /Volumes/EOS_DIGITAL/DCIM/ -name "*.DNG" -type f -delete &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+DELETING DNG files from SD/CF card..."$(tput sgr0) ; sleep 2
+fi
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "CR")  
+clear
+read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then 
+find /Volumes/EOS_DIGITAL/DCIM/ -name "*.CR2" -type f -delete &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+DELETING CR2 files from SD/CF card..."$(tput sgr0) ; sleep 2
+fi
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "Xx")  
+clear
+read -p $(tput bold)"This action will DELETE all files on your CF/SD folder$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+All files DELETED from SD/CF card..."$(tput sgr0) ; sleep 2
+fi
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
 
    "m")  
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
