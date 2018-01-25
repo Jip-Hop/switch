@@ -101,7 +101,7 @@ do
     $(tput bold)(MO) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) MOV files from CF/SD card$(tput bold)
     $(tput bold)(DN) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) DNG files from CF/SD card$(tput bold)
     $(tput bold)(CR) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) CR2 files from CF/SD card$(tput bold)
-    $(tput bold)(ID) $(tput sgr0)$(tput bold)Idle mode$(tput sgr0) Autostart this menu when Switch finds a SD/CF card$(tput bold)
+    $(tput bold)(ID) $(tput sgr0)$(tput bold)Idle mode$(tput sgr0) Autostart this menu when Switch finds a SD/CF card$(tput bold)(not ready yet!)
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(Xx) DELETE all files from CF/SD card$(tput bold)
 
