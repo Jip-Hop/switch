@@ -77,7 +77,7 @@ sleep 3
 
 
 #printf '\e[3;0;0t'
-printf '\e[8;25;95t'
+printf '\e[8;28;95t'
 printf '\e[3;410;100t'
 
 
@@ -89,6 +89,8 @@ do
     ====================  
     ${bold}$(tput setaf 1)Copy files to folder$(tput sgr0)
     --------------------
+
+$(tput bold)input folder: $(tput setaf 4)$(cat /tmp/DUALISO/"path_1")/$(tput sgr0)
  
     $(tput bold)(01) Copy all content from card(CF/SD) to selected folder$(tput sgr0)(MLV,RAW,CR2,MOV,DNG,etc)	
     $(tput bold)(1X) Copy all content from CF/SD to selected folder then DELETE files from CF/SD card			 
@@ -106,7 +108,7 @@ do
     $(tput bold)$(tput setaf 1)(Xx) DELETE all files from CF/SD card$(tput bold)
 
     $(tput bold)$(tput setaf 1)(m)  Main menu$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
 
 Please enter your selection number below:
 EOF
