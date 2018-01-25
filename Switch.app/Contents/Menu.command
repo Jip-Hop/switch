@@ -48,7 +48,7 @@ echo > /tmp/DUALISO/CF_set
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;7;60t'
+printf '\e[8;6;60t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -73,13 +73,12 @@ white="$(tput setaf 7)"
 clear
 echo "
 
-
 ${bold}$(tput setaf 2)Seems we have a CF or SD card attached, please wait$(tput sgr0)"
 sleep 3
 
 
 #printf '\e[3;0;0t'
-printf '\e[8;21;95t'
+printf '\e[8;24;95t'
 printf '\e[3;410;100t'
 
 
@@ -102,9 +101,12 @@ do
     $(tput bold)(MO) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) MOV files from CF/SD card$(tput bold)
     $(tput bold)(DN) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) DNG files from CF/SD card$(tput bold)
     $(tput bold)(CR) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) CR2 files from CF/SD card$(tput bold)
+    $(tput bold)(ID) $(tput sgr0)$(tput bold)Idle mode$(tput sgr0) Autostart this menu when Switch finds a SD/CF card$(tput bold)
+    $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(Xx) DELETE all files from CF/SD card$(tput bold)
 
     $(tput bold)$(tput setaf 1)(m)  Main menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)
 
 Please enter your selection number below:
 EOF
@@ -189,14 +191,13 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then  
-find /Volumes/EOS_DIGITAL/DCIM/ -name "*.MLV" -type f -delete &
+find /Volumes/EOS_DIGITAL/DCIM -name "*.MLV" -type f -delete &
 clear
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 DELETING MLV files from SD/CF card..."$(tput sgr0) ; sleep 2
 fi
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
    "MO") 
@@ -206,14 +207,13 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then 
-find /Volumes/EOS_DIGITAL/DCIM/ -name "*.MOV" -type f -delete &
+find /Volumes/EOS_DIGITAL/DCIM -name "*.MOV" -type f -delete &
 clear
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 DELETING MOV files from SD/CF card..."$(tput sgr0) ; sleep 2
 fi
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
    "DNG")  
@@ -223,14 +223,13 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then 
-find /Volumes/EOS_DIGITAL/DCIM/ -name "*.DNG" -type f -delete &
+find /Volumes/EOS_DIGITAL/DCIM -name "*.DNG" -type f -delete &
 clear
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 DELETING DNG files from SD/CF card..."$(tput sgr0) ; sleep 2
 fi
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
    "CR")  
@@ -240,14 +239,13 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then 
-find /Volumes/EOS_DIGITAL/DCIM/ -name "*.CR2" -type f -delete &
+find /Volumes/EOS_DIGITAL/DCIM -name "*.CR2" -type f -delete &
 clear
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 DELETING CR2 files from SD/CF card..."$(tput sgr0) ; sleep 2
 fi
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
    "Xx")  
@@ -257,19 +255,34 @@ read -p $(tput bold)"This action will DELETE all files on your CF/SD folder$(tpu
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; &
+find /Volumes/EOS_DIGITAL/DCIM -type f -exec rm -f {} \; &
 clear
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 All files DELETED from SD/CF card..."$(tput sgr0) ; sleep 2
 fi
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
+    "mp")
+"$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(find /Volumes/EOS_DIGITAL/DCIM -name "*.MLV" | head -1)" & sleep 2
+find /Volumes/EOS_DIGITAL/DCIM -name "*.WAV" -type f -delete 
+find /Volumes/EOS_DIGITAL/DCIM -name "*.MRX" -type f -delete 
+while [ -n "$(pgrep mlrawviewer </dev/null)" ];
+do sleep 1
+done
+find /Volumes/EOS_DIGITAL/DCIM -name "*.WAV" -type f -delete 
+find /Volumes/EOS_DIGITAL/DCIM -name "*.MRX" -type f -delete 
+;;
 
    "m")  
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
     "Q")  echo "case sensitive!!"   ;;
