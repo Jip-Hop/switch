@@ -36,7 +36,6 @@
 export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
 
 
-
 #check for sd or cf card
 if ! [ -f /tmp/DUALISO/CF_set ]
 then
@@ -78,7 +77,7 @@ sleep 3
 
 
 #printf '\e[3;0;0t'
-printf '\e[8;24;95t'
+printf '\e[8;25;95t'
 printf '\e[3;410;100t'
 
 
@@ -103,6 +102,7 @@ do
     $(tput bold)(CR) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) CR2 files from CF/SD card$(tput bold)
     $(tput bold)(ID) $(tput sgr0)$(tput bold)Idle mode$(tput sgr0) Autostart this menu when Switch finds a SD/CF card$(tput bold)(not ready yet!)
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(EJ) Eject SD/CF card$(tput sgr0)
     $(tput bold)$(tput setaf 1)(Xx) DELETE all files from CF/SD card$(tput bold)
 
     $(tput bold)$(tput setaf 1)(m)  Main menu$(tput sgr0)
@@ -277,6 +277,10 @@ find /Volumes/EOS_DIGITAL/DCIM -name "*.MRX" -type f -delete
 
    "m")  
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+   "EJ")  
+diskutil unmount /Volumes/EOS_DIGITAL
 ;;
 
     "q")   
