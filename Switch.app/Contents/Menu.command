@@ -77,7 +77,7 @@ sleep 3
 
 
 #printf '\e[3;0;0t'
-printf '\e[8;27;95t'
+printf '\e[8;26;95t'
 printf '\e[3;410;100t'
 
 
@@ -102,7 +102,6 @@ $(tput bold)input folder: $(tput setaf 4)$(cat /tmp/DUALISO/"path_1")/$(tput sgr
     $(tput bold)(MO) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) MOV files from CF/SD card$(tput bold)
     $(tput bold)(DN) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) DNG files from CF/SD card$(tput bold)
     $(tput bold)(CR) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) CR2 files from CF/SD card$(tput bold)
-    $(tput bold)(ID) $(tput sgr0)$(tput bold)Idle mode$(tput sgr0) Autostart this menu when Switch finds a SD/CF card$(tput bold)(not ready yet!)
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(op) Open CF/SD folder$(tput sgr0)
     $(tput bold)$(tput setaf 1)(EJ) Eject SD/CF card$(tput sgr0)
