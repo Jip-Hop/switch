@@ -157,7 +157,6 @@ echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Copying MLV and RAW..."$(tput sgr0) ; sleep 2
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
     "03")  
@@ -167,7 +166,6 @@ echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Copying DNG..."$(tput sgr0) ; sleep 2
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
    "04")  
@@ -177,7 +175,6 @@ echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Copying MOV..."$(tput sgr0) ; sleep 2
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
    "05")  
@@ -187,7 +184,6 @@ echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 Copying CR2..."$(tput sgr0) ; sleep 2
-. "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
    "ML")
