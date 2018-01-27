@@ -35,6 +35,11 @@
 
 export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
 
+#default to mlv_dump_on_steroids
+    if ! [ -f /tmp/mlv_dump_on_steroids_settings ]
+    then
+    echo > /tmp/mlv_dump_on_steroids_settings
+    fi
 
 #check for sd or cf card
 if ! [ -f /tmp/DUALISO/CF_set ]
@@ -933,8 +938,8 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 $(tput bold)darkframe storage:$(tput setaf 4)$darkfr_storage$(tput setaf 4)$(tput sgr0)
 $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
 
-    $(tput bold)$(tput setaf 1)(m)  mlv_dump settings$(tput sgr0)$(tput bold)(MLV)$(tput sgr0) $mlv_dump_a
-    $(tput bold)$(tput setaf 1)(ms) mlv_dump_on_steroids settings$(tput sgr0)$(tput bold)(MLV)$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(ms) mlv_dump_on_steroids$(tput sgr0)(default)$(tput bold)(MLV)$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(m)  mlv_dump$(tput sgr0)$(tput bold)(MLV)$(tput sgr0) $mlv_dump_a
     $(tput bold)$(tput setaf 1)(p)  ProRes output$(tput sgr0)$(tput bold)(MLV,RAW,dng)$(tput sgr0) $pro_a
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
     $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
@@ -7218,7 +7223,8 @@ rm /tmp/PROXYONLY
 rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_on_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
-rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
+rm /tmp/mlv_dump_on_steroids_settings 
+echo > /tmp/mlv_dump_on_steroids_settings 
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
 lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; auto= ; AE= ; HDRa= ; halfhdra= ; wle= ; AE_HDR= ; DEL_DNG=
@@ -7603,6 +7609,7 @@ rm /tmp/mlv_dump_UNC
 rm /tmp/mlv_dump_on_steroids_UNC
 rm /tmp/mlv_dump_settings 1> /dev/null 2>&1 &
 rm /tmp/mlv_dump_on_steroids_settings 1> /dev/null 2>&1 &
+echo > /tmp/mlv_dump_on_steroids_settings &
 rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 
 lincin= ; linlogC= ; linear= ; rec709= ; xyz= ; aces= ; lincinpr= ; linlogCpr= ; linearpr= ; rec709pr= ; xyzpr= ; acespr= ; AWB= ; HL= ; dcrawA= ; Pcodec_lt= ; Pscale= ; Paspect= ; Xscale= ; Xaspect= ; denoise= ; sharpen= ; AE= ; HDRa= ; halfhdra=  ; wle= ; AE_HDR= ; DEL_DNG=
