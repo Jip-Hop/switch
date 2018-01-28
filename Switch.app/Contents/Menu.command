@@ -921,12 +921,12 @@ then
 HDR=$(echo "$bold""$green"HDR_CR2_added!"$normal")
 fi
 #if mov is added
-if [ -f /tmp/_X_Pro* ]
+if ls /tmp/_X_Pro* >/dev/null 2>&1
 then
 X_pro_a=$(echo "$bold""$green"added"$normal")
 fi
 #if prores is added
-if [ -f /tmp/FFmpeg_settings* ]
+if ls /tmp/FFmpeg_settings* >/dev/null 2>&1
 then
 pro_a=$(echo "$bold""$green"added"$normal")
 fi
@@ -934,7 +934,29 @@ fi
 #set your output folder
     if [ x"$out" = x ]
     then
-out=$(cat /tmp/DUALISO/"path_1")/$(tput sgr0)
+out=$(cat /tmp/DUALISO/"path_1")/
+    fi
+
+#but what if prores folders are empty? Let´s erase them since they will only annoyit
+#prores files MOV etc
+    if [ x"$(ls "$out"$(date +%F)_X_ProRes4444/*)" = x ]
+    then
+    rm -r "$out"$(date +%F)_X_ProRes4444/
+    fi
+#proxy folder
+    if [ x"$(ls "$out"$(date +%F)_X_Proxy/*)" = x ]
+    then
+    rm -r "$out"$(date +%F)_X_Proxy/
+    fi
+#prores output dng files
+    if [ x"$(ls "$out"$(date +%F)_ProRes4444/*)" = x ]
+    then
+    rm -r "$out"$(date +%F)_ProRes4444/
+    fi
+#proxy folder
+    if [ x"$(ls "$out"$(date +%F)_Proxy/*)" = x ]
+    then
+    rm -r "$out"$(date +%F)_Proxy/
     fi
 
 while :
