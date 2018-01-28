@@ -3396,7 +3396,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 -- other settings(ProRes4444)
     $(tput bold)(08) scale output$(tput sgr0)  $(tput bold)$(tput setaf 4)$Paspect$(tput sgr0) $Pscale
 
--- ProRes Proxy output â€”
+-- ProRes Proxy output --
     $(tput bold)(09) linear to cineon$(tput sgr0) $lincinpr
     $(tput bold)(10) linear to logC$(tput sgr0) $linlogCpr
     $(tput bold)(11) linear$(tput sgr0) $linearpr
