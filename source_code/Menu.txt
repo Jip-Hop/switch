@@ -920,6 +920,22 @@ if [ -f /tmp/HDRCR2 ]
 then 
 HDR=$(echo "$bold""$green"HDR_CR2_added!"$normal")
 fi
+#if mov is added
+if [ -f /tmp/_X_Pro* ]
+then
+X_pro_a=$(echo "$bold""$green"added"$normal")
+fi
+#if prores is added
+if [ -f /tmp/FFmpeg_settings* ]
+then
+pro_a=$(echo "$bold""$green"added"$normal")
+fi
+
+#set your output folder
+    if [ x"$out" = x ]
+    then
+out=$(cat /tmp/DUALISO/"path_1")/$(tput sgr0)
+    fi
 
 while :
 do 
@@ -3358,7 +3374,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 -- other settings(ProRes4444)
     $(tput bold)(08) scale output$(tput sgr0)  $(tput bold)$(tput setaf 4)$Paspect$(tput sgr0) $Pscale
 
--- ProRes Proxy output —
+-- ProRes Proxy output â€”
     $(tput bold)(09) linear to cineon$(tput sgr0) $lincinpr
     $(tput bold)(10) linear to logC$(tput sgr0) $linlogCpr
     $(tput bold)(11) linear$(tput sgr0) $linearpr
@@ -7208,6 +7224,11 @@ rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
 rm /tmp/cpuboost 1> /dev/null 2>&1 &
 rm /tmp/"$root"_settings.txt 1> /dev/null 2>&1 &
 rm /tmp/output 1> /dev/null 2>&1 &
+#set your output folder
+    if [ x"$out" = x ]
+    then
+out=$(cat /tmp/DUALISO/"path_1")/$(tput sgr0)
+    fi
 rm /tmp/DUALISO/O_trap 1> /dev/null 2>&1 &
 
 sl_h= ; me_h= ; st_h= ; sl_s= ; me_s= ; st_s=
