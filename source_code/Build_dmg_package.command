@@ -489,7 +489,7 @@ clear
    hg pull
    hg update
    hg commit -m "$(echo $commit)"
-   hg addremove
+   hg add
    hg push
 
 #let´s build the dmg file
