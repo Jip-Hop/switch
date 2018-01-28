@@ -120,12 +120,8 @@ EOF
     case "$REPLY" in
 
     "01")  
-find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && diskutil unmount /Volumes/EOS_DIGITAL &
-clear
-echo $(tput bold)"
-
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
-Copying..."$(tput sgr0) ; sleep 2
+echo > /tmp/DUALISO/COPY1
+open "$(cat /tmp/DUALISO/path_2)"progress_bar_CF_SD.command &
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
@@ -136,8 +132,8 @@ read -p $(tput bold)"Are you sure about this?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; && diskutil unmount /Volumes/EOS_DIGITAL &
-
+echo > /tmp/DUALISO/COPY2
+open "$(cat /tmp/DUALISO/path_2)"progress_bar_CF_SD.command &
 clear
 echo $(tput bold)"
 
@@ -151,7 +147,8 @@ fi
 ;;
 
     "02")  
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.{MLV,M0*,M1*,M2*,M3*,M4*,M5*,RAW,R0*,R1*,R2*,R3*,R4*,R5*} 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+echo > /tmp/DUALISO/COPY3
+open "$(cat /tmp/DUALISO/path_2)"progress_bar_CF_SD.command &
 clear
 echo $(tput bold)"
 
@@ -160,7 +157,8 @@ Copying MLV and RAW..."$(tput sgr0) ; sleep 2
 ;;
 
     "03")  
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.DNG 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+echo > /tmp/DUALISO/COPY4
+open "$(cat /tmp/DUALISO/path_2)"progress_bar_CF_SD.command &
 clear
 echo $(tput bold)"
 
@@ -169,7 +167,8 @@ Copying DNG..."$(tput sgr0) ; sleep 2
 ;;
 
    "04")  
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.MOV 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+echo > /tmp/DUALISO/COPY5
+open "$(cat /tmp/DUALISO/path_2)"progress_bar_CF_SD.command &
 clear
 echo $(tput bold)"
 
@@ -177,8 +176,9 @@ $(tput sgr0)$(tput bold)$(tput setaf 1)
 Copying MOV..."$(tput sgr0) ; sleep 2
 ;;
 
-   "05")  
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.CR2 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" &
+   "05") 
+echo > /tmp/DUALISO/COPY6
+open "$(cat /tmp/DUALISO/path_2)"progress_bar_CF_SD.command & 
 clear
 echo $(tput bold)"
 
