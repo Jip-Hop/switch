@@ -931,9 +931,12 @@ then
 pro_a=$(echo "$bold""$green"added"$normal")
 fi
 
+
 #set your output folder
-    if [ x"$out" = x ]
+    if ! [ x"$(cat /tmp/"output")" = x ]
     then
+out=$(cat /tmp/"output")/
+    else
 out=$(cat /tmp/DUALISO/"path_1")/
     fi
 
