@@ -56,7 +56,7 @@ then
 rm /tmp/DUALISO/COPY1
 
 #Let´s copy content to selected folder
-     find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && diskutil unmount /Volumes/EOS_DIGITAL && killall sleep && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+     find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && hdiutil eject /Volumes/EOS_DIGITAL && killall sleep && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
@@ -141,7 +141,7 @@ then
 rm /tmp/DUALISO/COPY2
 
 #Let´s copy content to selected folder then delete the lot
-find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; && diskutil unmount /Volumes/EOS_DIGITAL && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; && hdiutil eject /Volumes/EOS_DIGITAL && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'

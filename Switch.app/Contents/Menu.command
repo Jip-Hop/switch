@@ -286,7 +286,7 @@ open "$(find /Volumes/EOS_DIGITAL/DCIM -type f | head -1 | cut -d "/" -f1,2,3,4,
 ;;
 
    "EJ")  
-diskutil unmount /Volumes/EOS_DIGITAL
+hdiutil eject /Volumes/EOS_DIGITAL
 ;;
 
     "q")   
@@ -1395,7 +1395,7 @@ echo "Follow instructions in terminal window"
 sleep 2
 [ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 [ ! -f "`which wget`" ] && brew install wget
-wget -O HDRMerge.dmg https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg && hdiutil attach HDRMerge.dmg && cp -r /Volumes/HDRMerge\ for\ Mac/HDRMerge.app /Applications && diskutil unmount /Volumes/HDRMerge\ for\ Mac && rm HDRMerge.dmg
+wget -O HDRMerge.dmg https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg && hdiutil attach HDRMerge.dmg && cp -r /Volumes/HDRMerge\ for\ Mac/HDRMerge.app /Applications && hdiutil eject /Volumes/HDRMerge\ for\ Mac && rm HDRMerge.dmg
 if [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ]
 then
 clear && echo "HDRMerge is intalled and ready for use"
