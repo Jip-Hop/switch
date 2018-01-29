@@ -66,7 +66,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying$dot1$dot2$dot3$dot4
+    $(tput bold)Copying.....
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
@@ -151,7 +151,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying$dot1$dot2$dot3$dot4
+    $(tput bold)Copying.....
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
@@ -236,7 +236,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying$dot1$dot2$dot3$dot4
+    $(tput bold)Copying.....
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
@@ -322,7 +322,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying$dot1$dot2$dot3$dot4
+    $(tput bold)Copying.....
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
@@ -407,7 +407,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying$dot1$dot2$dot3$dot4
+    $(tput bold)Copying.....
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
@@ -492,7 +492,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying$dot1$dot2$dot3$dot4
+    $(tput bold)Copying.....
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
