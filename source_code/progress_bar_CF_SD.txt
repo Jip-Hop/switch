@@ -56,19 +56,69 @@ then
 rm /tmp/DUALISO/COPY1
 
 #Let´s copy content to selected folder
-     find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && diskutil unmount /Volumes/EOS_DIGITAL && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+     find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && diskutil unmount /Volumes/EOS_DIGITAL && killall sleep && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
+
 cat<<EOF
     ----------
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying...
+    $(tput bold)Copying$dot1$dot2$dot3$dot4
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying$dot1$dot2$dot3$dot4$dot5
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+done & 
 
     read -n1
     case "$REPLY" in
@@ -95,15 +145,65 @@ find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1"
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
+
 cat<<EOF
     ----------
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying...
+    $(tput bold)Copying$dot1$dot2$dot3$dot4
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying$dot1$dot2$dot3$dot4$dot5
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+done &
 
     read -n1
     case "$REPLY" in
@@ -130,15 +230,65 @@ cp /Volumes/EOS_DIGITAL/DCIM/*/*.{MLV,M0*,M1*,M2*,M3*,M4*,M5*,RAW,R0*,R1*,R2*,R3
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
+
 cat<<EOF
     ----------
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying...
+    $(tput bold)Copying$dot1$dot2$dot3$dot4
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying$dot1$dot2$dot3$dot4$dot5
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+done &
 
     read -n1
     case "$REPLY" in
@@ -166,15 +316,65 @@ cp /Volumes/EOS_DIGITAL/DCIM/*/*.DNG 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
+
 cat<<EOF
     ----------
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying...
+    $(tput bold)Copying$dot1$dot2$dot3$dot4
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying$dot1$dot2$dot3$dot4$dot5
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+done &
 
     read -n1
     case "$REPLY" in
@@ -201,15 +401,65 @@ cp /Volumes/EOS_DIGITAL/DCIM/*/*.MOV 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
+
 cat<<EOF
     ----------
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying...
+    $(tput bold)Copying$dot1$dot2$dot3$dot4
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying$dot1$dot2$dot3$dot4$dot5
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+done &
 
     read -n1
     case "$REPLY" in
@@ -236,15 +486,65 @@ cp /Volumes/EOS_DIGITAL/DCIM/*/*.CR2 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
+
 cat<<EOF
     ----------
     $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
     ----------
 
-    $(tput bold)Copying...
+    $(tput bold)Copying$dot1$dot2$dot3$dot4
 
  $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
 EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying$dot1$dot2$dot3$dot4$dot5
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+done &
 
     read -n1
     case "$REPLY" in
