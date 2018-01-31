@@ -56,7 +56,7 @@ then
 rm /tmp/DUALISO/COPY1
 
 #Let´s copy content to selected folder
-     find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && hdiutil eject /Volumes/EOS_DIGITAL && killall sleep && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+     find /Volumes/EOS_*/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && hdiutil eject /Volumes/EOS_* && killall sleep && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
@@ -141,7 +141,7 @@ then
 rm /tmp/DUALISO/COPY2
 
 #Let´s copy content to selected folder then delete the lot
-find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && find /Volumes/EOS_DIGITAL/DCIM/ -type f -exec rm -f {} \; && hdiutil eject /Volumes/EOS_DIGITAL && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+find /Volumes/EOS_*/DCIM/ -type f -exec cp {} "$(cat /tmp/DUALISO/"path_1")" \; && find /Volumes/EOS_*/DCIM/ -type f -exec rm -f {} \; && hdiutil eject /Volumes/EOS_* && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
@@ -226,7 +226,7 @@ then
 rm /tmp/DUALISO/COPY3
 
 #Let´s copy MLV files to selected folder
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.{MLV,M0*,M1*,M2*,M3*,M4*,M5*,RAW,R0*,R1*,R2*,R3*,R4*,R5*} "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+cp /Volumes/EOS_*/DCIM/*/*.{MLV,M0*,M1*,M2*,M3*,M4*,M5*,RAW,R0*,R1*,R2*,R3*,R4*,R5*} "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
@@ -312,7 +312,7 @@ then
 rm /tmp/DUALISO/COPY4
 
 #Let´s copy MLV files to selected folder
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.DNG 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+cp /Volumes/EOS_*/DCIM/*/*.DNG 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
@@ -397,7 +397,7 @@ then
 rm /tmp/DUALISO/COPY5
 
 #Let´s copy MLV files to selected folder
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.MOV 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+cp /Volumes/EOS_*/DCIM/*/*.MOV 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'
@@ -482,7 +482,7 @@ then
 rm /tmp/DUALISO/COPY6
 
 #Let´s copy MLV files to selected folder
-cp /Volumes/EOS_DIGITAL/DCIM/*/*.CR2 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+cp /Volumes/EOS_*/DCIM/*/*.CR2 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
 printf '\e[3;25;0t'

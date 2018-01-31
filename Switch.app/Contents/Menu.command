@@ -44,7 +44,7 @@ export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
 #check for sd or cf card
 if ! [ -f /tmp/DUALISO/CF_set ]
 then
-if [ -d /Volumes/EOS_DIGITAL/DCIM/ ]
+if [ -d /Volumes/EOS_*/DCIM/ ]
 then 
 echo > /tmp/DUALISO/CF_set
 #!/bin/bash
@@ -193,7 +193,7 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then  
-find /Volumes/EOS_DIGITAL/DCIM -name "*.MLV" -type f -delete &
+find /Volumes/EOS_*/DCIM -name "*.MLV" -type f -delete &
 clear
 echo $(tput bold)"
 
@@ -209,7 +209,7 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then 
-find /Volumes/EOS_DIGITAL/DCIM -name "*.MOV" -type f -delete &
+find /Volumes/EOS_*/DCIM -name "*.MOV" -type f -delete &
 clear
 echo $(tput bold)"
 
@@ -225,7 +225,7 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then 
-find /Volumes/EOS_DIGITAL/DCIM -name "*.DNG" -type f -delete &
+find /Volumes/EOS_*/DCIM -name "*.DNG" -type f -delete &
 clear
 echo $(tput bold)"
 
@@ -241,7 +241,7 @@ read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then 
-find /Volumes/EOS_DIGITAL/DCIM -name "*.CR2" -type f -delete &
+find /Volumes/EOS_*/DCIM -name "*.CR2" -type f -delete &
 clear
 echo $(tput bold)"
 
@@ -257,7 +257,7 @@ read -p $(tput bold)"This action will DELETE all files on your CF/SD folder$(tpu
 Y/N?"$(tput sgr0) -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-find /Volumes/EOS_DIGITAL/DCIM -type f -exec rm -f {} \; &
+find /Volumes/EOS_*/DCIM -type f -exec rm -f {} \; &
 clear
 echo $(tput bold)"
 
@@ -267,14 +267,14 @@ fi
 ;;
 
     "mp")
-"$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(find /Volumes/EOS_DIGITAL/DCIM -name "*.MLV" | head -1)" & sleep 2
-find /Volumes/EOS_DIGITAL/DCIM -name "*.WAV" -type f -delete 
-find /Volumes/EOS_DIGITAL/DCIM -name "*.MRX" -type f -delete 
+"$(cat /tmp/DUALISO/"path_2")"bin/MlRawViewer.app/Contents/MacOS/mlrawviewer "$(find /Volumes/EOS_*/DCIM -name "*.MLV" | head -1)" & sleep 2
+find /Volumes/EOS_*/DCIM -name "*.WAV" -type f -delete 
+find /Volumes/EOS_*/DCIM -name "*.MRX" -type f -delete 
 while [ -n "$(pgrep mlrawviewer </dev/null)" ];
 do sleep 1
 done
-find /Volumes/EOS_DIGITAL/DCIM -name "*.WAV" -type f -delete 
-find /Volumes/EOS_DIGITAL/DCIM -name "*.MRX" -type f -delete 
+find /Volumes/EOS_*/DCIM -name "*.WAV" -type f -delete 
+find /Volumes/EOS_*/DCIM -name "*.MRX" -type f -delete 
 ;;
 
    "m")  
@@ -282,11 +282,11 @@ find /Volumes/EOS_DIGITAL/DCIM -name "*.MRX" -type f -delete
 ;;
 
    "op")  
-open "$(find /Volumes/EOS_DIGITAL/DCIM -type f | head -1 | cut -d "/" -f1,2,3,4,5)"
+open "$(find /Volumes/EOS_*/DCIM -type f | head -1 | cut -d "/" -f1,2,3,4,5)"
 ;;
 
    "EJ")  
-hdiutil eject /Volumes/EOS_DIGITAL
+hdiutil eject /Volumes/EOS_*
 ;;
 
     "q")   
