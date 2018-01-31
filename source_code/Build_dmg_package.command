@@ -440,6 +440,7 @@ clear
    hg pull
    hg update
    hg commit -m "$(echo $commit)"
+   hg add
    hg push
    
    cd source_code
