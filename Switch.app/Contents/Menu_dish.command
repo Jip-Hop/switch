@@ -32,7 +32,7 @@ export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
     then
     while grep 'MLV\|mlv' /tmp/DUALISO/WL_MLV_A
     do
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/WL_MLV_A | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 15000 ] 
+    if [ "$(mlv_dump -v "$(cat /tmp/DUALISO/WL_MLV_A | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 15000 ] 
     then
     echo "0000068: FF 3F" | xxd -r - "$(cat /tmp/DUALISO/WL_MLV_A | head -1)"
     echo "$(tail -n +2 /tmp/DUALISO/WL_MLV_A)" > /tmp/DUALISO/WL_MLV_A 
@@ -44,7 +44,7 @@ export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
     ls -A1 "$(cat /tmp/DUALISO/"path_1")"/*.MLV *.mlv > /tmp/DUALISO/WL_MLV_A
     while grep 'MLV\|mlv' /tmp/DUALISO/WL_MLV_A
     do
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/WL_MLV_A | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 15000 ] 
+    if [ "$(mlv_dump -v "$(cat /tmp/DUALISO/WL_MLV_A | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 15000 ] 
     then
     echo "0000068: FF 3F" | xxd -r - "$(cat /tmp/DUALISO/WL_MLV_A | head -1)"
     echo "$(tail -n +2 /tmp/DUALISO/WL_MLV_A)" > /tmp/DUALISO/WL_MLV_A 
@@ -61,7 +61,7 @@ export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
     then
     while grep 'MLV\|mlv' /tmp/DUALISO/WL_MLV_B
     do
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/WL_MLV_B | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 16383 ] 
+    if [ "$(mlv_dump -v "$(cat /tmp/DUALISO/WL_MLV_B | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 16383 ] 
     then
     echo "0000068: 98 3A" | xxd -r - "$(cat /tmp/DUALISO/WL_MLV_B | head -1)" 
     echo "$(tail -n +2 /tmp/DUALISO/WL_MLV_B)" > /tmp/DUALISO/WL_MLV_B 
@@ -73,7 +73,7 @@ export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
     ls -A1 "$(cat /tmp/DUALISO/"path_1")"/*.MLV *.mlv > /tmp/DUALISO/WL_MLV_B
     while grep 'MLV\|mlv' /tmp/DUALISO/WL_MLV_B
     do
-    if [ "$(mlv_dump -v -m "$(cat /tmp/DUALISO/WL_MLV_B | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 16383 ] 
+    if [ "$(mlv_dump -v "$(cat /tmp/DUALISO/WL_MLV_B | head -1)" | grep 'white_level' | awk 'FNR == 1 {print $2}')" = 16383 ] 
     then
     echo "0000068: 98 3A" | xxd -r - "$(cat /tmp/DUALISO/WL_MLV_B | head -1)"
     echo "$(tail -n +2 /tmp/DUALISO/WL_MLV_B)" > /tmp/DUALISO/WL_MLV_B  

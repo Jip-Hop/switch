@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>428</string>
+	<string>444.4</string>
 	<key>AMApplicationVersion</key>
-	<string>2.7</string>
+	<string>2.8</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -47,7 +47,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Run AppleScript</string>
+				<string>Kör AppleScript-skript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -71,7 +71,7 @@
 				<string>3D56558E-8952-48CB-BFEF-37B7918CF190</string>
 				<key>Keywords</key>
 				<array>
-					<string>Run</string>
+					<string>Kör</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>6696F47E-4544-4ACB-A06A-E9D4813E3CEF</string>
@@ -160,7 +160,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action</string>
 				<key>ActionName</key>
-				<string>Ask for Finder Items</string>
+				<string>Fråga efter Finder-objekt</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>defaultLocation</key>
@@ -190,13 +190,13 @@ end run</string>
 				<string>FF5B234C-CF86-42B6-93BB-7D920A7C3267</string>
 				<key>Keywords</key>
 				<array>
-					<string>Find</string>
-					<string>Item</string>
-					<string>File</string>
-					<string>Folder</string>
-					<string>Ask</string>
-					<string>Choose</string>
-					<string>Prompt</string>
+					<string>Sök</string>
+					<string>Objekt</string>
+					<string>Arkiv</string>
+					<string>Mapp</string>
+					<string>Fråga</string>
+					<string>Välj</string>
+					<string>Meddelanderuta</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>681F1477-7620-443E-8789-8F0BAA24714D</string>
@@ -250,7 +250,7 @@ end run</string>
 					<key>3</key>
 					<dict>
 						<key>default value</key>
-						<string>Choose a Finder Item:</string>
+						<string>Välj ett Finder-objekt:</string>
 						<key>name</key>
 						<string>promptMessage</string>
 						<key>required</key>
@@ -316,7 +316,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Run Shell Script</string>
+				<string>Kör kommandotolkskript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -354,10 +354,10 @@ echo "$1" &gt; /tmp/path_1b
 				<string>D419118B-B246-45EF-A9AB-A5DB43675084</string>
 				<key>Keywords</key>
 				<array>
-					<string>Shell</string>
-					<string>Script</string>
-					<string>Command</string>
-					<string>Run</string>
+					<string>Kommandotolk</string>
+					<string>Skript</string>
+					<string>Kommando</string>
+					<string>Kör</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -441,7 +441,7 @@ echo "$1" &gt; /tmp/path_1b
 				<key>location</key>
 				<string>309.000000:196.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/sv.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -483,7 +483,7 @@ echo "$1" &gt; /tmp/path_1b
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Run AppleScript</string>
+				<string>Kör AppleScript-skript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -507,7 +507,7 @@ echo "$1" &gt; /tmp/path_1b
 				<string>7C24AD1A-887B-4252-BD1B-8E84AAB1FF18</string>
 				<key>Keywords</key>
 				<array>
-					<string>Run</string>
+					<string>Kör</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>BB45ABEF-0FC5-4C66-8242-0FBB8E521D06</string>
@@ -593,7 +593,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Run Shell Script</string>
+				<string>Kör kommandotolkskript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -718,19 +718,19 @@ end run</string>
     do sleep 2
     done
 #check if filmed crop_rec eosm 
-    if grep 'M' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $5; exit}')
+    if grep 'M' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $5; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
+    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo &gt; /tmp/DUALISO/crop_rec? 
     fi
     fi
 #check if filmed crop_rec 700D,100D,650D
-    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
+    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
+    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo &gt; /tmp/DUALISO/crop_rec? 
     fi
@@ -925,7 +925,7 @@ sleep 1
     convert $(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1).jpeg -colorspace hsb -resize 1x1 $(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1).txt
     numb=$(echo $(grep '%' $(cat /tmp/DUALISO/FLAT| head -1 | cut -d "." -f1).txt | cut -d "%" -f3 | tr -d ',')) 
 #grab frame size and add info to the name of the file
-    fres=$($mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" | awk '/Res/ { print $2; exit }')
     if (( $(echo "$numb &lt; 1.3" |bc -l) )); then
 #remove unwanted files
     rm "$(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1)".txt
@@ -956,7 +956,7 @@ sleep 1
     if [ x"$(cat /tmp/DUALISO/FLATFRAMES | awk 'FNR == 2 {print $1}')" = x ]
     then
 #grab frame size and add info to the name of the file
-    fres=$($mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v "$(cat /tmp/DUALISO/FLATFRAMES)" | awk '/Res/ { print $2; exit }')
     OLDIFS=$IFS
     IFS=$'\n'
     $mlv_dump "$(cat /tmp/DUALISO/FLATFRAMES)" -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | grep -o '[^/]*$')"
@@ -976,7 +976,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/FLAT
     fi
@@ -1015,7 +1015,7 @@ sleep 1
     while grep 'MLV' My_flatfr
     do
 #grab frame size and add info to the name of the file
-    fres=$($mlv_dump -m -v "$(cat My_flatfr | head -1)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v "$(cat My_flatfr | head -1)" | awk '/Res/ { print $2; exit }')
     OLDIFS=$IFS
     IFS=$'\n'
     $mlv_dump "$(cat My_flatfr | head -1)" -a -o ft_"$fres"_"$(cat My_flatfr | head -1 | grep -o '[^/]*$')"
@@ -1047,7 +1047,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/darkf.txt
     fi
@@ -1087,11 +1087,11 @@ sleep 1
     do
     $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
     rm *MLV.wav
-    bit=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     mv avg_"$(cat My_darkfr | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     mkdir -p A_ORIGINALS/darkframe_originals
     mv "$(cat My_darkfr | head -1)" A_ORIGINALS/darkframe_originals
@@ -1110,11 +1110,11 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    bit=$($mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
@@ -1185,13 +1185,13 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    bit=$($mlv_dump -m -v "$FILE"| awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$FILE"| awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
 #grab flatframe frame size 
-    fres=$($mlv_dump -m -v ft_*.MLV | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v ft_*.MLV | awk '/Res/ { print $2; exit }')
     if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
@@ -1246,11 +1246,11 @@ sleep 1
     mkdir -p darkfr_ORIGINALS
     $mlv_dump -o avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" -a "$(cat /tmp/DUALISO/darkf.txt | head -1)"
     rm *MLV.wav
-    bit=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     mv avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     mv "$(cat /tmp/DUALISO/darkf.txt | head -1)" darkfr_ORIGINALS
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" &gt; /tmp/DUALISO/darkf.txt
@@ -1874,10 +1874,10 @@ done
 				<string>1D760BE8-BCB2-4602-B724-1FD0827AF649</string>
 				<key>Keywords</key>
 				<array>
-					<string>Shell</string>
-					<string>Script</string>
-					<string>Command</string>
-					<string>Run</string>
+					<string>Kommandotolk</string>
+					<string>Skript</string>
+					<string>Kommando</string>
+					<string>Kör</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -1961,7 +1961,7 @@ done
 				<key>location</key>
 				<string>309.000000:280.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/sv.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -1969,33 +1969,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>735621D5-2D18-4DE8-8D5F-F03A1B27ED51</key>
+		<key>2BC6DD9A-1FD3-4D76-B310-1C885832E6D6</key>
+		<dict>
+			<key>from</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+		</dict>
+		<key>3C7377BA-1E63-4D6E-BCF9-C5EF90A7B518</key>
 		<dict>
 			<key>from</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 			<key>to</key>
 			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
-		<key>757ACE03-89D7-4127-9E99-8945D3547BC8</key>
+		<key>EA8374A5-928B-4AF4-A998-F536C8530984</key>
 		<dict>
 			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 			<key>to</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
-		<key>AD9FCA0F-0627-4F6A-86A8-8952F36FE582</key>
+		<key>EF1D5986-43F5-4F17-B6AA-725D9264AF52</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-		</dict>
-		<key>C42C0D57-74FE-4EDB-AB91-A283964EF9B5</key>
-		<dict>
-			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

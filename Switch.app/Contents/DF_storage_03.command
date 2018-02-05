@@ -32,11 +32,11 @@
 #cut to the next name on the list
     echo "$(tail -n +2 /tmp/DUALISO/DF_storageac)" > /tmp/DUALISO/DF_storageac
 #snatch necessary matching features
-    bit_03=$($mlv_dump -m -v "$FILE_03" | awk '/bits_per_pixel/ { print $2; exit }')
-    res_03=$($mlv_dump -m -v "$FILE_03" | awk '/Res/ { print $2; exit }')
-    iso_03=$($mlv_dump -m -v "$FILE_03" | awk '/ISO:/ { print $2; exit }')
-    fra_03=$($mlv_dump -m -v "$FILE_03" | awk '/FPS/ { print $3; exit }')
-    cn_03=$($mlv_dump -m -v "$FILE_03" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit_03=$($mlv_dump -v "$FILE_03" | awk '/bits_per_pixel/ { print $2; exit }')
+    res_03=$($mlv_dump -v "$FILE_03" | awk '/Res/ { print $2; exit }')
+    iso_03=$($mlv_dump -v "$FILE_03" | awk '/ISO:/ { print $2; exit }')
+    fra_03=$($mlv_dump -v "$FILE_03" | awk '/FPS/ { print $3; exit }')
+    cn_03=$($mlv_dump -v "$FILE_03" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
 #Do criterias match?
     if ls "$(cat /tmp/DARK_FOLDER)"/avg_"$bit_03"bit_"$cn_03"_res_"$res_03"_iso_"$iso_03"_fps_"$fra_03".MLV
     then
