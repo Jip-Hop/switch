@@ -33,11 +33,11 @@
 #cut to the next name on the list
     echo "$(tail -n +2 /tmp/DUALISO/badpixelMLVad)" > /tmp/DUALISO/badpixelMLVad
 #run dfort focus pixel script
-    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v -m "$FILE_04" | awk '/Camera Name/ { print $5,$6; exit 0}')
+    if ! grep '5D\|7D\|T1i\|500D\|T2i\|550D\|6D\|T3i\|600D\|50D' <<< $(mlv_dump -v "$FILE_04" | awk '/Camera Name/ { print $5,$6; exit 0}')
     then 
 #check for a 100D
     dpass4=
-    if grep '100D\|SL1\|X7' <<< $(mlv_dump -v -m "$FILE_04" | awk '/Camera Name/ { print $5,$6,$7; exit 0}')
+    if grep '100D\|SL1\|X7' <<< $(mlv_dump -v "$FILE_04" | awk '/Camera Name/ { print $5,$6,$7; exit 0}')
     then
     dpass4=$(printf "%s\n" -c 100D)
     fi
@@ -49,7 +49,7 @@
     fpmutil -m croprec $dpass4 -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
 #if your file includes RAWC metadata
-    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_04" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v "$FILE_04" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
     fpmutil -m croprec $dpass4 -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
@@ -65,7 +65,7 @@
     fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
 #if your file includes RAWC metadata
-    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v -m "$FILE_04" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
+    if grep 'sampling 3x3 (read 1 line, skip 2, bin 3 columns)' <<< $(mlv_dump -v "$FILE_04" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
     then
     fpm.sh -m crop_rec -o "$(cat /tmp/DUALISO/path_1)"/"$FILE_04o".$map "$(cat /tmp/DUALISO/path_1)"/"$FILE_04"
     else
