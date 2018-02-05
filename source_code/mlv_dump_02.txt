@@ -11,7 +11,7 @@
     while ! [ x"$(cat /tmp/DUALISO/MLVFILESab)" = x ]
     do 
     FILE=$(cat /tmp/DUALISO/"MLVFILESab" | head -1 | grep -v 'avg_\|ft_')
-    date=$($mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
+    date=$($mlv_dump -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2; exit}')
     date_01=$(echo "$date" | head -c2)
     date_02=$(echo "$date" | cut -c4-5)
     date_03=$(echo "$date" | cut -c7-10)
@@ -139,7 +139,7 @@
     rm /tmp/mlv_dump_settings
     mlv="$(cat /tmp/"mlv_dump_UNC" | perl -p -e 's/^[ \t]*//')"
     else
-    if grep '10\|12' <<< $($mlv_dump -v "$FILE" | grep 'bits_per_pixel' | awk 'FNR == 1 {print $2; }')
+    if grep '10\|12' <<< $($mlv_dump -v "$FILE" | grep 'bits_per_pixel' | awk 'FNR == 1 {print $2; exit}')
     then
     mlv="$(cat /tmp/"mlv_dump_settings" | perl -pi -e 's/ -c//g' 2>/dev/null | perl -p -e 's/^[ \t]*//')"
     else
@@ -150,11 +150,11 @@
 #when going for dng files only(darkframes)
     if [ -f /tmp/only_DNG ]
     then
-    bit=$($mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     fi
 #create second output
     if ! [ x"$(cat /tmp/output)" = x ]
@@ -253,7 +253,7 @@
     fi
     fi
 #grab amount of dng frames from MLV metadata
-    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
+    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; exit}')
 #extract audio
     if ! ls "$O2"*.wav >/dev/null 2>&1;
     then
@@ -277,14 +277,14 @@
     rm "${BASE}".MOV
     fi 
 #syncs audio to amount of dng frames
-    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
-    FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; }')      
+    frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; exit}')
+    FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; exit}')      
     frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
 #cut audio  
     ffmpeg -ss 0 -i "$O2""${BASE}_1_$date"_.wav -t $frct_result -acodec copy "$O2""${BASE}_1_$date".wav ;
     rm "$O2""${BASE}_1_$date"_.wav
 #adding fps to wav metadata
-    fps_au=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; }' | tr -d . )
+    fps_au=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; exit}' | tr -d . )
 #adding zeros
     num="$fps_au"
     len=`echo ${#num}`
@@ -299,7 +299,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
 #Add metadata information to the wav file
     bwfmetaedit "$O2""${BASE}_1_$date".wav --in-iXML=/tmp/DUALISO/audio.xml
 #grabs the white balance tag and saves it for later  
-    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }') 
+    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}') 
 #move mlv originals to folder 
 #Check for darkframe workflow
     if [ -f "$O2"avg ]
@@ -337,7 +337,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     . "$path_2"Contents/awb.command
     fi
 #check for new output location
-    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
@@ -345,7 +345,7 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
 #rename DNG to dng fix 
     mv "$O2""${BASE}"_1_"$date"_000000.DNG "$O2""${BASE}"_1_"$date"_000000.dng
 #grabs the white balance tag and saves it for later. Non dualiso
-    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
     find "$O2". -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
     else
 #Verify dualiso or else continue to next file
@@ -356,14 +356,14 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
 #cr2hdr processing
     find "$O2". -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P $(sysctl -n hw.physicalcpu) -n 1 cr2hdr $set 
 #grabs white level
-    wle=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; }')
+    wle=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.DNG | awk '/Exif.SubImage1.WhiteLevel/ { print $4; exit}')
 #check if cam was set to auto white balance
-    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
     fi
 #grabs the white balance tag and saves it for later  
-    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.DNG | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
 #adds back correct white balance tag and also sets the same whitelevel to prevent flicker
     find "$O2". -maxdepth 1 -mindepth 1 -name '*.DNG' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi" -M"set Exif.SubImage1.WhiteLevel $wle"
     else
@@ -378,23 +378,23 @@ echo "<?xml version="\"1.0"\" encoding="\"UTF-8"\"?><BWFXML><IXML_VERSION>1.5</I
     fi
     else 
 #check for new output location
-    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #rename DNG to dng fix 
     mv "$O2""${BASE}"_1_"$date"_000000.DNG "$O2""${BASE}"_1_"$date"_000000.dng
 #grabs the white balance tag and saves it for later. Non dualiso
-    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
     find "$O2". -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
     fi
 #check if cam was set to auto white balance. Non dualiso
-    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2}')" = "0" ]
+    if [ "$($mlv_dump -v -m "$(cat /tmp/DUALISO/path_1)"/A_ORIGINALS/"$FILE" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ]
     then
     . "$path_2"Contents/awb.command
 #rename DNG to dng fix 
     mv "$O2""${BASE}"_1_"$date"_000000.DNG "$O2""${BASE}"_1_"$date"_000000.dng
 #grabs the white balance tag and saves it for later. Non dualiso
-    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; }')
+    wi=$(exiv2 -pt "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
     find "$O2". -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
     fi
     fi
