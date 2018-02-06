@@ -36,11 +36,12 @@ export PATH="${workingDir}":$PATH
   mlv_dump --dng -b 14 -f 0 -o "024_--dng -b 14" "$(ls *.MLV | head -1)" && mv "024_--dng -b 14000000.dng" "024_--dng -b 14.dng" &
   mlv_dump -c --dng -f 0 -o 025_-c "$(ls *.MLV | head -1)" && mv 025_-c000000.dng 025_-c.dng &
   mlv_dump --dng --relaxed -f 0 -o "026_--dng --relaxed" "$(ls *.MLV | head -1)" && mv "026_--dng --relaxed000000.dng" "026_--dng --relaxed.dng" &
-  mlv_dump -a -o "$(ls *.MLV | head -1)dark.MLV" $(ls *.MLV | head -1) && mlv_dump --dng "$(ls *.MLV | head -1)dark.MLV" && mv "$(ls *.MLV | head -1)dark_000000.dng" "027_--dng darkframe(will average all frames into one).dng" && mlv_dump --dng -f 0 -o "028_--dng -s subtract averaged frame" "$(ls *.MLV | head -1)" -s "$(ls *.MLV | head -1)dark.MLV" && mv "028_--dng -s subtract averaged frame000000.dng" "028_--dng -s subtract averaged frame(should look bad).dng" && mlv_dump --dng -f 0 -o "029_--dng -t subtract flatfield frame" "$(ls *.MLV | head -1)" -t "$(ls *.MLV | head -1)dark.MLV" && mv "029_--dng -t subtract flatfield frame000000.dng" "029_--dng -t subtract flatfield frame(should look bad).dng" && rm "$(ls *.MLV | head -1)dark.MLV" && mlv_dump -c -o "030_-c(compress MLV).MLV" "$(ls *.MLV | head -1)" && mlv_dump -d -o "031_-d(decompress MLV).MLV" "030_-c(compress MLV).MLV" &
-  mkdir -p 031_black_white_fix
-  mlv_dump --dng --black-fix=2050 -f 0 -o "031_--dng --black-fix=2050" "$(ls *.MLV | head -1)" && mv "031_--dng --black-fix=2050000000.dng" "031_--dng --black-fix=2050(will look bad or won´t open at all).dng" && mv "031_--dng --black-fix=2050(will look bad or won´t open at all).dng" 031_black_white_fix &
-  mlv_dump --dng --white-fix=8000 -f 0 -o "031_--dng --white-fix=8000" "$(ls *.MLV | head -1)" && mv "031_--dng --white-fix=8000000000.dng" "031_--dng --white-fix=8000(will look bad or won´t open at all).dng" && mv "031_--dng --white-fix=8000(will look bad or won´t open at all).dng" 031_black_white_fix &
-    mlv_dump -r -o "032_test.RAW" "$(ls *.MLV | head -1)" &
+  mlv_dump -a -o "$(ls *.MLV | head -1)dark.MLV" $(ls *.MLV | head -1) && mlv_dump --dng "$(ls *.MLV | head -1)dark.MLV" && mv "$(ls *.MLV | head -1)dark_000000.dng" "027_--dng darkframe(will average all frames into one).dng" && mlv_dump --dng -f 0 -o "028_--dng -s subtract averaged frame" "$(ls *.MLV | head -1)" -s "$(ls *.MLV | head -1)dark.MLV" && mv "028_--dng -s subtract averaged frame000000.dng" "028_--dng -s subtract averaged frame(should look bad).dng" && mlv_dump --dng -f 0 -o "029_--dng -t subtract flatfield frame" "$(ls *.MLV | head -1)" -t "$(ls *.MLV | head -1)dark.MLV" && mv "029_--dng -t subtract flatfield frame000000.dng" "029_--dng -t subtract flatfield frame(should look bad).dng" && rm "$(ls *.MLV | head -1)dark.MLV" && mlv_dump -c -o "032_-c(compress MLV).MLV" "$(ls *.MLV | head -1)" && mlv_dump -d -o "031_-d(decompress MLV).MLV" "032_-c(compress MLV).MLV" &
+  bl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/black_level/ { print $2; exit }')
+  wl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/white_level/ { print $2; exit }')
+  mlv_dump --dng --black-fix=$bl -f 0 -o "030_--dng --black-fix=$bl" "$(ls *.MLV | head -1)" && mv "030_--dng --black-fix="$bl"000000.dng" "030_--dng --black-fix=$bl.dng" &
+  mlv_dump --dng --white-fix=$wl -f 0 -o "031_--dng --white-fix=$wl" "$(ls *.MLV | head -1)" && mv "031_--dng --white-fix="$wl"000000.dng" "031_--dng --white-fix=$wl.dng" &
+  mlv_dump -r -o "033_test.RAW" "$(ls *.MLV | head -1)" &
 
 #wait for jobs to end
     wait < <(jobs -p)
@@ -48,11 +49,11 @@ export PATH="${workingDir}":$PATH
   if ls *.wav >/dev/null 2>&1
   then 
   rm *.wav
-  mlv_dump --dng --no-audio -f 0 -o "033_--dng --no-audio" "$(ls *.MLV | head -1)" && mv "033_--dng --no-audio000000.dng" "033_--dng --no-audio.dng"
+  mlv_dump --dng --no-audio -f 0 -o "034_--dng --no-audio" "$(ls *.MLV | head -1)" && mv "034_--dng --no-audio000000.dng" "034_--dng --no-audio.dng"
   if ls *.wav >/dev/null 2>&1
   then 
   rm *.wav
-  mv "033_--dng --no-audio.dng" "033_--dng --no-audio(not working!).dng"
+  mv "034_--dng --no-audio.dng" "034_--dng --no-audio(not working!).dng"
   fi
   else
   audio=$(printf "%s\n" "  --no-audio          for DNG output WAV not saved, for MLV output WAVI/AUDF blocks are not included in destination ML")
@@ -88,7 +89,7 @@ $audio
 -- MLV manipulation --
   --skip-xref                  skip loading .IDX (XREF) file, read block in the MLV file's order instead of presorted
   -I <mlv_file>                inject data from given MLV file right after MLVI header
-  -X type                      extract only block type int output file" > 033a_not_tested
+  -X type                      extract only block type int output file" > 034a_not_tested
 
 ########################Check essential metadata#############################
     date=$(mlv_dump -v "$(ls *.MLV | head -1)" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2; exit}')
@@ -99,45 +100,43 @@ $audio
     cn=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/Camera Name/ { print $3,$4,$5,$6,$7,$8; exit }')
     frames=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/Frames/ { print $3; exit}')
     rawc=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
-    wl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/black_level/ { print $2; exit }')
-    bl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/white_level/ { print $2; exit }')
+    bl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/black_level/ { print $2; exit }')
+    wl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/white_level/ { print $2; exit }')
 
 echo "Checking for basic metadata from your MLV file
-" > 034_mlv_metadata
-echo "###date###" >> 034_mlv_metadata
+" > 035_mlv_metadata
+echo "###date###" >> 035_mlv_metadata
 echo "$date
-" >> 034_mlv_metadata
-echo "###bit###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###bit###" >> 035_mlv_metadata
 echo "$bit
-" >> 034_mlv_metadata
-echo "###resolution###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###resolution###" >> 035_mlv_metadata
 echo "$res
-" >> 034_mlv_metadata
-echo "###iso###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###iso###" >> 035_mlv_metadata
 echo "$iso
-" >> 034_mlv_metadata
-echo "###frames###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###frames###" >> 035_mlv_metadata
 echo "$fra
-" >> 034_mlv_metadata
-echo "###Camera model###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###Camera model###" >> 035_mlv_metadata
 echo "$cn
-" >> 034_mlv_metadata
-echo "###rawc###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###rawc###" >> 035_mlv_metadata
 echo "$rawc
-" >> 034_mlv_metadata
-echo "###white level###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###white level###" >> 035_mlv_metadata
 echo "$wl
-" >> 034_mlv_metadata
-echo "###black level###" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "###black level###" >> 035_mlv_metadata
 echo "$bl
-" >> 034_mlv_metadata
-echo "Does all look ok?" >> 034_mlv_metadata
+" >> 035_mlv_metadata
+echo "Does all look ok?" >> 035_mlv_metadata
 
 EOF
 . MLV_test_Script && rm MLV_test_Script
 clear
 echo "
 MLV_test_script has finished and you can now check your files"
-
-
 
