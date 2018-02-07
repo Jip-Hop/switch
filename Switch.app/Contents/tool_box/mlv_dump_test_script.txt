@@ -1,6 +1,19 @@
 #add a MLV file in a folder and run this script inside the folder. Not that you need to have mlv_dump inside the folder as well together with your test file!
 
 cat <<'EOF' > MLV_test_Script
+
+#check for homebrew
+if ! [ -f "/usr/local/bin/brew" ]
+then
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+
+#check for dcraw
+if ! [ -f "/usr/local/bin/dcraw" ]
+then
+brew install dcraw
+fi
+
 #!/bin/bash
 workingDir=`dirname "$0"`
 cd "${workingDir}"
