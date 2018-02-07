@@ -51,12 +51,12 @@ export PATH="${workingDir}":$PATH
   mlv_dump --dng -b 14 -f 0 -o "024_--dng -b 14" "$(ls *.MLV | head -1)" && mv "024_--dng -b 14000000.dng" "024_--dng -b 14.dng" &
   mlv_dump -c --dng -f 0 -o 025_-c "$(ls *.MLV | head -1)" && mv 025_-c000000.dng 025_-c.dng &
   mlv_dump --dng --relaxed -f 0 -o "026_--dng --relaxed" "$(ls *.MLV | head -1)" && mv "026_--dng --relaxed000000.dng" "026_--dng --relaxed.dng" &
-  mlv_dump -a -o "$(ls *.MLV | head -1)dark.MLV" $(ls *.MLV | head -1) && mlv_dump --dng "$(ls *.MLV | head -1)dark.MLV" && mv "$(ls *.MLV | head -1)dark_000000.dng" "027_--dng darkframe(will average all frames into one).dng" && mlv_dump --dng -f 0 -o "028_--dng -s subtract averaged frame" "$(ls *.MLV | head -1)" -s "$(ls *.MLV | head -1)dark.MLV" && mv "028_--dng -s subtract averaged frame000000.dng" "028_--dng -s subtract averaged frame(should look bad).dng" && mlv_dump --dng -f 0 -o "029_--dng -t subtract flatfield frame" "$(ls *.MLV | head -1)" -t "$(ls *.MLV | head -1)dark.MLV" && mv "029_--dng -t subtract flatfield frame000000.dng" "029_--dng -t subtract flatfield frame(should look bad).dng" && rm "$(ls *.MLV | head -1)dark.MLV" && mlv_dump -c -o "032_-c(compress MLV).MLV" "$(ls *.MLV | head -1)" && mlv_dump -d -o "031_-d(decompress MLV).MLV" "032_-c(compress MLV).MLV" &
   bl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/black_level/ { print $2; exit }')
   wl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/white_level/ { print $2; exit }')
   mlv_dump --dng --black-fix=$bl -f 0 -o "030_--dng --black-fix=$bl" "$(ls *.MLV | head -1)" && mv "030_--dng --black-fix="$bl"000000.dng" "030_--dng --black-fix=$bl.dng" &
   mlv_dump --dng --white-fix=$wl -f 0 -o "031_--dng --white-fix=$wl" "$(ls *.MLV | head -1)" && mv "031_--dng --white-fix="$wl"000000.dng" "031_--dng --white-fix=$wl.dng" &
-  mlv_dump -r -o "033_test.RAW" "$(ls *.MLV | head -1)" &
+  mlv_dump -a -o "$(ls *.MLV | head -1)dark.MLV" $(ls *.MLV | head -1) && mlv_dump --dng "$(ls *.MLV | head -1)dark.MLV" && mv "$(ls *.MLV | head -1)dark_000000.dng" "027_--dng darkframe(will average all frames into one).dng" && mlv_dump --dng -f 0 -o "028_--dng -s subtract averaged frame" "$(ls *.MLV | head -1)" -s "$(ls *.MLV | head -1)dark.MLV" && mv "028_--dng -s subtract averaged frame000000.dng" "028_--dng -s subtract averaged frame(should look bad).dng" && mlv_dump --dng -f 0 -o "029_--dng -t subtract flatfield frame" "$(ls *.MLV | head -1)" -t "$(ls *.MLV | head -1)dark.MLV" && mv "029_--dng -t subtract flatfield frame000000.dng" "029_--dng -t subtract flatfield frame(should look bad).dng" && rm "$(ls *.MLV | head -1)dark.MLV" && mlv_dump -c -o "032_-c(compress MLV).MLV" "$(ls *.MLV | head -1)" && mlv_dump -d -o "033_-d(decompress MLV).MLV" "032_-c(compress MLV).MLV" &
+  mlv_dump -r -o "034_test.RAW" "$(ls *.MLV | head -1)" &
 
 #wait for jobs to end
     wait < <(jobs -p)
@@ -64,11 +64,11 @@ export PATH="${workingDir}":$PATH
   if ls *.wav >/dev/null 2>&1
   then 
   rm *.wav
-  mlv_dump --dng --no-audio -f 0 -o "034_--dng --no-audio" "$(ls *.MLV | head -1)" && mv "034_--dng --no-audio000000.dng" "034_--dng --no-audio.dng"
+  mlv_dump --dng --no-audio -f 0 -o "035_--dng --no-audio" "$(ls *.MLV | head -1)" && mv "035_--dng --no-audio000000.dng" "035_--dng --no-audio.dng"
   if ls *.wav >/dev/null 2>&1
   then 
   rm *.wav
-  mv "034_--dng --no-audio.dng" "034_--dng --no-audio(not working!).dng"
+  mv "035_--dng --no-audio.dng" "035_--dng --no-audio(not working!).dng"
   fi
   else
   audio=$(printf "%s\n" "  --no-audio          for DNG output WAV not saved, for MLV output WAVI/AUDF blocks are not included in destination ML")
@@ -104,7 +104,7 @@ $audio
 -- MLV manipulation --
   --skip-xref                  skip loading .IDX (XREF) file, read block in the MLV file's order instead of presorted
   -I <mlv_file>                inject data from given MLV file right after MLVI header
-  -X type                      extract only block type int output file" > 034a_not_tested
+  -X type                      extract only block type int output file" > 036_not_tested
 
 ########################Check essential metadata#############################
     date=$(mlv_dump -v "$(ls *.MLV | head -1)" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2; exit}')
@@ -119,41 +119,41 @@ $audio
     wl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/white_level/ { print $2; exit }')
 
 echo "Checking for basic metadata from your MLV file
-" > 035_mlv_metadata
-echo "###date###" >> 035_mlv_metadata
+" > 037_mlv_metadata
+echo "###date###" >> 037_mlv_metadata
 echo "$date
-" >> 035_mlv_metadata
-echo "###bit###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###bit###" >> 037_mlv_metadata
 echo "$bit
-" >> 035_mlv_metadata
-echo "###resolution###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###resolution###" >> 037_mlv_metadata
 echo "$res
-" >> 035_mlv_metadata
-echo "###iso###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###iso###" >> 037_mlv_metadata
 echo "$iso
-" >> 035_mlv_metadata
-echo "###frames###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###frames###" >> 037_mlv_metadata
 echo "$fra
-" >> 035_mlv_metadata
-echo "###Camera model###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###Camera model###" >> 037_mlv_metadata
 echo "$cn
-" >> 035_mlv_metadata
-echo "###rawc###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###rawc###" >> 037_mlv_metadata
 echo "$rawc
-" >> 035_mlv_metadata
-echo "###white level###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###white level###" >> 037_mlv_metadata
 echo "$wl
-" >> 035_mlv_metadata
-echo "###black level###" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "###black level###" >> 037_mlv_metadata
 echo "$bl
-" >> 035_mlv_metadata
-echo "Does all look ok?" >> 035_mlv_metadata
+" >> 037_mlv_metadata
+echo "Does all look ok?" >> 037_mlv_metadata
 
 #build dcraw tif previews
   find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 dcraw -T 
-  mkdir -p 036_tifpreviews
-  mv *.tiff 036_tifpreviews
-  cd 036_tifpreviews
+  mkdir -p 038_tifpreviews
+  mv *.tiff 038_tifpreviews
+  cd 038_tifpreviews
   open .
   cd -
 
