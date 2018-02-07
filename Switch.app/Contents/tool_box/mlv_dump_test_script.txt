@@ -149,6 +149,13 @@ echo "$bl
 " >> 035_mlv_metadata
 echo "Does all look ok?" >> 035_mlv_metadata
 
+#build dcraw tif previews
+  find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 dcraw -T 
+  mkdir -p 036_tifpreviews
+  mv *.tiff 036_tifpreviews
+  cd 036_tifpreviews
+  open .
+  cd -
 
 EOF
 . MLV_test_Script && rm MLV_test_Script
