@@ -1,6 +1,8 @@
-#add a MLV file in a folder and run this script inside the folder. Not that you need to have mlv_dump inside the folder as well together with your test file!
-
 cat <<'EOF' > MLV_test_Script
+
+#multiprocessing mlv_dump overall function checker
+
+#first check for dependencies
 
 #check for homebrew
 if ! [ -f "/usr/local/bin/brew" ]
@@ -147,9 +149,9 @@ echo "$bl
 " >> 035_mlv_metadata
 echo "Does all look ok?" >> 035_mlv_metadata
 
+
 EOF
 . MLV_test_Script && rm MLV_test_Script
 clear
 echo "
 MLV_test_script has finished and you can now check your files"
-
