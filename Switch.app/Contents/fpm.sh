@@ -538,30 +538,30 @@ if [ "$filetype" == "mlv" ]; then
   MLV="$1"
 
   if [ -z "$camera_model" ]; then
-    camera_model=`mlv_dump -m -v "$MLV" | grep Camera"[[:space:]]"Model | head -1 | sed -e 's/^[ Camera \s Model: \s 0x]*//'`
+    camera_model=`mlv_dump -v "$MLV" | grep Camera"[[:space:]]"Model | head -1 | sed -e 's/^[ Camera \s Model: \s 0x]*//'`
   fi
 
   get_camera_info
 
   if [[ -z $resolution ]]; then
-    resolution=`mlv_dump -m -v "$MLV" | grep Res | head -1 | sed -e 's/^[ Res:]*//'`
+    resolution=`mlv_dump -v "$MLV" | grep Res | head -1 | sed -e 's/^[ Res:]*//'`
   fi
 
-  raw_width=`mlv_dump -m -v "$MLV" | grep width | head -1 | sed -e 's/^[ width]*//'`
-  raw_height=`mlv_dump -m -v "$MLV" | grep height | head -1 | sed -e 's/^[ height]*//'`
+  raw_width=`mlv_dump -v "$MLV" | grep width | head -1 | sed -e 's/^[ width]*//'`
+  raw_height=`mlv_dump -v "$MLV" | grep height | head -1 | sed -e 's/^[ height]*//'`
   raw_buffer=$raw_width"x"$raw_height
 
-  sampling=`mlv_dump -m -v "$MLV" | grep -w sampling | head -1 | sed -e 's/^[ sampling]*//'`
+  sampling=`mlv_dump -v "$MLV" | grep -w sampling | head -1 | sed -e 's/^[ sampling]*//'`
 
-  pan=`mlv_dump -m -v "$MLV" | grep Pan | head -1 | sed -e 's/^[ Pan:]*//'`
+  pan=`mlv_dump -v "$MLV" | grep Pan | head -1 | sed -e 's/^[ Pan:]*//'`
 
   IFS='x'
     read -r panPosX panPosY <<< "$pan"
   unset IFS
 
-  bits_per_pixel=`mlv_dump -m -v "$MLV" | grep bits_per_pixel | head -1 | sed -e 's/^[ bits_per_pixel]*//'`
-  black_level=`mlv_dump -m -v "$MLV" | grep black_level | head -1 | sed -e 's/^[ black_level]*//'`
-  white_level=`mlv_dump -m -v "$MLV" | grep white_level | head -1 | sed -e 's/^[ white_level]*//'`
+  bits_per_pixel=`mlv_dump -v "$MLV" | grep bits_per_pixel | head -1 | sed -e 's/^[ bits_per_pixel]*//'`
+  black_level=`mlv_dump -v "$MLV" | grep black_level | head -1 | sed -e 's/^[ black_level]*//'`
+  white_level=`mlv_dump -v "$MLV" | grep white_level | head -1 | sed -e 's/^[ white_level]*//'`
 fi
 
 ##
