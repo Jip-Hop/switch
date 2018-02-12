@@ -6142,6 +6142,7 @@ EOF
 
 #go back to prores menu
     "HDR") 
+echo > /tmp/DUALISO/HDR_MOV
 cd "$(cat /tmp/DUALISO/path_1)" 
 . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_MOV.command &
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
