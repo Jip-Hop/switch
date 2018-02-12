@@ -29,6 +29,11 @@ rm HDR_script.command
 rm HDR_script1.command
 rm HDR_script2.command
 rm HDR_script3.command
+rm /tmp/HDRMOVaa
+rm /tmp/HDRMOVab
+rm /tmp/HDRMOVac
+rm /tmp/HDRMOVad
+rm /tmp/KILLMOV
 
 #list files for multiprocessing
 ls *.MOV > /tmp/HDRMOV
@@ -41,6 +46,9 @@ cat <<'EOF' > HDR_script.command
 #!/bin/bash
 workingDir=`dirname "$0"`
 cd "${workingDir}"
+
+#progress_bar
+open "$(cat /tmp/DUALISO/path_2)"progress_bar.command &
 
 while grep 'MOV' /tmp/HDRMOVaa; do
 #build a temp folder
@@ -182,6 +190,11 @@ fps=$(printf "%s\n" ,minterpolate=fps=$(cat ../fps | tail -1))
 fi
 ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1).mov
 fi
+fi
+
+if ls /tmp/KILLMOV 
+then 
+rm /tmp/HDRMOVaa
 fi
 
 mkdir -p ../HDR_ORIGINALS
@@ -355,6 +368,11 @@ ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut 
 fi
 fi
 
+if ls /tmp/KILLMOV 
+then 
+rm /tmp/HDRMOVab
+fi
+
 mkdir -p ../HDR_ORIGINALS
 mv $(cat /tmp/HDRMOVab | head -1) ../HDR_ORIGINALS
 cd -
@@ -526,6 +544,11 @@ ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut 
 fi
 fi
 
+if ls /tmp/KILLMOV 
+then 
+rm /tmp/HDRMOVac
+fi
+
 mkdir -p ../HDR_ORIGINALS
 mv $(cat /tmp/HDRMOVac | head -1) ../HDR_ORIGINALS
 cd -
@@ -695,6 +718,11 @@ fps=$(printf "%s\n" ,minterpolate=fps=$(cat ../fps | tail -1))
 fi
 ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1).mov
 fi
+fi
+
+if ls /tmp/KILLMOV 
+then 
+rm /tmp/HDRMOVad
 fi
 
 mkdir -p ../HDR_ORIGINALS

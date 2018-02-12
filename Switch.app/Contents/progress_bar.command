@@ -43,6 +43,7 @@ white="$(tput setaf 7)"
 #Sample file PROCESSING
 #HDRCR2_grouping
 #HDRCR2 brackets
+#HDR_MOV bash
 
 
 #if using the steroid version
@@ -906,6 +907,72 @@ fi
 fi
 fi
 fi
+
+
+#HDR_MOV bash
+if ls /tmp/DUALISO/HDR_MOV 
+then
+printf '\e[8;9;36t'
+printf '\e[3;955;0t'
+
+while :
+do 
+
+clear
+cat<<EOF
+    ------------
+    $(tput setaf 0)$(tput bold)HDR_MOV bash$(tput sgr0)
+    ------------
+ $(tput bold)$(tput setaf 1)(K) Kill HDR_MOV bash$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(C) Close this window HDR_MOV bash$(tput sgr0)
+
+Selection number:
+EOF
+    read -n1
+    case "$REPLY" in
+    "K") 
+echo > /tmp/KILLMOV
+killall sleep
+killall align_image_stack
+rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"/*.tif
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+if ! [ x"$(cat /tmp/HDRMOVaa | head -1)" = x ]
+then
+ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"
+fi
+rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"/*.tif
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+if ! [ x"$(cat /tmp/HDRMOVab | head -1)" = x ]
+then
+ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"
+fi
+rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"/*.tif
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+if ! [ x"$(cat /tmp/HDRMOVac | head -1)" = x ]
+then
+ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"
+fi
+rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"/*.tif
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+if ! [ x"$(cat /tmp/HDRMOVad | head -1)" = x ]
+then
+ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
+fi
+
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac 
+done
+fi
+
 
 exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 
