@@ -84,6 +84,9 @@ do
 #wait for jobs to end
     wait < <(jobs -p)
 
+#if killing process
+if ! ls /tmp/KILLMOV 
+then 
 #output cropped and aligned images
 ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff
 ffmpeg -i %04d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff
@@ -136,6 +139,7 @@ ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -
 rm 00001.tiff 00002.tiff 0001.tiff 0002.tiff 001.tiff 002.tiff 01.tiff 02.tiff 1.tiff 2.tiff
 
 rm $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1')
+fi
 
 done
 
@@ -260,6 +264,9 @@ do
 #wait for jobs to end
     wait < <(jobs -p)
 
+#if killing process
+if ! ls /tmp/KILLMOV 
+then 
 #output cropped and aligned images
 ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff
 ffmpeg -i %04d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff
@@ -312,7 +319,7 @@ ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -
 rm 00001.tiff 00002.tiff 0001.tiff 0002.tiff 001.tiff 002.tiff 01.tiff 02.tiff 1.tiff 2.tiff
 
 rm $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1')
-
+fi
 done
 
 #check for audio
@@ -436,6 +443,9 @@ do
 #wait for jobs to end
     wait < <(jobs -p)
 
+#if killing process
+if ! ls /tmp/KILLMOV 
+then 
 #output cropped and aligned images
 ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff
 ffmpeg -i %04d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff
@@ -488,7 +498,7 @@ ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -
 rm 00001.tiff 00002.tiff 0001.tiff 0002.tiff 001.tiff 002.tiff 01.tiff 02.tiff 1.tiff 2.tiff
 
 rm $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1')
-
+fi
 done
 
 #check for audio
@@ -612,6 +622,9 @@ do
 #wait for jobs to end
     wait < <(jobs -p)
 
+#if killing process
+if ! ls /tmp/KILLMOV 
+then 
 #output cropped and aligned images
 ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff
 ffmpeg -i %04d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff
@@ -664,7 +677,7 @@ ffmpeg -i %05d.tiff -pix_fmt rgb24 -vf tblend=all_mode=average,$crp_fix $(find -
 rm 00001.tiff 00002.tiff 0001.tiff 0002.tiff 001.tiff 002.tiff 01.tiff 02.tiff 1.tiff 2.tiff
 
 rm $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1')
-
+fi
 done
 
 #check for audio
