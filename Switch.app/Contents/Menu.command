@@ -844,7 +844,7 @@ fi
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;34;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
 open -a Terminal
 bold="$(tput bold)"
@@ -981,7 +981,8 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
     $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
     $(tput bold)$(tput setaf 1)(h)  HDR processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $HDR
-    $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)$(tput bold)$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(b)  Bash scripts$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(CP) set running threads manually(max 4)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS
@@ -6100,7 +6101,71 @@ done
 
 
 
+   "b")
+printf '\e[8;15;70t'
+printf '\e[3;650;0t'
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
 
+while :
+do 
+
+    clear
+    cat<<EOF
+    -------------
+    $(tput bold)Bash scripts$(tput sgr0)
+    -------------
+
+    $(tput bold)(HDR) Merges HDR MOV files$(tput sgr0)(hugin align/ffmpeg tblend)
+
+    $(tput bold)$(tput setaf 1)(b) Main menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
+
+Please enter your selection number below and hit enter:
+EOF
+    read -n3
+    case "$REPLY" in
+
+#go back to prores menu
+    "HDR") 
+cd "$(cat /tmp/DUALISO/path_1)" 
+. "$(cat /tmp/DUALISO/path_2)"/bash/HDR_MOV.command &
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "b")
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+
+;;
 
 
 
@@ -7228,7 +7293,7 @@ echo -n "Threads" $input_variable > /tmp/THREADS
 THREADS=$(cat /tmp/THREADS)
 fi
 sleep 1 
-printf '\e[8;34;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
     ;;
 
@@ -7623,7 +7688,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 else
 clear
 echo "Done!"
-printf '\e[8;34;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
 fi
 fi
@@ -7773,7 +7838,7 @@ printf '\e[8;10;60t'
 printf '\e[3;0;0t'
 . "$(cat /tmp/DUALISO/"path_2")"Switch_MAIN_DBG.command 
 open "$(cat /tmp/DUALISO/path_1)"/LOG.txt
-printf '\e[8;34;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
 ;;
 
