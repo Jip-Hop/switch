@@ -799,7 +799,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
     "K") 
 killall sleep
-killall HDRmerge
+killall hdrmerge
 killall bash
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
@@ -895,7 +895,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
     "K") 
 killall sleep
-killall HDRmerge
+killall hdrmerge
 killall bash
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
