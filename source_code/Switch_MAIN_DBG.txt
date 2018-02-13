@@ -92,7 +92,6 @@ export PATH="$(cat /tmp/DUALISO/path_2)":$PATH
     fi
 #split into 4 chunks
     split -l $(( $( wc -l < /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
-
 #Start HDRCR2 counter
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then

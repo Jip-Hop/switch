@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>444.4</string>
+	<string>428</string>
 	<key>AMApplicationVersion</key>
-	<string>2.8</string>
+	<string>2.7</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -47,7 +47,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Kör AppleScript-skript</string>
+				<string>Run AppleScript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -71,7 +71,7 @@
 				<string>3D56558E-8952-48CB-BFEF-37B7918CF190</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kör</string>
+					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>6696F47E-4544-4ACB-A06A-E9D4813E3CEF</string>
@@ -105,7 +105,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:112.000000</string>
+				<string>400.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -160,7 +160,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action</string>
 				<key>ActionName</key>
-				<string>Fråga efter Finder-objekt</string>
+				<string>Ask for Finder Items</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>defaultLocation</key>
@@ -190,13 +190,13 @@ end run</string>
 				<string>FF5B234C-CF86-42B6-93BB-7D920A7C3267</string>
 				<key>Keywords</key>
 				<array>
-					<string>Sök</string>
-					<string>Objekt</string>
-					<string>Arkiv</string>
-					<string>Mapp</string>
-					<string>Fråga</string>
-					<string>Välj</string>
-					<string>Meddelanderuta</string>
+					<string>Find</string>
+					<string>Item</string>
+					<string>File</string>
+					<string>Folder</string>
+					<string>Ask</string>
+					<string>Choose</string>
+					<string>Prompt</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>681F1477-7620-443E-8789-8F0BAA24714D</string>
@@ -250,7 +250,7 @@ end run</string>
 					<key>3</key>
 					<dict>
 						<key>default value</key>
-						<string>Välj ett Finder-objekt:</string>
+						<string>Choose a Finder Item:</string>
 						<key>name</key>
 						<string>promptMessage</string>
 						<key>required</key>
@@ -264,7 +264,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:154.000000</string>
+				<string>400.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -316,7 +316,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Kör kommandotolkskript</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -354,10 +354,10 @@ echo "$1" &gt; /tmp/path_1b
 				<string>D419118B-B246-45EF-A9AB-A5DB43675084</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kommandotolk</string>
-					<string>Skript</string>
-					<string>Kommando</string>
-					<string>Kör</string>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -439,9 +439,9 @@ echo "$1" &gt; /tmp/path_1b
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:196.000000</string>
+				<string>400.000000:196.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/sv.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -483,7 +483,7 @@ echo "$1" &gt; /tmp/path_1b
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Kör AppleScript-skript</string>
+				<string>Run AppleScript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -507,7 +507,7 @@ echo "$1" &gt; /tmp/path_1b
 				<string>7C24AD1A-887B-4252-BD1B-8E84AAB1FF18</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kör</string>
+					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>BB45ABEF-0FC5-4C66-8242-0FBB8E521D06</string>
@@ -541,7 +541,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:238.000000</string>
+				<string>400.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -593,7 +593,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Kör kommandotolkskript</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -803,7 +803,6 @@ end run</string>
     fi
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
-
 #Start HDRCR2 counter
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
@@ -1874,10 +1873,10 @@ done
 				<string>1D760BE8-BCB2-4602-B724-1FD0827AF649</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kommandotolk</string>
-					<string>Skript</string>
-					<string>Kommando</string>
-					<string>Kör</string>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -1959,9 +1958,9 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:280.000000</string>
+				<string>400.000000:280.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/sv.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -1969,33 +1968,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>2BC6DD9A-1FD3-4D76-B310-1C885832E6D6</key>
-		<dict>
-			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-			<key>to</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-		</dict>
-		<key>3C7377BA-1E63-4D6E-BCF9-C5EF90A7B518</key>
+		<key>0C7F7573-4631-4B9F-8F98-DAB72AAFCC67</key>
 		<dict>
 			<key>from</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 			<key>to</key>
 			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
-		<key>EA8374A5-928B-4AF4-A998-F536C8530984</key>
-		<dict>
-			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-		</dict>
-		<key>EF1D5986-43F5-4F17-B6AA-725D9264AF52</key>
+		<key>6C391C48-A80C-405D-BE9B-A6BBC742544A</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+		</dict>
+		<key>6E4FEE0C-BE7F-4333-80DE-70AA4FD73688</key>
+		<dict>
+			<key>from</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+		</dict>
+		<key>76962270-EE7D-4F4B-B016-78B2E23E8788</key>
+		<dict>
+			<key>from</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+			<key>to</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
