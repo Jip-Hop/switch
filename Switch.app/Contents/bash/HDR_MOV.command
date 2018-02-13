@@ -22,17 +22,9 @@
 
 rm /tmp/HDRMOV*
 rm fps
-
 rm dropframes
 rm croprec
-rm HDR_script.command
-rm HDR_script1.command
-rm HDR_script2.command
-rm HDR_script3.command
-rm /tmp/HDRMOVaa
-rm /tmp/HDRMOVab
-rm /tmp/HDRMOVac
-rm /tmp/HDRMOVad
+rm HDR_script*.command
 rm /tmp/KILLMOV
 
 #list files for multiprocessing
