@@ -912,7 +912,7 @@ fi
 #HDR_MOV bash
 if ls /tmp/DUALISO/HDR_MOV 
 then
-printf '\e[8;9;36t'
+printf '\e[8;9;24t'
 printf '\e[3;955;0t'
 
 while :
