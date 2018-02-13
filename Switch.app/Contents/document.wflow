@@ -204,7 +204,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:112.000000</string>
+				<string>400.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/New Text File.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -377,7 +377,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:154.000000</string>
+				<string>400.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -479,7 +479,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:196.000000</string>
+				<string>400.000000:196.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -710,19 +710,19 @@ echo &gt; /tmp/DUALISO/PREV
     do sleep 2
     done
 #check if filmed crop_rec eosm 
-    if grep 'M' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $5; exit}')
+    if grep 'M' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $5; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
+    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo &gt; /tmp/DUALISO/crop_rec? 
     fi
     fi
 #check if filmed crop_rec 700D,100D,650D
-    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
+    if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}')
     then 
 #if your file includes RAWC metadata
-    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v -m "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
+    if ! grep 'RAWC' &lt;&lt;&lt; $(mlv_dump -v "$(ls -A1 *.MLV *.mlv | head -1)" | awk '/RAWC/ { print $2; exit}')
     then
     echo &gt; /tmp/DUALISO/crop_rec? 
     fi
@@ -795,7 +795,6 @@ echo &gt; /tmp/DUALISO/PREV
     fi
 #split into 4 chunks
     split -l $(( $( wc -l &lt; /tmp/DUALISO/LIST ) / 4 + 1 )) /tmp/DUALISO/LIST /tmp/DUALISO/LIST
-
 #Start HDRCR2 counter
     if ! [ -f /tmp/DUALISO/NOCOUNT ]
     then
@@ -917,7 +916,7 @@ sleep 1
     convert $(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1).jpeg -colorspace hsb -resize 1x1 $(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1).txt
     numb=$(echo $(grep '%' $(cat /tmp/DUALISO/FLAT| head -1 | cut -d "." -f1).txt | cut -d "%" -f3 | tr -d ',')) 
 #grab frame size and add info to the name of the file
-    fres=$($mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v "$(cat /tmp/DUALISO/FLATFRAMES | head -1)" | awk '/Res/ { print $2; exit }')
     if (( $(echo "$numb &lt; 1.3" |bc -l) )); then
 #remove unwanted files
     rm "$(cat /tmp/DUALISO/FLAT | head -1 | cut -d "." -f1)".txt
@@ -948,7 +947,7 @@ sleep 1
     if [ x"$(cat /tmp/DUALISO/FLATFRAMES | awk 'FNR == 2 {print $1}')" = x ]
     then
 #grab frame size and add info to the name of the file
-    fres=$($mlv_dump -m -v "$(cat /tmp/DUALISO/FLATFRAMES)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v "$(cat /tmp/DUALISO/FLATFRAMES)" | awk '/Res/ { print $2; exit }')
     OLDIFS=$IFS
     IFS=$'\n'
     $mlv_dump "$(cat /tmp/DUALISO/FLATFRAMES)" -a -o ft_"$fres"_"$(cat /tmp/DUALISO/FLATFRAMES | grep -o '[^/]*$')"
@@ -968,7 +967,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/FLAT
     fi
@@ -1007,7 +1006,7 @@ sleep 1
     while grep 'MLV' My_flatfr
     do
 #grab frame size and add info to the name of the file
-    fres=$($mlv_dump -m -v "$(cat My_flatfr | head -1)" | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v "$(cat My_flatfr | head -1)" | awk '/Res/ { print $2; exit }')
     OLDIFS=$IFS
     IFS=$'\n'
     $mlv_dump "$(cat My_flatfr | head -1)" -a -o ft_"$fres"_"$(cat My_flatfr | head -1 | grep -o '[^/]*$')"
@@ -1039,7 +1038,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v -m "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/darkf.txt
     fi
@@ -1079,11 +1078,11 @@ sleep 1
     do
     $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
     rm *MLV.wav
-    bit=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     mv avg_"$(cat My_darkfr | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     mkdir -p A_ORIGINALS/darkframe_originals
     mv "$(cat My_darkfr | head -1)" A_ORIGINALS/darkframe_originals
@@ -1102,11 +1101,11 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    bit=$($mlv_dump -m -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
@@ -1177,13 +1176,13 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    bit=$($mlv_dump -m -v "$FILE"| awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$FILE" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$FILE" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$FILE" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$FILE"| awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
 #grab flatframe frame size 
-    fres=$($mlv_dump -m -v ft_*.MLV | awk '/Res/ { print $2; exit }')
+    fres=$($mlv_dump -v ft_*.MLV | awk '/Res/ { print $2; exit }')
     if [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
 #Check for flatframe
@@ -1238,11 +1237,11 @@ sleep 1
     mkdir -p darkfr_ORIGINALS
     $mlv_dump -o avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" -a "$(cat /tmp/DUALISO/darkf.txt | head -1)"
     rm *MLV.wav
-    bit=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    res=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
-    iso=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
-    fra=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
-    cn=$($mlv_dump -m -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+    bit=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    res=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
+    iso=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
+    fra=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
+    cn=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
     mv avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     mv "$(cat /tmp/DUALISO/darkf.txt | head -1)" darkfr_ORIGINALS
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" &gt; /tmp/DUALISO/darkf.txt
@@ -1953,7 +1952,7 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:238.000000</string>
+				<string>400.000000:238.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -2055,7 +2054,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:280.000000</string>
+				<string>400.000000:280.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2157,7 +2156,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:322.000000</string>
+				<string>400.000000:322.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2259,7 +2258,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:364.000000</string>
+				<string>400.000000:364.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2441,7 +2440,7 @@ open "$1"/Contents/First_out.app</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:406.000000</string>
+				<string>400.000000:406.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -2451,54 +2450,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>19BAAED3-0911-46E8-B43C-F89E73F876B0</key>
+		<key>033F1F4A-F4D3-4618-85CC-EC790DA03E86</key>
 		<dict>
 			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>469DBE5A-F66A-4C17-8AFC-DD8BA14F7E73</key>
+		<key>4211BBFE-7646-48B4-AE4A-15E054640277</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>5B988A6E-5BF4-4586-A24C-87E67B06AB1A</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>5BB6EA16-35B3-432C-A809-C59B08D8B861</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>720A2723-B81A-4342-AAE7-67A651359E0A</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>499A4BEC-67B2-4AE5-831D-D8EF47AFBA5D</key>
+		<key>A66F299F-76CB-4FE4-9151-236662D66C60</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>B3E4782E-F4FA-4886-BB99-EEF785345648</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>7D76C831-86B6-4FD2-9B69-C5A8CCEFDBDE</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>7E90754E-C7C7-4A0A-9A1D-E58DDDFD72B3</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>98F81B9B-5911-427B-8F97-F17D6059B730</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>9A15827B-B073-4855-AB3B-4E1115A37433</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
