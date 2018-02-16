@@ -6,7 +6,7 @@ cd "${workingDir}"
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 
-printf '\e[8;22;95t'
+printf '\e[8;24;95t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -98,6 +98,7 @@ do
  
     $(tput bold)(01) add password, username and email to your hgrc file 
     $(tput bold)(RE) reset hgrc to default settings$(tput sgr0)
+    $(tput bold)(up) update files locally$(tput sgr0)
     $(tput bold)(c)  pull, update, commit$(tput sgr0)(skips push and dmg creation)
     $(tput bold)(p)  pull, update, commit, push$(tput sgr0)(skips dmg creation)
     $(tput bold)(dm) create only the Switch.dmg file$(tput sgr0)
@@ -186,6 +187,30 @@ echo $(tput bold)"
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 hgrc file is now reset"$(tput sgr0) ; sleep 2
 
+. Build_dmg_package.command
+;;
+
+   "up")  
+  cd "$dir"/source_code
+clear
+#A MAKE like solution which copies changes made in source txt files and migrates the changes into Switch.app and at the end creates a dmg package
+#simple command to rename txt scripts to .command and copy these to Switch.app content folder.
+xattr -d com.apple.quarantine ../Switch.app
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+for file in *.txt; do
+    mv "$file" "`basename $file .txt`.command"
+yes | cp *.command  ../Switch.app/Contents
+done
+for file in *.command; do
+    mv "$file" "`basename $file .command`.txt" 
+done
+mv Build_dmg_package.txt Build_dmg_package.command
+rm ../Switch.app/Contents/Build_dmg_package.command
+rm ../Switch.app/Contents/Switch_MAIN.command
+cd ../
+   cd source_code
 . Build_dmg_package.command
 ;;
 
