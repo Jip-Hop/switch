@@ -371,10 +371,10 @@ fi
   then
    mv "$(cat list | awk 'FNR == 1')" A_ORIGINALS
    echo -n "$(tail -n +2 list)" > list
- else
+  else
   echo -n "$(tail -n +2 list)" > list
- fi
   fi
+ fi
 done
 mv *.{cr2,CR2} A_ORIGINALS
 fi
