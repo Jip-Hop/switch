@@ -271,6 +271,8 @@ done & pid1=$!
 if [ -f HDRmerge ]
 then
 #start clean
+#log file
+ exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
  rm list
  rm match*    
  rm *preview3.jpg
@@ -315,6 +317,8 @@ fi
 if [ -f enfuse ]
 then
 #start clean
+#log file
+ exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
  rm list
  rm match*    
  rm *preview3.jpg
@@ -362,10 +366,15 @@ fi
 #if empty value(wrong size for instance)
  if [ x"$value" = x ]
  then 
-  mv "$(cat list | awk 'FNR == 1')" A_ORIGINALS
+#for the very last file
+  if [ x"$value" = x ] && [ -f "$(cat list | awk 'FNR == 2')" ]
+  then
+   mv "$(cat list | awk 'FNR == 1')" A_ORIGINALS
+   echo -n "$(tail -n +2 list)" > list
+ else
   echo -n "$(tail -n +2 list)" > list
  fi
-
+  fi
 done
 mv *.{cr2,CR2} A_ORIGINALS
 fi
