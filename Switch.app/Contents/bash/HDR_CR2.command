@@ -509,7 +509,7 @@ rm aligned2*.tif
 mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
 echo "$(tail -n +2 matchab)" > matchab
   done
- sleep 2 && rm HDR1.command & rm matchab
+ sleep 2 && rm HDR2.command & rm matchab
 clear
 echo $(tput bold)"HDR script 2 finished processing"$(tput sgr0)
 echo -n -e "\033]0;end2\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end2")' & exit
