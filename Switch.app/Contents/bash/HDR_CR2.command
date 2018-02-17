@@ -222,15 +222,6 @@ sleep 1
 esac
 fi
 
-#start clean
- rm list
- rm match*    
- rm *preview3.jpg
-#exiv2 extracts your jp files embedded in CR2 files
- exiv2 -ep3 -l . *.{cr2,CR2}
-#list jpg files
- ls *.jpg > list
-
 #what´s going on
 printf '\e[8;6;50t'
 printf '\e[3;410;100t'
@@ -276,7 +267,17 @@ sleep 1
  clear
 done & pid1=$!
 
-#main loop
+#main loop(HDRmerge)
+if [ -f HDRmerge ]
+then
+#start clean
+ rm list
+ rm match*    
+ rm *preview3.jpg
+#exiv2 extracts your jp files embedded in CR2 files
+ exiv2 -ep3 -l . *.{cr2,CR2}
+ ls *preview3.jpg > list
+#let´s start
 while grep 'jpg' list >/dev/null 2>&1
 do
  value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points') 
@@ -308,6 +309,66 @@ fi
    value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points')
  done
 done
+fi
+
+#main loop(enfuse)
+if [ -f enfuse ]
+then
+#start clean
+ rm list
+ rm match*    
+ rm *preview3.jpg
+#exiv2 extracts your jp files embedded in CR2 files
+ exiv2 -ep3 -l . *.{cr2,CR2}
+#list jpg files
+ ls *.{jpg,JPG} > list
+#let´s start
+while grep 'jpg\|JPG' list >/dev/null 2>&1
+do
+ value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points') 
+
+#create a tmp folder
+mkdir -p A_ORIGINALS
+
+#if you get a matching pair
+if [ "$value" = "Multiple images output" ]
+ then
+#check for matching list
+  if [ -f match ]
+   then
+   echo "" >> match
+  fi
+ echo -n "$(cat list | awk 'FNR == 1')" >> match 
+fi 
+#keep on going if all matches  
+ while [ "$value" = "Multiple images output" ]
+  do
+   echo -n " $(cat list | awk 'FNR == 2')" >> match
+    echo -n "$(tail -n +2 list)" > list
+   value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points')
+  done
+
+#if no match just erase and move on
+ while [ "$value" = "No Feature Points" ] || [ "$(echo $value | cut -d "(" -f1)" = "after 100 iteration" ] || [ "$(echo $value | cut -d "(" -f1)" = "You have too few control points " ]
+  do
+    echo -n "$(tail -n +2 list)" > list
+   value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points')
+ if ! [ "$value" = "Multiple images output" ]
+ then
+  mv "$(cat list | awk 'FNR == 1')" A_ORIGINALS
+ fi
+ done
+
+#if empty value(wrong size for instance)
+ if [ x"$value" = x ]
+ then 
+  mv "$(cat list | awk 'FNR == 1')" A_ORIGINALS
+  echo -n "$(tail -n +2 list)" > list
+ fi
+
+done
+mv *.{cr2,CR2} A_ORIGINALS
+fi
 
 rm list
 kill -9 $pid1 
@@ -368,7 +429,7 @@ cd "${workingDir}"
 printf '\e[8;6;40t'
 printf '\e[3;410;100t'
 #stash away originals
-mkdir -p CR2_ORIGINALS
+mkdir -p A_ORIGINALS
 
 #choose HDR workflow
 if [ -f HDRmerge ]
@@ -379,8 +440,27 @@ sleep 5 && rm HDRmerge enfuse FFmpeg &
 clear
 echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -a $(cat matchaa | awk 'FNR == 1')
-    mv $(cat matchaa | awk 'FNR == 1') CR2_ORIGINALS
+    mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
    echo "$(tail -n +2 matchaa)" > matchaa
+  done
+ sleep 2 && rm HDR1.command & rm matchaa
+clear
+echo $(tput bold)"HDR script 1 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end1\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end1")' & exit
+fi
+
+if [ -f enfuse ]
+then
+sleep 5 && rm HDRmerge enfuse FFmpeg &
+ while grep 'jpg\|JPG' matchaa >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned1.tif $(cat matchaa | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned1*.tif)  
+rm aligned1*.tif 
+mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
+echo "$(tail -n +2 matchaa)" > matchaa
   done
  sleep 2 && rm HDR1.command & rm matchaa
 clear
@@ -397,7 +477,7 @@ cd "${workingDir}"
 printf '\e[8;6;40t'
 printf '\e[5;410;100t'
 #stash away originals
-mkdir -p CR2_ORIGINALS
+mkdir -p A_ORIGINALS
 
 #choose HDR workflow
 if [ -f HDRmerge ]
@@ -408,10 +488,28 @@ sleep 5 && rm HDRmerge enfuse FFmpeg &
 clear
 echo $(tput bold)"HDRmerge script 2 is working!"$(tput sgr0)
    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -a $(cat matchab | awk 'FNR == 1')
-    mv $(cat matchab | awk 'FNR == 1') CR2_ORIGINALS
+    mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
    echo "$(tail -n +2 matchab)" > matchab
   done
  sleep 2 && rm HDR2.command & rm matchab
+clear
+echo $(tput bold)"HDR script 2 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end2\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end2")' & exit
+fi
+
+if [ -f enfuse ]
+then
+ while grep 'jpg\|JPG' matchab >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned2.tif $(cat matchab | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned2*.tif)  
+rm aligned2*.tif 
+mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
+echo "$(tail -n +2 matchab)" > matchab
+  done
+ sleep 2 && rm HDR1.command & rm matchab
 clear
 echo $(tput bold)"HDR script 2 finished processing"$(tput sgr0)
 echo -n -e "\033]0;end2\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end2")' & exit
@@ -426,19 +524,36 @@ cd "${workingDir}"
 printf '\e[8;6;40t'
 printf '\e[7;410;100t'
 #stash away originals
-mkdir -p CR2_ORIGINALS
+mkdir -p A_ORIGINALS
 
 #choose HDR workflow
 if [ -f HDRmerge ]
 then
-sleep 5 && rm HDRmerge enfuse FFmpeg &
  while grep 'CR2' matchac >/dev/null 2>&1
   do 
 clear
 echo $(tput bold)"HDRmerge script 3 is working!"$(tput sgr0)
    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -a $(cat matchac | awk 'FNR == 1')
-    mv $(cat matchac | awk 'FNR == 1') CR2_ORIGINALS
+    mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
    echo "$(tail -n +2 matchac)" > matchac
+  done
+ sleep 2 && rm HDR3.command & rm matchac
+clear
+echo $(tput bold)"HDR script 3 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end3\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end3")' & exit
+fi
+
+if [ -f enfuse ]
+then
+ while grep 'jpg\|JPG' matchac >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned3.tif $(cat matchac | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned3*.tif)  
+rm aligned3*.tif 
+mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
+echo "$(tail -n +2 matchac)" > matchac
   done
  sleep 2 && rm HDR3.command & rm matchac
 clear
@@ -455,7 +570,7 @@ cd "${workingDir}"
 printf '\e[8;6;40t'
 printf '\e[9;410;100t'
 #stash away originals
-mkdir -p CR2_ORIGINALS
+mkdir -p A_ORIGINALS
 
 #choose HDR workflow
 if [ -f HDRmerge ]
@@ -466,10 +581,28 @@ sleep 5 && rm HDRmerge enfuse FFmpeg &
 clear
 echo $(tput bold)"HDRmerge script 4 is working!"$(tput sgr0)
    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -a $(cat matchad | awk 'FNR == 1')
-    mv $(cat matchad | awk 'FNR == 1') CR2_ORIGINALS
+    mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
    echo "$(tail -n +2 matchad)" > matchad
   done
  sleep 2 && rm HDR4.command & rm matchad
+clear
+echo $(tput bold)"HDR script 4 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end4\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end4")' & exit
+fi
+
+if [ -f enfuse ]
+then
+ while grep 'jpg\|JPG' matchad >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned4.tif $(cat matchad | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned4*.tif)  
+rm aligned4*.tif 
+mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
+echo "$(tail -n +2 matchad)" > matchad
+  done
+ sleep 2 && rm HDR4.command & rm matchac
 clear
 echo $(tput bold)"HDR script 4 finished processing"$(tput sgr0)
 echo -n -e "\033]0;end4\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end4")' & exit
