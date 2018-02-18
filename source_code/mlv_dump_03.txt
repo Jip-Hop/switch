@@ -281,8 +281,8 @@
     FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; exit}')      
     frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
     audf=$(mlv_dump -v "$FILE" | grep -A6 'Block: AUDF' | awk 'FNR == 5 {print $2}' | cut -d "." -f1)
-    vidf=$(mlv_dump -v "$FILE" | grep -A6 'Block: AUDF' | awk 'FNR == 5 {print $2}' | cut -d "." -f1)
-    audio=$(echo $audf - $vidf | bc -l)
+    vidf=$(mlv_dump -v "$FILE" | grep -A6 'Block: VIDF' | awk 'FNR == 5 {print $2}' | cut -d "." -f1)
+    audio=$(echo $vidf - $audf | bc -l)
 #cut audio  
     ffmpeg -ss 00:00:00.$audio -i "$O2""${BASE}_1_$date"_.wav -t $frct_result -acodec copy "$O2""${BASE}_1_$date".wav ;
     rm "$O2""${BASE}_1_$date"_.wav
