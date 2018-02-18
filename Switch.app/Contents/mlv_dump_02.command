@@ -280,9 +280,19 @@
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; exit}')
     FPS=$(mlv_dump "$FILE" | awk '/Processed/ { print $6; exit}')      
     frct_result=$(echo $frct/$FPS | bc -l | awk 'FNR == 1 {print}')
+    audf=$(mlv_dump -v "$FILE" | grep -A6 'Block: AUDF' | awk 'FNR == 5 {print $2}' | cut -d "." -f1)
+    vidf=$(mlv_dump -v "$FILE" | grep -A6 'Block: AUDF' | awk 'FNR == 5 {print $2}' | cut -d "." -f1)
+    audio=$(echo $audf - $vidf | bc -l)
 #cut audio  
-    ffmpeg -ss 0 -i "$O2""${BASE}_1_$date"_.wav -t $frct_result -acodec copy "$O2""${BASE}_1_$date".wav ;
+    ffmpeg -ss 00:00:00.$audio -i "$O2""${BASE}_1_$date"_.wav -t $frct_result -acodec copy "$O2""${BASE}_1_$date".wav ;
     rm "$O2""${BASE}_1_$date"_.wav
+#if mlv_dump_on_steroids
+    if [ $mlv_dump = mlv_dump_on_steroids ]
+    then
+#cut audio  
+    ffmpeg -ss 00:00:00.$audio -i "$O2""${BASE}_1_$date".wav -t $frct_result -acodec copy "$O2""${BASE}_1_$date"tmp.wav ;
+    mv "$O2""${BASE}_1_$date"tmp.wav "$O2""${BASE}_1_$date".wav
+    fi
 #adding fps to wav metadata
     fps_au=$(exiftool "$O2""${BASE}"_1_"$date"_000000.dng | awk '/Frame Rate/ { print $4; exit}' | tr -d . )
 #adding zeros
