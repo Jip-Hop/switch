@@ -177,7 +177,6 @@ sleep 1
   * ) 
 echo "invalid selection, let´s start again"
 sleep 1
-. fps.command
 ;;
 esac
 fi
@@ -217,7 +216,6 @@ sleep 1
   * ) 
 echo "invalid selection, let´s start again"
 sleep 1
-. fps.command
 ;;
 esac
 fi
@@ -233,36 +231,47 @@ while :
 do
  clear
 echo $(tput bold)"Still building brackets"$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets.."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets..."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets...."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets....."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets......"$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets......."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets........"$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets........."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets.........."$(tput sgr0)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 done & pid1=$!
@@ -271,115 +280,141 @@ done & pid1=$!
 if [ -f HDRmerge ]
 then
 #start clean
-#log file
- exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
  rm list
- rm match*    
- rm *preview3.jpg
-#exiv2 extracts your jp files embedded in CR2 files
- exiv2 -ep3 -l . *.{cr2,CR2}
- ls *preview3.jpg > list
+ rm match* 
+ mkdir -p A_ORIGINALS
+ ls *.{cr2,CR2} > list
 #let´s start
-while grep 'jpg' list >/dev/null 2>&1
+while grep 'CR2' list >/dev/null 2>&1
 do
- value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points') 
-
-#if you get a matching pair
-if [ "$value" = "Multiple images output" ]
- then
-#check for matching list
-  if [ -f match ]
-   then
-   echo "" >> match
-  fi
- echo -n "$(cat list | awk 'FNR == 1' | cut -d "-" -f1).CR2" >> match 
-fi 
-#keep on going if all matches  
- while [ "$value" = "Multiple images output" ]
-  do
-   echo -n " $(cat list | awk 'FNR == 2' | cut -d "-" -f1).CR2" >> match
-    rm "$(cat list | awk 'FNR == 1')"
+    if [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    fi
+#group jpg files accordingly
+    while (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    do
+    if ! [ -f match ]
+    then
+    echo -n "$(cat list | awk 'FNR == 1')" >> match
+    fi
+    echo -n " $(cat list | awk 'FNR == 2')" >> match
     echo -n "$(tail -n +2 list)" > list
-   value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points')
-  done
-
-#if no match just erase and move on
- while [ "$value" = "No Feature Points" ] || [ "$(echo $value | cut -d "(" -f1)" = "after 100 iteration" ] || [ "$(echo $value | cut -d "(" -f1)" = "You have too few control points " ] || [ x"$value" = x ] && [ "$(ls *.jpg | head -1)" ] 
-  do
-   rm "$(cat list | awk 'FNR == 1')"
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    done
+    if [ -f match ]
+    then
+    echo "" >> match
+    fi
     echo -n "$(tail -n +2 list)" > list
-   value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points')
- done
+    if [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    fi
+#if not hdr keep shaving
+    while ! (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    do
+    echo -n "$(tail -n +2 list)" > list
+    if [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    fi
+    done
+#if the first and last file isn´t a hdr file
+    if [ -f match ] && [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    echo -n $(cat list | awk 'FNR == 1') >> match
+    fi
 done
+#end of HDRmerge processing
+    rm list
 fi
 
 #main loop(enfuse)
-if [ -f enfuse ]
+if [ -f enfuse ] || [ -f FFmpeg ] 
 then
 #start clean
-#log file
- exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
  rm list
- rm match*    
+ rm match* 
  rm *preview3.jpg
+ mkdir -p A_ORIGINALS
 #exiv2 extracts your jp files embedded in CR2 files
  exiv2 -ep3 -l . *.{cr2,CR2}
-#list jpg files
- ls *.{jpg,JPG} > list
-#let´s start
-while grep 'jpg\|JPG' list >/dev/null 2>&1
-do
- value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points') 
-
-#create a tmp folder
-mkdir -p A_ORIGINALS
-
-#if you get a matching pair
-if [ "$value" = "Multiple images output" ]
- then
-#check for matching list
-  if [ -f match ]
-   then
-   echo "" >> match
-  fi
- echo -n "$(cat list | awk 'FNR == 1')" >> match 
-fi 
-#keep on going if all matches  
- while [ "$value" = "Multiple images output" ]
-  do
-   echo -n " $(cat list | awk 'FNR == 2')" >> match
-    echo -n "$(tail -n +2 list)" > list
-   value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points')
-  done
-
-#if no match just erase and move on
- while [ "$value" = "No Feature Points" ] || [ "$(echo $value | cut -d "(" -f1)" = "after 100 iteration" ] || [ "$(echo $value | cut -d "(" -f1)" = "You have too few control points " ]
-  do
-    echo -n "$(tail -n +2 list)" > list
-   value=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -a test "$(cat list | awk 'FNR == 1')" "$(cat list | awk 'FNR == 2')" | grep -m 1 'after 100 iteration\|No Feature Points\|Multiple images output\|You have too few control points')
- if ! [ "$value" = "Multiple images output" ]
- then
-  mv "$(cat list | awk 'FNR == 1')" A_ORIGINALS
- fi
+#extract metadata info
+ exiv2 -e X extract *.CR2
+#rename xmp to work as sidecars 
+ for i in *.xmp ; do
+ mv "$i" "${i/.xmp}"-preview3.xmp
  done
-
-#if empty value(wrong size for instance)
- if [ x"$value" = x ]
- then 
-#for the very last file
-  if [ x"$value" = x ] && [ -f "$(cat list | awk 'FNR == 2')" ]
-  then
-   mv "$(cat list | awk 'FNR == 1')" A_ORIGINALS
-   echo -n "$(tail -n +2 list)" > list
-  else
-  echo -n "$(tail -n +2 list)" > list
-  fi
- fi
+#insert metadata recursively
+ exiv2 -i X insert *.jpg 
+We are done, thanks exiv2
+ rm *.xmp
+#list jpg,tiff files
+ ls *.{jpg,JPG,tif,tiff,TIF,TIFF} > list
+#let´s start
+while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' list >/dev/null 2>&1
+do
+    if [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    fi
+#group jpg files accordingly
+    while (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    do
+    if ! [ -f match ]
+    then
+    echo -n "$(cat list | awk 'FNR == 1')" >> match
+    fi
+    echo -n " $(cat list | awk 'FNR == 2')" >> match
+    echo -n "$(tail -n +2 list)" > list
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    done
+    if [ -f match ]
+    then
+    echo "" >> match
+    fi
+    echo -n "$(tail -n +2 list)" > list
+    if [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    fi
+#if not hdr keep shaving
+    while ! (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    do
+    echo -n "$(tail -n +2 list)" > list
+    if [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    num1=$(exiftool "$(cat list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num2=$(exiftool "$(cat list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
+    num=$(echo "$num2" - "$num1" | bc -l)
+    fi
+    done
+#if the first and last file isn´t a hdr file
+    if [ -f match ] && [ -f "$(cat list | awk 'FNR == 2')" ]
+    then
+    echo -n $(cat list | awk 'FNR == 1') >> match
+    fi
 done
-mv *.{cr2,CR2} A_ORIGINALS
+rm list
+#mv *.{cr2,CR2} A_ORIGINALS
 fi
 
-rm list
+#when bracketing list is done go here
 kill -9 $pid1 
 sleep 1
 clear
@@ -441,9 +476,10 @@ printf '\e[3;410;100t'
 mkdir -p A_ORIGINALS
 
 #choose HDR workflow
+#process 1
 if [ -f HDRmerge ]
 then
-sleep 5 && rm HDRmerge enfuse FFmpeg &
+sleep 5 && rm HDRmerge enfuse FFmpeg >/dev/null 2>&1 & 
  while grep 'CR2' matchaa >/dev/null 2>&1
   do 
 clear
@@ -460,17 +496,57 @@ fi
 
 if [ -f enfuse ]
 then
-sleep 5 && rm HDRmerge enfuse FFmpeg &
- while grep 'jpg\|JPG' matchaa >/dev/null 2>&1
+sleep 5 && rm HDRmerge enfuse FFmpeg >/dev/null 2>&1 & 
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchaa >/dev/null 2>&1
   do
 clear
-echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+echo $(tput bold)"enfuse script 1 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned1.tif $(cat matchaa | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned1*.tif)  
 rm aligned1*.tif 
 mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchaa | awk 'FNR == 1')
+then
+mv $(cat matchaa | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
 echo "$(tail -n +2 matchaa)" > matchaa
   done
+ sleep 2 && rm HDR1.command & rm matchaa
+clear
+echo $(tput bold)"HDR script 1 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end1\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end1")' & exit
+fi
+
+if [ -f FFmpeg ]
+then
+sleep 5 && rm HDRmerge enfuse FFmpeg >/dev/null 2>&1 & 
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchaa >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"FFmpeg script 1 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+#crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
+   cr_W=$(echo $(exiftool $(cat matchaa | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
+   cr_H=$(echo $(exiftool $(cat matchaa | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
+   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
+   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#hugin aligning
+   /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned1.tif $(cat matchaa | awk 'FNR == 1')
+#tblend filter chain
+   chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchaa | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
+#producing the file
+   ffmpeg -i aligned1.tif%04d.tif -pix_fmt rgb24 -vf $chain$crp_fix "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif
+#move original file
+   mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchaa | awk 'FNR == 1')
+then
+mv $(cat matchaa | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
+   echo "$(tail -n +2 matchaa)" > matchaa
+#erase 
+   rm aligned1*.tif 
+done
  sleep 2 && rm HDR1.command & rm matchaa
 clear
 echo $(tput bold)"HDR script 1 finished processing"$(tput sgr0)
@@ -491,7 +567,6 @@ mkdir -p A_ORIGINALS
 #choose HDR workflow
 if [ -f HDRmerge ]
 then
-sleep 5 && rm HDRmerge enfuse FFmpeg &
  while grep 'CR2' matchab >/dev/null 2>&1
   do 
 clear
@@ -508,16 +583,54 @@ fi
 
 if [ -f enfuse ]
 then
- while grep 'jpg\|JPG' matchab >/dev/null 2>&1
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchab >/dev/null 2>&1
   do
 clear
-echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+echo $(tput bold)"enfuse script 2 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned2.tif $(cat matchab | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned2*.tif)  
 rm aligned2*.tif 
-mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchab | awk 'FNR == 1')
+then
+mv $(cat matchab | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
 echo "$(tail -n +2 matchab)" > matchab
   done
+ sleep 2 && rm HDR2.command & rm matchab
+clear
+echo $(tput bold)"HDR script 2 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end2\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end2")' & exit
+fi
+
+if [ -f FFmpeg ]
+then
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchab >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"FFmpeg script 2 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+#crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
+   cr_W=$(echo $(exiftool $(cat matchab | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
+   cr_H=$(echo $(exiftool $(cat matchab | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
+   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
+   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#hugin aligning
+   /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned2.tif $(cat matchab | awk 'FNR == 1')
+#tblend filter chain
+   chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchab | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
+#producing the file
+   ffmpeg -i aligned2.tif%04d.tif -pix_fmt rgb24 -vf $chain$crp_fix "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif
+#move original file
+   mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchab | awk 'FNR == 1')
+then
+mv $(cat matchab | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
+   echo "$(tail -n +2 matchab)" > matchab
+#erase 
+   rm aligned2*.tif 
+done
  sleep 2 && rm HDR2.command & rm matchab
 clear
 echo $(tput bold)"HDR script 2 finished processing"$(tput sgr0)
@@ -554,16 +667,55 @@ fi
 
 if [ -f enfuse ]
 then
- while grep 'jpg\|JPG' matchac >/dev/null 2>&1
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchac >/dev/null 2>&1
   do
 clear
-echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+echo $(tput bold)"enfuse script 3 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned3.tif $(cat matchac | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned3*.tif)  
 rm aligned3*.tif 
 mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchac | awk 'FNR == 1')
+then
+mv $(cat matchac | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
 echo "$(tail -n +2 matchac)" > matchac
   done
+ sleep 2 && rm HDR3.command & rm matchac
+clear
+echo $(tput bold)"HDR script 3 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end3\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end3")' & exit
+fi
+
+if [ -f FFmpeg ]
+then
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchac >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"FFmpeg script 3 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+#crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
+   cr_W=$(echo $(exiftool $(cat matchac | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
+   cr_H=$(echo $(exiftool $(cat matchac | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
+   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
+   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#hugin aligning
+   /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned3.tif $(cat matchac | awk 'FNR == 1')
+#tblend filter chain
+   chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchac | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
+#producing the file
+   ffmpeg -i aligned3.tif%04d.tif -pix_fmt rgb24 -vf $chain$crp_fix "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif
+#move original file
+   mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchac | awk 'FNR == 1')
+then
+mv $(cat matchac | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
+   echo "$(tail -n +2 matchac)" > matchac
+#erase 
+   rm aligned3*.tif 
+done
  sleep 2 && rm HDR3.command & rm matchac
 clear
 echo $(tput bold)"HDR script 3 finished processing"$(tput sgr0)
@@ -584,7 +736,6 @@ mkdir -p A_ORIGINALS
 #choose HDR workflow
 if [ -f HDRmerge ]
 then
-sleep 5 && rm HDRmerge enfuse FFmpeg &
  while grep 'CR2' matchad >/dev/null 2>&1
   do 
 clear
@@ -601,17 +752,56 @@ fi
 
 if [ -f enfuse ]
 then
- while grep 'jpg\|JPG' matchad >/dev/null 2>&1
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchad >/dev/null 2>&1
   do
 clear
-echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+echo $(tput bold)"enfuse script 4 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned4.tif $(cat matchad | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned4*.tif)  
 rm aligned4*.tif 
 mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchad | awk 'FNR == 1')
+then
+mv $(cat matchad | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
 echo "$(tail -n +2 matchad)" > matchad
   done
- sleep 2 && rm HDR4.command & rm matchac
+ sleep 2 && rm HDR4.command & rm matchad
+clear
+echo $(tput bold)"HDR script 4 finished processing"$(tput sgr0)
+echo -n -e "\033]0;end4\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end4")' & exit
+fi
+
+if [ -f FFmpeg ]
+then
+ while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchad >/dev/null 2>&1
+  do
+clear
+echo $(tput bold)"FFmpeg script 4 is working!"$(tput sgr0)
+mkdir -p A_ORIGINALS
+#crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
+   cr_W=$(echo $(exiftool $(cat matchad | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
+   cr_H=$(echo $(exiftool $(cat matchad | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
+   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
+   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#hugin aligning
+   /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned4.tif $(cat matchad | awk 'FNR == 1')
+#tblend filter chain
+   chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchad | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
+#producing the file
+   ffmpeg -i aligned4.tif%04d.tif -pix_fmt rgb24 -vf $chain$crp_fix "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif
+#move original file
+   mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
+if grep 'preview3' <<< $(cat matchad | awk 'FNR == 1')
+then
+mv $(cat matchad | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
+fi
+   echo "$(tail -n +2 matchad)" > matchad
+#erase 
+   rm aligned4*.tif 
+done
+ sleep 2 && rm HDR4.command & rm matchad
 clear
 echo $(tput bold)"HDR script 4 finished processing"$(tput sgr0)
 echo -n -e "\033]0;end4\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end4")' & exit
