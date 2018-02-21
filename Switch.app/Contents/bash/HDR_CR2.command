@@ -356,7 +356,7 @@ then
  done
 #insert metadata recursively
  exiv2 -i X insert *.jpg 
-We are done, thanks exiv2
+#We are done, thanks exiv2
  rm *.xmp
 #list jpg,tiff files
  ls *.{jpg,JPG,tif,tiff,TIF,TIFF} > list
