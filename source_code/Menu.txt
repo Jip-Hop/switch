@@ -6168,8 +6168,8 @@ do
     ---------------------
 
     $(tput bold)(hm) $(tput setaf 0)HDRmerge$(tput sgr0)(CR2)
-    $(tput bold)(en) $(tput setaf 0)Enfuse$(tput sgr0)(both CR2,JPG)
-    $(tput bold)(ff) $(tput setaf 0)FFmpeg$(tput sgr0)(tblend filter)(still todo!)
+    $(tput bold)(en) $(tput setaf 0)Enfuse$(tput sgr0)(CR2,JPG,tif)
+    $(tput bold)(ff) $(tput setaf 0)FFmpeg$(tput sgr0)(CR2,JPG,tif)
 
     $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
 
