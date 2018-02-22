@@ -39,6 +39,7 @@
     find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/progress_bar.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/progress_bar_CF_SD.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/Switch_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
     export PATH="$path_2"Contents:$PATH
     cd "$(cat /tmp/DUALISO/path_1)"
