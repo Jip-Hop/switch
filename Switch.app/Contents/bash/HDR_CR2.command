@@ -193,47 +193,47 @@ while :
 do
  clear
 echo $(tput bold)"Still building brackets"$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets.."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets..."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets...."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets....."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets......"$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets......."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets........"$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets........."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 echo $(tput bold)"Still building brackets.........."$(tput sgr0)
-[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
+[ -f match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat match | tail -1) >/dev/null 2>&1 && echo $(cat match | tail -1)
 sleep 1
  clear
 done & pid1=$!
@@ -258,7 +258,7 @@ then
 #exiv2 extracts your jp files embedded in CR2 files
  exiv2 -ep3 -l . *.{cr2,CR2}
 #extract metadata info
- exiv2 -e X extract *.CR2
+ exiv2 -e X extract *.{cr2,CR2}
 #rename xmp to work as sidecars 
  for i in *.xmp ; do
  mv "$i" "${i/.xmp}"-preview3.xmp
@@ -270,7 +270,7 @@ then
 #list CR2 files
  ls *.{cr2,CR2} > list
 #let´s start
-while grep 'CR2' list >/dev/null 2>&1
+while grep 'CR2\|cr2' list >/dev/null 2>&1
 do
     if [ -f "$(cat list | awk 'FNR == 2')" ]
     then
@@ -344,7 +344,7 @@ then
  mkdir -p A_ORIGINALS
  ls *.{cr2,CR2} > list
 #let´s start
-while grep 'CR2' list >/dev/null 2>&1
+while grep 'CR2\|cr2' list >/dev/null 2>&1
 do
     if [ -f "$(cat list | awk 'FNR == 2')" ]
     then
@@ -408,7 +408,7 @@ then
 #exiv2 extracts your jp files embedded in CR2 files
  exiv2 -ep3 -l . *.{cr2,CR2}
 #extract metadata info
- exiv2 -e X extract *.CR2
+ exiv2 -e X extract *.{cr2,CR2}
 #rename xmp to work as sidecars 
  for i in *.xmp ; do
  mv "$i" "${i/.xmp}"-preview3.xmp
@@ -550,8 +550,8 @@ if [ -f all_in ]
 then
 pre=$(echo HDRmerge_)
 fi
- while grep 'CR2' matchaa >/dev/null 2>&1
-  do 
+ while grep 'CR2\|cr2' matchaa >/dev/null 2>&1
+  do
 clear
 echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat matchaa | awk 'FNR == 1')
@@ -706,7 +706,7 @@ if [ -f all_in ]
 then
 pre=$(echo HDRmerge_)
 fi
- while grep 'CR2' matchab >/dev/null 2>&1
+ while grep 'CR2\|cr2' matchab >/dev/null 2>&1
   do 
 clear
 echo $(tput bold)"HDRmerge script 2 is working!"$(tput sgr0)
@@ -860,7 +860,7 @@ if [ -f all_in ]
 then
 pre=$(echo HDRmerge_)
 fi
- while grep 'CR2' matchac >/dev/null 2>&1
+ while grep 'CR2\|cr2' matchac >/dev/null 2>&1
   do 
 clear
 echo $(tput bold)"HDRmerge script 3 is working!"$(tput sgr0)
@@ -1014,7 +1014,7 @@ if [ -f all_in ]
 then
 pre=$(echo HDRmerge_)
 fi
- while grep 'CR2' matchad >/dev/null 2>&1
+ while grep 'CR2\|cr2' matchad >/dev/null 2>&1
   do 
 clear
 echo $(tput bold)"HDRmerge script 4 is working!"$(tput sgr0)
