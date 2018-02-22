@@ -44,6 +44,7 @@ white="$(tput setaf 7)"
 #HDRCR2_grouping
 #HDRCR2 brackets
 #HDR_MOV bash
+#HDR_CR2
 
 
 #if using the steroid version
@@ -909,6 +910,10 @@ fi
 fi
 
 
+
+
+
+
 #HDR_MOV bash
 if ls /tmp/DUALISO/HDR_MOV 
 then
@@ -973,6 +978,94 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 done
 fi
 
+#HDR_CR2
+if ls /tmp/DUALISO/HDR_CR2 
+then
+printf '\e[8;9;24t'
+printf '\e[3;955;0t'
+
+while :
+do 
+
+clear
+cat<<EOF
+    ------------
+    $(tput setaf 0)$(tput bold)HDR_CR2 bash$(tput sgr0)
+    ------------
+ $(tput bold)$(tput setaf 1)(K) Kill HDR_CR2 bash$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(C) Close this window$(tput sgr0)
+
+Selection number:
+EOF
+    read -n1
+    case "$REPLY" in
+    "K") 
+cd "$(cat /tmp/DUALISO/path_1)"
+ rm HDR*.command
+ rm list
+ rm match* 
+ rm *preview3.jpg
+ rm *.xmp
+ rm HDRmerge enfuse FFmpeg all_in
+rm all_in enfuse ffmpeg
+killall hdrmerge
+killall sleep
+killall align_image_stack
+killall enfuse
+killall ffmpeg
+killall exiv2
+killall exiftool
+killall bash 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac 
+done
+fi
+
+exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
+
+#The end
+printf '\e[8;16;35t'
+printf '\e[3;955;0t'
+while :
+do 
+killall sleep
+afplay /System/Library/Sounds/Tink.aiff 
+clear
+cat<<EOF
+Total running time:   
+$(tput bold)$black$(cat /tmp/DUALISO/"TOT_time")$(tput sgr0)
+X to FFmpeg ProRes:   
+$(tput bold)$black$(cat /tmp/DUALISO/"TOT_xprores" 2>/dev/null)$(tput sgr0)
+mlv_dump:   
+$(tput bold)$black$(cat /tmp/DUALISO/"TOT_mlv_dump" 2>/dev/null)$(tput sgr0)
+raw2dng:   
+$(tput bold)$black$(cat /tmp/DUALISO/"TOT_raw2dng" 2>/dev/null)$(tput sgr0)
+dcraw_FFmpeg ProRes:   
+$(tput bold)$black$(cat /tmp/DUALISO/"TOT_prores" 2>/dev/null)$(tput sgr0)
+cr2hdr(CR2 files):   
+$(tput bold)$black$(cat /tmp/DUALISO/"TOT_cr2hdr" 2>/dev/null)$(tput sgr0)
+
+$(tput bold)$(tput setaf 1)(q) Exit$(tput sgr0)
+EOF
+    read -n1
+    case "$REPLY" in
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac 
+done 
 
 exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 
