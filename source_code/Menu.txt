@@ -6202,10 +6202,14 @@ printf '\e[8;16;75t'
 printf '\e[3;650;0t'
 ;;
 
-    "hm") 
+    "hm")  
+echo > /tmp/DUALISO/HDR_CR2
+cd "$(cat /tmp/DUALISO/path_1)"
+sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
 echo > HDRmerge
 rm enfuse
 rm FFmpeg
+rm all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
@@ -6214,9 +6218,13 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
 ;;
 
     "en") 
+echo > /tmp/DUALISO/HDR_CR2
+cd "$(cat /tmp/DUALISO/path_1)"
+sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
 echo > enfuse
 rm HDRmerge
 rm FFmpeg
+rm all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
@@ -6225,9 +6233,13 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
 ;;
 
     "ff") 
+echo > /tmp/DUALISO/HDR_CR2
+cd "$(cat /tmp/DUALISO/path_1)"
+sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
 echo > FFmpeg
 rm enfuse
 rm HDRmerge
+rm all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
@@ -6236,6 +6248,9 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
 ;;
 
     "ai") 
+echo > /tmp/DUALISO/HDR_CR2
+cd "$(cat /tmp/DUALISO/path_1)"
+sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
 echo > all_in
 rm enfuse
 rm HDRmerge
