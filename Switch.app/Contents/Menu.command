@@ -6102,7 +6102,7 @@ done
 
 
    "b")
-printf '\e[8;15;75t'
+printf '\e[8;16;75t'
 printf '\e[3;650;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -6167,6 +6167,7 @@ do
     $(tput bold)Choose a HDR workflow$(tput sgr0)
     ---------------------
 
+    $(tput bold)(ti) $(tput setaf 0)Specify time gap$(tput sgr0)(default 5sec) $gap
     $(tput bold)(hm) $(tput setaf 0)HDRmerge$(tput sgr0)(CR2)
     $(tput bold)(en) $(tput setaf 0)Enfuse$(tput sgr0)(CR2,JPG,tif)
     $(tput bold)(ff) $(tput setaf 0)FFmpeg$(tput sgr0)(CR2,JPG,tif)
@@ -6178,6 +6179,28 @@ Please enter your selection number below and hit enter:
 EOF
     read -n2
     case "$REPLY" in
+
+    "ti")
+if [ -f time ] 
+then
+rm time
+clear
+echo $(tput bold)"removing"
+sleep 1
+gap=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify time gap:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 12 and hit enter)"
+read input_variable
+echo "time gap is set to: $(tput bold)$(tput setaf 4)$input_variable sec"$(tput sgr0)
+printf "%s\n" "$input_variable" >> time
+gap=$(tput bold)$(tput setaf 4)$(cat time)sec$(tput sgr0)
+fi
+printf '\e[8;16;75t'
+printf '\e[3;650;0t'
+;;
 
     "hm") 
 echo > HDRmerge
