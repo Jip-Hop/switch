@@ -101,7 +101,7 @@ esac
 fi
 
 #HDRmerge dependency
-if ! [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ] && [ -f HDRmerge ]
+if ! [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ]
 then
 printf '\e[8;16;85t'
 printf '\e[3;410;100t'
@@ -142,47 +142,8 @@ sleep 1
 esac
 fi
 
-#dcraw
-if ! [ -f "/usr/local/bin/dcraw" ] && [ -f enfuse ]
-then
-printf '\e[8;16;85t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"
-Checking for dcraw, please wait..."
-sleep 2
-read -p $(tput bold)"dcraw is not installed would you like to install it?$(tput setaf 1)
-(Y/N)?$(tput sgr0)
-" choice
-case "$choice" in 
-  y|Y ) 
-#!/bin/bash
-clear
-echo "Follow instructions in terminal window"
-sleep 2
-brew install dcraw
-if [ -f "/usr/local/bin/dcraw" ]
-then
-clear && echo "dcraw is installed and ready for use"
-else
-clear && echo "dcraw did not install"
-fi
-sleep 2
-;;
-  n|N ) 
-clear
-echo "no thanks!"
-sleep 1
-;;
-  * ) 
-echo "invalid selection, let´s start again"
-sleep 1
-;;
-esac
-fi
-
 #ffmpeg
-if ! [ -f "/usr/local/bin/ffmpeg" ] && [ -f FFmpeg ]
+if ! [ -f "/usr/local/bin/ffmpeg" ]
 then
 printf '\e[8;16;85t'
 printf '\e[3;410;100t'
@@ -199,6 +160,7 @@ case "$choice" in
 clear
 echo "Follow instructions in terminal window"
 sleep 2
+[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew install ffmpeg
 if [ -f "/usr/local/bin/ffmpeg" ]
 then
