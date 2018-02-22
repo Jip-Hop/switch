@@ -638,6 +638,7 @@ end run</string>
     find "$path_2"Contents/Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/afplayer.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/progress_bar.command -exec xattr -d -r com.apple.quarantine {} \;
+    find "$path_2"Contents/progress_bar_CF_SD.command -exec xattr -d -r com.apple.quarantine {} \;
     find "$path_2"Contents/Switch_MAIN_DBG.command -exec xattr -d -r com.apple.quarantine {} \;
     export PATH="$path_2"Contents:$PATH
     cd "$(cat /tmp/DUALISO/path_1)"
@@ -1968,28 +1969,28 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0C7F7573-4631-4B9F-8F98-DAB72AAFCC67</key>
-		<dict>
-			<key>from</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-			<key>to</key>
-			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
-		</dict>
-		<key>6C391C48-A80C-405D-BE9B-A6BBC742544A</key>
-		<dict>
-			<key>from</key>
-			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
-			<key>to</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-		</dict>
-		<key>6E4FEE0C-BE7F-4333-80DE-70AA4FD73688</key>
+		<key>22B71AC0-C380-4F65-A82B-210310A71ADA</key>
 		<dict>
 			<key>from</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 			<key>to</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 		</dict>
-		<key>76962270-EE7D-4F4B-B016-78B2E23E8788</key>
+		<key>8086790F-0DCA-4BB1-8A8F-3F2A5924FF95</key>
+		<dict>
+			<key>from</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<key>to</key>
+			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
+		</dict>
+		<key>90FC324D-1007-4399-AC02-785BEA878B5E</key>
+		<dict>
+			<key>from</key>
+			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
+			<key>to</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+		</dict>
+		<key>FB274FAA-3226-40C5-ACCD-21ECA8CBA7A8</key>
 		<dict>
 			<key>from</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
