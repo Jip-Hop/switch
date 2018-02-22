@@ -981,9 +981,18 @@ fi
 #HDR_CR2
 if ls /tmp/DUALISO/HDR_CR2 
 then
+cd "$(cat /tmp/DUALISO/path_1)"
 printf '\e[8;9;24t'
 printf '\e[3;955;0t'
-
+while sleep 2; 
+do
+if ! ls HDR*.command >/dev/null 2>&1
+then
+echo -n -e "\033]0;CR2window\007"
+kill $(echo $$)
+osascript -e 'tell application "Terminal" to close (every window whose name contains "CR2window")' & exit
+fi
+done & 
 while :
 do 
 
