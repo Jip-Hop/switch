@@ -6102,7 +6102,7 @@ done
 
 
    "b")
-printf '\e[8;15;70t'
+printf '\e[8;15;75t'
 printf '\e[3;650;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -6131,7 +6131,7 @@ do
     -------------
 
     $(tput bold)(mov) HDR MOV files$(tput sgr0)(hugin align/ffmpeg tblend)
-    $(tput bold)(cr2) HDR CR2 automation$(tput sgr0)(hugin/exiv2/HDRmerge/enfuse/ffmpeg)
+    $(tput bold)(cr2) HDR CR2,JPG,tif automation$(tput sgr0)(hugin/exiv2/HDRmerge/enfuse/ffmpeg)
 
     $(tput bold)$(tput setaf 1)(b) Main menu$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
@@ -6156,7 +6156,7 @@ echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)" 
 . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command &
 
-printf '\e[8;14;60t'
+printf '\e[8;15;75t'
 printf '\e[3;650;0t'
 
 while :
@@ -6170,6 +6170,7 @@ do
     $(tput bold)(hm) $(tput setaf 0)HDRmerge$(tput sgr0)(CR2)
     $(tput bold)(en) $(tput setaf 0)Enfuse$(tput sgr0)(CR2,JPG,tif)
     $(tput bold)(ff) $(tput setaf 0)FFmpeg$(tput sgr0)(CR2,JPG,tif)
+    $(tput bold)(ai) $(tput setaf 0)All in$(tput sgr0) compare output all workflows(Only CR2 files)
 
     $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
 
@@ -6204,6 +6205,18 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
 echo > FFmpeg
 rm enfuse
 rm HDRmerge
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+#start processing
+chmod u=rwx HDR_match.command 
+sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+;;
+
+    "ai") 
+echo > all_in
+rm enfuse
+rm HDRmerge
+rm FFmpeg
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
