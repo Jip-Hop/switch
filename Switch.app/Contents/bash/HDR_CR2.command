@@ -627,6 +627,11 @@ echo $(tput bold)"enfuse script 1 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned1.tif $(cat matchaa | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned1*.tif)  
 rm aligned1*.tif 
+#metadata going back to tif again
+   exiv2 -e X extract $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1)
+   mv $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
+   exiv2 -i X insert *.tif 
+   rm "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchaa | awk 'FNR == 1')
 then
@@ -777,6 +782,11 @@ echo $(tput bold)"enfuse script 2 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned2.tif $(cat matchab | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned2*.tif)  
 rm aligned2*.tif 
+#metadata going back to tif again
+   exiv2 -e X extract $(cat matchab | awk 'FNR == 1' | cut -d " " -f1)
+   mv $(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
+   exiv2 -i X insert *.tif 
+   rm "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchab | awk 'FNR == 1')
 then
@@ -926,6 +936,11 @@ echo $(tput bold)"enfuse script 3 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned3.tif $(cat matchac | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned3*.tif)  
 rm aligned3*.tif 
+#metadata going back to tif again
+   exiv2 -e X extract $(cat matchac | awk 'FNR == 1' | cut -d " " -f1)
+   mv $(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
+   exiv2 -i X insert *.tif 
+   rm "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchac | awk 'FNR == 1')
 then
@@ -1075,6 +1090,11 @@ echo $(tput bold)"enfuse script 4 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned4.tif $(cat matchad | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned4*.tif)  
 rm aligned4*.tif 
+#metadata going back to tif again
+   exiv2 -e X extract $(cat matchad | awk 'FNR == 1' | cut -d " " -f1)
+   mv $(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
+   exiv2 -i X insert *.tif 
+   rm "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchad | awk 'FNR == 1')
 then
