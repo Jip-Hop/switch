@@ -929,7 +929,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)HDR_MOV bash$(tput sgr0)
     ------------
  $(tput bold)$(tput setaf 1)(K) Kill HDR_MOV bash$(tput sgr0)
- $(tput bold)$(tput setaf 1)(C) Close this window$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(q) Close this window$(tput sgr0)
 
 Selection number:
 EOF
@@ -993,7 +993,7 @@ cat<<EOF
     $(tput setaf 0)$(tput bold)HDR_CR2 bash$(tput sgr0)
     ------------
  $(tput bold)$(tput setaf 1)(K) Kill HDR_CR2 bash$(tput sgr0)
- $(tput bold)$(tput setaf 1)(C) Close this window$(tput sgr0)
+ $(tput bold)$(tput setaf 1)(q) Close this window$(tput sgr0)
 
 Selection number:
 EOF
