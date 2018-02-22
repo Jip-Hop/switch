@@ -238,6 +238,15 @@ sleep 1
  clear
 done & pid1=$!
 
+#unified setting. Set time gap
+   if [ -f time ]
+   then 
+   gap=$(cat time)
+   rm time
+   else
+   gap=$(echo 5)
+   fi
+   
 #main loop(all_in)
 if [ -f all_in ]
 then
@@ -270,7 +279,7 @@ do
     num=$(echo "$num2" - "$num1" | bc -l)
     fi
 #group jpg files accordingly
-    while (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    while (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
     do
     if ! [ -f match ]
     then
@@ -303,7 +312,7 @@ do
     num=$(echo "$num2" - "$num1" | bc -l)
     fi
 #if not hdr keep shaving
-    while ! (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    while ! (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
     do
     echo -n "$(tail -n +2 list)" > list
     if [ -f "$(cat list | awk 'FNR == 2')" ]
@@ -344,7 +353,7 @@ do
     num=$(echo "$num2" - "$num1" | bc -l)
     fi
 #group jpg files accordingly
-    while (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    while (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
     do
     if ! [ -f match ]
     then
@@ -368,7 +377,7 @@ do
     num=$(echo "$num2" - "$num1" | bc -l)
     fi
 #if not hdr keep shaving
-    while ! (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    while ! (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
     do
     echo -n "$(tail -n +2 list)" > list
     if [ -f "$(cat list | awk 'FNR == 2')" ]
@@ -420,7 +429,7 @@ do
     num=$(echo "$num2" - "$num1" | bc -l)
     fi
 #group jpg files accordingly
-    while (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    while (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
     do
     if ! [ -f match ]
     then
@@ -444,7 +453,7 @@ do
     num=$(echo "$num2" - "$num1" | bc -l)
     fi
 #if not hdr keep shaving
-    while ! (( $(echo "$num < 3" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
+    while ! (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat list | awk 'FNR == 2')" ]
     do
     echo -n "$(tail -n +2 list)" > list
     if [ -f "$(cat list | awk 'FNR == 2')" ]
@@ -594,6 +603,12 @@ mv $(cat matchaa | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchaa)" > matchaa
 done
+#remove all_in list
+if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls HDR2.command HDR3.command HDR4.command)
+then 
+rm all_in
+rm LOG.txt
+fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchaa >/dev/null 2>&1
   do
@@ -723,6 +738,12 @@ mv $(cat matchab | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchab)" > matchab
 done
+#remove all_in list
+if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls HDR1.command HDR3.command HDR4.command)
+then 
+rm all_in
+rm LOG.txt
+fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchab >/dev/null 2>&1
   do
@@ -731,6 +752,7 @@ echo $(tput bold)"enfuse script 2 is working!"$(tput sgr0)
 mkdir -p A_ORIGINALS
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned2.tif $(cat matchab | awk 'FNR == 1') && /Applications/Hugin/tools_mac/enfuse -o "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned2*.tif)  
 rm aligned2*.tif 
+mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchab | awk 'FNR == 1')
 then
 mv $(cat matchab | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
@@ -850,6 +872,12 @@ mv $(cat matchac | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchac)" > matchac
 done
+#remove all_in list
+if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls HDR2.command HDR1.command HDR4.command)
+then 
+rm all_in
+rm LOG.txt
+fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchac >/dev/null 2>&1
   do
@@ -978,6 +1006,12 @@ mv $(cat matchad | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchad)" > matchad
 done
+#remove all_in list
+if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls HDR2.command HDR3.command HDR1.command)
+then 
+rm all_in
+rm LOG.txt
+fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchad >/dev/null 2>&1
   do
