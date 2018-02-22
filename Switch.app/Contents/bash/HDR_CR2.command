@@ -256,7 +256,7 @@ then
  rm *preview3.jpg
  mkdir -p A_ORIGINALS
 #exiv2 extracts your jp files embedded in CR2 files
- exiv2 -ep3 . *.{cr2,CR2}
+ exiv2 -ep3 -l . *.{cr2,CR2}
 #extract metadata info
  exiv2 -e X extract *.CR2
 #rename xmp to work as sidecars 
@@ -406,7 +406,7 @@ then
  rm *preview3.jpg
  mkdir -p A_ORIGINALS
 #exiv2 extracts your jp files embedded in CR2 files
- exiv2 -ep3 . *.{cr2,CR2}
+ exiv2 -ep3 -l . *.{cr2,CR2}
 #extract metadata info
  exiv2 -e X extract *.CR2
 #rename xmp to work as sidecars 
