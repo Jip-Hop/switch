@@ -20,6 +20,9 @@ cat <<'EOF' > HDR_match.command
 workingDir=`dirname "$0"`
 cd "${workingDir}"
 
+#not needed
+rm LOG.txt
+
 #hugin dependency
 if ! [ -f "/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack" ]
 then
@@ -593,7 +596,6 @@ then
     fi
     fi
 #the end
-rm LOG.txt
 echo -n -e "\033]0;end1\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end1")' & exit
 else
 rm matchaa
@@ -647,7 +649,6 @@ done
 if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls HDR2.command HDR3.command HDR4.command)
 then 
 rm all_in
-rm LOG.txt
 fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchaa >/dev/null 2>&1
@@ -776,7 +777,6 @@ then
     fi
     fi
 #the end
-rm LOG.txt
 echo -n -e "\033]0;end2\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end2")' & exit
 else
 rm matchab
@@ -829,7 +829,6 @@ done
 if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls HDR1.command HDR3.command HDR4.command)
 then 
 rm all_in
-rm LOG.txt
 fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchab >/dev/null 2>&1
@@ -957,7 +956,6 @@ then
     fi
     fi
 #the end
-rm LOG.txt
 echo -n -e "\033]0;end3\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end3")' & exit
 else
 rm matchac
@@ -1010,7 +1008,6 @@ done
 if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls HDR2.command HDR1.command HDR4.command)
 then 
 rm all_in
-rm LOG.txt
 fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchac >/dev/null 2>&1
@@ -1138,7 +1135,6 @@ then
     fi
     fi
 #the end
-rm LOG.txt
 echo -n -e "\033]0;end4\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end4")' & exit
 else
 rm matchad
@@ -1191,7 +1187,6 @@ done
 if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls HDR2.command HDR3.command HDR1.command)
 then 
 rm all_in
-rm LOG.txt
 fi
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchad >/dev/null 2>&1
