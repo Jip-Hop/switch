@@ -578,8 +578,22 @@ echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
 if ! [ -f all_in ]
 then
  sleep 2 && rm HDR1.command & rm matchaa
-clear
-echo $(tput bold)"HDR script 1 finished processing"$(tput sgr0)
+#check for multiple input folders
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls HDR2.command HDR3.command HDR4.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
+rm LOG.txt
 echo -n -e "\033]0;end1\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end1")' & exit
 else
 rm matchaa
@@ -747,8 +761,22 @@ echo $(tput bold)"HDRmerge script 2 is working!"$(tput sgr0)
 if ! [ -f all_in ]
 then
  sleep 2 && rm HDR2.command & rm matchab
-clear
-echo $(tput bold)"HDR script 2 finished processing"$(tput sgr0)
+#check for multiple input folders
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls HDR2.command HDR3.command HDR4.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
+rm LOG.txt
 echo -n -e "\033]0;end2\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end2")' & exit
 else
 rm matchab
@@ -914,8 +942,22 @@ echo $(tput bold)"HDRmerge script 3 is working!"$(tput sgr0)
 if ! [ -f all_in ]
 then
  sleep 2 && rm HDR3.command & rm matchac
-clear
-echo $(tput bold)"HDR script 3 finished processing"$(tput sgr0)
+#check for multiple input folders
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls HDR2.command HDR1.command HDR4.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
+rm LOG.txt
 echo -n -e "\033]0;end3\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end3")' & exit
 else
 rm matchac
@@ -1081,8 +1123,22 @@ echo $(tput bold)"HDRmerge script 4 is working!"$(tput sgr0)
 if ! [ -f all_in ]
 then
  sleep 2 && rm HDR4.command & rm matchad
-clear
-echo $(tput bold)"HDR script 4 finished processing"$(tput sgr0)
+#check for multiple input folders
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls HDR2.command HDR3.command HDR1.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
+rm LOG.txt
 echo -n -e "\033]0;end4\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end4")' & exit
 else
 rm matchad
