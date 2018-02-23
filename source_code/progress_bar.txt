@@ -981,7 +981,12 @@ fi
 #HDR_CR2
 if ls /tmp/DUALISO/HDR_CR2 
 then
+if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" ]
+then
+cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')"
+else
 cd "$(cat /tmp/DUALISO/path_1)"
+fi
 printf '\e[8;9;24t'
 printf '\e[3;955;0t'
 while sleep 2; 
@@ -1009,7 +1014,12 @@ EOF
     read -n1
     case "$REPLY" in
     "K") 
+if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" ]
+then
+cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')"
+else
 cd "$(cat /tmp/DUALISO/path_1)"
+fi
  rm HDR*.command
  rm list
  rm match* 

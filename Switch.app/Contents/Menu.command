@@ -6226,11 +6226,40 @@ echo "time gap is set to: $(tput bold)$(tput setaf 4)$input_variable sec"$(tput 
 printf "%s\n" "$input_variable" >> time
 gap=$(tput bold)$(tput setaf 4)$(cat time)sec$(tput sgr0)
 fi
+#iterate in folder tree
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then 
+    cp /tmp/folder_paths.txt /tmp/folder_pathsHDR.txt
+    while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 2')" ]
+    do
+    echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
+    cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
+    cp "$(cat /tmp/DUALISO/path_1)"/time ./
+    mkdir -p A_ORIGINALS
+    done
+    rm /tmp/folder_pathsHDR.txt
+    fi
 printf '\e[8;16;75t'
 printf '\e[3;650;0t'
 ;;
 
-    "hm")  
+    "hm") 
+#iterate in folder tree
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then 
+    cp /tmp/folder_paths.txt /tmp/folder_pathsHDR.txt
+    while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 2')" ]
+    do
+    echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
+    cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
+    mkdir -p A_ORIGINALS
+    echo > HDRmerge
+    rm enfuse
+    rm FFmpeg
+    rm all_in
+    done
+    rm /tmp/folder_pathsHDR.txt
+    fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
@@ -6246,6 +6275,22 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
 ;;
 
     "en") 
+#iterate in folder tree
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then 
+    cp /tmp/folder_paths.txt /tmp/folder_pathsHDR.txt
+    while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 2')" ]
+    do
+    echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
+    cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
+    mkdir -p A_ORIGINALS
+    echo > enfuse
+    rm HDRmerge
+    rm FFmpeg
+    rm all_in
+    done
+    rm /tmp/folder_pathsHDR.txt
+    fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
@@ -6261,6 +6306,22 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
 ;;
 
     "ff") 
+#iterate in folder tree
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then 
+    cp /tmp/folder_paths.txt /tmp/folder_pathsHDR.txt
+    while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 2')" ]
+    do
+    echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
+    cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
+    mkdir -p A_ORIGINALS
+    echo > FFmpeg
+    rm HDRmerge
+    rm enfuse
+    rm all_in
+    done
+    rm /tmp/folder_pathsHDR.txt
+    fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
@@ -6276,6 +6337,22 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
 ;;
 
     "ai") 
+#iterate in folder tree
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then 
+    cp /tmp/folder_paths.txt /tmp/folder_pathsHDR.txt
+    while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 2')" ]
+    do
+    echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
+    cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
+    mkdir -p A_ORIGINALS
+    echo > all_in
+    rm HDRmerge
+    rm enfuse
+    rm FFmpeg
+    done
+    rm /tmp/folder_pathsHDR.txt
+    fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
