@@ -82,7 +82,7 @@ sleep 3
 
 
 #printf '\e[3;0;0t'
-printf '\e[8;26;95t'
+printf '\e[8;28;95t'
 printf '\e[3;410;100t'
 
 
@@ -103,10 +103,12 @@ $(tput bold)input folder: $(tput setaf 4)$(cat /tmp/DUALISO/"path_1")/$(tput sgr
     $(tput bold)(03) $(tput sgr0)Copy only $(tput bold)DNG $(tput sgr0)to selected folder	
     $(tput bold)(04) $(tput sgr0)Copy only $(tput bold)MOV $(tput sgr0)to selected folder
     $(tput bold)(05) $(tput sgr0)Copy only $(tput bold)CR2 $(tput sgr0)to selected folder
+    $(tput bold)(06) $(tput sgr0)Copy only $(tput bold)JPG $(tput sgr0)to selected folder
     $(tput bold)(ML) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) MLV files from CF/SD card$(tput bold)
     $(tput bold)(MO) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) MOV files from CF/SD card$(tput bold)
     $(tput bold)(DN) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) DNG files from CF/SD card$(tput bold)
     $(tput bold)(CR) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) CR2 files from CF/SD card$(tput bold)
+    $(tput bold)(JP) $(tput sgr0)$(tput bold)DELETE$(tput sgr0) JPG files from CF/SD card$(tput bold)
     $(tput bold)$(tput setaf 1)(mp) MlRawViewer$(tput sgr0)
     $(tput bold)$(tput setaf 1)(op) Open CF/SD folder$(tput sgr0)
     $(tput bold)$(tput setaf 1)(EJ) Eject SD/CF card$(tput sgr0)
@@ -186,6 +188,16 @@ $(tput sgr0)$(tput bold)$(tput setaf 1)
 Copying CR2..."$(tput sgr0) ; sleep 2
 ;;
 
+   "06") 
+echo > /tmp/DUALISO/COPY7
+open "$(cat /tmp/DUALISO/path_2)"progress_bar_CF_SD.command & 
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Copying JPG..."$(tput sgr0) ; sleep 2
+;;
+
    "ML")
 clear
 read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
@@ -247,6 +259,22 @@ echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
 DELETING CR2 files from SD/CF card..."$(tput sgr0) ; sleep 2
+fi
+;;
+
+   "JP")  
+clear
+read -p $(tput bold)"Are you sure about deleting?$(tput setaf 1)
+
+Y/N?"$(tput sgr0) -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then 
+find /Volumes/EOS_*/DCIM -name "*.JPG" -type f -delete &
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+DELETING JPG files from SD/CF card..."$(tput sgr0) ; sleep 2
 fi
 ;;
 

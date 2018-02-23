@@ -43,7 +43,7 @@ white="$(tput setaf 7)"
 ######(03) Copy only DNG to selected folder
 ######(04) Copy only MOV to selected folder
 ######(05) Copy only CR2 to selected folder
-######
+######(06) Copy only JPG to selected folder
 ######
 ######
 ######
@@ -311,7 +311,7 @@ if ls /tmp/DUALISO/COPY4 >/dev/null 2>&1;
 then
 rm /tmp/DUALISO/COPY4
 
-#Let´s copy MLV files to selected folder
+#Let´s copy DNG files to selected folder
 cp /Volumes/EOS_*/DCIM/*/*.DNG 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
@@ -396,7 +396,7 @@ if ls /tmp/DUALISO/COPY5 >/dev/null 2>&1;
 then
 rm /tmp/DUALISO/COPY5
 
-#Let´s copy MLV files to selected folder
+#Let´s copy MOV files to selected folder
 cp /Volumes/EOS_*/DCIM/*/*.MOV 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
@@ -481,7 +481,7 @@ if ls /tmp/DUALISO/COPY6 >/dev/null 2>&1;
 then
 rm /tmp/DUALISO/COPY6
 
-#Let´s copy MLV files to selected folder
+#Let´s copy CR2 files to selected folder
 cp /Volumes/EOS_*/DCIM/*/*.CR2 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
 
 printf '\e[8;08;20t'
@@ -558,5 +558,90 @@ osascript -e 'tell application "Terminal" to close first window' & exit
      * )  echo "invalid option"     ;;
     esac 
 fi
+
+
+######(06) Copy only JPG to selected folder
+if ls /tmp/DUALISO/COPY7 >/dev/null 2>&1;
+then
+rm /tmp/DUALISO/COPY7
+
+#Let´s copy JPG files to selected folder
+cp /Volumes/EOS_*/DCIM/*/*.JPG 1> /dev/null 2>&1 "$(cat /tmp/DUALISO/"path_1")" || : && echo -n -e "\033]0;COPYwindow\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "COPYwindow")' & exit &
+
+printf '\e[8;08;20t'
+printf '\e[3;25;0t'
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying.....
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+    ----------
+    $(tput setaf 0)$(tput bold)CF/SD copy$(tput sgr0)
+    ----------
+
+    $(tput bold)Copying$dot1$dot2$dot3$dot4$dot5
+
+ $(tput bold)$(tput setaf 1)(K) Kill copying$(tput sgr0)
+EOF
+done &
+
+    read -n1
+    case "$REPLY" in
+
+    "K") 
+killall sleep
+killall find
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac 
+fi
+
 
 

@@ -481,12 +481,12 @@ echo $(tput bold)"Bracketing done!"$(tput sgr0)
 sleep 2
 
 #let´s continue by splitting match list for multiprocessing purposes
-split -l $(( $( wc -l < match ) / 3 + 1 )) match match
+split -l $(( $( wc -l < match ) / 4 + 1 )) match match
 rm match
 #if all_in mode selected
 if [ -f all_in ]
 then
-split -l $(( $( wc -l < matchB ) / 3 + 1 )) matchB matchB
+split -l $(( $( wc -l < matchB ) / 4 + 1 )) matchB matchB
 rm matchB
 fi
 
