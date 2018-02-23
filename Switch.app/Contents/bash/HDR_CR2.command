@@ -645,11 +645,28 @@ mv $(cat matchaa | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchaa)" > matchaa
 done
+rm HDR1.command
+rm matchaa
 #remove all_in list
 if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls HDR2.command HDR3.command HDR4.command)
 then 
 rm all_in
 fi
+#check for multiple input folders(all_in)
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls HDR2.command HDR3.command HDR4.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchaa >/dev/null 2>&1
   do
@@ -838,11 +855,28 @@ mv $(cat matchab | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchab)" > matchab
 done
+rm HDR2.command
+rm matchab
 #remove all_in list
 if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls HDR1.command HDR3.command HDR4.command)
 then 
 rm all_in
 fi
+#check for multiple input folders(all_in)
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls HDR1.command HDR3.command HDR4.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchab >/dev/null 2>&1
   do
@@ -1030,11 +1064,28 @@ mv $(cat matchac | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchac)" > matchac
 done
+rm HDR3.command
+rm matchac
 #remove all_in list
 if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls HDR2.command HDR1.command HDR4.command)
 then 
 rm all_in
 fi
+#check for multiple input folders(all_in)
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls HDR2.command HDR1.command HDR4.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchac >/dev/null 2>&1
   do
@@ -1222,11 +1273,28 @@ mv $(cat matchad | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGI
 fi
 echo "$(tail -n +2 matchad)" > matchad
 done
+rm HDR4.command
+rm matchad
 #remove all_in list
 if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls HDR2.command HDR3.command HDR1.command)
 then 
 rm all_in
 fi
+#check for multiple input folders
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then
+    if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls HDR2.command HDR3.command HDR1.command)
+    then 
+    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
+    echo > /tmp/DUALISO/HDR_CR2
+    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
+    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
+    chmod u=rwx HDR_match.command 
+    sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    fi
+    fi
+#the end
 else
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' matchad >/dev/null 2>&1
   do
