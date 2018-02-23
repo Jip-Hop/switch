@@ -1017,6 +1017,7 @@ EOF
 if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" ]
 then
 cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')"
+echo "$(head -n +1 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
 else
 cd "$(cat /tmp/DUALISO/path_1)"
 fi
@@ -1035,7 +1036,7 @@ killall ffmpeg
 killall exiv2
 killall exiftool
 killall bash 
-osascript -e 'tell application "Terminal" to close first window' & exit
+sleep 0.3 && osascript -e 'tell application "Terminal" to close first window' & exit & osascript -e 'tell application "Terminal" to close first window' & exit 
 ;;
 
     "q") 
