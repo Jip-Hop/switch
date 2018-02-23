@@ -587,7 +587,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned1*.tif) 
    rm Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
@@ -604,7 +604,7 @@ rm aligned1*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif 
    rm FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchaa | awk 'FNR == 1')
@@ -630,7 +630,7 @@ rm aligned1*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned1*.tif) 
    rm "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchaa | awk 'FNR == 1')
@@ -669,7 +669,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif 
    rm "$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #move original file
    mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
@@ -742,7 +742,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchab | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned2*.tif) 
    rm Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
@@ -759,7 +759,7 @@ rm aligned2*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchab | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif 
    rm FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchab | awk 'FNR == 1')
@@ -785,7 +785,7 @@ rm aligned2*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchab | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned2*.tif) 
    rm "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchab | awk 'FNR == 1')
@@ -823,7 +823,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchab | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif
    rm "$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #move original file
    mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
@@ -896,7 +896,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchac | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned3*.tif)
    rm Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
@@ -913,7 +913,7 @@ rm aligned3*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchac | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif
    rm FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchac | awk 'FNR == 1')
@@ -939,7 +939,7 @@ rm aligned3*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchac | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned3*.tif) 
    rm "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchac | awk 'FNR == 1')
@@ -977,7 +977,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchac | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif 
    rm "$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #move original file
    mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
@@ -1050,7 +1050,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchad | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned4*.tif) 
    rm Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
@@ -1067,7 +1067,7 @@ rm aligned4*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchad | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif 
    rm FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchad | awk 'FNR == 1')
@@ -1093,7 +1093,7 @@ rm aligned4*.tif
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchad | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned4*.tif) 
    rm "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchad | awk 'FNR == 1')
@@ -1131,7 +1131,7 @@ mkdir -p A_ORIGINALS
 #metadata going back to tif again
    exiv2 -e X extract $(cat matchad | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
-   exiv2 -i X insert *.tif 
+   exiv2 -i X insert "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif 
    rm "$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #move original file
    mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
