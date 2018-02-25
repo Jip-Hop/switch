@@ -63,6 +63,46 @@ sleep 1
 esac
 fi
 
+#exiftool dependency
+if ! [ -f "/usr/local/bin/exiftool" ]
+then
+printf '\e[8;16;85t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"
+Checking for exiftool, please wait..."
+sleep 2
+read -p $(tput bold)"exiftool is not installed would you like to install it?$(tput setaf 1)
+(Y/N)?$(tput sgr0)
+" choice
+case "$choice" in 
+  y|Y ) 
+#!/bin/bash
+clear
+echo "Follow instructions in terminal window"
+sleep 2
+[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install exiftool
+if [ -f "/usr/local/bin/exiftool" ]
+then
+clear && echo "exiftool is intalled and ready for use"
+else
+clear && echo "exiftool did not install"
+fi
+sleep 2
+;;
+  n|N ) 
+clear
+echo "no thanks!"
+sleep 1
+;;
+  * ) 
+echo "invalid selection, let´s start again"
+sleep 1
+;;
+esac
+fi
+
 #exiv2 dependency
 if ! [ -f "/usr/local/bin/exiv2" ]
 then
