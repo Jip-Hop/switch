@@ -501,6 +501,7 @@ fi
     then
     rm HDRmerge enfuse FFmpeg all_in LOG.txt
     rm HDR*.command
+    rm silent
     sleep 2
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
