@@ -511,13 +511,21 @@ fi
     sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     else
 #remove unwanted subscripts
+#set silent mode
+    if [ -f silent ]
+    then
+    sleep 5 && rm silent &
+    mode=$(echo .)
+    else
+    mode=$(echo open)
+    fi
 if ! [ -f matchaa ]
 then
   rm HDR1.command
   rm HDRmerge enfuse FFmpeg all_in
   else
   chmod u=rwx HDR1.command
-  open HDR1.command & 
+  $mode HDR1.command & 
 fi
 
 if ! [ -f matchab ] 
@@ -525,7 +533,7 @@ if ! [ -f matchab ]
   rm HDR2.command
   else
   chmod u=rwx HDR2.command 
-  open HDR2.command & 
+  $mode HDR2.command & 
 fi
 
 if ! [ -f matchac ]
@@ -533,7 +541,7 @@ if ! [ -f matchac ]
   rm HDR3.command
   else
   chmod u=rwx HDR3.command
-  open HDR3.command &  
+  $mode HDR3.command &  
 fi
 
 if ! [ -f matchad ]
@@ -541,7 +549,7 @@ if ! [ -f matchad ]
   rm HDR4.command
   else
   chmod u=rwx HDR4.command 
-  open HDR4.command & 
+  $mode HDR4.command & 
 fi
     fi
 #remove first command and start HDRmerge processing

@@ -6184,7 +6184,7 @@ echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)" 
 . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command &
 
-printf '\e[8;15;75t'
+printf '\e[8;17;75t'
 printf '\e[3;650;0t'
 
 while :
@@ -6196,6 +6196,7 @@ do
     ---------------------
 
     $(tput bold)(ti) $(tput setaf 0)Specify time gap$(tput sgr0)(default 5sec) $gap
+    $(tput bold)(si) $(tput setaf 0)Silent mode$(tput sgr0) (less verbosity) $silent
     $(tput bold)(hm) $(tput setaf 0)HDRmerge$(tput sgr0)(CR2)
     $(tput bold)(en) $(tput setaf 0)Enfuse$(tput sgr0)(CR2,JPG,tif)
     $(tput bold)(ff) $(tput setaf 0)FFmpeg$(tput sgr0)(CR2,JPG,tif)
@@ -6207,6 +6208,54 @@ Please enter your selection number below and hit enter:
 EOF
     read -n2
     case "$REPLY" in
+
+    "si")
+if [ -f silent ] 
+then
+rm silent
+clear
+echo $(tput bold)"removing"
+#iterate in folder tree
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then 
+    cp /tmp/folder_paths.txt /tmp/folder_pathsHDR.txt
+    while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')" ]
+    do
+    cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
+    rm silent
+    echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
+    mkdir -p A_ORIGINALS
+    done
+    rm /tmp/folder_pathsHDR.txt
+    fi
+sleep 1
+silent=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo > silent
+clear
+echo "silent added"
+sleep 1
+silent=$(echo "$bold""$green"added!"$normal")
+#iterate in folder tree
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    then 
+    cp /tmp/folder_paths.txt /tmp/folder_pathsHDR.txt
+    while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')" ]
+    do
+    cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
+    echo > silent
+    echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
+    mkdir -p A_ORIGINALS
+    done
+    rm /tmp/folder_pathsHDR.txt
+    fi
+fi
+printf '\e[8;17;75t'
+printf '\e[3;650;0t'
+;;
 
     "ti")
 if [ -f time ] 
