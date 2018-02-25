@@ -6269,7 +6269,7 @@ else
 printf '\e[8;16;53t'
 printf '\e[3;410;100t'
 clear
-echo $(tput bold)"Specify time gap:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 12 and hit enter)"
+echo $(tput bold)"Specify time gap:$(tput sgr0)$(tput bold)\(e.g$(tput sgr0) 12 and hit enter\)"
 read input_variable
 echo "time gap is set to: $(tput bold)$(tput setaf 4)$input_variable sec"$(tput sgr0)
 printf "%s\n" "$input_variable" >> time
