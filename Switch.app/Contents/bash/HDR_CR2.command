@@ -630,7 +630,7 @@ echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
 #all_in mode
 if ! [ -f all_in ]
 then
- sleep 2 && rm HDR1.command & rm matchaa
+rm HDR1.command matchaa
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -753,7 +753,7 @@ fi
 echo "$(tail -n +2 matchaa)" > matchaa
   done
 fi
- sleep 2 && rm HDR1.command & rm matchaa
+rm HDR1.command matchaa
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -812,7 +812,7 @@ fi
 #erase 
    rm aligned1*.tif 
 done
- sleep 2 && rm HDR1.command & rm matchaa
+rm HDR1.command matchaa
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -862,7 +862,7 @@ echo $(tput bold)"HDRmerge script 2 is working!"$(tput sgr0)
 #all_in mode
 if ! [ -f all_in ]
 then
- sleep 2 && rm HDR2.command & rm matchab
+rm HDR2.command matchab
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -985,7 +985,7 @@ fi
 echo "$(tail -n +2 matchab)" > matchab
   done
 fi
- sleep 2 && rm HDR2.command & rm matchab
+rm HDR2.command matchab
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -1043,7 +1043,7 @@ fi
 #erase 
    rm aligned2*.tif 
 done
- sleep 2 && rm HDR2.command & rm matchab
+rm HDR2.command matchab
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -1093,7 +1093,7 @@ echo $(tput bold)"HDRmerge script 3 is working!"$(tput sgr0)
 #all_in mode
 if ! [ -f all_in ]
 then
- sleep 2 && rm HDR3.command & rm matchac
+rm HDR3.command matchac
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -1216,7 +1216,7 @@ fi
 echo "$(tail -n +2 matchac)" > matchac
   done
 fi
- sleep 2 && rm HDR3.command & rm matchac
+rm HDR3.command matchac
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -1274,7 +1274,7 @@ fi
 #erase 
    rm aligned3*.tif 
 done
- sleep 2 && rm HDR3.command & rm matchac
+rm HDR3.command matchac
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -1324,7 +1324,7 @@ echo $(tput bold)"HDRmerge script 4 is working!"$(tput sgr0)
 #all_in mode
 if ! [ -f all_in ]
 then
- sleep 2 && rm HDR4.command & rm matchad
+rm HDR4.command matchad
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -1447,7 +1447,7 @@ fi
 echo "$(tail -n +2 matchad)" > matchad
   done
 fi
- sleep 2 && rm HDR4.command & rm matchad
+rm HDR4.command matchad
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
@@ -1505,7 +1505,7 @@ fi
 #erase 
    rm aligned4*.tif 
 done
- sleep 2 && rm HDR4.command & rm matchad
+rm HDR4.command matchad
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then
