@@ -670,9 +670,12 @@ mkdir -p A_ORIGINALS
    exiv2 -e X extract $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
    exiv2 -i X insert Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned1*.tif) 
-   rm Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #build a preview jpg
     ffmpeg -i Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg 
+#metadata going back to jpg preview
+   mv Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/Enfuse_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchaa | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
@@ -691,6 +694,10 @@ rm aligned1*.tif
    exiv2 -i X insert FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif 
 #build a preview jpg
     ffmpeg -i FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg 
+#metadata going back to jpg preview
+   mv FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/FFmpeg_"$(cat matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchaa | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchaa | awk 'FNR == 1')
 then
@@ -894,9 +901,12 @@ mkdir -p A_ORIGINALS
    exiv2 -e X extract $(cat matchab | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
    exiv2 -i X insert Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned2*.tif) 
-   rm Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #build a preview jpg
     ffmpeg -i Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg 
+#metadata going back to jpg preview
+   mv Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/Enfuse_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchab | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
@@ -916,6 +926,10 @@ rm aligned2*.tif
    rm FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #build a preview jpg
     ffmpeg -i FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+#metadata going back to jpg preview
+   mv FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/FFmpeg_"$(cat matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchab | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchab | awk 'FNR == 1')
 then
@@ -1118,9 +1132,12 @@ mkdir -p A_ORIGINALS
    exiv2 -e X extract $(cat matchac | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
    exiv2 -i X insert Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned3*.tif)
-   rm Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #build a preview jpg
     ffmpeg -i Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg 
+#metadata going back to jpg preview
+   mv Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/Enfuse_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchac | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
@@ -1140,6 +1157,10 @@ rm aligned3*.tif
    rm FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #build a preview jpg
     ffmpeg -i FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg 
+#metadata going back to jpg preview
+   mv FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/FFmpeg_"$(cat matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchac | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchac | awk 'FNR == 1')
 then
@@ -1342,9 +1363,12 @@ mkdir -p A_ORIGINALS
    exiv2 -e X extract $(cat matchad | awk 'FNR == 1' | cut -d " " -f1)
    mv $(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1).xmp Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
    exiv2 -i X insert Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif $(echo -n aligned4*.tif) 
-   rm Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #build a preview jpg
     ffmpeg -i Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg 
+#metadata going back to jpg preview
+   mv Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/Enfuse_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp 
 #FFmpeg
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchad | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
@@ -1364,6 +1388,10 @@ rm aligned4*.tif
    rm FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 #build a preview jpg
     ffmpeg -i FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".tif -pix_fmt rgb24 A_previews/FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg 
+#metadata going back to jpg preview
+   mv FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp A_previews
+   exiv2 -i X insert A_previews/FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
+   rm A_previews/FFmpeg_"$(cat matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp
 mv $(cat matchad | awk 'FNR == 1') A_ORIGINALS
 if grep 'preview3' <<< $(cat matchad | awk 'FNR == 1')
 then
