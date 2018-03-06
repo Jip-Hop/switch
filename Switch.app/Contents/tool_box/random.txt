@@ -1,3 +1,11 @@
 useful when counting file content to overcome "argument list too long" issue.
 
 ls -1 | grep -v 'wav' | wc -l
+
+
+#detect blackframe thorugh ffmpeg:
+
+if grep -q 'pblack' <<< $(ffmpeg -i $(ls *.MOV | head -1) -vframes 1 -y -vf blackframe -f null /dev/null 2>&1 | grep -m1 'pblack')
+then 
+echo yes
+fi
