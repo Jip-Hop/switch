@@ -680,9 +680,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchaa | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchaa | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchaa | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #tblend filter chain
    chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchaa | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
 #producing the file
@@ -783,9 +791,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchaa | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchaa | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchaa | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #hugin aligning
    /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned1.tif $(cat matchaa | awk 'FNR == 1')
 #tblend filter chain
@@ -911,9 +927,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchab | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchab | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchab | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #tblend filter chain
    chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchab | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
 #producing the file
@@ -1014,9 +1038,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchab | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchab | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchab | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #hugin aligning
    /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned2.tif $(cat matchab | awk 'FNR == 1')
 #tblend filter chain
@@ -1142,9 +1174,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchac | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchac | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchac | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #tblend filter chain
    chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchac | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
 #producing the file
@@ -1245,9 +1285,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchac | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchac | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchac | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #hugin aligning
    /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned3.tif $(cat matchac | awk 'FNR == 1')
 #tblend filter chain
@@ -1373,9 +1421,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchad | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchad | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchad | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #tblend filter chain
    chain=$(echo $(yes "tblend=all_mode=average," | head -n $(echo $(grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' <<< $(cat matchad | awk 'FNR == 1') | wc -w)-1 | bc -l)) | tr -d " ")
 #producing the file
@@ -1476,9 +1532,17 @@ mkdir -p A_ORIGINALS
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
    cr_W=$(echo $(exiftool $(cat matchad | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f1 ))
    cr_H=$(echo $(exiftool $(cat matchad | head -1) | grep 'Image Size' | grep -v 'Canon Image Size' | awk '/Image Size/ { print $4; exit }' | cut -d "x" -f2 ))
-   cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
-   cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
-   crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
+#use aligne_image_stack to determine crop area
+   crop1=$(/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -v -C -a aligned1.tif $(cat matchad | awk 'FNR == 1') | grep -m 1 'Set crop size' | awk '{ print $5}' | cut -d ',' -f1,2,3,4)
+#set all crop parameters
+   cr_Wx=$(echo $crop1 | cut -d ',' -f1)
+   cr_Wy=$(echo $crop1 | cut -d ',' -f2)
+   cr_Ws=$(echo $crop1 | cut -d ',' -f3)
+   cr_Hs=$(echo $crop1 | cut -d ',' -f4)
+   cr_Ws=$(echo $cr_Ws-$cr_Wx | bc -l)
+   cr_Hs=$(echo $cr_Hs-$cr_Wy | bc -l)
+#crop result   
+   crp_fix=$(echo crop=$cr_Ws:$cr_Hs:$cr_Wx:$cr_Wy,scale=$cr_W:-1)
 #hugin aligning
    /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned4.tif $(cat matchad | awk 'FNR == 1')
 #tblend filter chain
