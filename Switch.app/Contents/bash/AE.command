@@ -255,4 +255,5 @@ done
  rm *.xmp
 #restore tmp disable xmp file
  mv *.xmptmp $(ls *.xmptmp | head -1 | rev | cut -c 4- | rev)
+ mv $(ls *.xmp | head -1) A_ORIGINALS
 EOF
