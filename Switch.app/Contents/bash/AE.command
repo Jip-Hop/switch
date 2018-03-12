@@ -25,6 +25,13 @@ rm LOG.txt
  split -l $(( $( wc -l < AE_list ) / 4 + 1 )) AE_list AE_list
  rm AE_list
 
+#Find aerender among multiple versions
+    ls -td /Applications/Adobe\ After\ * > /tmp/AErenderPATH
+    while ! ls "$(cat /tmp/AErenderPATH | head -1)"/aerender
+    do
+    echo "$(tail -n +2 /tmp/AErenderPATH)" > /tmp/AErenderPATH
+    done
+
 #build subscripts
  if ls AE_listaa >/dev/null 2>&1
  then
@@ -52,7 +59,7 @@ printf '\e[3;410;100t'
  fi
  cp "$(cat AE_listaa | head -1)" $comp
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
-/Applications/Adobe\ After\ Effects\ CS6/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listaa | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
+"$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listaa | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listaa | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listaa | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
 #move original back to parent folder
  mv $(cat AE_listaa | head -1) ../
@@ -99,7 +106,7 @@ printf '\e[3;410;100t'
  fi
  cp "$(cat AE_listab | head -1)" $comp
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
-/Applications/Adobe\ After\ Effects\ CS6/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listab | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
+"$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listab | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listab | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listab | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
 #move original back to parent folder
  mv $(cat AE_listab | head -1) ../
@@ -146,7 +153,7 @@ printf '\e[3;410;100t'
  fi
  cp "$(cat AE_listac | head -1)" $comp
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
-/Applications/Adobe\ After\ Effects\ CS6/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listac | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
+"$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listac | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listac | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listac | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
 #move original back to parent folder
  mv $(cat AE_listac | head -1) ../
@@ -193,7 +200,7 @@ printf '\e[3;410;100t'
  fi
  cp "$(cat AE_listad | head -1)" $comp
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
-/Applications/Adobe\ After\ Effects\ CS6/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listad | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
+"$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listad | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listad | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listad | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
 #move original back to parent folder
  mv $(cat AE_listad | head -1) ../
