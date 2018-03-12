@@ -39,8 +39,7 @@ rm LOG.txt
  mkdir -p tmp1
  mv $(cat AE_listaa) tmp1 
  cp "$(ls *.aep | head -1)" tmp1
- mv AE_listaa tmp1
- cp *.xmp tmp1 
+ mv AE_listaa tmp1 
 cat <<'EOF' > AE_01.command
 #!/bin/bash
 workingDir=`dirname "$0"`
@@ -58,6 +57,14 @@ printf '\e[3;410;100t'
  cp $comp tmp_$comp
  fi
  cp "$(cat AE_listaa | head -1)" $comp
+#check for matching xmp file
+ rm *.xmp
+ if [ -f ../"$(cat AE_listaa | head -1 | cut -d '.' -f1)".xmp ]
+ then 
+ cp ../"$(cat AE_listaa | head -1 | cut -d '.' -f1)".xmp ./
+ else
+ cp $(ls ../*.xmp | head -1) ./
+ fi
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
 "$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listaa | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listaa | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listaa | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
@@ -87,7 +94,6 @@ EOF
  mv $(cat AE_listab) tmp2 
  cp "$(ls *.aep | head -1)" tmp2
  mv AE_listab tmp2
- cp *.xmp tmp2 
 cat <<'EOF' > AE_02.command
 #!/bin/bash
 workingDir=`dirname "$0"`
@@ -105,6 +111,14 @@ printf '\e[3;410;100t'
  cp $comp tmp_$comp
  fi
  cp "$(cat AE_listab | head -1)" $comp
+#check for matching xmp file
+ rm *.xmp
+ if [ -f ../"$(cat AE_listab | head -1 | cut -d '.' -f1)".xmp ]
+ then 
+ cp ../"$(cat AE_listab | head -1 | cut -d '.' -f1)".xmp ./
+ else
+ cp $(ls ../*.xmp | head -1) ./
+ fi
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
 "$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listab | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listab | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listab | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
@@ -134,7 +148,6 @@ EOF
  mv $(cat AE_listac) tmp3 
  cp "$(ls *.aep | head -1)" tmp3
  mv AE_listac tmp3
- cp *.xmp tmp3 
 cat <<'EOF' > AE_03.command
 #!/bin/bash
 workingDir=`dirname "$0"`
@@ -152,6 +165,14 @@ printf '\e[3;410;100t'
  cp $comp tmp_$comp
  fi
  cp "$(cat AE_listac | head -1)" $comp
+#check for matching xmp file
+ rm *.xmp
+ if [ -f ../"$(cat AE_listac | head -1 | cut -d '.' -f1)".xmp ]
+ then 
+ cp ../"$(cat AE_listac | head -1 | cut -d '.' -f1)".xmp ./
+ else
+ cp $(ls ../*.xmp | head -1) ./
+ fi
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
 "$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listac | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listac | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listac | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
@@ -181,7 +202,6 @@ EOF
  mv $(cat AE_listad) tmp4 
  cp "$(ls *.aep | head -1)" tmp4
  mv AE_listad tmp4
- cp *.xmp tmp4 
 cat <<'EOF' > AE_04.command
 #!/bin/bash
 workingDir=`dirname "$0"`
@@ -199,6 +219,14 @@ printf '\e[3;410;100t'
  cp $comp tmp_$comp
  fi
  cp "$(cat AE_listad | head -1)" $comp
+#check for matching xmp file
+ rm *.xmp
+ if [ -f ../"$(cat AE_listad | head -1 | cut -d '.' -f1)".xmp ]
+ then 
+ cp ../"$(cat AE_listad | head -1 | cut -d '.' -f1)".xmp ./
+ else
+ cp $(ls ../*.xmp | head -1) ./
+ fi
  mv *.xmp $(echo $comp | cut -d '.' -f1).xmp
 "$(cat /tmp/AErenderPATH | head -1)"/aerender -comp "$(echo $comp | cut -d '.' -f1)" -output "$(echo $PWD/)""$(cat AE_listad | head -1 | cut -d '.' -f1)" -project "$(echo $PWD/)""$(ls *.aep | head -1)"
  mv "$(cat AE_listad | head -1 | cut -d '.' -f1)".*00000 ../$(echo "$(cat AE_listad | head -1 | cut -d '.' -f1)".*00000 | rev | cut -c 6- | rev)
@@ -252,15 +280,12 @@ while ls AE_0*.command >/dev/null 2>&1
 do 
 sleep 2
 done
-#tmp disable xmp file
- mv $(ls *.xmp | head -1) $(ls *.xmp | head -1)tmp  
+#store xmp files
+ mv *.xmp A_ORIGINALS  
 #extract metadata info
  exiv2 -e X extract *.{cr2,CR2}
 #insert metadata recursively
  exiv2 -i X insert *.jpg *.tif
 #We are done, thanks exiv2
  rm *.xmp
-#restore tmp disable xmp file
- mv *.xmptmp $(ls *.xmptmp | head -1 | rev | cut -c 4- | rev)
- mv $(ls *.xmp | head -1) A_ORIGINALS
 EOF
