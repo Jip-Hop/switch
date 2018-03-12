@@ -476,7 +476,6 @@ echo $(tput bold)"AE processing....."$(tput sgr0)
 sleep 1
  clear
 done 
- mv *.{cr2,CR2} A_ORIGINALS
 
 #Bracket info
 #what´s going on

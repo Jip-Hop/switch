@@ -288,4 +288,6 @@ done
  exiv2 -i X insert *.jpg *.tif
 #We are done, thanks exiv2
  rm *.xmp
+#move originals
+ mv *.{cr2,CR2} A_ORIGINALS
 EOF
