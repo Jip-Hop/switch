@@ -1035,8 +1035,27 @@ killall enfuse
 killall ffmpeg
 killall exiv2
 killall exiftool
+#if AE project file included
+ if ls *.aep >/dev/null 2>&1
+ then
+ killall aerender
+ rm tmp1/$(LC_ALL=C cat -v "$(ls *.aep | head -1)" | grep -o -m 1 '[^ ]*CR2' | rev | cut -d '/' -f1 | rev)
+ rm tmp2/$(LC_ALL=C cat -v "$(ls *.aep | head -1)" | grep -o -m 1 '[^ ]*CR2' | rev | cut -d '/' -f1 | rev)
+ rm tmp3/$(LC_ALL=C cat -v "$(ls *.aep | head -1)" | grep -o -m 1 '[^ ]*CR2' | rev | cut -d '/' -f1 | rev)
+ rm tmp4/$(LC_ALL=C cat -v "$(ls *.aep | head -1)" | grep -o -m 1 '[^ ]*CR2' | rev | cut -d '/' -f1 | rev)
+ mv tmp1/*.CR2 *.cr2 *.xmp ./
+ mv tmp2/*.CR2 *.cr2 ./
+ mv tmp3/*.CR2 *.cr2 ./
+ mv tmp4/*.CR2 *.cr2 ./
+ mv tmp_$(LC_ALL=C cat -v "$(ls *.aep | head -1)" | grep -o -m 1 '[^ ]*CR2' | rev | cut -d '/' -f1 | rev) $(LC_ALL=C cat -v "$(ls *.aep | head -1)" | grep -o -m 1 '[^ ]*CR2' | rev | cut -d '/' -f1 | rev)
+ rm AE_01.command
+ rm AE_02.command
+ rm AE_03.command
+ rm AE_04.command
+ rm -r tmp1 tmp2 tmp3 tmp4
+ fi
 killall bash 
-sleep 0.3 && osascript -e 'tell application "Terminal" to close first window' & exit & osascript -e 'tell application "Terminal" to close first window' & exit 
+sleep 0.3 && osascript -e 'tell application "Terminal" to close first window' & exit & osascript -e 'tell application "Terminal" to close first window' & exit & osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
     "q") 

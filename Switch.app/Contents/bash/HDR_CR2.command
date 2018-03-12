@@ -225,6 +225,9 @@ sleep 1
 esac
 fi
 
+#if AE project file included
+ if ! ls *.aep >/dev/null 2>&1
+ then
 #what´s going on
 printf '\e[8;6;50t'
 printf '\e[3;410;100t'
@@ -280,6 +283,7 @@ echo $(tput bold)"Still building brackets.........."$(tput sgr0)
 sleep 1
  clear
 done & pid1=$!
+fi
 
 #unified setting. Set time gap
    if [ -f time ]
@@ -440,6 +444,71 @@ done
     rm list
 fi
 
+#if AE project file included
+ if ls *.aep >/dev/null 2>&1
+ then
+. "$(cat /tmp/DUALISO/path_2)"/bash/AE.command &
+#what´s going on
+printf '\e[8;4;35t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"AE processing(might take a while)"$(tput sgr0)
+sleep 2
+while ls AE_0*.command >/dev/null 2>&1
+do 
+ clear
+echo $(tput bold)"AE processing"$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"AE processing."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"AE processing.."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"AE processing..."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"AE processing...."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"AE processing....."$(tput sgr0)
+sleep 1
+ clear
+done 
+ mv *.{cr2,CR2} A_ORIGINALS
+
+#Bracket info
+#what´s going on
+printf '\e[8;4;50t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Let´s group matched CR2 files before merging"$(tput sgr0)
+sleep 2
+while :
+do 
+ clear
+echo $(tput bold)"Still building brackets"$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"Still building brackets."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"Still building brackets.."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"Still building brackets..."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"Still building brackets...."$(tput sgr0)
+sleep 1
+ clear
+echo $(tput bold)"Still building brackets....."$(tput sgr0)
+sleep 1
+ clear
+done & pid1=$!
+ fi
+
 #main loop(enfuse,FFmpeg)
 if [ -f enfuse ] || [ -f FFmpeg ] 
 then
@@ -448,7 +517,10 @@ then
  rm match* 
  rm *preview3.jpg
  mkdir -p A_ORIGINALS
-#exiv2 extracts your jp files embedded in CR2 files
+#if AE project
+ if ! ls *.aep >/dev/null 2>&1
+ then
+#exiv2 extracts your jpg files embedded in CR2 files
  exiv2 -ep3 -l . *.{cr2,CR2}
 #extract metadata info
  exiv2 -e X extract *.{cr2,CR2}
@@ -460,6 +532,7 @@ then
  exiv2 -i X insert *.jpg 
 #We are done, thanks exiv2
  rm *.xmp
+ fi
 #list jpg,tiff files
  ls *.{jpg,JPG,tif,tiff,TIF,TIFF} > list
 #let´s start
