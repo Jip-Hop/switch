@@ -245,14 +245,14 @@ while ls AE_0*.command >/dev/null 2>&1
 do 
 sleep 2
 done
-
+#tmp disable xmp file
+ mv $(ls *.xmp | head -1) $(ls *.xmp | head -1)tmp  
 #extract metadata info
  exiv2 -e X extract *.{cr2,CR2}
 #insert metadata recursively
  exiv2 -i X insert *.jpg *.tif
 #We are done, thanks exiv2
-#tmp disable xmp file
- mv $(ls *.xmp | head -1) $(ls *.xmp | head -1)tmp  
  rm *.xmp
+#restore tmp disable xmp file
  mv *.xmptmp $(ls *.xmptmp | head -1 | rev | cut -c 4- | rev)
 EOF
