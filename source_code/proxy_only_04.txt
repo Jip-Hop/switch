@@ -11,7 +11,7 @@
     while ! [ x"$(cat /tmp/DUALISO/MLVFILESad)" = x ]
     do 
     FILE=$(cat /tmp/DUALISO/"MLVFILESad" | head -1 | grep -v 'avg_\|ft_')
-    date=$($mlv_dump -m -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
+    date=$($mlv_dump -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
     date_01=$(echo "$date" | head -c2)
     date_02=$(echo "$date" | cut -c4-5)
     date_03=$(echo "$date" | cut -c7-10)
