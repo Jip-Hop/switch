@@ -255,25 +255,25 @@ EOF
 if [ -f AE_01.command ]
 then
   chmod u=rwx AE_01.command
-  $mode AE_01.command & pid1=$! 
+  $mode AE_01.command &  
 fi
 
 if [ -f AE_02.command ]
 then  
   chmod u=rwx AE_02.command
-  $mode AE_02.command & pid2=$! 
+  $mode AE_02.command &  
 fi
 
 if [ -f AE_03.command ]
 then  
   chmod u=rwx AE_03.command
-  $mode AE_03.command & pid3=$! 
+  $mode AE_03.command & 
 fi
 
 if [ -f AE_04.command ]
 then  
   chmod u=rwx AE_04.command
-  $mode AE_04.command & pid4=$! 
+  $mode AE_04.command & 
 fi
 
 while ls AE_0*.command >/dev/null 2>&1
