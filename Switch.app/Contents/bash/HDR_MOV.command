@@ -1037,15 +1037,40 @@ fi
 fi
 fi
 
+#silent mode?
+clear
+read -p $(tput bold)"Do you want to run in silent mode?$(tput setaf 1)
+(Y/N)?$(tput sgr0)
+" choice
+case "$choice" in 
+  y|Y ) 
+mode=$(echo .)
+echo $(tput bold)"silent mode set"$(tput sgr0)
+sleep 1
+;;
+  n|N ) 
+clear
+mode=$(echo open)
+echo $(tput bold)silent mode NOT set$(tput sgr0)
+sleep 1
+;;
+  * ) 
+echo "invalid selection, let´s start again"
+sleep 1
+. fps.command
+;;
+esac
+
+
 chmod u=rwx HDR_script.command
 chmod u=rwx HDR_script1.command
 chmod u=rwx HDR_script2.command
 chmod u=rwx HDR_script3.command
 
-sleep 1 && open HDR_script.command &
-sleep 1 && open HDR_script1.command &
-sleep 1 && open HDR_script2.command &
-sleep 1 && open HDR_script3.command &
+sleep 1 && $mode HDR_script.command &
+sleep 1 && $mode HDR_script1.command &
+sleep 1 && $mode HDR_script2.command &
+sleep 1 && $mode HDR_script3.command &
 
 fi
 
