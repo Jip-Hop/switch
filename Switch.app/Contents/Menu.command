@@ -1051,6 +1051,8 @@ sleep 1
 fi
 fi
 
+echo > /tmp/cpuboost
+
 #changes size of terminal window
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
@@ -1082,6 +1084,10 @@ fi
 if grep 'mean' /tmp/A_cr2hdr_settings.txt 
 then 
 mean=$(echo "$bold""$green"added!"$normal")
+fi
+if grep 'force' /tmp/A_cr2hdr_settings.txt 
+then 
+force=$(echo "$bold""$green"added!"$normal")
 fi
 if grep 'cs2x2' /tmp/A_cr2hdr_settings.txt 
 then 
@@ -1132,6 +1138,7 @@ $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
 ${bold}Interpolation methods$(tput sgr0)
     $(tput bold)(a)$(tput sgr0) Amaze edge(default) $amaze			 
     $(tput bold)(m)$(tput sgr0) Mean23(faster) $mean  
+    $(tput bold)(f)$(tput sgr0) Force dualiso processing $force
 
 ${bold}Chroma smoothing$(tput sgr0)
     $(tput bold)(2)$(tput sgr0) apply 2x2(default) $cs2				 
@@ -1192,6 +1199,22 @@ echo -n " --mean23" >> /tmp/A_cr2hdr_settings.txt
 mean=$(echo "$bold""$green"added!"$normal")
 find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --amaze-edge//g' 
 amaze=
+fi
+;;
+
+    "f")
+if grep 'force' /tmp/A_cr2hdr_settings.txt 
+then 
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/ --force//g'
+find /tmp/A_cr2hdr_settings.txt | xargs perl -pi -e 's/--force//g'
+force=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+echo -n " --force" >> /tmp/A_cr2hdr_settings.txt
+force=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
 
@@ -1360,7 +1383,7 @@ fi
 ;;
 
     "E")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; force=
 rm /tmp/A_cr2hdr_settings.txt 1> /dev/null 2>&1 &
 rm /tmp/A_cr2hdr_cmpr.txt 1> /dev/null 2>&1 &
 rm /tmp/cpuboost 1> /dev/null 2>&1 &
@@ -7581,7 +7604,7 @@ open /tmp/folder_paths.txt
     ;;
 
     "R")
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; out= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT= ; force=
 rm /tmp/HDRCR2output
 rm /tmp/HDRCR2_settings
 rm /tmp/HDRCR2
@@ -7975,7 +7998,7 @@ fi
 
 
     "a") 
-amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT=
+amaze= ; mean= ; cs2= ; cs3= ; cs5= ; nocs= ; salev= ; lole= ; lossy= ; THREADS= ; b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT= ; force=
 rm /tmp/HDRCR2output
 rm /tmp/HDRCR2_settings
 rm /tmp/HDRCR2
