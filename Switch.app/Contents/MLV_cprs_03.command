@@ -18,7 +18,7 @@
 
     if ls /tmp/DUALISO/anyb
     then
-    set=$(printf "%s\n" -b $(cat /tmp/DUALISO/anyb | head -1))
+    set=$(printf "%s\n" -d -b $(cat /tmp/DUALISO/anyb | head -1))
     else
     if ls /tmp/DUALISO/MLV_dcmrs
     then
