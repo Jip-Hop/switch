@@ -16,11 +16,16 @@
  # 51 Franklin Street, Fifth Floor,
  # Boston, MA  02110-1301, USA.
 
+    if ls /tmp/DUALISO/anyb
+    then
+    set=$(printf "%s\n" -b $(cat /tmp/DUALISO/anyb | head -1))
+    else
     if ls /tmp/DUALISO/MLV_dcmrs
     then
     set=$(printf "%s\n" -d)
     else
     set=$(printf "%s\n" -c)
+    fi
     fi
 #if using the steroid version
     if [ -f /tmp/mlv_dump_on_steroids_settings ]
@@ -67,6 +72,30 @@
 
 #decompress or not
     if ls /tmp/DUALISO/MLV_dcmrs
+    then
+    mkdir -p A_COMPRESSED
+#delete or not
+    if ! ls /tmp/DUALISO/MLV_cprs_del 
+    then
+    if ! ls /tmp/DUALISO/MLV_cprs_output 
+    then
+    mv -i "$FILE_03" A_COMPRESSED
+    mv -i "$(echo "$FILE_03" | cut -d "." -f1)".M* A_COMPRESSED
+    fi
+    else
+    rm "$FILE_03"
+    fi
+#if changed output
+    if [ -f /tmp/DUALISO/MLV_cprs_output ]
+    then
+    mv -i "$(cat /tmp/DUALISO/MLV_cprs_output)"/tmp_"$FILE_03" "$(cat /tmp/DUALISO/MLV_cprs_output)"/"$FILE_03"
+    else
+    mv -i tmp_"$FILE_03" "$FILE_03"
+    fi
+    fi
+
+#any bit
+    if ls /tmp/DUALISO/anyb
     then
     mkdir -p A_COMPRESSED
 #delete or not

@@ -702,7 +702,7 @@ done
     count="$(cat /tmp/DUALISO/"MLV_cprs"|wc -l) MLV to go"
 
     #Will move terminal window to the right corner
-    printf '\e[8;16;60t'
+    printf '\e[8;17;60t'
     printf '\e[3;450;75t'
 
     open -a Terminal
@@ -737,7 +737,7 @@ while :
 do 
     if [ -f /tmp/DUALISO/MLV_cprs_output ]
     then
-    printf '\e[8;18;60t'
+    printf '\e[8;19;60t'
     printf '\e[3;450;75t'
     clear
 cat<<EOF
@@ -754,10 +754,13 @@ $(tput bold)$(tput setaf 1)(O) select output folder$(tput sgr0)(leave it for sam
 $(tput bold)$(tput setaf 1)(r) run compressor(lj92)$(tput sgr0)(keep orig MLV files. Recommended)
 $(tput bold)$(tput setaf 1)(L) run compressor(lj92)$(tput setaf 0)$(tput sgr0)(delete orig MLV when done!) 
 $(tput bold)$(tput setaf 1)(d) decompress MLV(lj92)$(tput setaf 0)$(tput sgr0)(compress is default) $dcmrs
+$(tput bold)$(tput setaf 1)(b) compress MLV to any bit(lj92)$(tput setaf 0)$(tput sgr0) $anyb
 
 $(tput bold)$(tput setaf 1)(q) cancel MLV compressing$(tput sgr0)$(tput setaf 0)(Main menu)
 EOF
     else
+    printf '\e[8;17;60t'
+    printf '\e[3;450;75t'
     clear
 cat<<EOF
        		 -------------------
@@ -770,6 +773,7 @@ $(tput bold)$(tput setaf 1)(O) select output folder$(tput sgr0)(leave it for sam
 $(tput bold)$(tput setaf 1)(r) run compressor(lj92)$(tput sgr0)(keep orig MLV files.Recommended)
 $(tput bold)$(tput setaf 1)(L) run compressor(lj92)$(tput setaf 0)$(tput sgr0)(delete orig MLV when done!) 
 $(tput bold)$(tput setaf 1)(d) decompress MLV(lj92)$(tput setaf 0)$(tput sgr0)(compress is default) $dcmrs
+$(tput bold)$(tput setaf 1)(b) compress MLV to any bit(lj92)$(tput setaf 0)$(tput sgr0) $anyb
 
 $(tput bold)$(tput setaf 1)(q) cancel MLV compressing$(tput sgr0)$(tput setaf 0)(Main menu)
 EOF
@@ -1045,11 +1049,37 @@ fi
     fi
 ;;
 
+    "b")
+if ls /tmp/DUALISO/anyb
+then
+rm /tmp/DUALISO/anyb
+anyb=
+clear
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+bitdepth reset"$(tput sgr0) ; 
+sleep 1
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify bitdepth:$(tput sgr0)(between$(tput sgr0) 1-16 and hit enter)"
+read input_variable
+echo "bitdepth is set to: $(tput bold)$(tput setaf 4)$input_variable"$(tput sgr0)
+printf "%s\n" "$input_variable" > /tmp/DUALISO/anyb 
+anyb="$(tput setaf 4)"$(echo -b $(cat /tmp/DUALISO/anyb))$(tput sgr0)
+fi
+sleep 1 
+printf '\e[8;17;60t'
+printf '\e[3;450;75t'
+;;
 
     "q") 
     rm /tmp/DUALISO/MLV_dcmrs
     rm /tmp/DUALISO/MLV_cprs_del
     rm /tmp/DUALISO/MLV_cprs 2>/dev/null
+    rm /tmp/DUALISO/anyb 2>/dev/null
     . "$(cat /tmp/DUALISO/path_2)"Menu.command
     ;;
 
