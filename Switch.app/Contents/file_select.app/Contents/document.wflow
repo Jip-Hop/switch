@@ -167,7 +167,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>514.000000:112.000000</string>
+				<string>400.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -232,6 +232,25 @@ do
 	echo "$f" &gt;&gt; /tmp/DUALISO/FLATFRAMES
 done
 open "$(cat /tmp/DUALISO/path_2)"Menu.command
+fi
+
+#select Mlv App
+if ls /tmp/DUALISO/mlvapp_select
+then
+rm /tmp/DUALISO/mlvapp_select
+for f in "$@"
+do
+	echo "$f" &gt; /tmp/mlvapp
+done
+cd "$(cat /tmp/DUALISO/path_1)"
+#check if A_ORIGINALS is empty and the erase it
+    if [ x"$(ls A_ORIGINALS/*)" = x ]
+    then
+    rm -r A_ORIGINALS
+    fi
+open -a "$(cat /tmp/mlvapp)"/Contents/MacOS/MLV\ App *.MLV &amp; 
+echo &gt; /tmp/DUALISO/DUALISO_exit 1&gt; /dev/null 2&gt;&amp;1 &amp;
+rm /tmp/DUALISO/DUALISO 1&gt; /dev/null 2&gt;&amp;1 &amp;
 fi</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
@@ -345,7 +364,7 @@ fi</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>514.000000:154.000000</string>
+				<string>400.000000:154.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -355,7 +374,7 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>5E670AA1-1397-4E23-BFCA-46E2AF1DE6EE</key>
+		<key>B47274D8-C923-4836-8B71-3B8C3E14A1FE</key>
 		<dict>
 			<key>from</key>
 			<string>57CEA0C5-E080-4DF0-A54D-D815B64B11DF - 57CEA0C5-E080-4DF0-A54D-D815B64B11DF</string>
