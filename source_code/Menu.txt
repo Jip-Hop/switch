@@ -1018,7 +1018,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
     $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
     $(tput bold)$(tput setaf 1)(h)  HDR processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $HDR
-    $(tput bold)$(tput setaf 1)(ma) Mlv app workflow$(tput sgr0)(Ilia3101,masc,bouncyball)
+    $(tput bold)$(tput setaf 1)(ma) Mlv App workflow$(tput sgr0)(Ilia3101,masc,bouncyball)
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)
     $(tput bold)$(tput setaf 1)(b)  bash section$(tput sgr0)
 
