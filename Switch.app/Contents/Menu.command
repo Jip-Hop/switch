@@ -872,7 +872,7 @@ fi
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;36;60t'
+printf '\e[8;37;60t'
 printf '\e[3;450;0t'
 open -a Terminal
 bold="$(tput bold)"
@@ -990,6 +990,14 @@ out=$(cat /tmp/DUALISO/"path_1")/
     rm -r "$out"$(date +%F)_Proxy/
     fi
 
+#Mlv App path
+if [ -f "$(cat /tmp/mlvapp)"/Contents/MacOS/MLV\ App ]
+then
+mlvapp=$(cat /tmp/mlvapp)
+else
+mlvapp=
+fi
+
 while :
 do 
 
@@ -1000,7 +1008,8 @@ do
     ---------
 
 $(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
-$(tput bold)darkframe storage:$(tput setaf 4)$darkfr_storage$(tput setaf 4)$(tput sgr0)
+$(tput bold)Mlv App:$(tput setaf 2)$mlvapp$(tput sgr0)
+$(tput bold)darkframe storage:$(tput setaf 4)$darkfr_storage$(tput sgr0)
 $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(ms) mlv_dump_on_steroids$(tput sgr0)(default)$(tput bold)(MLV)$(tput sgr0)
@@ -1009,6 +1018,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(o)  X to ProRes$(tput sgr0)$(tput bold)(mov,mts etc)$(tput sgr0) $X_pro_a
     $(tput bold)$(tput setaf 1)(d)  cr2hdr dualiso processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $cr2hdr_a
     $(tput bold)$(tput setaf 1)(h)  HDR processing$(tput sgr0)$(tput bold)(CR2)$(tput sgr0) $HDR
+    $(tput bold)$(tput setaf 1)(ma) Mlv app workflow$(tput sgr0)(Ilia3101,masc,bouncyball)
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)
     $(tput bold)$(tput setaf 1)(b)  bash section$(tput sgr0)
 
@@ -6469,7 +6479,40 @@ done
 
 ;;
 
-
+   "ma")
+cd "$(cat /tmp/DUALISO/path_1)"
+if [ -f "$(cat /tmp/mlvapp)"/Contents/MacOS/MLV\ App ]
+then
+open -a "$(cat /tmp/mlvapp)"/Contents/MacOS/MLV\ App *.MLV & 
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+printf '\e[8;10;63t'
+printf '\e[3;410;100t'
+clear
+echo  $(tput bold)"Your MLV files will open soon!"$(tput setaf 1)
+sleep 2
+#check if A_ORIGINALS is empty and the erase it
+    if [ x"$(ls A_ORIGINALS/*)" = x ]
+    then
+    rm -r A_ORIGINALS
+    fi
+osascript -e 'tell application "Terminal" to close first window' & exit
+else
+rm /tmp/mlvapp
+printf '\e[8;10;63t'
+printf '\e[3;410;100t'
+clear
+echo  $(tput bold)"Set your Mlv App location"
+sleep 1
+echo ""
+echo  $(tput bold)"Once set your MLV files will open in Mlv App"$(tput setaf 1)
+sleep 2
+#add file so automator know what to choose in script
+echo > /tmp/DUALISO/mlvapp_select
+open "$(cat /tmp/DUALISO/path_2)"file_select.app
+osascript -e 'tell application "Terminal" to close first window' & exit
+fi
+;;
 
    "ml")
 #MLVFS
@@ -7595,7 +7638,7 @@ echo -n "Threads" $input_variable > /tmp/THREADS
 THREADS=$(cat /tmp/THREADS)
 fi
 sleep 1 
-printf '\e[8;36;60t'
+printf '\e[8;37;60t'
 printf '\e[3;450;0t'
     ;;
 
@@ -7990,7 +8033,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 else
 clear
 echo "Done!"
-printf '\e[8;36;60t'
+printf '\e[8;37;60t'
 printf '\e[3;450;0t'
 fi
 fi
@@ -8140,7 +8183,7 @@ printf '\e[8;10;60t'
 printf '\e[3;0;0t'
 . "$(cat /tmp/DUALISO/"path_2")"Switch_MAIN_DBG.command 
 open "$(cat /tmp/DUALISO/path_1)"/LOG.txt
-printf '\e[8;36;60t'
+printf '\e[8;37;60t'
 printf '\e[3;450;0t'
 ;;
 
