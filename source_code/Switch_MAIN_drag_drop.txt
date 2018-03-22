@@ -43,7 +43,19 @@ rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
 rm /tmp/DUALISO/path_1
 fi
 
-if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ]
+#check for images
+if grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
+then 
+cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')" 
+OIFS="$IFS"
+IFS=$'\n'
+for i in $(cat /tmp/folder_paths.txt) ; do
+"$1"Contents/ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=500:-1 "$(basename "${i/.*}")"_500px.tif 
+done
+IFS="$OIFS"
+fi
+
+if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ] && ! [ -f "$(cat /tmp/DUALISO/path_1 | head -1)" ]
 then
 #stop trap
 echo > /tmp/DUALISO/PREV
