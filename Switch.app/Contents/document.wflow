@@ -580,7 +580,19 @@ rm "$(dirname "$(cat /tmp/DUALISO/path_1)")"/*.MRX
 rm /tmp/DUALISO/path_1
 fi
 
-if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ]
+#check for images
+if grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
+then 
+cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')" 
+OIFS="$IFS"
+IFS=$'\n'
+for i in $(cat /tmp/folder_paths.txt) ; do
+"$1"Contents/ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=500:-1 "$(basename "${i/.*}")"_500px.tif 
+done
+IFS="$OIFS"
+fi
+
+if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ] &amp;&amp; ! [ -f "$(cat /tmp/DUALISO/path_1 | head -1)" ]
 then
 #stop trap
 echo &gt; /tmp/DUALISO/PREV
@@ -2316,6 +2328,9 @@ end run</string>
 					<key>COMMAND_STRING</key>
 					<string>#set first output. Workaround to remember last chosen location. Opens up First_out.app inside Contents folder
 #First_out.app path is set in first drag folder code
+#Avoid confusing files and folders
+if ! [ -f "$(cat /tmp/DUALISO/path_1 | head -1)" ]
+then
 if ! [ -f "$1"/Contents/First_out.app/Contents/documentTMP.wflow ]
 then
 cp "$1"/Contents/First_out.app/Contents/document.wflow "$1"/Contents/First_out.app/Contents/documentTMP.wflow
@@ -2323,11 +2338,12 @@ else
 mv "$1"/Contents/First_out.app/Contents/documentTMP.wflow "$1"/Contents/First_out.app/Contents/document.wflow
 cp "$1"/Contents/First_out.app/Contents/document.wflow "$1"/Contents/First_out.app/Contents/documentTMP.wflow
 fi
-if [ -d "$(cat /tmp/path_1b | head -1)" ]
+if [ -d "$(cat /tmp/path_1b | head -1)" ] 
 then
 perl -pi -e 's/~\/Desktop/'"$(cat /tmp/path_1b | head -1 | sed 's/\//\\\//g')"'/g' "$1"/Contents/First_out.app/Contents/document.wflow
 fi
-open "$1"/Contents/First_out.app</string>
+open "$1"/Contents/First_out.app
+fi</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -2450,54 +2466,54 @@ open "$1"/Contents/First_out.app</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>033F1F4A-F4D3-4618-85CC-EC790DA03E86</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>4211BBFE-7646-48B4-AE4A-15E054640277</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>5B988A6E-5BF4-4586-A24C-87E67B06AB1A</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>5BB6EA16-35B3-432C-A809-C59B08D8B861</key>
+		<key>18B7DDF1-ACD3-457D-BBFC-9CDEBF4DBD4C</key>
 		<dict>
 			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>720A2723-B81A-4342-AAE7-67A651359E0A</key>
+		<key>49F8DB0A-4183-41E2-93DF-4CC10AA05ADE</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>9BD59CB6-D82A-441C-A152-952F38EF29BB</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>C58F2FB3-E7CB-4A41-B7F1-BC0394163121</key>
 		<dict>
 			<key>from</key>
 			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>A66F299F-76CB-4FE4-9151-236662D66C60</key>
+		<key>C87BE63E-858E-4A70-B235-B9E86146697C</key>
 		<dict>
 			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>B3E4782E-F4FA-4886-BB99-EEF785345648</key>
+		<key>DE7EF21B-2C51-49E8-A41A-53AB1A3262BA</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>F95273B9-BBDF-45AA-80B4-3ECBF7BB382A</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
