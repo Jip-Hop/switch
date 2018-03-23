@@ -102,8 +102,6 @@ done</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>72B33C84-4F92-46D0-8A45-E84CBA80B61A</string>
-				<key>StartAction</key>
-				<false/>
 				<key>UUID</key>
 				<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 				<key>UnlocalizedApplications</key>
@@ -178,8 +176,6 @@ done</string>
 						<string>4</string>
 					</dict>
 				</dict>
-				<key>conversionLabel</key>
-				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
@@ -563,12 +559,11 @@ fi
 if grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
 then 
 cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')" 
-OIFS="$IFS"
-IFS=$'\n'
-for i in $(cat /tmp/folder_paths.txt) ; do
-"$1"Contents/ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=500:-1 "$(basename "${i/.*}")"_500px.tif 
-done
-IFS="$OIFS"
+if ! ls /tmp/imgcvrt
+then
+echo &gt; /tmp/imgcvrt
+open "$1"Contents/menu.command
+fi
 fi
 
 if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ] &amp;&amp; ! [ -f "$(cat /tmp/DUALISO/path_1 | head -1)" ]
@@ -2445,49 +2440,49 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>18D1D0F1-909E-4912-9370-F46A90378085</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>3E26BF18-719F-4269-92BB-D616CFCDCBC0</key>
-		<dict>
-			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>5619CECC-E150-4FB6-909D-8C17ED682FF6</key>
+		<key>49BC2656-403A-46AC-800A-B08EBA01F156</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>66BCBC00-9469-426D-9DC9-7794AAEDA85A</key>
+		<key>61B19EFB-005E-4AD9-8F61-F51BB1378C51</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>B295A81E-9CDD-4632-92E2-27CF9FA555CA</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>B57E5294-3F6E-456F-AB6A-F4F3E8261AD3</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>6B1A0DDE-8E75-42A3-A5D6-24417CBC3CB7</key>
+		<key>BB0AA4EE-0AC2-44BE-8484-C58C4891F2BB</key>
+		<dict>
+			<key>from</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<key>to</key>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>C0BB0E0C-8D9E-41A0-86B8-99CF44FA176D</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>BDA81D13-723C-4D19-8E6B-2AAD859FAA17</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>C730153F-9B41-42AA-AAA0-D10D26D01AF7</key>
+		<key>E191C85E-36F1-4701-862D-09E62083B90E</key>
 		<dict>
 			<key>from</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
