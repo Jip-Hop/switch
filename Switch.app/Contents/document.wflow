@@ -22,39 +22,25 @@
 					<key>Types</key>
 					<array>
 						<string>com.apple.cocoa.string</string>
-						<string>com.apple.cocoa.attributed-string</string>
 					</array>
 				</dict>
 				<key>AMActionVersion</key>
-				<string>2.2.1</string>
+				<string>2.0.3</string>
 				<key>AMApplication</key>
 				<array>
-					<string>Finder</string>
-					<string>TextEdit</string>
+					<string>Automator</string>
 				</array>
 				<key>AMParameterProperties</key>
 				<dict>
-					<key>checkedForDefaultEncoding</key>
+					<key>COMMAND_STRING</key>
 					<dict/>
-					<key>newFileFolderPath</key>
-					<dict>
-						<key>isPathPopUp</key>
-						<true/>
-						<key>variableUUIDsInMenu</key>
-						<array/>
-					</dict>
-					<key>newFileName</key>
-					<dict>
-						<key>tokenizedValue</key>
-						<array>
-							<string>folder_paths.txt</string>
-						</array>
-					</dict>
-					<key>newFileTextEncoding</key>
+					<key>CheckedForUserDefaultShell</key>
 					<dict/>
-					<key>replaceExistingFiles</key>
+					<key>inputMethod</key>
 					<dict/>
-					<key>textFormat</key>
+					<key>shell</key>
+					<dict/>
+					<key>source</key>
 					<dict/>
 				</dict>
 				<key>AMProvides</key>
@@ -63,62 +49,66 @@
 					<string>List</string>
 					<key>Types</key>
 					<array>
-						<string>com.apple.cocoa.path</string>
+						<string>com.apple.cocoa.string</string>
 					</array>
 				</dict>
 				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/New Text File.action</string>
+				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>New Text File</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
-					<key>checkedForDefaultEncoding</key>
+					<key>COMMAND_STRING</key>
+					<string>if test `find "/tmp/folder_paths.txt" -mtime +5s`
+then
+    rm /tmp/folder_paths.txt
+fi
+for f in "$@"
+do
+	echo "$f" &gt;&gt; /tmp/folder_paths.txt
+done</string>
+					<key>CheckedForUserDefaultShell</key>
 					<true/>
-					<key>newFileFolderPath</key>
-					<string>/private/tmp</string>
-					<key>newFileName</key>
-					<string>folder_paths.txt</string>
-					<key>newFileTextEncoding</key>
-					<integer>4</integer>
-					<key>replaceExistingFiles</key>
-					<true/>
-					<key>textFormat</key>
+					<key>inputMethod</key>
 					<integer>1</integer>
+					<key>shell</key>
+					<string>/bin/bash</string>
+					<key>source</key>
+					<string></string>
 				</dict>
 				<key>BundleIdentifier</key>
-				<string>com.apple.Automator.NewTextFile</string>
+				<string>com.apple.RunShellScript</string>
 				<key>CFBundleVersion</key>
-				<string>2.2.1</string>
+				<string>2.0.3</string>
 				<key>CanShowSelectedItemsWhenRun</key>
-				<true/>
+				<false/>
 				<key>CanShowWhenRun</key>
 				<true/>
 				<key>Category</key>
 				<array>
-					<string>AMCategoryText</string>
+					<string>AMCategoryUtilities</string>
 				</array>
 				<key>Class Name</key>
-				<string>AMNewTextFileAction</string>
+				<string>RunShellScriptAction</string>
 				<key>InputUUID</key>
-				<string>8280662A-736C-439E-BB2A-0E63C0B648C2</string>
+				<string>2611FEDD-F746-48C2-9A4A-3621C89AAF7B</string>
 				<key>Keywords</key>
 				<array>
-					<string>Create</string>
-					<string>Make</string>
-					<string>File</string>
-					<string>Text</string>
-					<string>Save</string>
-					<string>New</string>
-					<string>Document</string>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
+					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
-				<string>5066824E-C73A-4055-9A2C-371900B45459</string>
+				<string>72B33C84-4F92-46D0-8A45-E84CBA80B61A</string>
+				<key>StartAction</key>
+				<false/>
 				<key>UUID</key>
-				<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
+				<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 				<key>UnlocalizedApplications</key>
 				<array>
-					<string>Finder</string>
-					<string>TextEdit</string>
+					<string>Automator</string>
 				</array>
 				<key>arguments</key>
 				<dict>
@@ -127,7 +117,7 @@
 						<key>default value</key>
 						<integer>0</integer>
 						<key>name</key>
-						<string>newFileTextEncoding</string>
+						<string>inputMethod</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -138,9 +128,9 @@
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<integer>0</integer>
+						<string></string>
 						<key>name</key>
-						<string>replaceExistingFiles</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -151,9 +141,9 @@
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<string>~/Desktop</string>
+						<false/>
 						<key>name</key>
-						<string>newFileFolderPath</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -164,9 +154,9 @@
 					<key>3</key>
 					<dict>
 						<key>default value</key>
-						<integer>0</integer>
+						<string></string>
 						<key>name</key>
-						<string>checkedForDefaultEncoding</string>
+						<string>COMMAND_STRING</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -177,9 +167,9 @@
 					<key>4</key>
 					<dict>
 						<key>default value</key>
-						<string>Untitled.txt</string>
+						<string>/bin/sh</string>
 						<key>name</key>
-						<string>newFileName</string>
+						<string>shell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -187,26 +177,15 @@
 						<key>uuid</key>
 						<string>4</string>
 					</dict>
-					<key>5</key>
-					<dict>
-						<key>default value</key>
-						<integer>0</integer>
-						<key>name</key>
-						<string>textFormat</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>5</string>
-					</dict>
 				</dict>
+				<key>conversionLabel</key>
+				<integer>0</integer>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
 				<string>400.000000:112.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/New Text File.action/Contents/Resources/Base.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -2466,54 +2445,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>18B7DDF1-ACD3-457D-BBFC-9CDEBF4DBD4C</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>49F8DB0A-4183-41E2-93DF-4CC10AA05ADE</key>
+		<key>18D1D0F1-909E-4912-9370-F46A90378085</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>9BD59CB6-D82A-441C-A152-952F38EF29BB</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>C58F2FB3-E7CB-4A41-B7F1-BC0394163121</key>
-		<dict>
-			<key>from</key>
-			<string>FF21D356-27BC-4E6E-B4E9-1AF32C178729 - FF21D356-27BC-4E6E-B4E9-1AF32C178729</string>
-			<key>to</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-		</dict>
-		<key>C87BE63E-858E-4A70-B235-B9E86146697C</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>DE7EF21B-2C51-49E8-A41A-53AB1A3262BA</key>
+		<key>3E26BF18-719F-4269-92BB-D616CFCDCBC0</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>F95273B9-BBDF-45AA-80B4-3ECBF7BB382A</key>
+		<key>5619CECC-E150-4FB6-909D-8C17ED682FF6</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>66BCBC00-9469-426D-9DC9-7794AAEDA85A</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>6B1A0DDE-8E75-42A3-A5D6-24417CBC3CB7</key>
+		<dict>
+			<key>from</key>
+			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
+			<key>to</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+		</dict>
+		<key>BDA81D13-723C-4D19-8E6B-2AAD859FAA17</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>C730153F-9B41-42AA-AAA0-D10D26D01AF7</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
