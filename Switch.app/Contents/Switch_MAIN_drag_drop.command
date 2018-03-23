@@ -47,12 +47,11 @@ fi
 if grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
 then 
 cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')" 
-OIFS="$IFS"
-IFS=$'\n'
-for i in $(cat /tmp/folder_paths.txt) ; do
-"$1"Contents/ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=500:-1 "$(basename "${i/.*}")"_500px.tif 
-done
-IFS="$OIFS"
+if ! ls /tmp/imgcvrt
+then
+echo > /tmp/imgcvrt
+open "$1"Contents/menu.command
+fi
 fi
 
 if ! [ x"$(cat /tmp/DUALISO/path_1)" = x ] && ! [ -f "$(cat /tmp/DUALISO/path_1 | head -1)" ]

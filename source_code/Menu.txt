@@ -35,6 +35,103 @@
 
 export PATH="$(cat /tmp/DUALISO/"path_2")":$PATH
 
+#img convert
+if ls /tmp/imgcvrt
+then
+sleep 5 && rm /tmp/imgcvrt &
+#enter folder
+cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')"
+
+#!/bin/bash
+#changes size of terminal window
+#tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[8;15;60t'
+printf '\e[3;410;100t'
+
+open -a Terminal
+
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    =============	  
+    ${bold}$(tput setaf 1)Image convert$(tput sgr0)
+    -------------
+ 
+    $(tput bold)(01) 300px$(tput sgr0)				 
+    $(tput bold)(02) 500px$(tput sgr0) 
+    $(tput bold)(03) 800px$(tput sgr0) 
+    $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "01")  
+OIFS="$IFS"
+IFS=$'\n'
+for i in $(cat /tmp/folder_paths.txt) ; do
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=300:-1 -y "$(basename "${i/.*}")"_300px.tif 
+done
+IFS="$OIFS"
+;;
+
+    "02")  
+OIFS="$IFS"
+IFS=$'\n'
+for i in $(cat /tmp/folder_paths.txt) ; do
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=500:-1 -y "$(basename "${i/.*}")"_500px.tif 
+done
+IFS="$OIFS"
+;;
+
+    "03")  
+OIFS="$IFS"
+IFS=$'\n'
+for i in $(cat /tmp/folder_paths.txt) ; do
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=800:-1 -y "$(basename "${i/.*}")"_800px.tif 
+done
+IFS="$OIFS"
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+fi
+
+
+
+
+
 #default to mlv_dump_on_steroids
     if ! [ -f /tmp/mlv_dump_on_steroids_settings ]
     then
