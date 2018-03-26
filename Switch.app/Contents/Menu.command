@@ -17,6 +17,7 @@
  # Boston, MA  02110-1301, USA.
 
 
+#img convert
 #check for sd or cf card
 #Check if filmed crop_rec
 #menu RAW_demolish settings
@@ -47,7 +48,7 @@ cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tm
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;15;60t'
+printf '\e[8;16;60t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -81,6 +82,8 @@ do
     $(tput bold)(01) 300px$(tput sgr0)				 
     $(tput bold)(02) 500px$(tput sgr0) 
     $(tput bold)(03) 800px$(tput sgr0) 
+    $(tput bold)(04) export to tif$(tput sgr0)(no compression) 
+    $(tput bold)(05) manually scale output$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
 
 Please enter your selection number below:
@@ -114,6 +117,34 @@ ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=800:-1 -y "$(basename "${i/.*}")"_800px.
 done
 IFS="$OIFS"
 ;;
+
+    "04")  
+OIFS="$IFS"
+IFS=$'\n'
+for i in $(cat /tmp/folder_paths.txt) ; do
+ffmpeg -i "$i" -pix_fmt rgb24 -y "$(basename "${i/.*}")"_nocprs.tif 
+done
+IFS="$OIFS"
+;;
+
+    "05") 
+printf '\e[8;10;80t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify scaled output width:$(tput sgr0)e.g $(tput bold)1920, 2500 $(tput sgr0)etc then hit enter)"
+read scale
+echo "scaled width will be: $(tput bold)$(tput setaf 4)$scale width"$(tput sgr0)
+sleep 2
+OIFS="$IFS"
+IFS=$'\n'
+for i in $(cat /tmp/folder_paths.txt) ; do
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=$scale:-1 -y "$(basename "${i/.*}")"_scaled.tif 
+done
+IFS="$OIFS"
+printf '\e[8;16;60t'
+printf '\e[3;410;100t'
+;;
+
 
     "q")   
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
@@ -969,7 +1000,7 @@ fi
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;37;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
 open -a Terminal
 bold="$(tput bold)"
@@ -1121,7 +1152,6 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(CP) set running threads manually(max 4)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS
-    $(tput bold)$(tput setaf 1)(O)  open up your working folder list$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset Switch to defaults$(tput sgr0)
     $(tput bold)$(tput setaf 1)(A)  darkframe average automation$(tput sgr0)$(tput bold)$(tput sgr0) $DARK
     $(tput bold)$(tput setaf 1)(F)  flatframe average automation$(tput sgr0)$(tput bold)$(tput sgr0) $FLAT
@@ -7735,12 +7765,8 @@ echo -n "Threads" $input_variable > /tmp/THREADS
 THREADS=$(cat /tmp/THREADS)
 fi
 sleep 1 
-printf '\e[8;37;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
-    ;;
-
-    "O")
-open /tmp/folder_paths.txt
     ;;
 
     "R")
@@ -8130,7 +8156,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 else
 clear
 echo "Done!"
-printf '\e[8;37;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
 fi
 fi
@@ -8280,7 +8306,7 @@ printf '\e[8;10;60t'
 printf '\e[3;0;0t'
 . "$(cat /tmp/DUALISO/"path_2")"Switch_MAIN_DBG.command 
 open "$(cat /tmp/DUALISO/path_1)"/LOG.txt
-printf '\e[8;37;60t'
+printf '\e[8;36;60t'
 printf '\e[3;450;0t'
 ;;
 
