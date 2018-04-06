@@ -537,7 +537,6 @@ sleep 1
     echo "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "_" -f1)".MLV >> My_darkfr
     else
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     fi
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1)"
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" > /tmp/DUALISO/darkf.txt

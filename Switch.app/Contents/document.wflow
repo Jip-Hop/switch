@@ -1049,7 +1049,6 @@ sleep 1
     echo "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "_" -f1)".MLV &gt;&gt; My_darkfr
     else
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     fi
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1)"
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" &gt; /tmp/DUALISO/darkf.txt
@@ -2436,54 +2435,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>31D7E811-549A-4998-B622-2490C00CEB1B</key>
+		<key>10202392-6E90-485D-BE34-5BC9E24FB9F8</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>16DFF737-A0CC-491B-B7FB-2E10556D428F</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>5FA4F141-EB90-4ADD-9DFA-5A7B015C1B61</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>9449D581-C648-410D-B3D9-6377830C5E6E</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>95DA191D-A5E0-49BC-BE03-6E14F08E0F83</key>
+		<key>6180AE9C-C779-4D23-B06C-034CDD671D9F</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>9F002546-49DE-4396-96C0-7F9E4110775B</key>
+		<key>6A0E2889-86DA-473B-B35F-C3A318A5FAEE</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>83D40611-1ED8-4794-B73C-B1A00AD5B8F7</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>A90FC6F7-94C7-4900-9543-98E1C4E79E40</key>
+		<key>ABE6325C-6883-47A0-A398-919F5ABFAFA9</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>DAEEAA4A-4BAC-4AF9-A63E-20FC0F4ACD55</key>
+		<key>EDB89FEF-14FE-43DA-AC7D-44C7B06BAD72</key>
 		<dict>
 			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
