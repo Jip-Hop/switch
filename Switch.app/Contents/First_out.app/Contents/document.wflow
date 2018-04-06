@@ -1035,7 +1035,7 @@ sleep 1
 #if full auto was chosen
     if [ -f /tmp/DUALISO/FULL_AUTO ]
     then
-    if ls *.MLV 
+    if ls *.MLV
     then
     osascript -e 'display notification "darkframe automation in progress" with title "Auto mode"'
     afplay /System/Library/Sounds/Tink.aiff   
@@ -1059,26 +1059,22 @@ sleep 1
     sleep 2
 #kill $mlv_dump
     kill $pid_dark
-    rm *_.wav
+    rm *.wav
     ls *_000001.dng &gt; /tmp/DUALISO/darkf.txt
     done 
     IFS=$OLDIFS  
 #Inspect exposure of rgb pixel. If totally dark below 1 should do otherwise some sort of light is passing through to the sensor
     while grep -q 'dng' /tmp/DUALISO/darkf.txt
     do 
-    dcraw -d -W -c "$(cat /tmp/DUALISO/darkf.txt | head -1)" | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -pix_fmt yuvj444p "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".jpeg
-#use imagemagick to read pixel brightness
-    convert $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).jpeg -colorspace hsb -resize 1x1 $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).txt
-    numb=$(echo $(grep '%' $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).txt | cut -d "%" -f3 | tr -d ',')) 
-    if (( $(echo "$numb &gt; 1.3" |bc -l) )); then
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
-    else
+    if grep -q 'pblack' &lt;&lt;&lt; $(dcraw -d -W -c "$(cat /tmp/DUALISO/darkf.txt | head -1)" | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -vframes 1 -y -vf blackframe -f null /dev/null 2&gt;&amp;1 | grep -m1 'pblack')
+    then 
 #Send darkframe MLV to a list which met the last criteria of exposure below 1.3
     echo "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "_" -f1)".MLV &gt;&gt; My_darkfr
+    else
+    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     fi
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1)"
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".jpeg
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" &gt; /tmp/DUALISO/darkf.txt
     done
     rm /tmp/DUALISO/darkf.txt
@@ -1086,7 +1082,7 @@ sleep 1
     while grep 'MLV' My_darkfr
     do
     $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
-    rm *MLV.wav
+    rm *.wav
     bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
     res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
@@ -1142,10 +1138,10 @@ sleep 1
     if [ "$res" = "$fres" ]
     then
     $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -t ft_*.MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     else
     $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     fi
     fi
     mv -i "$FILE" A_ORIGINALS
@@ -1158,7 +1154,7 @@ sleep 1
     if [ "$res" = "$fres" ]
     then
     $mlv_dump -o a_"$FILE" -t ft_*.MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     fi
     mv -i "$FILE" A_ORIGINALS
     mv -i  "$(echo "$FILE" | cut -d "." -f1)".M*  A_ORIGINALS
@@ -1969,33 +1965,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>22B71AC0-C380-4F65-A82B-210310A71ADA</key>
-		<dict>
-			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-			<key>to</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-		</dict>
-		<key>8086790F-0DCA-4BB1-8A8F-3F2A5924FF95</key>
-		<dict>
-			<key>from</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-			<key>to</key>
-			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
-		</dict>
-		<key>90FC324D-1007-4399-AC02-785BEA878B5E</key>
+		<key>087CDB1D-FE5F-49A9-83F3-A4ADF09E0E5D</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 		</dict>
-		<key>FB274FAA-3226-40C5-ACCD-21ECA8CBA7A8</key>
+		<key>4E4979B9-CA45-41EC-B221-2E6CCDFDA356</key>
 		<dict>
 			<key>from</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 			<key>to</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+		</dict>
+		<key>6DBB9BCA-D6B9-46F2-86D5-EFEA57D3F665</key>
+		<dict>
+			<key>from</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<key>to</key>
+			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
+		</dict>
+		<key>EF22A9F3-A5E5-44A9-B991-7AABCCDAF6F1</key>
+		<dict>
+			<key>from</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

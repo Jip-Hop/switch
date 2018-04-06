@@ -436,7 +436,7 @@ sleep 1
 #if full auto was chosen
     if [ -f /tmp/DUALISO/FULL_AUTO ]
     then
-    if ls *.MLV 
+    if ls *.MLV
     then
     osascript -e 'display notification "darkframe automation in progress" with title "Auto mode"'
     afplay /System/Library/Sounds/Tink.aiff   
@@ -460,26 +460,22 @@ sleep 1
     sleep 2
 #kill $mlv_dump
     kill $pid_dark
-    rm *_.wav
+    rm *.wav
     ls *_000001.dng > /tmp/DUALISO/darkf.txt
     done 
     IFS=$OLDIFS  
 #Inspect exposure of rgb pixel. If totally dark below 1 should do otherwise some sort of light is passing through to the sensor
     while grep -q 'dng' /tmp/DUALISO/darkf.txt
     do 
-    dcraw -d -W -c "$(cat /tmp/DUALISO/darkf.txt | head -1)" | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -pix_fmt yuvj444p "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".jpeg
-#use imagemagick to read pixel brightness
-    convert $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).jpeg -colorspace hsb -resize 1x1 $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).txt
-    numb=$(echo $(grep '%' $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).txt | cut -d "%" -f3 | tr -d ',')) 
-    if (( $(echo "$numb > 1.3" |bc -l) )); then
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
-    else
+    if grep -q 'pblack' <<< $(dcraw -d -W -c "$(cat /tmp/DUALISO/darkf.txt | head -1)" | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -vframes 1 -y -vf blackframe -f null /dev/null 2>&1 | grep -m1 'pblack')
+    then 
 #Send darkframe MLV to a list which met the last criteria of exposure below 1.3
     echo "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "_" -f1)".MLV >> My_darkfr
+    else
+    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     fi
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1)"
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".jpeg
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" > /tmp/DUALISO/darkf.txt
     done
     rm /tmp/DUALISO/darkf.txt
@@ -487,7 +483,7 @@ sleep 1
     while grep 'MLV' My_darkfr
     do
     $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
-    rm *MLV.wav
+    rm *.wav
     bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
     res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
@@ -543,10 +539,10 @@ sleep 1
     if [ "$res" = "$fres" ]
     then
     $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -t ft_*.MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     else
     $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     fi
     fi
     mv -i "$FILE" A_ORIGINALS
@@ -559,7 +555,7 @@ sleep 1
     if [ "$res" = "$fres" ]
     then
     $mlv_dump -o a_"$FILE" -t ft_*.MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     fi
     mv -i "$FILE" A_ORIGINALS
     mv -i  "$(echo "$FILE" | cut -d "." -f1)".M*  A_ORIGINALS

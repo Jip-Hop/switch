@@ -1036,26 +1036,22 @@ sleep 1
     sleep 2
 #kill $mlv_dump
     kill $pid_dark
-    rm *_.wav
+    rm *.wav
     ls *_000001.dng &gt; /tmp/DUALISO/darkf.txt
     done 
     IFS=$OLDIFS  
 #Inspect exposure of rgb pixel. If totally dark below 1 should do otherwise some sort of light is passing through to the sensor
     while grep -q 'dng' /tmp/DUALISO/darkf.txt
     do 
-    dcraw -d -W -c "$(cat /tmp/DUALISO/darkf.txt | head -1)" | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -pix_fmt yuvj444p "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".jpeg
-#use imagemagick to read pixel brightness
-    convert $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).jpeg -colorspace hsb -resize 1x1 $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).txt
-    numb=$(echo $(grep '%' $(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1).txt | cut -d "%" -f3 | tr -d ',')) 
-    if (( $(echo "$numb &gt; 1.3" |bc -l) )); then
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
-    else
+    if grep -q 'pblack' &lt;&lt;&lt; $(dcraw -d -W -c "$(cat /tmp/DUALISO/darkf.txt | head -1)" | ffmpeg -f image2pipe -vcodec ppm -i pipe:0 -vframes 1 -y -vf blackframe -f null /dev/null 2&gt;&amp;1 | grep -m1 'pblack')
+    then 
 #Send darkframe MLV to a list which met the last criteria of exposure below 1.3
     echo "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "_" -f1)".MLV &gt;&gt; My_darkfr
+    else
+    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".txt
     fi
     rm "$(cat /tmp/DUALISO/darkf.txt | head -1)"
-    rm "$(cat /tmp/DUALISO/darkf.txt | head -1 | cut -d "." -f1)".jpeg
     echo "$(tail -n +2 /tmp/DUALISO/darkf.txt)" &gt; /tmp/DUALISO/darkf.txt
     done
     rm /tmp/DUALISO/darkf.txt
@@ -1063,7 +1059,7 @@ sleep 1
     while grep 'MLV' My_darkfr
     do
     $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
-    rm *MLV.wav
+    rm *.wav
     bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
     res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
@@ -1119,10 +1115,10 @@ sleep 1
     if [ "$res" = "$fres" ]
     then
     $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -t ft_*.MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     else
     $mlv_dump -o a_"$FILE" -s avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     fi
     fi
     mv -i "$FILE" A_ORIGINALS
@@ -1135,7 +1131,7 @@ sleep 1
     if [ "$res" = "$fres" ]
     then
     $mlv_dump -o a_"$FILE" -t ft_*.MLV "$FILE"
-    rm *MLV.wav
+    rm *.wav
     fi
     mv -i "$FILE" A_ORIGINALS
     mv -i  "$(echo "$FILE" | cut -d "." -f1)".M*  A_ORIGINALS
@@ -2440,54 +2436,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>49BC2656-403A-46AC-800A-B08EBA01F156</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>61B19EFB-005E-4AD9-8F61-F51BB1378C51</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>B295A81E-9CDD-4632-92E2-27CF9FA555CA</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>B57E5294-3F6E-456F-AB6A-F4F3E8261AD3</key>
+		<key>31D7E811-549A-4998-B622-2490C00CEB1B</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>BB0AA4EE-0AC2-44BE-8484-C58C4891F2BB</key>
+		<key>5FA4F141-EB90-4ADD-9DFA-5A7B015C1B61</key>
 		<dict>
 			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
-		<key>C0BB0E0C-8D9E-41A0-86B8-99CF44FA176D</key>
+		<key>9449D581-C648-410D-B3D9-6377830C5E6E</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>95DA191D-A5E0-49BC-BE03-6E14F08E0F83</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>E191C85E-36F1-4701-862D-09E62083B90E</key>
+		<key>9F002546-49DE-4396-96C0-7F9E4110775B</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>A90FC6F7-94C7-4900-9543-98E1C4E79E40</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>DAEEAA4A-4BAC-4AF9-A63E-20FC0F4ACD55</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
