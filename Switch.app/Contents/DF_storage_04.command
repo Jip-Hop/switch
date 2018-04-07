@@ -32,7 +32,38 @@
 #cut to the next name on the list
     echo "$(tail -n +2 /tmp/DUALISO/DF_storagead)" > /tmp/DUALISO/DF_storagead
 #snatch necessary matching features
+#let´s check for lossless files
+    if grep '0x00000021' <<< $($mlv_dump -v "$FILE_04" | awk '/Class Video/ { print $4; exit }')
+    then
+    if grep '55' <<< $($mlv_dump -v "$FILE_04" | awk '/white_level/ { print $2; exit }')
+    then
+    bit_04=$(echo 12L)
+    else
+    if grep '16\|15\|14' <<< $($mlv_dump -v "$FILE_04" | awk '/white_level/ { print $2; exit }')
+    then
+    bit_04=$(echo 14L)
+    else
+    if grep '24' <<< $($mlv_dump -v "$FILE_04" | awk '/white_level/ { print $2; exit }')
+    then
+    bit_04=$(echo 9L)
+    else
+    if grep '29' <<< $($mlv_dump -v "$FILE_04" | awk '/white_level/ { print $2; exit }')
+    then
+    bit_04=$(echo 10L)
+    else
+    if grep '38' <<< $($mlv_dump -v "$FILE_04" | awk '/white_level/ { print $2; exit }')
+    then
+    bit_04=$(echo 11L)
+    else
+    bit_04=$(echo 8L)
+    fi
+    fi
+    fi
+    fi
+    fi 
+    else
     bit_04=$($mlv_dump -v "$FILE_04" | awk '/bits_per_pixel/ { print $2; exit }')
+    fi
     res_04=$($mlv_dump -v "$FILE_04" | awk '/Res/ { print $2; exit }')
     iso_04=$($mlv_dump -v "$FILE_04" | awk '/ISO:/ { print $2; exit }')
     fra_04=$($mlv_dump -v "$FILE_04" | awk '/FPS/ { print $3; exit }')
