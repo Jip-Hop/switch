@@ -1059,7 +1059,38 @@ sleep 1
     do
     $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
     rm *.wav
+#let´s check for lossless files
+    if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Class Video/ { print $4; exit }')
+    then
+    if grep '55' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 12L)
+    else
+    if grep '16\|15\|14' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 14L)
+    else
+    if grep '24' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 9L)
+    else
+    if grep '29' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 10L)
+    else
+    if grep '38' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 11L)
+    else
+    bit=$(echo 8L)
+    fi
+    fi
+    fi
+    fi
+    fi 
+    else
     bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    fi
     res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
@@ -1157,7 +1188,38 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    bit=$($mlv_dump -v "$FILE"| awk '/bits_per_pixel/ { print $2; exit }')
+#let´s check for lossless files
+    if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/Class Video/ { print $4; exit }')
+    then
+    if grep '55' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 12L)
+    else
+    if grep '16\|15\|14' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 14L)
+    else
+    if grep '24' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 9L)
+    else
+    if grep '29' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 10L)
+    else
+    if grep '38' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 11L)
+    else
+    bit=$(echo 8L)
+    fi
+    fi
+    fi
+    fi
+    fi 
+    else
+    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    fi
     res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
@@ -1217,8 +1279,39 @@ sleep 1
     do
     mkdir -p darkfr_ORIGINALS
     $mlv_dump -o avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" -a "$(cat /tmp/DUALISO/darkf.txt | head -1)"
-    rm *MLV.wav
+    rm *.wav
+#let´s check for lossless files
+    if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Class Video/ { print $4; exit }')
+    then
+    if grep '55' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 12L)
+    else
+    if grep '16\|15\|14' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 14L)
+    else
+    if grep '24' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 9L)
+    else
+    if grep '29' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 10L)
+    else
+    if grep '38' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 11L)
+    else
+    bit=$(echo 8L)
+    fi
+    fi
+    fi
+    fi
+    fi 
+    else
     bit=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
+    fi
     res=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
@@ -2435,54 +2528,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>10202392-6E90-485D-BE34-5BC9E24FB9F8</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>16DFF737-A0CC-491B-B7FB-2E10556D428F</key>
+		<key>24E882D7-F49B-439A-A4D2-B86F4E0BE274</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>6180AE9C-C779-4D23-B06C-034CDD671D9F</key>
+		<key>34B370FA-1BD8-415D-89A8-E31FD7C6438B</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>5680FE67-63FC-4566-AA0E-F4AF22133DE4</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>6C3F9499-C78C-49D0-AFE4-AB24C97B823F</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>AB3EE0FC-1DAD-4305-B2EE-FF7444AFE333</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>6A0E2889-86DA-473B-B35F-C3A318A5FAEE</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>83D40611-1ED8-4794-B73C-B1A00AD5B8F7</key>
-		<dict>
-			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>ABE6325C-6883-47A0-A398-919F5ABFAFA9</key>
+		<key>C1330363-216F-45B9-B9CB-48FC48E1720C</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>EDB89FEF-14FE-43DA-AC7D-44C7B06BAD72</key>
+		<key>DD921B4B-A131-4B02-B9A5-81D9B884B027</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

@@ -150,7 +150,38 @@
 #when going for dng files only(darkframes)
     if [ -f /tmp/only_DNG ]
     then
+#let´s check for lossless files
+    if grep '0x00000021' <<< $($mlv_dump -v "$FILE" | awk '/Class Video/ { print $4; exit }')
+    then
+    if grep '55' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 12L)
+    else
+    if grep '16\|15\|14' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 14L)
+    else
+    if grep '24' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 9L)
+    else
+    if grep '29' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 10L)
+    else
+    if grep '38' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    then
+    bit=$(echo 11L)
+    else
+    bit=$(echo 8L)
+    fi
+    fi
+    fi
+    fi
+    fi 
+    else
     bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
+    fi
     res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
