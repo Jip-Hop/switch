@@ -1026,15 +1026,40 @@ if ls /tmp/DUALISO/FLATFRAMES
 then
 FLAT=$(echo "$bold""$green"added!"$normal")
 fi
+#standalone variable
+if ls /tmp/webstorage
+then 
+DARK=$(echo "$bold""$blue"webstorage"$normal")
+fi
 if ls /tmp/DARK
 then
 DARK=$(echo "$bold""$green"added!"$normal")
+if ls /tmp/full_DARK
+then 
+DARK=$(echo "$bold""$blue"both MLV and dng"$normal")
+fi
+if ls /tmp/NO_DNG
+then 
+DARK=$(echo "$bold""$blue"MLV output"$normal")
+fi
+if ls /tmp/only_DNG
+then 
+DARK=$(echo "$bold""$blue"dng output"$normal")
+fi
+if ls /tmp/DARK_FOLDER
+then 
+DARK=$(echo "$bold""$blue"darkframe folder"$normal")
+fi
+if ls /tmp/only_DARK
+then 
+DARK=$(echo "$bold""$blue"only avg darkframes"$normal")
+fi
 fi
 if ls /tmp/DARK_FOLDER
 then
 if ls "$(cat /tmp/DARK_FOLDER)"
 then
-DARK=$(echo "$bold""$green"Storage_added!"$normal")
+DARK=$(echo "$bold""$blue"Storage_added"$normal")
 darkfr_storage=$(cat /tmp/"DARK_FOLDER")
 else
 rm /tmp/DARK_FOLDER
@@ -7836,6 +7861,7 @@ rm /tmp/only_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK
 rm /tmp/only_DARK
+rm /tmp/webstorage
 rm /tmp/DUALISO/DEAD_P 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLAT 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAMES 1> /dev/null 2>&1 &
@@ -7853,7 +7879,7 @@ rm /tmp/DUALISO/FULL_AUTO 1> /dev/null 2>&1 &
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;22;95t'
+printf '\e[8;24;95t'
 printf '\e[3;410;100t'
 
 open -a Terminal
@@ -7875,31 +7901,36 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-NO_DNG= ; DP= ; only_DNG= ; full_DARK= ; DARK_FOLDER= ; only_DARK=
+NO_DNG= ; DP= ; only_DNG= ; full_DARK= ; DARK_FOLDER= ; only_DARK= ; webstorage=
 
 if ls /tmp/full_DARK
 then 
-full_DARK=$(echo "$bold""$green"added!"$normal")
+full_DARK=$(echo "$bold""$blue"both MLV and dng"$normal")
 fi
 
 if ls /tmp/NO_DNG
 then 
-NO_DNG=$(echo "$bold""$green"added!"$normal")
+NO_DNG=$(echo "$bold""$blue"MLV output"$normal")
 fi
 
 if ls /tmp/only_DNG
 then 
-only_DNG=$(echo "$bold""$green"added!"$normal")
+only_DNG=$(echo "$bold""$blue"dng output"$normal")
 fi
 
 if ls /tmp/DARK_FOLDER
 then 
-DARK_FOLDER=$(echo "$bold""$green"added!"$normal")
+DARK_FOLDER=$(echo "$bold""$blue"darkframe folder"$normal")
 fi
 
 if ls /tmp/only_DARK
 then 
-only_DARK=$(echo "$bold""$green"added!"$normal")
+only_DARK=$(echo "$bold""$blue"only avg darkframes"$normal")
+fi
+
+if ls /tmp/webstorage
+then 
+webstorage=$(echo "$bold""$blue"webstorage"$normal")
 fi
 
 while :
@@ -7919,6 +7950,7 @@ do
     $(tput bold)(3) full output$(tput sgr0)(creates both darkframe MLV and dng files) $full_DARK				 
     $(tput bold)(4) create only processed darkframes$(tput sgr0) $only_DARK
     $(tput bold)(5) select darkframe storage$(tput sgr0)(MLV+dng processing default) $DARK_FOLDER
+    $(tput bold)(6) web based storage$(tput sgr0)(MLV+dng processing default) $webstorage
 
     $(tput bold)$(tput setaf 1)(R) reset all settings$(tput sgr0) 
     $(tput bold)$(tput setaf 1)(m) back to main menu$(tput sgr0)  
@@ -7944,13 +7976,15 @@ Removed"$(tput sgr0) ;
 else 
 echo > /tmp/only_DNG
 echo > /tmp/DARK
-only_DNG=$(echo "$bold""$green"added!"$normal")
+only_DNG=$(echo "$bold""$blue"dng output"$normal")
 rm /tmp/NO_DNG &>/dev/null &
 NO_DNG=
 rm /tmp/full_DARK
 full_DARK=
 rm /tmp/only_DARK
 only_DARK=
+rm /tmp/webstorage
+webstorage=
 fi
 if [ -f /tmp/DARK_FOLDER ]
 then 
@@ -7972,13 +8006,15 @@ Removed"$(tput sgr0) ;
 else 
 echo > /tmp/NO_DNG
 echo > /tmp/DARK
-NO_DNG=$(echo "$bold""$green"added!"$normal")
+NO_DNG=$(echo "$bold""$blue"MLV output"$normal")
 rm /tmp/only_DNG &>/dev/null &
 only_DNG=
 rm /tmp/full_DARK
 full_DARK=
 rm /tmp/only_DARK
 only_DARK=
+rm /tmp/webstorage
+webstorage=
 fi
 if [ -f /tmp/DARK_FOLDER ]
 then 
@@ -7996,9 +8032,11 @@ rm /tmp/only_DNG &>/dev/null &
 only_DNG=
 rm /tmp/only_DARK
 only_DARK=
+rm /tmp/webstorage
+webstorage=
 echo > /tmp/full_DARK
 echo > /tmp/DARK
-full_DARK=$(echo "$bold""$green"added!"$normal")
+full_DARK=$(echo "$bold""$blue"both MLV and dng"$normal")
 else
 rm /tmp/full_DARK
 rm /tmp/DARK
@@ -8019,9 +8057,11 @@ rm /tmp/NO_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK_FOLDER
 rm /tmp/only_DNG
+rm /tmp/webstorage
+webstorage=
 echo > /tmp/only_DARK
 echo > /tmp/DARK
-only_DARK=$(echo "$bold""$green"added!"$normal")
+only_DARK=$(echo "$bold""$blue"only avg darkframes"$normal")
 else
 rm /tmp/only_DARK
 rm /tmp/DARK
@@ -8039,6 +8079,8 @@ rm /tmp/full_DARK
 rm /tmp/DARK_FOLDER
 rm /tmp/only_DNG
 rm /tmp/only_DARK
+rm /tmp/webstorage
+webstorage=
 clear
 echo "
 
@@ -8079,14 +8121,37 @@ clear &
 fi
 ;;
 
-    "R") 
-NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER= ; only_DARK=
+
+    "6")  
+if ! ls /tmp/webstorage
+then 
+NO_DNG= ; only_DNG= ; full_DARK= ; only_DARK= ; DARK= ; DARK_FOLDER= ; 
 rm /tmp/DARK
 rm /tmp/NO_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK_FOLDER
 rm /tmp/only_DNG
 rm /tmp/only_DARK
+rm /tmp/DARK
+echo > /tmp/webstorage
+webstorage=$(echo "$bold""$blue"webstorage"$normal")
+else
+rm /tmp/webstorage
+rm /tmp/DARK
+webstorage=
+fi
+;;
+
+
+    "R") 
+NO_DNG= ; only_DNG= ; full_DARK= ; DARK_FOLDER= ; only_DARK= ; webstorage=
+rm /tmp/DARK
+rm /tmp/NO_DNG
+rm /tmp/full_DARK
+rm /tmp/DARK_FOLDER
+rm /tmp/only_DNG
+rm /tmp/only_DARK
+rm /tmp/webstorage
 ;;
 
 
@@ -8221,6 +8286,7 @@ rm /tmp/only_DNG
 rm /tmp/full_DARK
 rm /tmp/DARK
 rm /tmp/only_DARK
+rm /tmp/webstorage
 rm /tmp/DUALISO/FLAT 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAMES 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/FLATFRAME_A 1> /dev/null 2>&1 &

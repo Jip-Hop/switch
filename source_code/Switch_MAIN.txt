@@ -481,8 +481,6 @@ sleep 1
 #Create the actual darkframes
     while grep 'MLV' My_darkfr
     do
-    $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
-    rm *.wav
 #let´s check for lossless files
     if grep '0x00000021' <<< $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Class Video/ { print $4; exit }')
     then
@@ -519,7 +517,18 @@ sleep 1
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
     cn=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+#check for file on bitbucket
+    if ! [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    if grep "avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV" <<< $(curl  --head --silent https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV)
+    then 
+    curl -L https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -o avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    else
+    $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
+    rm *.wav
     mv avg_"$(cat My_darkfr | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    fi  
+    fi
     mkdir -p A_ORIGINALS/darkframe_originals
     mv "$(cat My_darkfr | head -1)" A_ORIGINALS/darkframe_originals
     echo "$(tail -n +2 My_darkfr)" > My_darkfr
@@ -606,7 +615,7 @@ sleep 1
 ###############################################################
 #extra round to check if darkframe or flatframe still are present in root folder
 #when going for dng files only
-    if ! [ -f /tmp/only_DNG ]
+    if ! [ -f /tmp/only_DNG ] && ! [ -f /tmp/webstorage ]
     then
 #Create darkframe MLV files
     OLDIFS=$IFS

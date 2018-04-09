@@ -148,7 +148,7 @@
     fi
     fi
 #when going for dng files only(darkframes)
-    if [ -f /tmp/only_DNG ]
+    if [ -f /tmp/only_DNG ] || [ -f /tmp/webstorage ]
     then
 #let´s check for lossless files
     if grep '0x00000021' <<< $($mlv_dump -v "$FILE" | awk '/Class Video/ { print $4; exit }')
@@ -186,6 +186,14 @@
     iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
     cn=$($mlv_dump -v "$FILE" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+#check for file on bitbucket
+    if ! [ -f ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    if grep "avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV" <<< $(curl  --head --silent https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV)
+    then 
+    curl -L https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -o ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    fi  
+    fi
     fi
 #create second output
     if ! [ x"$(cat /tmp/output)" = x ]
@@ -237,7 +245,7 @@
     then
     $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s "$(cat /tmp/DARK_FOLDER)"/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     else
-    if [ -f /tmp/only_DNG ] && [ -f ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    if [ -f /tmp/only_DNG ] || [ -f /tmp/webstorage ] && [ -f ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
     then
     $mlv_dump --dng $mlv -o "$O2""${BASE}_1_$date"_ "$FILE" -s ../avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
     else
