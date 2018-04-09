@@ -1057,8 +1057,6 @@ sleep 1
 #Create the actual darkframes
     while grep 'MLV' My_darkfr
     do
-    $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
-    rm *.wav
 #let´s check for lossless files
     if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Class Video/ { print $4; exit }')
     then
@@ -1095,7 +1093,18 @@ sleep 1
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
     cn=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+#check for file on bitbucket
+    if ! [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    if grep "avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV" &lt;&lt;&lt; $(curl  --head --silent https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV)
+    then 
+    curl -L https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -o avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    else
+    $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
+    rm *.wav
     mv avg_"$(cat My_darkfr | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    fi  
+    fi
     mkdir -p A_ORIGINALS/darkframe_originals
     mv "$(cat My_darkfr | head -1)" A_ORIGINALS/darkframe_originals
     echo "$(tail -n +2 My_darkfr)" &gt; My_darkfr
@@ -1182,7 +1191,7 @@ sleep 1
 ###############################################################
 #extra round to check if darkframe or flatframe still are present in root folder
 #when going for dng files only
-    if ! [ -f /tmp/only_DNG ]
+    if ! [ -f /tmp/only_DNG ] &amp;&amp; ! [ -f /tmp/webstorage ]
     then
 #Create darkframe MLV files
     OLDIFS=$IFS
@@ -2528,54 +2537,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>24E882D7-F49B-439A-A4D2-B86F4E0BE274</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>34B370FA-1BD8-415D-89A8-E31FD7C6438B</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>5680FE67-63FC-4566-AA0E-F4AF22133DE4</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>6C3F9499-C78C-49D0-AFE4-AB24C97B823F</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>AB3EE0FC-1DAD-4305-B2EE-FF7444AFE333</key>
-		<dict>
-			<key>from</key>
-			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
-			<key>to</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-		</dict>
-		<key>C1330363-216F-45B9-B9CB-48FC48E1720C</key>
+		<key>301C4DEF-2FA3-4586-9FFB-1BF26079DA89</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>DD921B4B-A131-4B02-B9A5-81D9B884B027</key>
+		<key>4A855619-6680-48ED-8EEE-B35B12F5ADDC</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>75D8F70A-81CC-4BDA-B0A5-46A9FAB11E49</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>7F739F19-2D43-4C6B-8BA6-80D07589CDBE</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>D2CA5677-3D9B-4F32-9776-D09B5D1AE879</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>DCEB6820-D1C6-405D-A032-350376CFD01C</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>EFD65337-39CD-47D9-9021-B6B1831CA64F</key>
+		<dict>
+			<key>from</key>
+			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
+			<key>to</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

@@ -1080,8 +1080,6 @@ sleep 1
 #Create the actual darkframes
     while grep 'MLV' My_darkfr
     do
-    $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
-    rm *.wav
 #let´s check for lossless files
     if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Class Video/ { print $4; exit }')
     then
@@ -1118,7 +1116,18 @@ sleep 1
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
     cn=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Camera Name/ { print $4,$5,$6,$7; exit }' | cut -d "'" -f1 | tr -d ' ')
+#check for file on bitbucket
+    if ! [ -f avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV ]
+    then
+    if grep "avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV" &lt;&lt;&lt; $(curl  --head --silent https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV)
+    then 
+    curl -L https://bitbucket.org/Dannephoto/darkframes/downloads/avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV -o avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    else
+    $mlv_dump -o avg_"$(cat My_darkfr | head -1)" -a "$(cat My_darkfr | head -1)"
+    rm *.wav
     mv avg_"$(cat My_darkfr | head -1)" avg_"$bit"bit_"$cn"_res_"$res"_iso_"$iso"_fps_"$fra".MLV
+    fi  
+    fi
     mkdir -p A_ORIGINALS/darkframe_originals
     mv "$(cat My_darkfr | head -1)" A_ORIGINALS/darkframe_originals
     echo "$(tail -n +2 My_darkfr)" &gt; My_darkfr
@@ -1205,7 +1214,7 @@ sleep 1
 ###############################################################
 #extra round to check if darkframe or flatframe still are present in root folder
 #when going for dng files only
-    if ! [ -f /tmp/only_DNG ]
+    if ! [ -f /tmp/only_DNG ] &amp;&amp; ! [ -f /tmp/webstorage ]
     then
 #Create darkframe MLV files
     OLDIFS=$IFS
@@ -2057,28 +2066,28 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>4A8550BE-04C2-4B15-8B45-21BC0DDB258B</key>
-		<dict>
-			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-		</dict>
-		<key>96BC90B6-60B3-4E26-901E-D9E17842F9A8</key>
+		<key>3083849D-A5D9-4A43-A07C-FEC707C59528</key>
 		<dict>
 			<key>from</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 			<key>to</key>
 			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
-		<key>BD880FE8-8F8A-43FF-91D8-98B2102110BC</key>
+		<key>41198A44-4BBD-44CF-83EC-BBC56841C4C7</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 		</dict>
-		<key>EA45FC5D-91E6-414C-A5B7-0E1AC8BA2939</key>
+		<key>B90B4E85-D0E6-4711-95B7-5C3702FE35AF</key>
+		<dict>
+			<key>from</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+			<key>to</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+		</dict>
+		<key>C4112206-432B-4D5E-AE53-165182B0B0BC</key>
 		<dict>
 			<key>from</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
