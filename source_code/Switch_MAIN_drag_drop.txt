@@ -441,7 +441,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
-    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}') < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
     then 
     echo "$FILE" >> /tmp/DUALISO/FLAT
     fi
@@ -512,7 +512,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2>/dev/null`; do
-    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}') < 400" |bc -l) )) && (( $(echo "$(wc -c < "$FILE") < 1000000000" |bc -l) ))
     then 
     echo "$FILE" >> /tmp/DUALISO/darkf.txt
     fi
