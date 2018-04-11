@@ -976,7 +976,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/FLAT
     fi
@@ -1047,7 +1047,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/darkf.txt
     fi
@@ -2066,33 +2066,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>3083849D-A5D9-4A43-A07C-FEC707C59528</key>
+		<key>8C0F0D72-6291-4C19-9242-D28FFC32ABD3</key>
 		<dict>
 			<key>from</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 			<key>to</key>
-			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
-		<key>41198A44-4BBD-44CF-83EC-BBC56841C4C7</key>
+		<key>9EB7EA62-1043-4031-A1AC-11D47286E37B</key>
+		<dict>
+			<key>from</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+		</dict>
+		<key>B059EE38-3CB8-4E0D-842E-1EDB397C1408</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 		</dict>
-		<key>B90B4E85-D0E6-4711-95B7-5C3702FE35AF</key>
+		<key>FD16D3DA-EF3D-4272-B597-EB22376429DD</key>
 		<dict>
 			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-		</dict>
-		<key>C4112206-432B-4D5E-AE53-165182B0B0BC</key>
-		<dict>
-			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-			<key>to</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<key>to</key>
+			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

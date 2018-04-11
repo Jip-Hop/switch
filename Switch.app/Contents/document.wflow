@@ -953,7 +953,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/FLAT
     fi
@@ -1024,7 +1024,7 @@ sleep 1
     OLDIFS=$IFS
     IFS=$'\n'    
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
-    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Processed/ { print $2;}') &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
+    if (( $(echo "$($mlv_dump -v "$FILE" | awk '/Frames/ { print $3; exit}' &lt; 400" |bc -l) )) &amp;&amp; (( $(echo "$(wc -c &lt; "$FILE") &lt; 1000000000" |bc -l) ))
     then 
     echo "$FILE" &gt;&gt; /tmp/DUALISO/darkf.txt
     fi
@@ -2537,54 +2537,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>301C4DEF-2FA3-4586-9FFB-1BF26079DA89</key>
+		<key>30A123D1-C20D-4769-8D6A-B919BC3923B6</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 		</dict>
-		<key>4A855619-6680-48ED-8EEE-B35B12F5ADDC</key>
+		<key>405F26C3-AB40-44A0-9BBB-5760AD36CC44</key>
 		<dict>
 			<key>from</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
-		<key>75D8F70A-81CC-4BDA-B0A5-46A9FAB11E49</key>
+		<key>91239564-8B13-49E6-BA6C-E4DD84634332</key>
 		<dict>
 			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>7F739F19-2D43-4C6B-8BA6-80D07589CDBE</key>
+		<key>A1CA8B3A-C41F-4998-8C1A-4EE19CAE1A8F</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>D2CA5677-3D9B-4F32-9776-D09B5D1AE879</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>DCEB6820-D1C6-405D-A032-350376CFD01C</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>EFD65337-39CD-47D9-9021-B6B1831CA64F</key>
+		<key>C5995569-56C7-4F4A-97B0-E218BE8C4F19</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+		</dict>
+		<key>CF36CBEF-B6AA-4610-94FC-F307E334D9B6</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>F412DF92-48D0-4635-A019-739E6584484D</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
