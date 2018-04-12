@@ -28,8 +28,11 @@ rm /tmp/DUALISO/path_1
     fi
 
 #Shortcut to dualiso cr2hdr drag/drop
-if grep 'CR2\|cr2\|DNG' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1 | cut -d '.' -f2)"
+if grep 'CR2\|cr2\|DNG' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
 then 
+#if a folder just bypass
+    if ! [ -d "$(cat /tmp/folder_paths.txt | head -1)" ]
+    then
 cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')"
 #set path
 path_2=$(echo "$1") 
@@ -75,6 +78,7 @@ sleep 3
     osascript -e 'display notification "All files are done processing" with title "cr2hdr shortcut"' 
     afplay /System/Library/Sounds/Glass.aiff
 fi
+    fi
 
 if grep 'C0000' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
 then 
