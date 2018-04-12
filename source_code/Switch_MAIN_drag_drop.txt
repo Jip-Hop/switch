@@ -34,6 +34,8 @@ cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tm
 #set path
 path_2=$(echo "$1") 
 export PATH="$path_2"Contents:$PATH
+    OLDIFS=$IFS
+    IFS=$'\n'
 #list CR2 files and send to multiprocessing
 last=$(cat /tmp/folder_paths.txt | wc -l)
 one=$(cat /tmp/folder_paths.txt | sed -n 1,$(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')p)
@@ -61,6 +63,8 @@ fi
     cr2hdr $two & 
     cr2hdr $three & 
     cr2hdr $four &
+#resetting
+    IFS=$OLDIFS 
 sleep 3
     osascript -e 'display notification "hold on, this will take a while" with title "cr2hdr shortcut"' 
 sleep 2

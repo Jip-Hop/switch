@@ -546,6 +546,8 @@ cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tm
 #set path
 path_2=$(echo "$1") 
 export PATH="$path_2"Contents:$PATH
+    OLDIFS=$IFS
+    IFS=$'\n'
 #list CR2 files and send to multiprocessing
 last=$(cat /tmp/folder_paths.txt | wc -l)
 one=$(cat /tmp/folder_paths.txt | sed -n 1,$(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')p)
@@ -573,6 +575,8 @@ fi
     cr2hdr $two &amp; 
     cr2hdr $three &amp; 
     cr2hdr $four &amp;
+#resetting
+    IFS=$OLDIFS 
 sleep 3
     osascript -e 'display notification "hold on, this will take a while" with title "cr2hdr shortcut"' 
 sleep 2
@@ -2582,54 +2586,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>295B6668-82B5-4000-ADD4-5C7B37A2A893</key>
+		<key>22F25CBB-26CA-4F40-92AF-49DDF2B08E6C</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+		</dict>
+		<key>3C87808B-B731-40E6-ABEF-772DF69DF281</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>61E479A6-0D4E-4F53-8C20-DEA3967261D5</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>4B5C72AF-B772-4C15-905F-034CC36523BC</key>
+		<key>9002D835-7D6C-4CB0-B56B-5FDB69E3AAE9</key>
 		<dict>
 			<key>from</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
-		<key>75E3817B-5C83-4F73-B0EC-EB938900FBC2</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>822B911D-D770-4031-A3A2-5A15412C0F27</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>A97BD691-4002-485E-ABCC-4CC4F973DDC3</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>D07BBD81-9737-496D-8598-43D4F54B07A7</key>
+		<key>CDB2205A-E8F4-4DF7-A392-10210498DE4A</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>EB0F336F-3DB3-4A5B-8BE4-9069F202B1A6</key>
+		<key>E88A9F39-3BCF-4E39-B8E2-542EF890957A</key>
 		<dict>
 			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>EB393AFA-93ED-48A6-A543-C3425D8210F7</key>
+		<dict>
+			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
