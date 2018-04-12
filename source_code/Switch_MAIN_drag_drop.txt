@@ -8,7 +8,7 @@ echo > /tmp/DUALISO/PREV
 ffplay -vf tblend=all_mode=average "$(cat /tmp/DUALISO/path_1)"
 rm /tmp/DUALISO/path_1
 else
-    if grep 'mlv\|MLV\|RAW\|DNG\|dng' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
+    if grep 'mlv\|MLV\|RAW\|dng' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
     then 
     echo > /tmp/DUALISO/PREV
 #Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
@@ -26,6 +26,51 @@ rm /tmp/DUALISO/path_1
     fi
     fi
     fi
+
+#Shortcut to dualiso cr2hdr drag/drop
+if grep 'CR2\|cr2\|DNG' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1 | cut -d '.' -f2)"
+then 
+cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')"
+#set path
+path_2=$(echo "$1") 
+export PATH="$path_2"Contents:$PATH
+#list CR2 files and send to multiprocessing
+last=$(cat /tmp/folder_paths.txt | wc -l)
+one=$(cat /tmp/folder_paths.txt | sed -n 1,$(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')p)
+num1=$(echo $(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')+1 | bc -l)
+num2=$(echo $(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')*2 | bc -l)
+if (( $(echo "$last > 1" | bc -l) ))
+then
+two=$(cat /tmp/folder_paths.txt | sed -n "$num1","$num2"p)
+num3=$(echo $num2 + 1 | bc -l)
+num4=$(echo $(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')*3 | bc -l)
+fi
+if (( $(echo "$last > 2" | bc -l) ))
+then
+three=$(cat /tmp/folder_paths.txt | sed -n "$num3","$num4"p)
+fi
+if (( $(echo "$last > 3" | bc -l) ))
+then
+num5=$(echo $num4 + 1 | bc -l)
+num6=$(echo $last)
+four=$(cat /tmp/folder_paths.txt | sed -n "$num5","$num6"p)
+fi
+    osascript -e 'display notification "dualiso processing" with title "cr2hdr shortcut"'
+    afplay /System/Library/Sounds/Tink.aiff
+    cr2hdr $one & 
+    cr2hdr $two & 
+    cr2hdr $three & 
+    cr2hdr $four &
+sleep 3
+    osascript -e 'display notification "hold on, this will take a while" with title "cr2hdr shortcut"' 
+sleep 2
+    osascript -e 'display notification "wait for the final beep" with title "cr2hdr shortcut"'
+#wait for jobs to end
+    wait < <(jobs -p)
+sleep 3
+    osascript -e 'display notification "All files are done processing" with title "cr2hdr shortcut"' 
+    afplay /System/Library/Sounds/Glass.aiff
+fi
 
 if grep 'C0000' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
 then 
