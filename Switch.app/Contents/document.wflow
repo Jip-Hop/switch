@@ -520,7 +520,7 @@ echo &gt; /tmp/DUALISO/PREV
 ffplay -vf tblend=all_mode=average "$(cat /tmp/DUALISO/path_1)"
 rm /tmp/DUALISO/path_1
 else
-    if grep 'mlv\|MLV\|RAW\|DNG\|dng' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
+    if grep 'mlv\|MLV\|RAW\|dng' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
     then 
     echo &gt; /tmp/DUALISO/PREV
 #Main code. For it to take effect it has to be copied into Switch. Do so by opening Switch in automator.
@@ -538,6 +538,51 @@ rm /tmp/DUALISO/path_1
     fi
     fi
     fi
+
+#Shortcut to dualiso cr2hdr drag/drop
+if grep 'CR2\|cr2\|DNG' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1 | cut -d '.' -f2)"
+then 
+cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')"
+#set path
+path_2=$(echo "$1") 
+export PATH="$path_2"Contents:$PATH
+#list CR2 files and send to multiprocessing
+last=$(cat /tmp/folder_paths.txt | wc -l)
+one=$(cat /tmp/folder_paths.txt | sed -n 1,$(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')p)
+num1=$(echo $(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')+1 | bc -l)
+num2=$(echo $(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')*2 | bc -l)
+if (( $(echo "$last &gt; 1" | bc -l) ))
+then
+two=$(cat /tmp/folder_paths.txt | sed -n "$num1","$num2"p)
+num3=$(echo $num2 + 1 | bc -l)
+num4=$(echo $(echo $last / 4 | bc -l | awk '{printf("%d\n",$1 + 0.5)}')*3 | bc -l)
+fi
+if (( $(echo "$last &gt; 2" | bc -l) ))
+then
+three=$(cat /tmp/folder_paths.txt | sed -n "$num3","$num4"p)
+fi
+if (( $(echo "$last &gt; 3" | bc -l) ))
+then
+num5=$(echo $num4 + 1 | bc -l)
+num6=$(echo $last)
+four=$(cat /tmp/folder_paths.txt | sed -n "$num5","$num6"p)
+fi
+    osascript -e 'display notification "dualiso processing" with title "cr2hdr shortcut"'
+    afplay /System/Library/Sounds/Tink.aiff
+    cr2hdr $one &amp; 
+    cr2hdr $two &amp; 
+    cr2hdr $three &amp; 
+    cr2hdr $four &amp;
+sleep 3
+    osascript -e 'display notification "hold on, this will take a while" with title "cr2hdr shortcut"' 
+sleep 2
+    osascript -e 'display notification "wait for the final beep" with title "cr2hdr shortcut"'
+#wait for jobs to end
+    wait &lt; &lt;(jobs -p)
+sleep 3
+    osascript -e 'display notification "All files are done processing" with title "cr2hdr shortcut"' 
+    afplay /System/Library/Sounds/Glass.aiff
+fi
 
 if grep 'C0000' &lt;&lt;&lt; "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
 then 
@@ -2537,54 +2582,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>260A9073-FE22-408D-BE62-B99307F46E1F</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>395FF17E-544B-4DFE-9C92-28C7CB7D7676</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>551A857A-CA94-417D-93BF-3A226C130528</key>
-		<dict>
-			<key>from</key>
-			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
-			<key>to</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-		</dict>
-		<key>5BD09378-E5C2-40A2-AF39-7CDCC8E6A384</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>ADCDCB7F-7263-4DC7-8962-2F83B2CFA39D</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>E7586977-F2E9-4991-9E3B-746E20BF31DE</key>
+		<key>295B6668-82B5-4000-ADD4-5C7B37A2A893</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>F1DFA305-2AA4-4DF9-BCFC-BCB96877465C</key>
+		<key>4B5C72AF-B772-4C15-905F-034CC36523BC</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>75E3817B-5C83-4F73-B0EC-EB938900FBC2</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>822B911D-D770-4031-A3A2-5A15412C0F27</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>A97BD691-4002-485E-ABCC-4CC4F973DDC3</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>D07BBD81-9737-496D-8598-43D4F54B07A7</key>
+		<dict>
+			<key>from</key>
+			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
+			<key>to</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+		</dict>
+		<key>EB0F336F-3DB3-4A5B-8BE4-9069F202B1A6</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
