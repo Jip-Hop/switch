@@ -193,7 +193,7 @@ cd "$(cat /tmp/compath1)"
 fi
 
 #here we go. Main script
-printf '\e[8;23;70t'
+printf '\e[8;24;70t'
 printf '\e[3;410;0t'
 while :
 do 
@@ -214,6 +214,7 @@ $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
 $(tput bold)$(tput setaf 1)(u)  pull and update source code$(tput sgr0)
 $(tput bold)$(tput setaf 1)(C)  development installation script$(tput sgr0)(dfort)
 $(tput bold)$(tput setaf 1)(c)  clone magic lantern repository$(tput sgr0)
+$(tput bold)$(tput setaf 1)(s)  select a repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(o)  open source code$(tput sgr0)
 $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
@@ -406,12 +407,25 @@ sleep 3
 ;;
 
    "c") 
+echo > /tmp/cloning
 open "$(cat /tmp/compath2)"/source_location.app
 clear
 echo $(tput bold)"
 
 
 Choose source code location path"
+sleep 2
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+
+   "s") 
+echo > /tmp/reposelect
+open "$(cat /tmp/compath2)"/source_location.app
+clear
+echo $(tput bold)"
+
+
+Choose repository path"
 sleep 2
 osascript -e 'tell application "Terminal" to close first window' & exit
     ;;

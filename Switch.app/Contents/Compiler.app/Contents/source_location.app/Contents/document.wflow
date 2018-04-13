@@ -224,9 +224,20 @@
 				<dict>
 					<key>COMMAND_STRING</key>
 					<string>cd "$1"
+if ls /tmp/cloning
+then
+rm /tmp/cloning
 echo "$1" &gt; /tmp/compath1
 echo &gt; /tmp/source_location
-open "$(cat /tmp/compath2)"/main.command</string>
+open "$(cat /tmp/compath2)"/main.command
+fi
+
+if ls /tmp/reposelect
+then
+rm /tmp/reposelect
+echo "$1" &gt; /tmp/compath1
+open "$(cat /tmp/compath2)"/main.command
+fi</string>
 					<key>CheckedForUserDefaultShell</key>
 					<true/>
 					<key>inputMethod</key>
@@ -339,7 +350,7 @@ open "$(cat /tmp/compath2)"/main.command</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>400.000000:781.000000</string>
+				<string>400.000000:478.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
@@ -349,7 +360,7 @@ open "$(cat /tmp/compath2)"/main.command</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>3BB1E2B4-DB7C-4568-819B-29956CE52640</key>
+		<key>CEC2FB8F-1FE5-4CC6-91D2-80F30558E8B1</key>
 		<dict>
 			<key>from</key>
 			<string>CDF6DEB5-CF07-4EBE-A521-62C31265001C - CDF6DEB5-CF07-4EBE-A521-62C31265001C</string>
