@@ -516,7 +516,7 @@ clear
    hg update
 #grab scripts for Compiler.app
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command -o Switch.app/Contents/Compiler.app/Contents/main.command
-   curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command -o Switch.app/Contents/Compiler.app/Contents/mac_ml.sh
+   curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh -o Switch.app/Contents/Compiler.app/Contents/mac_ml.sh
    hg commit -m "$(echo $commit)"
    hg add
    hg push
