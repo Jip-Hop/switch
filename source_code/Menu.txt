@@ -6635,7 +6635,7 @@ done
    "co")
 if [ -f /tmp/compath1 ]
 then
-if ! [ -f "$(cat /tmp/compath1)"/Makefile.user ]
+if ! [ -f "$(cat /tmp/compath1)"/Makefile.user.default ]
 then
 rm /tmp/compath1
 rm /tmp/compath2
