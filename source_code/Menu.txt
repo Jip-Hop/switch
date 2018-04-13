@@ -6633,6 +6633,14 @@ done
 
 
    "co")
+if [ -f /tmp/compath1 ]
+then
+if ! [ -f "$(cat /tmp/compath1)"/Makefile.user ]
+then
+rm /tmp/compath1
+rm /tmp/compath2
+fi
+fi
 open "$(cat /tmp/DUALISO/path_2)"Compiler.app
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
