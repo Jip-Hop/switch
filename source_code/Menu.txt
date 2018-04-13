@@ -1174,6 +1174,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ma) Mlv App workflow$(tput sgr0)(Ilia3101,masc,bouncyball)
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)
     $(tput bold)$(tput setaf 1)(b)  bash section$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(co) Compiler.app$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(CP) set running threads manually(max 4)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS
@@ -6628,8 +6629,17 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     esac
     sleep 0.5
 done
-
 ;;
+
+
+   "co")
+open "$(cat /tmp/DUALISO/path_2)"Compiler.app
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+
 
    "ma")
 cd "$(cat /tmp/DUALISO/path_1)"
