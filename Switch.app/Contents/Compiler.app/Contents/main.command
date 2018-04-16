@@ -193,7 +193,7 @@ cd "$(cat /tmp/compath1)"
 fi
 
 #here we go. Main script
-printf '\e[8;24;70t'
+printf '\e[8;25;70t'
 printf '\e[3;410;0t'
 while :
 do 
@@ -215,6 +215,7 @@ $(tput bold)$(tput setaf 1)(u)  pull and update source code$(tput sgr0)
 $(tput bold)$(tput setaf 1)(C)  development installation script$(tput sgr0)(dfort)
 $(tput bold)$(tput setaf 1)(c)  clone magic lantern repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(s)  select a repository$(tput sgr0)
+$(tput bold)$(tput setaf 1)(t)  terminal$(tput sgr0)(work manually)
 $(tput bold)$(tput setaf 1)(o)  open source code$(tput sgr0)
 $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
@@ -428,6 +429,38 @@ echo $(tput bold)"
 Choose repository path"
 sleep 2
 osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+
+    "t") 
+/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
+clear
+while :
+do
+echo "You are here:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"Please specify any command:$(tput sgr0)(scroll up to check outcome)"
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+    esac
+$input_variable
+sleep 2
+clear
+done
     ;;
 
    "o")  
