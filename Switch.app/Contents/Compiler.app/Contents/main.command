@@ -331,7 +331,7 @@ done
 
     "p") 
 cd platform
-printf '\e[8;35;80t'
+printf '\e[8;34;80t'
 printf '\e[3;410;0t'
 while :
 do 
@@ -349,7 +349,7 @@ current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
 
-Please enter your selection number below and press enter:
+Select your camera to compile and hit enter:
 EOF
 read input_variable
 i=$input_variable
@@ -366,23 +366,59 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
     "$i") 
 /usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
-module=$(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
+platform=$(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
 cd $(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
+while :
+do
 clear
-echo "You are here:" $(tput setaf 4)$(tput bold)$module$(tput sgr0)
+echo "You are here:" $(tput setaf 4)$(tput bold)$platform$(tput sgr0)
 echo ""
-echo $(tput bold)"Please specify command:$(tput sgr0)(e.g $(tput bold)make zip$(tput sgr0) then hit enter)"
+cat<<EOF
+$(tput bold)$(tput setaf 1)(c)  compile$(tput sgr0)
+$(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"Please specify any command or choose from menu above:$(tput sgr0)"
 read input_variable
-$input_variable
+i=$input_variable
+case "$i" in
+
+    "c") 
+make zip
+clear
+echo "grab your compiled zip file and put it on your camera"
+sleep 2
 open . 
-cd ..
-sleep 2 && open -a terminal &
+input_variable=$(echo zipp)
     ;;
 
+    "M") 
+make clean
+input_variable=$(echo zipp)
+    ;;
+
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
     esac
+if ! [ "$input_variable" = zipp ];
+then
+$input_variable
+fi
+sleep 1
 done
     ;;
 
+     esac
+done
+    ;;
 
 #main
 
