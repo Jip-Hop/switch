@@ -52,8 +52,8 @@ cd "$tmp"
 ffmpeg -i $(cat /tmp/HDRMOVaa | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVaa | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f1 ))
-cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVaa | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f2 ))
+cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVaa | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
+cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVaa | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
@@ -231,8 +231,8 @@ cd "$tmp"
 ffmpeg -i $(cat /tmp/HDRMOVab | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVab | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f1 ))
-cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVab | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f2 ))
+cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVab | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
+cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVab | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
@@ -410,8 +410,8 @@ cd "$tmp"
 ffmpeg -i $(cat /tmp/HDRMOVac | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVac | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f1 ))
-cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVac | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f2 ))
+cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVac | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
+cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVac | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
@@ -589,8 +589,8 @@ cd "$tmp"
 ffmpeg -i $(cat /tmp/HDRMOVad | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVad | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f1 ))
-cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVad | head -1) | awk '/Image Size/ { print $5; exit }' | cut -d "x" -f2 ))
+cr_W=$(echo $(exiftool $(cat /tmp/HDRMOVad | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
+cr_H=$(echo $(exiftool $(cat /tmp/HDRMOVad | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
