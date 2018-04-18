@@ -208,15 +208,15 @@ repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)
  current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 
 $(tput bold)$(tput setaf 1)(b)  branches$(tput sgr0)
-$(tput bold)$(tput setaf 1)(m)  modules$(tput sgr0)
 $(tput bold)$(tput setaf 1)(p)  platform$(tput sgr0)
+$(tput bold)$(tput setaf 1)(m)  modules$(tput sgr0)
 $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
-$(tput bold)$(tput setaf 1)(u)  pull and update source code$(tput sgr0)
-$(tput bold)$(tput setaf 1)(C)  development installation script$(tput sgr0)(dfort)
-$(tput bold)$(tput setaf 1)(c)  clone magic lantern repository$(tput sgr0)
-$(tput bold)$(tput setaf 1)(s)  select a repository$(tput sgr0)
-$(tput bold)$(tput setaf 1)(t)  terminal$(tput sgr0)(work manually)
-$(tput bold)$(tput setaf 1)(o)  open source code$(tput sgr0)
+$(tput bold)$(tput setaf 1)(u)  pull and update magic lantern source code$(tput sgr0)
+$(tput bold)$(tput setaf 1)(C)  development installation script$(tput sgr0)
+$(tput bold)$(tput setaf 1)(c)  download magic lantern repository$(tput sgr0)
+$(tput bold)$(tput setaf 1)(s)  select a new repository$(tput sgr0)
+$(tput bold)$(tput setaf 1)(t)  terminal$(tput sgr0)
+$(tput bold)$(tput setaf 1)(o)  open up Compiler.app main script$(tput sgr0)
 $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 
@@ -268,64 +268,6 @@ hg update $(hg branches | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
     esac
 done
     ;;
-
-
-#modules
-
-    "m") 
-cd modules
-printf '\e[8;200;100t'
-printf '\e[3;410;0t'
-while :
-do 
-/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
-clear
-cat<<EOF
-
-
-current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
-
-$(tput bold)$(ls -d */ | cut -f1 -d'/' | awk '{printf("%01d %s\n", NR, $0)}')$(tput sgr0)
-
-current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
-
-$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
-$(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
-
-Please enter your selection number below and press enter:
-EOF
-read input_variable
-i=$input_variable
-case "$i" in
-
-    "m") 
-cd "$(cat /tmp/compath1)"
-. "$(cat /tmp/compath2)"/main.command
-    ;;
-
-    "q") 
-osascript -e 'tell application "Terminal" to close first window' & exit
-    ;;
-
-    "$i") 
-/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
-module=$(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
-cd $(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
-clear
-echo "You are here:" $(tput setaf 4)$(tput bold)$module$(tput sgr0)
-echo ""
-echo $(tput bold)"Please specify command:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
-read input_variable
-$input_variable
-open . 
-cd ..
-sleep 2 && open -a terminal &
-    ;;
-
-    esac
-done
-    ;;
-
 
 #platform
 
@@ -417,6 +359,62 @@ done
     ;;
 
      esac
+done
+    ;;
+
+
+#modules
+
+    "m") 
+cd modules
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+while :
+do 
+/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
+clear
+cat<<EOF
+
+
+current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
+
+$(tput bold)$(ls -d */ | cut -f1 -d'/' | awk '{printf("%01d %s\n", NR, $0)}')$(tput sgr0)
+
+current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
+
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
+
+Please enter your selection number below and press enter:
+EOF
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+
+    "$i") 
+/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
+module=$(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
+cd $(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
+clear
+echo "You are here:" $(tput setaf 4)$(tput bold)$module$(tput sgr0)
+echo ""
+echo $(tput bold)"Please specify command:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
+read input_variable
+$input_variable
+open . 
+cd ..
+    ;;
+
+    esac
 done
     ;;
 
@@ -514,12 +512,23 @@ echo ""
 echo "1 - select a branch you want to work with then go back to main menu"
 sleep 3
 echo ""
-echo "2 - then select either modules or platform depending on what to do"
+echo "2 - now select either modules or platform depending on what to compile"
 sleep 3
 echo ""
-echo "3 - select module or platform then type what´s needed to compile"
+echo "3 - to compile for your camera simply select your camera platform and 
+then specify $(tput sgr0)make zip$(tput bold) or select $(tput bold)$(tput setaf 1)(c)  compile$(tput sgr0) $(tput bold)from the submenu"
 sleep 3
 echo ""
+echo "4 - when done head back to main menu and select $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0) $(tput bold)to 
+reset your repository to origin"
+sleep 3
+echo ""
+echo "feel free to test the other menu options in main menu and report any 
+problems at https://www.magiclantern.fm/forum/"
+sleep 3
+echo ""
+
+
 echo "Good luck!"
 sleep 2
 echo ""
