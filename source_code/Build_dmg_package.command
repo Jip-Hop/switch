@@ -249,6 +249,7 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
+   rm .DS_store
    hg pull
    hg update
    hg commit -m "$(echo $commit)"
@@ -420,6 +421,7 @@ echo ""
 #pull from source
    cd "$dir"/
 clear
+   rm .DS_store
    hg pull https://Dannephoto@bitbucket.org/Dannephoto/switch
    hg update
 
@@ -462,6 +464,7 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
+   rm .DS_store
    hg pull
    hg update
    hg addremove
@@ -512,6 +515,7 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
+   rm .DS_store
    hg pull
    hg update
 #grab scripts for Compiler.app
