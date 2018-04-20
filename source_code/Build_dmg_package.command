@@ -541,7 +541,7 @@ clear
 #grab scripts for Compiler.app
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command -o Switch.app/Contents/Compiler.app/Contents/main.command
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh -o Switch.app/Contents/Compiler.app/Contents/mac_ml.sh
-   curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh -o Switch.app/Contents/Compiler.app/Contents/hg.command
+   curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/hg.command -o Switch.app/Contents/Compiler.app/Contents/hg.command
    hg addremove
    hg commit -m "$(echo $commit)"
    hg push
