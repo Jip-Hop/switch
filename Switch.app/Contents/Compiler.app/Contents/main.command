@@ -217,6 +217,7 @@ $(tput bold)$(tput setaf 1)(c)  download magic lantern repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(s)  select a new repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(t)  terminal$(tput sgr0)
 $(tput bold)$(tput setaf 1)(o)  open up Compiler.app main script$(tput sgr0)
+$(tput bold)$(tput setaf 1)(hg) hg.command$(tput sgr0)(expert option)
 $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 
@@ -499,6 +500,10 @@ done
 
    "o")  
 open -a TextEdit "$(cat /tmp/compath2)"/main.command
+;;
+
+   "hg")  
+. "$(cat /tmp/compath2)"/hg.command
 ;;
 
    "h")  
