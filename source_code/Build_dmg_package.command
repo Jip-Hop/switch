@@ -28,9 +28,13 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
+#get rid of not needed file
+    if ls .DS_store >/dev/null 2>&1;
+    then 
+    rm .DS_store
+    fi
+
 clear
-
-
 #check for dependencies:
 if ! [ -f "`which hg`" ]
 then 
@@ -249,7 +253,11 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
-   rm .DS_store
+#get rid of not needed file
+    if ls .DS_store >/dev/null 2>&1;
+    then 
+    rm .DS_store
+    fi   
    hg pull
    hg update
    hg commit -m "$(echo $commit)"
@@ -421,7 +429,11 @@ echo ""
 #pull from source
    cd "$dir"/
 clear
-   rm .DS_store
+#get rid of not needed file
+    if ls .DS_store >/dev/null 2>&1;
+    then 
+    rm .DS_store
+    fi
    hg pull https://Dannephoto@bitbucket.org/Dannephoto/switch
    hg update
 
@@ -464,7 +476,11 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
-   rm .DS_store
+#get rid of not needed file
+    if ls .DS_store >/dev/null 2>&1;
+    then 
+    rm .DS_store
+    fi
    hg pull
    hg update
    hg addremove
@@ -515,7 +531,11 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
-   rm .DS_store
+#get rid of not needed file
+    if ls .DS_store >/dev/null 2>&1;
+    then 
+    rm .DS_store
+    fi
    hg pull
    hg update
 #grab scripts for Compiler.app
