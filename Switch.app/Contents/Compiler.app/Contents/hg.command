@@ -64,7 +64,7 @@ fi
     fi
 
 #what´s added and not
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1 | head -1)"
+    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     username="$(grep 'username' "$dir"/.hg/hgrc)"
 
 #Check for password
@@ -123,7 +123,7 @@ EOF
 
     "01") 
 #if rerun on file already set 
-    if ! [ "$username" = $(tput setaf 1)MISSING ]
+    if ! [ "$password" = $(tput setaf 1)MISSING ]
     then 
 clear
    echo $(tput bold)$(tput setaf 1)"Please reset your hgrc file before proceeding"
@@ -189,7 +189,7 @@ clear
 fi
 
 #what´s added and not
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1 | head -1)"
+    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     username="$(grep 'username' "$dir"/.hg/hgrc)"
 
 #Check for password
@@ -225,7 +225,7 @@ $(tput sgr0)$(tput bold)$(tput setaf 1)
 hgrc file is now reset"$(tput sgr0) ; sleep 2
 
 #what´s added and not
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1 | head -1)"
+    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     username="$(grep 'username' "$dir"/.hg/hgrc)"
 
 #Check for password
@@ -382,7 +382,7 @@ clear
 
 #create the upload automation script
     user="#$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2 | head -1)"
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1 | head -1)"
+    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     downloads="/"$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2,3 | head -1)"/downloads"
     item="$(echo " "$dir"/$repname.dmg")"
 
@@ -533,7 +533,7 @@ clear
 
 #create the upload automation script
     user="#$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2 | head -1)"
-    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1 | head -1)"
+    password="$(grep '@bitbucket.org' "$dir"/.hg/hgrc | cut -d ":" -f3 | cut -d "@" -f1)"
     downloads="/"$(grep 'bitbucket.org' "$dir"/.hg/hgrc | cut -d "." -f2 | cut -d "/" -f2,3 | head -1)"/downloads"
     item="$(echo " "$dir"/$repname.dmg")"
 
