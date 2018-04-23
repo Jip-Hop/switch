@@ -28,11 +28,11 @@ rm HDR_script*.command
 rm /tmp/KILLMOV
 
 #list files for multiprocessing
-ls *.MOV > /tmp/HDRMOV
+ls *.MOV *.mov | grep -v 'HDR_' > /tmp/HDRMOV
 split -l $(( $( wc -l < /tmp/HDRMOV ) / 4 + 1 )) /tmp/HDRMOV /tmp/HDRMOV
 rm /tmp/HDRMOV
 
-if grep 'MOV' /tmp/HDRMOVaa
+if grep 'MOV\|mov' /tmp/HDRMOVaa
 then
 cat <<'EOF' > HDR_script.command
 #!/bin/bash
@@ -42,7 +42,7 @@ cd "${workingDir}"
 #progress_bar
 open "$(cat /tmp/DUALISO/path_2)"progress_bar.command &
 
-while grep 'MOV' /tmp/HDRMOVaa; do
+while grep 'MOV\|mov' /tmp/HDRMOVaa; do
 #build a temp folder
 mkdir -p $(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)
 tmp="$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"
@@ -136,10 +136,10 @@ fi
 done
 
 #check for audio
-if ! [ x"$(ffmpeg -i $(ls *.MOV | head -1) 2>&1 | grep Audio)" = x ]
+if ! [ x"$(ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) 2>&1 | grep Audio)" = x ]
 then 
-ffmpeg -i $(ls *.MOV | head -1) -vn -acodec copy $(ls *.MOV | head -1 | cut -d "." -f1).wav
-wav=$(printf "%s\n" -i $(ls *.MOV | head -1 | cut -d "." -f1).wav)
+ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) -vn -acodec copy $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav
+wav=$(printf "%s\n" -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav)
 acodec=$(printf "%s\n" -c:v copy -c:a aac)
 fi
 
@@ -163,10 +163,10 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1).mov
 else
 if [ -f ../croprec ]
 then
@@ -174,7 +174,7 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
 #new framerate
@@ -184,7 +184,7 @@ fps=$(printf "%s\n" -vf minterpolate=fps=$(cat ../fps | tail -1))
 else
 fps=$(printf "%s\n" ,minterpolate=fps=$(cat ../fps | tail -1))
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1).mov
 fi
 fi
 
@@ -201,7 +201,7 @@ echo "$(tail -n +2 /tmp/HDRMOVaa)" > /tmp/HDRMOVaa
 done
 rm /tmp/HDRMOVaa
 
-if ! grep 'MOV' /tmp/HDRMOV*
+if ! grep 'MOV\|mov' /tmp/HDRMOV*
 then
 rm fps
 rm croprec
@@ -214,14 +214,14 @@ EOF
 fi
 
 
-if grep 'MOV' /tmp/HDRMOVab
+if grep 'MOV\|mov' /tmp/HDRMOVab
 then
 cat <<'EOF' > HDR_script1.command
 #!/bin/bash
 workingDir=`dirname "$0"`
 cd "${workingDir}"
 
-while grep 'MOV' /tmp/HDRMOVab; do
+while grep 'MOV\|mov' /tmp/HDRMOVab; do
 #build a temp folder
 mkdir -p $(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)
 tmp="$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"
@@ -315,10 +315,10 @@ fi
 done
 
 #check for audio
-if ! [ x"$(ffmpeg -i $(ls *.MOV | head -1) 2>&1 | grep Audio)" = x ]
+if ! [ x"$(ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) 2>&1 | grep Audio)" = x ]
 then 
-ffmpeg -i $(ls *.MOV | head -1) -vn -acodec copy $(ls *.MOV | head -1 | cut -d "." -f1).wav
-wav=$(printf "%s\n" -i $(ls *.MOV | head -1 | cut -d "." -f1).wav)
+ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) -vn -acodec copy $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav
+wav=$(printf "%s\n" -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav)
 acodec=$(printf "%s\n" -c:v copy -c:a aac)
 fi
 
@@ -342,10 +342,10 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1).mov
 else
 if [ -f ../croprec ]
 then
@@ -353,7 +353,7 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
 #new framerate
@@ -363,7 +363,7 @@ fps=$(printf "%s\n" -vf minterpolate=fps=$(cat ../fps | tail -1))
 else
 fps=$(printf "%s\n" ,minterpolate=fps=$(cat ../fps | tail -1))
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1).mov
 fi
 fi
 
@@ -380,7 +380,7 @@ echo "$(tail -n +2 /tmp/HDRMOVab)" > /tmp/HDRMOVab
 done
 rm /tmp/HDRMOVab
 
-if ! grep 'MOV' /tmp/HDRMOV*
+if ! grep 'MOV\|mov' /tmp/HDRMOV*
 then
 rm fps
 rm croprec
@@ -393,14 +393,14 @@ EOF
 fi
 
 
-if grep 'MOV' /tmp/HDRMOVac
+if grep 'MOV\|mov' /tmp/HDRMOVac
 then
 cat <<'EOF' > HDR_script2.command
 #!/bin/bash
 workingDir=`dirname "$0"`
 cd "${workingDir}"
 
-while grep 'MOV' /tmp/HDRMOVac; do
+while grep 'MOV\|mov' /tmp/HDRMOVac; do
 #build a temp folder
 mkdir -p $(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)
 tmp="$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"
@@ -494,10 +494,10 @@ fi
 done
 
 #check for audio
-if ! [ x"$(ffmpeg -i $(ls *.MOV | head -1) 2>&1 | grep Audio)" = x ]
+if ! [ x"$(ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) 2>&1 | grep Audio)" = x ]
 then 
-ffmpeg -i $(ls *.MOV | head -1) -vn -acodec copy $(ls *.MOV | head -1 | cut -d "." -f1).wav
-wav=$(printf "%s\n" -i $(ls *.MOV | head -1 | cut -d "." -f1).wav)
+ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) -vn -acodec copy $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav
+wav=$(printf "%s\n" -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav)
 acodec=$(printf "%s\n" -c:v copy -c:a aac)
 fi
 
@@ -521,10 +521,10 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1).mov
 else
 if [ -f ../croprec ]
 then
@@ -532,7 +532,7 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
 #new framerate
@@ -542,7 +542,7 @@ fps=$(printf "%s\n" -vf minterpolate=fps=$(cat ../fps | tail -1))
 else
 fps=$(printf "%s\n" ,minterpolate=fps=$(cat ../fps | tail -1))
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1).mov
 fi
 fi
 
@@ -559,7 +559,7 @@ echo "$(tail -n +2 /tmp/HDRMOVac)" > /tmp/HDRMOVac
 done
 rm /tmp/HDRMOVac
 
-if ! grep 'MOV' /tmp/HDRMOV*
+if ! grep 'MOV\|mov' /tmp/HDRMOV*
 then
 rm fps
 rm croprec
@@ -572,14 +572,14 @@ EOF
 fi
 
 
-if grep 'MOV' /tmp/HDRMOVad
+if grep 'MOV\|mov' /tmp/HDRMOVad
 then
 cat <<'EOF' > HDR_script3.command
 #!/bin/bash
 workingDir=`dirname "$0"`
 cd "${workingDir}"
 
-while grep 'MOV' /tmp/HDRMOVad; do
+while grep 'MOV\|mov' /tmp/HDRMOVad; do
 #build a temp folder
 mkdir -p $(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)
 tmp="$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
@@ -673,10 +673,10 @@ fi
 done
 
 #check for audio
-if ! [ x"$(ffmpeg -i $(ls *.MOV | head -1) 2>&1 | grep Audio)" = x ]
+if ! [ x"$(ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) 2>&1 | grep Audio)" = x ]
 then 
-ffmpeg -i $(ls *.MOV | head -1) -vn -acodec copy $(ls *.MOV | head -1 | cut -d "." -f1).wav
-wav=$(printf "%s\n" -i $(ls *.MOV | head -1 | cut -d "." -f1).wav)
+ffmpeg -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) -vn -acodec copy $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav
+wav=$(printf "%s\n" -i $(ls *.MOV *.mov | grep -v 'HDR_' | head -1 | cut -d "." -f1).wav)
 acodec=$(printf "%s\n" -c:v copy -c:a aac)
 fi
 
@@ -700,10 +700,10 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale $dropframes ../HDR_$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1).mov
 else
 if [ -f ../croprec ]
 then
@@ -711,7 +711,7 @@ scale=$(printf "%s\n" -vf scale=$(cat ../croprec))
 fi
 if [ -f ../dropframes ]
 then
-drop=$(echo $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
+drop=$(echo $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) / 2 | bc -l)
 dropframes=$(printf "%s\n" -r $drop)
 fi
 #new framerate
@@ -721,7 +721,7 @@ fps=$(printf "%s\n" -vf minterpolate=fps=$(cat ../fps | tail -1))
 else
 fps=$(printf "%s\n" ,minterpolate=fps=$(cat ../fps | tail -1))
 fi
-ffmpeg $wav -r $(exiftool $(ls *.MOV | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1).mov
+ffmpeg $wav -r $(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le $scale$fps $dropframes  ../HDR_$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1).mov
 fi
 fi
 
@@ -738,7 +738,7 @@ echo "$(tail -n +2 /tmp/HDRMOVad)" > /tmp/HDRMOVad
 done
 rm /tmp/HDRMOVad
 
-if ! grep 'MOV' /tmp/HDRMOV*
+if ! grep 'MOV\|mov' /tmp/HDRMOV*
 then
 rm fps
 rm croprec
@@ -917,7 +917,7 @@ sleep 1
 esac
 fi
 
-if grep 'MOV' /tmp/HDRMOV*
+if grep 'MOV\|mov' /tmp/HDRMOV*
 then
 printf '\e[8;16;85t'
 printf '\e[3;410;100t'
@@ -975,7 +975,7 @@ esac
 fi
 
 #check for croprec
-num=$(exiftool $(ls *.MOV | head -1) | awk '/Video Frame Rate/ { print $5; exit}')
+num=$(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | awk '/Video Frame Rate/ { print $5; exit}')
 if (( $(echo "$num > 47" |bc -l) ))
 then
 clear
@@ -1012,7 +1012,7 @@ if [ x"$(cat fps  | awk 'FNR == 2 {print $1}')" = x ]
 then
 if grep 'a\|A' fps 
 then
-num=$(exiftool $(ls *.MOV | head -1) | awk '/Video Frame Rate/ { print $5; exit}')
+num=$(exiftool $(ls *.MOV *.mov | grep -v 'HDR_' | head -1) | awk '/Video Frame Rate/ { print $5; exit}')
 if (( $(echo "$num > 47" |bc -l) ))
 then
 clear
