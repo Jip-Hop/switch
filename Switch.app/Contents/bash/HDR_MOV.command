@@ -784,8 +784,6 @@ sleep 2
 ;;
   n|N ) 
 clear
-echo "no thanks!"
-sleep 1
 ;;
   * ) 
 echo "invalid selection, let´s start again"
@@ -824,8 +822,6 @@ sleep 2
 ;;
   n|N ) 
 clear
-echo "no thanks!"
-sleep 1
 ;;
   * ) 
 echo "invalid selection, let´s start again"
@@ -865,8 +861,6 @@ sleep 2
 ;;
   n|N ) 
 clear
-echo "no thanks!"
-sleep 1
 ;;
   * ) 
 echo "invalid selection, let´s start again"
@@ -906,8 +900,6 @@ sleep 2
 ;;
   n|N ) 
 clear
-echo "no thanks!"
-sleep 1
 ;;
   * ) 
 echo "invalid selection, let´s start again"
@@ -963,8 +955,6 @@ sleep 2
 ;;
   n|N ) 
 clear
-echo "no thanks!"
-sleep 1
 ;;
   * ) 
 echo "invalid selection, let´s start again"
@@ -993,8 +983,6 @@ sleep 1
 ;;
   n|N ) 
 clear
-echo "no thanks!"
-sleep 1
 ;;
   * ) 
 echo "invalid selection, let´s start again"
@@ -1024,8 +1012,6 @@ case "$choice" in
 ;;
   n|N ) 
 clear
-echo "no thanks!"
-sleep 1
 ;;
   * ) 
 echo "invalid selection, let´s start again"
@@ -1082,7 +1068,7 @@ EOF
 chmod u=rwx fps.command
 open fps.command
 
-echo -n -e "\033]0;HDR_script\007" && kill $(echo $$) && osascript -e 'tell application "Terminal" to close (every window whose name contains "HDR_script")' & exit
+echo -n -e "\033]0;HDR_script\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "HDR_script")' & exit
 
 
 
