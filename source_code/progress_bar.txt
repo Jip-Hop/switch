@@ -964,6 +964,14 @@ then
 ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
 fi
 
+sleep 2 && rm HDR_script*.command &
+rm /tmp/HDRMOV*
+rm fps
+rm dropframes
+rm croprec
+rm HDR_script*.command
+rm /tmp/KILLMOV
+
 osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
