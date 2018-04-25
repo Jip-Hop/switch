@@ -940,25 +940,25 @@ echo > /tmp/KILLMOV
 killall sleep
 killall align_image_stack
 rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"/*.tif
-mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"/*.{MOV,mov} "$(cat /tmp/DUALISO/path_1)"
 if ! [ x"$(cat /tmp/HDRMOVaa | head -1)" = x ]
 then
 ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"
 fi
 rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"/*.tif
-mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"/*.{MOV,mov} "$(cat /tmp/DUALISO/path_1)"
 if ! [ x"$(cat /tmp/HDRMOVab | head -1)" = x ]
 then
 ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"
 fi
 rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"/*.tif
-mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"/*.{MOV,mov} "$(cat /tmp/DUALISO/path_1)"
 if ! [ x"$(cat /tmp/HDRMOVac | head -1)" = x ]
 then
 ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"
 fi
 rm "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"/*.tif
-mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"/*.MOV "$(cat /tmp/DUALISO/path_1)"
+mv "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"/*.{MOV,mov} "$(cat /tmp/DUALISO/path_1)"
 if ! [ x"$(cat /tmp/HDRMOVad | head -1)" = x ]
 then
 ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
