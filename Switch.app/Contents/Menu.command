@@ -95,7 +95,7 @@ EOF
 OIFS="$IFS"
 IFS=$'\n'
 for i in $(cat /tmp/folder_paths.txt) ; do
-ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=300:-1 -y "$(basename "${i/.*}")"_300px.tif 
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=300:-1 -y "$(basename "${i/.*}")"_300px.jpg
 done
 IFS="$OIFS"
 ;;
@@ -104,7 +104,7 @@ IFS="$OIFS"
 OIFS="$IFS"
 IFS=$'\n'
 for i in $(cat /tmp/folder_paths.txt) ; do
-ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=500:-1 -y "$(basename "${i/.*}")"_500px.tif 
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=500:-1 -y "$(basename "${i/.*}")"_500px.jpg
 done
 IFS="$OIFS"
 ;;
@@ -113,7 +113,7 @@ IFS="$OIFS"
 OIFS="$IFS"
 IFS=$'\n'
 for i in $(cat /tmp/folder_paths.txt) ; do
-ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=800:-1 -y "$(basename "${i/.*}")"_800px.tif 
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=800:-1 -y "$(basename "${i/.*}")"_800px.jpg
 done
 IFS="$OIFS"
 ;;
@@ -122,7 +122,7 @@ IFS="$OIFS"
 OIFS="$IFS"
 IFS=$'\n'
 for i in $(cat /tmp/folder_paths.txt) ; do
-ffmpeg -i "$i" -pix_fmt rgb24 -y "$(basename "${i/.*}")"_nocprs.tif 
+ffmpeg -i "$i" -pix_fmt rgb24 -y "$(basename "${i/.*}")"_nocprs.jpg
 done
 IFS="$OIFS"
 ;;
@@ -138,7 +138,7 @@ sleep 2
 OIFS="$IFS"
 IFS=$'\n'
 for i in $(cat /tmp/folder_paths.txt) ; do
-ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=$scale:-1 -y "$(basename "${i/.*}")"_scaled.tif 
+ffmpeg -i "$i" -pix_fmt rgb24 -vf scale=$scale:-1 -y "$(basename "${i/.*}")"_scaled.jpg
 done
 IFS="$OIFS"
 printf '\e[8;16;60t'
