@@ -86,18 +86,11 @@ echo "##################HDR_script.command#####################" >> HDRMOV_LOG.t
 #run the log file
 
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVaa; do
-#build a temp folder only if it´s not a folder
-if ! grep './' /tmp/HDRMOVaa
-then
 mkdir -p $(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVaa | head -1) $(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"
 #spit out tif files
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVaa | head -1) -pix_fmt rgb24 %06d.tif
-else
-#seems we have tif folders
-cd "$(cat /tmp/HDRMOVaa | head -1 | cut -d '/' -f2)"
-fi
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
 #check for tif folders
@@ -181,9 +174,6 @@ echo "" >> HDRMOV_LOG.txt
 echo "##################ffmpeg output script#####################" >> HDRMOV_LOG.txt
 #check for tif folders
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg $wav -r $(/usr/local/bin/exiftool $(ls *.{MOV,mov,mp4,MP4,mkv,MKV,avi,AVI} | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le ../HDR_$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1).mov 2>> "$(cat /tmp/DUALISO/path_1)"/HDRMOV_LOG.txt
-#remove tiff files and HDR mov when done
-#check for matching MLV or else do not remove
-check="$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)".MLV
 mv *.{MOV,mov,mp4,MP4,mkv,MKV,avi,AVI} ../
 rm -r ../$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)
 #let´s go back 
@@ -211,18 +201,11 @@ echo "##################HDR_script1.command#####################" >> /tmp/HDRMOV
 #run the log file
 
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVab; do
-#build a temp folder only if it´s not a folder
-if ! grep './' /tmp/HDRMOVab
-then
 mkdir -p $(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVab | head -1) $(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"
 #spit out tif files
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVab | head -1) -pix_fmt rgb24 %06d.tif
-else
-#seems we have tif folders
-cd "$(cat /tmp/HDRMOVab | head -1 | cut -d '/' -f2)"
-fi
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
 #check for tif folders
@@ -308,7 +291,6 @@ echo "##################ffmpeg output script1#####################" >> /tmp/HDRM
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg $wav -r $(/usr/local/bin/exiftool $(ls *.{MOV,mov,mp4,MP4,mkv,MKV,avi,AVI} | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le ../HDR_$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1).mov 2>> /tmp/HDRMOV_LOGS/HDR_script1_LOG.txt
 mv *.{MOV,mov,mp4,MP4,mkv,MKV,avi,AVI} ../
 rm -r ../$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)
-fi
 #let´s go back 
 cd -
 if ls /tmp/KILLMOV 
@@ -334,18 +316,11 @@ echo "##################HDR_script2.command#####################" >> /tmp/HDRMOV
 #run the log file
 
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVac; do
-#build a temp folder only if it´s not a folder
-if ! grep './' /tmp/HDRMOVac
-then
 mkdir -p $(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVac | head -1) $(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"
 #spit out tif files
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVac | head -1) -pix_fmt rgb24 %06d.tif
-else
-#seems we have tif folders
-cd "$(cat /tmp/HDRMOVac | head -1 | cut -d '/' -f2)"
-fi
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
 #check for tif folders
@@ -457,18 +432,11 @@ echo "##################HDR_script3.command#####################" >> /tmp/HDRMOV
 #run the log file
 
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVad; do
-#build a temp folder only if it´s not a folder
-if ! grep './' /tmp/HDRMOVad
-then
 mkdir -p $(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVad | head -1) $(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
 #spit out tif files
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVad | head -1) -pix_fmt rgb24 %06d.tif
-else
-#seems we have tif folders
-cd "$(cat /tmp/HDRMOVad | head -1 | cut -d '/' -f2)"
-fi
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
 #check for tif folders
