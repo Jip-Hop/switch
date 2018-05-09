@@ -96,7 +96,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=300:-1 -y "$(cat /tmp/folder_paths.txt | head -1) "${i/.*}")"_300px.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=300:-1 -y "$(cat /tmp/folder_paths.txt | head -1 | cut -d '.' -f1)"_300px.jpg
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -107,7 +107,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=500:-1 -y "$(cat /tmp/folder_paths.txt | head -1) "${i/.*}")"_500px.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=500:-1 -y "$(cat /tmp/folder_paths.txt | head -1 | cut -d '.' -f1)"_500px.jpg
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -118,7 +118,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=800:-1 -y "$(cat /tmp/folder_paths.txt | head -1) "${i/.*}")"_800px.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=800:-1 -y "$(cat /tmp/folder_paths.txt | head -1 | cut -d '.' -f1)"_800px.jpg
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -129,7 +129,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -y "$(cat /tmp/folder_paths.txt | head -1) "${i/.*}")"_nocprs.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -y "$(cat /tmp/folder_paths.txt | head -1 | cut -d '.' -f1)"_nocprs.jpg
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -147,7 +147,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=$scale:-1 -y "$(cat /tmp/folder_paths.txt | head -1) "${i/.*}")"_scaled.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt rgb24 -vf scale=$scale:-1 -y "$(cat /tmp/folder_paths.txt | head -1 | cut -d '.' -f1)"_scaled.jpg
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
