@@ -93,20 +93,14 @@ cd "$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVaa | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-#check for tif folders
-if ! grep './' /tmp/HDRMOVaa
-then
 cr_W=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVaa | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
 cr_H=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVaa | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-else
-cr_W=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
-cr_H=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-fi
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
 
 #First script combines enfused and aligned tif files then exports it to a prores mov file
+
 while grep -E "tif" <<< $(find . -maxdepth 1 -iname '*.tif')
 do
 #align images and rename
@@ -172,7 +166,6 @@ fi
 #output to prores
 echo "" >> HDRMOV_LOG.txt
 echo "##################ffmpeg output script#####################" >> HDRMOV_LOG.txt
-#check for tif folders
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg $wav -r $(/usr/local/bin/exiftool $(ls *.{MOV,mov,mp4,MP4,mkv,MKV,avi,AVI} | grep -v 'HDR_' | head -1) | grep 'Video Frame Rate' | cut -d ":" -f2) -i %06d.tiff $acodec -vcodec prores -pix_fmt yuv422p10le ../HDR_$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1).mov 2>> "$(cat /tmp/DUALISO/path_1)"/HDRMOV_LOG.txt
 mv *.{MOV,mov,mp4,MP4,mkv,MKV,avi,AVI} ../
 rm -r ../$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)
@@ -208,15 +201,8 @@ cd "$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVab | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-#check for tif folders
-if ! grep './' /tmp/HDRMOVab
-then
 cr_W=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVab | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
 cr_H=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVab | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-else
-cr_W=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
-cr_H=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-fi
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
@@ -323,15 +309,8 @@ cd "$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVac | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-#check for tif folders
-if ! grep './' /tmp/HDRMOVac
-then
 cr_W=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVac | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
 cr_H=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVac | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-else
-cr_W=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
-cr_H=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-fi
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
@@ -340,7 +319,6 @@ crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
 
 while grep -E "tif" <<< $(find . -maxdepth 1 -iname '*.tif')
 do
-
 #align images and rename
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned.tif $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2') && mv aligned.tif0000.tif 1.tiff && mv aligned.tif0001.tif 2.tiff &
 
@@ -439,15 +417,8 @@ cd "$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
 "$(cat /tmp/DUALISO/path_2)"/ffmpeg -i $(cat /tmp/HDRMOVad | head -1) -pix_fmt rgb24 %06d.tif
 
 #crop and rescale is needed is needed after aligning. Will take place in #output cropped and aligned images section
-#check for tif folders
-if ! grep './' /tmp/HDRMOVad
-then
 cr_W=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVad | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
 cr_H=$(echo $(/usr/local/bin/exiftool $(cat /tmp/HDRMOVad | head -1) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-else
-cr_W=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f1 ))
-cr_H=$(echo $(/usr/local/bin/exiftool $(echo *_000000.tif) | awk '/Image Size/ { print $4,$5; exit }' | cut -d ":" -f2 | cut -d "x" -f2 ))
-fi
 cr_Ws=$(echo $cr_W*0.98 | bc -l | cut -d "." -f1)
 cr_Hs=$(echo $cr_H*0.98 | bc -l | cut -d "." -f1)
 crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
@@ -456,7 +427,6 @@ crp_fix=$(echo crop=$cr_Ws:$cr_Hs,scale=$cr_W:$cr_H)
 
 while grep -E "tif" <<< $(find . -maxdepth 1 -iname '*.tif')
 do
-
 #align images and rename
 /Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned.tif $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1') $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2') && mv aligned.tif0000.tif 1.tiff && mv aligned.tif0001.tif 2.tiff &
 
