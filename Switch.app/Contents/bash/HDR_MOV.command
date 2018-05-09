@@ -71,7 +71,7 @@ ls *.{MOV,mov,mp4,MP4,mkv,MKV,avi,AVI} | grep -v 'HDR_' > /tmp/HDRMOV
 split -l $(( $( wc -l < /tmp/HDRMOV ) / 4 + 1 )) /tmp/HDRMOV /tmp/HDRMOV
 rm /tmp/HDRMOV
 
-if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVaa
+if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVaa
 then
 cat <<'EOF' > /tmp/HDR_script.command
 #!/bin/bash
@@ -85,7 +85,7 @@ echo "" >> HDRMOV_LOG.txt
 echo "##################HDR_script.command#####################" >> HDRMOV_LOG.txt
 #run the log file
 
-while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVaa; do
+while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVaa; do
 mkdir -p $(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVaa | head -1) $(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVaa | head -1 | cut -d "." -f1)"
@@ -183,7 +183,7 @@ EOF
 fi
 
 
-if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVab
+if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVab
 then
 cat <<'EOF' > /tmp/HDR_script1.command
 #!/bin/bash
@@ -193,7 +193,7 @@ cd "$(cat /tmp/DUALISO/path_1)"
 echo "##################HDR_script1.command#####################" >> /tmp/HDRMOV_LOGS/HDR_script1_LOG.txt
 #run the log file
 
-while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVab; do
+while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVab; do
 mkdir -p $(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVab | head -1) $(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVab | head -1 | cut -d "." -f1)"
@@ -291,7 +291,7 @@ EOF
 fi
 
 
-if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVac
+if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVac
 then
 cat <<'EOF' > /tmp/HDR_script2.command
 #!/bin/bash
@@ -301,7 +301,7 @@ cd "$(cat /tmp/DUALISO/path_1)"
 echo "##################HDR_script2.command#####################" >> /tmp/HDRMOV_LOGS/HDR_script2_LOG.txt
 #run the log file
 
-while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVac; do
+while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVac; do
 mkdir -p $(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVac | head -1) $(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVac | head -1 | cut -d "." -f1)"
@@ -399,7 +399,7 @@ EOF
 fi
 
 
-if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVad
+if grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVad
 then
 cat <<'EOF' > /tmp/HDR_script3.command
 #!/bin/bash
@@ -409,7 +409,7 @@ cd "$(cat /tmp/DUALISO/path_1)"
 echo "##################HDR_script3.command#####################" >> /tmp/HDRMOV_LOGS/HDR_script3_LOG.txt
 #run the log file
 
-while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI\|./' /tmp/HDRMOVad; do
+while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/HDRMOVad; do
 mkdir -p $(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)
 mv $(cat /tmp/HDRMOVad | head -1) $(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)
 cd "$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
