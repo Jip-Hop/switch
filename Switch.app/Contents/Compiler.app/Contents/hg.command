@@ -563,6 +563,14 @@ rm "$dir"/$repname.dmg
 
 #back to start
     cd "$dir"/
+
+#Clear password
+    if [ x"$password" = x ]
+    then 
+    password=$red$(echo "MISSING")
+    else
+    password="$bold$blue$(echo "password added$(tput sgr0)(not shown)")"
+    fi
 clear
     fi
 ;;
