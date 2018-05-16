@@ -230,6 +230,9 @@ case "$i" in
     "b") 
 printf '\e[8;200;100t'
 printf '\e[3;410;0t'
+num1=$(echo 1)
+num2=$(echo 30)
+num=$(printf "%s\n" sed -n "$num1","$num2"p)
 while :
 do 
 /usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
@@ -239,10 +242,17 @@ cat<<EOF
 
 current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 
-$(tput bold)$(hg branches | awk '{printf("%01d %s\n", NR, $0)}' | cut -d ' ' -f1,2)$(tput sgr0)
+$(tput bold)$(hg branches | awk '{printf("%01d %s\n", NR, $0)}' | cut -d ' ' -f1,2 | awk '{$1=$1}1' OFS="\t" | $num)
+
+Total of $(hg branches | wc -l | tr -d " ") branches
 
 current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 
+$(tput bold)$(tput setaf 1)(s)  branch keyword search$(tput sgr0)
+$(tput bold)$(tput setaf 1)(n)  next 30 branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(b)  go back 30 branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(f)  print full list of branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(r)  refresh branch list$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
 
@@ -251,6 +261,7 @@ EOF
 read input_variable
 i=$input_variable
 case "$i" in
+
 
     "m") 
 cd "$(cat /tmp/compath1)"
@@ -267,6 +278,80 @@ hg update $(hg branches | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
     ;;
 
     esac
+if [ "$input_variable" = n ];
+then
+if [ "$num2" = "$(hg branches | wc -l | tr -d " ")" ]
+then
+num1=$(echo 1)
+num2=$(echo 30)
+num=$(printf "%s\n" sed -n "$num1","$num2"p)
+else
+num1=$(echo $num1+30 | bc -l)
+num2=$(echo $num2+30 | bc -l)
+num=$(printf "%s\n" sed -n "$num1","$num2"p)
+fi
+fi
+if [ "$input_variable" = b ];
+then
+if ! [ "$num1" = 1 ]
+then
+num1=$(echo $num1-30 | bc -l)
+num2=$(echo $num2-30 | bc -l)
+num=$(printf "%s\n" sed -n "$num1","$num2"p)
+else
+clear
+echo "You can only go forward from here"
+sleep 1
+fi
+fi
+if [ "$input_variable" = f ];
+then
+num1=$(echo 1)
+num2=$(hg branches | wc -l | tr -d " ")
+num=$(printf "%s\n" sed -n "$num1","$num2"p)
+fi
+if [ "$input_variable" = r ];
+then
+num1=$(echo 1)
+num2=$(echo 30)
+num=$(printf "%s\n" sed -n "$num1","$num2"p)
+fi
+#keyword search
+if [ "$input_variable" = s ];
+then
+/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
+clear
+echo "repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo " current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(b)  back to branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"Please specify a $(tput sgr0)(branch)$(tput bold)search keyword:$(tput sgr0)(e.g croprec)"
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "$i")
+if [ "$input_variable" = q ];
+then
+osascript -e 'tell application "Terminal" to close first window' & exit
+fi
+if [ "$input_variable" = b ];
+then
+cd "$(cat /tmp/compath1)"
+else
+num=$(printf "%s\n" grep $input_variable)
+fi
+    ;;
+
+    esac
+fi
+
+
+
 done
     ;;
 
@@ -285,7 +370,7 @@ cat<<EOF
 
 current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 
-$(tput bold)$(ls -d */ | cut -f1 -d'/' | awk '{printf("%01d %s\n", NR, $0)}')$(tput sgr0)
+$(tput bold)$(ls -d */ | cut -f1 -d'/' | awk '{printf("%01d %s\n", NR, $0)}' | awk '{$1=$1}1' OFS="\t")$(tput sgr0)
 
 current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 
@@ -379,7 +464,7 @@ cat<<EOF
 
 current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 
-$(tput bold)$(ls -d */ | cut -f1 -d'/' | awk '{printf("%01d %s\n", NR, $0)}')$(tput sgr0)
+$(tput bold)$(ls -d */ | cut -f1 -d'/' | awk '{printf("%01d %s\n", NR, $0)}' | awk '{$1=$1}1' OFS="\t")$(tput sgr0)
 
 current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
 
