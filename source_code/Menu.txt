@@ -6354,6 +6354,7 @@ do
     $(tput bold)bash section$(tput sgr0)
     -------------
 
+    $(tput bold)(tif) MOV/tif cleaning $(tput sgr0)(hugin align/enfuse)
     $(tput bold)(mov) HDR MOV files$(tput sgr0)(hugin align/ffmpeg tblend)
     $(tput bold)(cr2) HDR CR2,JPG,tif automation$(tput sgr0)(hugin/exiv2/HDRmerge/enfuse/ffmpeg)
 
@@ -6364,6 +6365,15 @@ Please enter your selection number below and hit enter:
 EOF
     read -n3
     case "$REPLY" in
+
+    "tif") 
+echo > /tmp/DUALISO/HDR_TIF
+cd "$(cat /tmp/DUALISO/path_1)" 
+. "$(cat /tmp/DUALISO/path_2)"/bash/tif_clean.command &
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
 
 #go back to prores menu
     "mov") 
