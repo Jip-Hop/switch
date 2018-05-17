@@ -404,37 +404,10 @@ cat <<'EOF' >> switch_upload
 
 EOF
 
-#keep track of downloads prior to uploading the dmg file
-content=$(curl -L https://bitbucket.org/dannephoto/Switch/downloads/ | grep -C 6 '<td class="count">' | grep 'class="size"\|class="count"\|href="/' | grep -v 'uploaded-by' | cut -d '>' -f2 | cut -d '<' -f1) 
-
-    OLDIFS=$IFS
-    IFS=$'\n'
-echo "     Reset date: $(date)" > "$dir"/source_code/bb_trackertmp.txt
-echo "        Program: "$(printf '%s\n' $content | awk 'FNR == 1') >> "$dir"/source_code/bb_trackertmp.txt
-echo "           Size: "$(printf '%s\n' $content | awk 'FNR == 2') >> "$dir"/source_code/bb_trackertmp.txt
-echo "      Downloads: "$(printf '%s\n' $content | awk 'FNR == 3') >> "$dir"/source_code/bb_trackertmp.txt
-#now let´s add recent downloads
-add=$(grep -A 3 "$(printf '%s\n' $content | awk 'FNR == 1')" "$dir"/source_code/bb_tracker.txt)
-add=$(printf '%s\n' $add | awk 'FNR == 4' | cut -d ':' -f2)
-Total=$(echo $(printf '%s\n' $content | awk 'FNR == 3')+$add | bc -l) 
-echo "total downloads: "$(printf '%s\n' $Total) >> "$dir"/source_code/bb_trackertmp.txt
-echo "" >> "$dir"/source_code/bb_trackertmp.txt
-
-#save info to after upload of the dmg file
-content=$(cat "$dir"/source_code/bb_trackertmp.txt)
-rm "$dir"/source_code/bb_trackertmp.txt
-    IFS=$OLDIFS 
-
 #run the upload automation script
 . switch_upload $(cat switch_upload | head -1 | tr -d '#')
 rm switch_upload
 rm "$dir"/Switch.dmg
-
-    OLDIFS=$IFS
-    IFS=$'\n'
-#let´s add tracker info after dmg upload
-printf '%s\n' $content > "$dir"/source_code/bb_tracker.txt
-    IFS=$OLDIFS 
 
 #back to start
     cd "$dir"/source_code
