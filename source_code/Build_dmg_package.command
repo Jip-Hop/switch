@@ -349,8 +349,8 @@ rm ../Switch.app/Contents/bb_tracker.command
 cd ../
 #Script originally for MLVFS
 #https://bitbucket.org/dmilligan/mlvfs/src/9f8191808407bb49112b9ab14c27053ae5022749/build_installer.sh?at=master&fileviewer=file-view-default
-# A lot of this script came from here:
-# http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
+#A lot of this script came from here:
+#http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
 source="install_temp"
 title="Switch"
 finalDMGName="Switch.dmg"
