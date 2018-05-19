@@ -537,18 +537,13 @@ clear
 clear
    echo $(tput bold)"Write a commit message$(tput sgr0) then press enter"
    read commit
-#get rid of not needed file
-    if ls .DS_store >/dev/null 2>&1;
-    then 
-    rm .DS_store
-    fi
    hg pull
    hg update
+#get rid of not needed file
 #grab scripts for Compiler.app
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command -o Switch.app/Contents/Compiler.app/Contents/main.command
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh -o Switch.app/Contents/Compiler.app/Contents/mac_ml.sh
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/hg.command -o Switch.app/Contents/Compiler.app/Contents/hg.command
-
 #keep track of downloads prior to uploading the dmg file
 content=$(curl -L https://bitbucket.org/dannephoto/Switch/downloads/ | grep -C 6 '<td class="count">' | grep 'class="size"\|class="count"\|href="/' | grep -v 'uploaded-by' | cut -d '>' -f2 | cut -d '<' -f1) 
     OLDIFS=$IFS
@@ -567,12 +562,18 @@ content=$(cat "$dir"/source_code/bb_trackertmp.txt)
 rm "$dir"/source_code/bb_trackertmp.txt
 printf '%s\n' $content > "$dir"/source_code/bb_tracker.txt
     IFS=$OLDIFS 
-
 #let´s push and deal
+    if ls .DS_store >/dev/null 2>&1;
+    then 
+    rm .DS_store
+    fi
    hg addremove
+   hg st
+   sleep 2
+   hg su
+   sleep 2
    hg commit -m "$(echo $commit)"
    hg push
-
 #let´s build the dmg file
 #Script originally for MLVFS
 #https://bitbucket.org/dmilligan/mlvfs/src/9f8191808407bb49112b9ab14c27053ae5022749/build_installer.sh?at=master&fileviewer=file-view-default
