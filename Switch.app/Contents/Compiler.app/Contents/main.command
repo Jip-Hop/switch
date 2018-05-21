@@ -193,7 +193,7 @@ cd "$(cat /tmp/compath1)"
 fi
 
 #here we go. Main script
-printf '\e[8;25;70t'
+printf '\e[8;27;70t'
 printf '\e[3;410;0t'
 while :
 do 
@@ -216,6 +216,7 @@ $(tput bold)$(tput setaf 1)(C)  development installation script$(tput sgr0)
 $(tput bold)$(tput setaf 1)(c)  download magic lantern repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(s)  select a new repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(t)  terminal$(tput sgr0)
+$(tput bold)$(tput setaf 1)(l)  my repo list$(tput sgr0)
 $(tput bold)$(tput setaf 1)(o)  open up Compiler.app main script$(tput sgr0)
 $(tput bold)$(tput setaf 1)(hg) hg.command$(tput sgr0)(expert option)
 $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
@@ -329,7 +330,7 @@ $(tput bold)$(tput setaf 1)(b)  back to branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 echo ""
-echo $(tput bold)"Please specify a $(tput sgr0)(branch)$(tput bold)search keyword:$(tput sgr0)(e.g croprec)"
+echo $(tput bold)"Please specify a $(tput sgr0)(branch)$(tput bold)search keyword:$(tput sgr0)(e.g crop or lua)"
 read input_variable
 i=$input_variable
 case "$i" in
@@ -579,6 +580,246 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     esac
 $input_variable
 sleep 2
+clear
+done
+    ;;
+
+
+    "l") 
+#here we go. Main script
+if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 14 ))
+then
+num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14 | bc -l)
+else
+num=$(echo 27)
+fi
+printf '\e[8;'$num';70t'
+printf '\e[3;410;0t'
+#if the file is missing from the start
+if ! grep "$(cat /tmp/compath1)" <<< "$(cat "$(cat /tmp/compath2)"/repolist.txt)"
+then
+echo "$(cat /tmp/compath1)" | cat - "$(cat /tmp/compath2)"/repolist.txt > temp && mv temp "$(cat /tmp/compath2)"/repolist.txt
+fi
+if ! [ -f "$(cat /tmp/compath2)"/repolist.txt ]
+then
+printf "%s\n" "$(cat /tmp/compath1)" > "$(cat /tmp/compath2)"/repolist.txt
+fi
+if [ x"$(cat "$(cat /tmp/compath2)"/repolist.txt)" = x ]
+then
+printf "%s\n" "$(cat /tmp/compath1)" > "$(cat /tmp/compath2)"/repolist.txt
+fi
+
+/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
+clear
+
+while :
+do
+echo $(tput bold)"My repo list:$(tput sgr0)"
+echo ""
+    OLDIFS=$IFS
+    IFS=$'\n'
+printf "%s\n" $(tput bold)$(cat "$(cat /tmp/compath2)"/repolist.txt | awk '{printf("%01d %s\n", NR, $0)}' | awk '{$1=$1}1' OFS="\t")$(tput sgr0)
+    IFS=$OLDIFS 
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(r)  reset my repo list$(tput sgr0)
+$(tput bold)$(tput setaf 1)(d)  download a repository$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo "current repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo ""
+echo $(tput bold)"Select a repo number to enter it or drag repository paths and 
+press enter to extend your list:$(tput sgr0)"
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "r") 
+rm "$(cat /tmp/compath2)"/repolist.txt
+input_variable=
+clear
+echo "list deleted"
+sleep 1
+printf '\e[8;'27';70t'
+printf '\e[3;410;0t'
+    ;;
+
+    "d") 
+clear
+echo ""
+echo "current repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo ""
+echo $(tput bold)"Paste a repository url and press enter:$(tput sgr0)
+(repo will be downloaded to home folder)"
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "$i")
+cd ~ 
+clear
+fold="$(echo $input_variable | rev | cut -d '/' -f1 | rev)"
+if [ -d "$(echo $input_variable | rev | cut -d '/' -f1 | rev)" ]
+then
+fold="$(echo $input_variable | rev | cut -d '/' -f1 | rev)"
+ext=_"$(echo $input_variable | rev | cut -d '/' -f2 | rev)"
+fi
+if ! [ -d $fold$ext ] || ! [ -d "$(echo $input_variable | rev | cut -d '/' -f1 | rev)" ]
+then
+if ! grep 'hg clone' <<< $input_variable
+then
+hg clone $input_variable $fold$ext
+else
+$input_variable $fold$ext
+fi
+echo "$input_variable repository downloaded"
+echo ~/$fold$ext >> "$(cat /tmp/compath2)"/repolist.txt
+else
+clear
+echo "repository folder name already exists, sorry"
+sleep 2
+fi
+if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 14 ))
+then
+num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14-1 | bc -l)
+else
+num=$(echo 27)
+fi
+printf '\e[8;'$num';70t'
+printf '\e[3;410;0t'
+    ;;
+esac
+printf '\e[8;'27';70t'
+printf '\e[3;410;0t'
+    ;;
+
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+    esac
+
+case $i in
+    ''|*[!0-9]*) if ! [ -f "$(cat /tmp/compath2)"/repolist.txt ]; 
+then
+printf "%s\n" "$(cat /tmp/compath1)" > "$(cat /tmp/compath2)"/repolist.txt
+else
+if [ -d $(printf "%s\n" $input_variable | awk 'FNR == 1') ]
+then
+printf "%s\n" $input_variable >> "$(cat /tmp/compath2)"/repolist.txt
+else
+clear
+echo "not a repository, try to drag a folder"
+sleep 1
+fi
+fi
+input_variable=
+fold=
+ext=
+ ;;
+    *) 
+if [ -d $(cat "$(cat /tmp/compath2)"/repolist.txt | awk 'FNR == "'$i'"') ]
+then
+
+#check if reselecting the same branch
+if [ $(cat "$(cat /tmp/compath2)"/repolist.txt | awk 'FNR == "'$i'"') = "$(cat /tmp/compath1)" ]
+then
+clear
+echo "You have reselected an existing path"
+sleep 1
+echo ""
+echo "What would you like to do?"
+sleep 2
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(d)  delete folder path from repolist$(tput sgr0)(no files erased)
+$(tput bold)$(tput setaf 1)(X)  erase folder path and also remove the folder and all its content$(tput sgr0)
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(l)  return to my folder list$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+
+echo ""
+echo "current repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo ""
+echo $(tput bold)"Select from menu and press enter:$(tput sgr0)"
+    read -n2
+    case "$REPLY" in
+
+    "d") 
+sed -e ''$i'd' "$(cat /tmp/compath2)"/repolist.txt > "$(cat /tmp/compath2)"/repolisttmp.txt
+mv "$(cat /tmp/compath2)"/repolisttmp.txt "$(cat /tmp/compath2)"/repolist.txt
+#see to it that first one in line is chosen
+i=1
+clear
+echo "folder path deleted"
+sleep 1
+if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 14 ))
+then
+num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14-1 | bc -l)
+else
+num=$(echo 27)
+fi
+printf '\e[8;'$num';70t'
+printf '\e[3;410;0t'
+    ;;
+
+    "X") 
+if [ -d $(cat "$(cat /tmp/compath2)"/repolist.txt | awk 'FNR == "'$i'"') ]
+then
+clear
+read -p $(tput bold)"This will remove the entire repository from your drive, are you sure?$(tput setaf 1)
+(Y/N)?$(tput sgr0)
+" choice
+case "$choice" in 
+  y|Y ) 
+#!/usr/bin/env bash
+clear
+rm -r $(cat "$(cat /tmp/compath2)"/repolist.txt | awk 'FNR == "'$i'"')
+sed -e ''$i'd' "$(cat /tmp/compath2)"/repolist.txt > "$(cat /tmp/compath2)"/repolisttmp.txt
+mv "$(cat /tmp/compath2)"/repolisttmp.txt "$(cat /tmp/compath2)"/repolist.txt
+clear
+echo "folder path and all its content erased"
+sleep 1
+;;
+esac
+fi
+    ;;
+
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+    esac
+fi
+cd $(cat "$(cat /tmp/compath2)"/repolist.txt | awk 'FNR == "'$i'"') && echo $(cat "$(cat /tmp/compath2)"/repolist.txt | awk 'FNR == "'$i'"') > /tmp/compath1
+else
+clear
+echo "folder no longer exist"
+sleep 1
+sed -e ''$i'd' "$(cat /tmp/compath2)"/repolist.txt > "$(cat /tmp/compath2)"/repolisttmp.txt
+mv "$(cat /tmp/compath2)"/repolisttmp.txt "$(cat /tmp/compath2)"/repolist.txt
+fi
+ ;;
+esac
+if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 14 ))
+then
+num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14 | bc -l)
+else
+num=$(echo 27)
+fi
+printf '\e[8;'$num';70t'
+printf '\e[3;410;0t'
 clear
 done
     ;;
