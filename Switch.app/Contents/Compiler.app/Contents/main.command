@@ -646,10 +646,18 @@ printf '\e[8;'27';70t'
 printf '\e[3;410;0t'
     ;;
 
+
     "d") 
 clear
 echo ""
 echo "current repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(f)  download a full user repo section$(tput sgr0)
+$(tput bold)$(tput setaf 1)(l)  return to my repo list$(tput sgr0)
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
 echo ""
 echo $(tput bold)"Paste a repository url and press enter:$(tput sgr0)
 (repo will be downloaded to home folder)"
@@ -657,7 +665,65 @@ read input_variable
 i=$input_variable
 case "$i" in
 
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+
+    "f")
+cd ~ 
+clear
+echo ""
+echo "current repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(l)  return to my repo list$(tput sgr0)
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"Paste a user repo url and press enter:$(tput sgr0)
+(e.g https://bitbucket.org/hudson/)
+All repos will be downloaded to ~/repo_ripper folder"
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+
     "$i")
+list=$(printf '%s\n' $(grep -o -E 'repo-list--repo-name" href=".{0,50}' <<< $(curl -L $input_variable) | cut -d '/' -f3 | cut -d '"' -f1))
+ext=_$(echo $input_variable | rev | cut -d '/' -f2 | rev)
+mkdir -p repo_ripper
+cd repo_ripper
+while read -r line; do
+    hg clone $input_variable$line "$line$ext" 
+if ! grep "$line$ext" <<< $(cat "$(cat /tmp/compath2)"/repolist.txt) && [ -d "$line$ext" ]
+then
+printf "%s\n" ~/repo_ripper/$line$ext >> "$(cat /tmp/compath2)"/repolist.txt
+fi
+done <<< "$list"
+    ;;
+
+esac
+printf '\e[8;'27';70t'
+printf '\e[3;410;0t'
+    ;;
+
+    "$i")
+if ! [ "$input_variable" = l ];
+then
 cd ~ 
 clear
 fold="$(echo $input_variable | rev | cut -d '/' -f1 | rev)"
@@ -687,6 +753,7 @@ num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14-1 | bc -l)
 else
 num=$(echo 27)
 fi
+fi
 printf '\e[8;'$num';70t'
 printf '\e[3;410;0t'
     ;;
@@ -715,8 +782,11 @@ then
 printf "%s\n" $input_variable >> "$(cat /tmp/compath2)"/repolist.txt
 else
 clear
+if ! [ "$input_variable" = l ] && [ x"$list" = x ];
+then
 echo "not a repository, try to drag a folder"
 sleep 1
+fi
 fi
 fi
 input_variable=
@@ -741,7 +811,7 @@ cat<<EOF
 $(tput bold)$(tput setaf 1)(d)  delete folder path from repolist$(tput sgr0)(no files erased)
 $(tput bold)$(tput setaf 1)(X)  erase folder path and also remove the folder and all its content$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
-$(tput bold)$(tput setaf 1)(l)  return to my folder list$(tput sgr0)
+$(tput bold)$(tput setaf 1)(l)  return to my repo list$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 
