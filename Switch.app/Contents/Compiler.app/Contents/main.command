@@ -211,7 +211,8 @@ $(tput bold)$(tput setaf 1)(b)  branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(p)  platform$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  modules$(tput sgr0)
 $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
-$(tput bold)$(tput setaf 1)(u)  pull and update magic lantern source code$(tput sgr0)
+$(tput bold)$(tput setaf 1)(u)  hg pull and update$(tput sgr0)(current branch)
+$(tput bold)$(tput setaf 1)(U)  hg pull and update$(tput sgr0)(https://bitbucket.org/hudson/magic-lantern)
 $(tput bold)$(tput setaf 1)(C)  development installation script$(tput sgr0)
 $(tput bold)$(tput setaf 1)(c)  download magic lantern repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(s)  select a new repository$(tput sgr0)
@@ -523,6 +524,15 @@ make clean
 #pull from source
 cd "$(cat /tmp/compath1)"
 clear
+   hg pull 
+   hg update
+sleep 3
+;;
+
+   "U")  
+#pull from source
+cd "$(cat /tmp/compath1)"
+clear
    hg pull https://bitbucket.org/hudson/magic-lantern
    hg update
 sleep 3
@@ -586,7 +596,26 @@ done
 
 
     "l") 
-#here we go. Main script
+#updating the repo list
+list=
+numlist=$(echo 1)
+if [ -f "$(cat /tmp/compath2)"/repolist.txt ]
+then
+list=$(printf "%s\n" $(cat "$(cat /tmp/compath2)"/repolist.txt))
+while read -r line; do
+echo $line >> ~/desktop/testing
+if ! [ -d $line ]
+then
+sed -e ''$numlist'd' "$(cat /tmp/compath2)"/repolist.txt > "$(cat /tmp/compath2)"/repolisttmp.txt
+mv "$(cat /tmp/compath2)"/repolisttmp.txt "$(cat /tmp/compath2)"/repolist.txt
+else
+numlist=$(echo $numlist+1 | bc -l)
+fi
+done <<< "$list"
+list=
+numlist=
+fi
+
 if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 14 ))
 then
 num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14 | bc -l)
