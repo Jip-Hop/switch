@@ -416,7 +416,7 @@ i=$input_variable
 case "$i" in
 
     "c") 
-make zip
+make -j4 zip
 clear
 echo "grab your compiled zip file and put it on your camera"
 sleep 2
@@ -499,6 +499,8 @@ echo $(tput bold)"Please specify command:$(tput sgr0)e.g $(tput bold)make mlv_du
 read input_variable
 $input_variable
 open . 
+#or else some random window prompts...
+open -a Terminal
 cd ..
     ;;
 
