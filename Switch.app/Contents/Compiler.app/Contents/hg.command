@@ -323,7 +323,7 @@ clear
 source="install_temp"
 title="$repname"
 finalDMGName="$repname.dmg"
-size=$(du -ks | cut -d '.' -f1 | cut -d '	' -f1)
+size=$(echo $(du -ks | cut -d '.' -f1 | tr -d ' ')*2 | bc -l)
 
 mkdir "${source}"
 cp -R `ls | grep -v 'hg.command\|README.md\|install_temp'` "${source}"
@@ -359,7 +359,7 @@ clear
 source="install_temp"
 title="$repname"
 finalDMGName="$repname.dmg"
-size=$(du -ks | cut -d '.' -f1 | cut -d '	' -f1)
+size=$(echo $(du -ks | cut -d '.' -f1 | tr -d ' ')*2 | bc -l)
 
 mkdir "${source}"
 cp -R `ls | grep -v 'hg.command\|README.md\|install_temp'` "${source}"
@@ -409,6 +409,14 @@ EOF
 . ~/dmg_upload $(cat ~/dmg_upload | head -1 | tr -d '#')
 rm ~/dmg_upload
 rm "$dir"/$repname.dmg
+
+#Clear password
+    if [ x"$password" = x ]
+    then 
+    password=$red$(echo "MISSING")
+    else
+    password="$bold$blue$(echo "password added$(tput sgr0)(not shown)")"
+    fi
 
 #back to start
     cd "$dir"/
@@ -510,7 +518,7 @@ clear
 source="install_temp"
 title="$repname"
 finalDMGName="$repname.dmg"
-size=$(du -ks | cut -d '.' -f1 | cut -d '	' -f1)
+size=$(echo $(du -ks | cut -d '.' -f1 | tr -d ' ')*2 | bc -l)
 
 mkdir "${source}"
 cp -R `ls | grep -v 'hg.command\|README.md\|install_temp'` "${source}"
@@ -560,6 +568,14 @@ EOF
 . ~/dmg_upload $(cat ~/dmg_upload | head -1 | tr -d '#')
 rm ~/dmg_upload
 rm "$dir"/$repname.dmg
+
+#Clear password
+    if [ x"$password" = x ]
+    then 
+    password=$red$(echo "MISSING")
+    else
+    password="$bold$blue$(echo "password added$(tput sgr0)(not shown)")"
+    fi
 
 #back to start
     cd "$dir"/
