@@ -409,6 +409,14 @@ EOF
 rm switch_upload
 rm "$dir"/Switch.dmg
 
+#Clear password
+    if [ x"$password" = x ]
+    then 
+    password=$red$(echo "MISSING")
+    else
+    password="$bold$blue$(echo "password added$(tput sgr0)(not shown)")"
+    fi
+
 #back to start
     cd "$dir"/source_code
 . Build_dmg_package.command
@@ -636,6 +644,14 @@ EOF
 . switch_upload $(cat switch_upload | head -1 | tr -d '#')
 rm switch_upload
 rm "$dir"/Switch.dmg
+
+#Clear password
+    if [ x"$password" = x ]
+    then 
+    password=$red$(echo "MISSING")
+    else
+    password="$bold$blue$(echo "password added$(tput sgr0)(not shown)")"
+    fi
 
 #back to start
     cd "$dir"/source_code
