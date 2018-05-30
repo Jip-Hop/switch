@@ -585,12 +585,6 @@ case "$i" in
 
     "lo") 
 cd "$(cat /tmp/compath1)"
-#pull from source
-cd "$(cat /tmp/compath1)"
-clear
-   hg pull 
-   hg update
-sleep 3
 hg log --branch .
 echo "scroll upwards to check output"
 sleep 1
@@ -598,18 +592,7 @@ sleep 1
 
     "l") 
 cd "$(cat /tmp/compath1)"
-#pull from source
-cd "$(cat /tmp/compath1)"
 clear
-   hg pull 
-   hg update
-sleep 3
-#pull from source
-cd "$(cat /tmp/compath1)"
-clear
-   hg pull https://bitbucket.org/hudson/magic-lantern
-   hg update
-sleep 3
 hg log
 echo "scroll upwards to check output"
 sleep 1
