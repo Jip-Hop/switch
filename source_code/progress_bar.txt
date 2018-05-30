@@ -260,13 +260,18 @@ secs=$(echo "$chunk * $all" | bc -l | cut -d "." -f1)
 
 #let´s count from zero to 100
 percent=$(echo 100 - $percent | bc -l)
+time=$(printf '%02d:%02d:%02d\n' $(($secs/3600)) $(($secs%3600/60)) $(($secs%60)))
+if (( $secs < 0 ))
+then 
+time=$(echo "00:00:00")
+fi
 
 cat<<EOF
       ------------
       $(tput setaf 0)$(tput bold)MLV queue $NUM
       ------------
 
-  time left: $(printf '%02d:%02d:%02d\n' $(($secs/3600)) $(($secs%3600/60)) $(($secs%60)))
+  time left: $time
  percentage: $percent%
 
  $(tput bold)$(tput setaf 1)(q) Quit counting$(tput sgr0)
