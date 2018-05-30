@@ -573,6 +573,7 @@ echo "You are here:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
 echo ""
 cat<<EOF
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(l)  hg log$(tput sgr0)(check latest commits)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 echo ""
@@ -580,6 +581,23 @@ echo $(tput bold)"Please specify any command:$(tput sgr0)(scroll up to check out
 read input_variable
 i=$input_variable
 case "$i" in
+
+    "l") 
+cd "$(cat /tmp/compath1)"
+#pull from source
+cd "$(cat /tmp/compath1)"
+clear
+   hg pull 
+   hg update
+sleep 3
+#pull from source
+cd "$(cat /tmp/compath1)"
+clear
+   hg pull https://bitbucket.org/hudson/magic-lantern
+   hg update
+sleep 3
+hg log
+    ;;
 
     "m") 
 cd "$(cat /tmp/compath1)"
