@@ -416,7 +416,7 @@ i=$input_variable
 case "$i" in
 
     "c") 
-make -j4 zip
+make zip
 clear
 echo "grab your compiled zip file and put it on your camera"
 sleep 2
