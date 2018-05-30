@@ -625,7 +625,6 @@ if [ -f "$(cat /tmp/compath2)"/repolist.txt ]
 then
 list=$(printf "%s\n" $(cat "$(cat /tmp/compath2)"/repolist.txt))
 while read -r line; do
-echo $line >> ~/desktop/testing
 if ! [ -d $line ]
 then
 sed -e ''$numlist'd' "$(cat /tmp/compath2)"/repolist.txt > "$(cat /tmp/compath2)"/repolisttmp.txt
