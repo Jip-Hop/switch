@@ -574,6 +574,7 @@ echo ""
 cat<<EOF
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(l)  hg log$(tput sgr0)(check latest commits)
+$(tput bold)$(tput setaf 1)(lo) hg log$(tput sgr0)(check commits current branch)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 echo ""
@@ -581,6 +582,19 @@ echo $(tput bold)"Please specify any command:$(tput sgr0)(scroll up to check out
 read input_variable
 i=$input_variable
 case "$i" in
+
+    "lo") 
+cd "$(cat /tmp/compath1)"
+#pull from source
+cd "$(cat /tmp/compath1)"
+clear
+   hg pull 
+   hg update
+sleep 3
+hg log --branch .
+echo "scroll upwards to check output"
+sleep 1
+    ;;
 
     "l") 
 cd "$(cat /tmp/compath1)"
@@ -597,6 +611,8 @@ clear
    hg update
 sleep 3
 hg log
+echo "scroll upwards to check output"
+sleep 1
     ;;
 
     "m") 
@@ -608,7 +624,10 @@ cd "$(cat /tmp/compath1)"
 osascript -e 'tell application "Terminal" to close first window' & exit
     ;;
     esac
+if ! [ "$input_variable" = lo ] && ! [ "$input_variable" = l ]
+then
 $input_variable
+fi
 sleep 2
 clear
 done
