@@ -114,16 +114,17 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "installing QEMU"
     cd ~
+###Setting export path automatically seems to be an issue so let´s leave that alone for now
+#https://www.magiclantern.fm/forum/index.php?topic=17360.msg202196#msg202196
 #check for native gcc version(if less than version 8 use ongoing version)
-   gcc=$(echo $(gcc --version | tail -n +1 | head -1 | cut -d ' ' -f4 | cut -d '.' -f1))
-   if (( $gcc > 8))
-    then 
-     if ! grep 'export PATH=~/gcc-arm-none-eabi-5_4-2016q3/bin:$PATH' <<< $(cat .bash_profile)
-     then
-     echo 'export PATH=~/gcc-arm-none-eabi-5_4-2016q3/bin:$PATH' >> .bash_profile
-     source .bash_profile
-     fi
-   fi
+   #gcc=$(echo $(gcc --version | tail -n +1 | head -1 | cut -d ' ' -f4 | cut -d '.' -f1))
+   #if (( $gcc > 8))
+    #then 
+     #if ! grep 'export PATH=~/gcc-arm-none-eabi-5_4-2016q3/bin:$PATH' <<< $(cat .bash_profile)
+     #then
+     #echo 'export PATH=~/gcc-arm-none-eabi-5_4-2016q3/bin:$PATH' >> .bash_profile
+     #fi
+   #fi
     cd magic-lantern
     hg update qemu -C
     cd contrib/qemu/
