@@ -114,7 +114,10 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "installing QEMU"
     cd ~
+    if ! grep 'export PATH=~/gcc-arm-none-eabi-5_4-2016q3/bin:$PATH' <<< $(cat .profile)
+    then
     echo 'export PATH=~/gcc-arm-none-eabi-5_4-2016q3/bin:$PATH' >> .profile
+    fi
     source .profile
     cd magic-lantern
     hg update qemu -C
