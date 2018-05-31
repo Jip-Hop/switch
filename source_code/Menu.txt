@@ -2693,6 +2693,10 @@ white="$(tput setaf 7)"
     echo > /tmp/dualisodisable
 
 nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; dual= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
+if grep ' \-p' /tmp/mlv_dump_on_steroids_settings 
+then
+p=$(echo "$bold""$green"added!"$normal")
+fi
 if grep 'no-cs' /tmp/mlv_dump_on_steroids_settings 
 then
 nocs=$(echo "$bold""$green"added!"$normal")
@@ -2741,12 +2745,6 @@ fi
 if grep ' \-c' /tmp/mlv_dump_on_steroids_settings 
 then
 c=$(echo "$bold""$green"added!"$normal")
-fi
-if [ -f /tmp/mlv_dump_on_steroids_UNC ] 
-then
-nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
-rm /tmp/mlv_dump_on_steroids_settings
-p=$(echo "$bold""$green"added!"$normal")
 fi
 if grep 'relaxed' /tmp/mlv_dump_on_steroids_settings 
 then
@@ -3117,18 +3115,18 @@ fi
 
 
     "13")
-if [ -f /tmp/mlv_dump_on_steroids_UNC ]
-then
 rm /tmp/mlv_dump_on_steroids_UNC
+if grep ' \-p' /tmp/mlv_dump_on_steroids_settings 
+then
+perl -pi -e 's/ -p//g' /tmp/mlv_dump_on_steroids_settings
 p=
 echo $(tput bold)"
 
 $(tput sgr0)$(tput bold)$(tput setaf 1) 
-Removed"$(tput sgr0) ; 
+Removed"$(tput sgr0) ;
 else 
 nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; proxy=
-rm /tmp/mlv_dump_on_steroids_settings
-printf "%s\n" "-p" > /tmp/mlv_dump_on_steroids_UNC
+printf "%s\n" " -p" > /tmp/mlv_dump_on_steroids_settings
 p=$(echo "$bold""$green"added!"$normal")
 fi
 ;;
