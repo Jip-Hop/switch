@@ -1,0 +1,50 @@
+api_test.lua(reference)
+https://bitbucket.org/hudson/magic-lantern/src/lua_fix/scripts/api_test.lua?#api_test.lua-314
+
+Indentation
+http://lua-users.org/wiki/LuaStyleGuide
+
+lua.org(relational operators)
+https://www.lua.org/pil/3.2.html
+
+Magic lantern lua index
+https://builds.magiclantern.fm/lua_api/index.html
+
+Module constants
+https://builds.magiclantern.fm/lua_api/modules/constants.html#MODE
+
+menu.set(lua):
+https://www.magiclantern.fm/forum/index.php?topic=19300.msg199302#msg199302
+
+my presets
+https://bitbucket.org/Dannephoto/lua_magic
+https://www.magiclantern.fm/forum/index.php?topic=14828.msg202238#msg202238
+
+key.press(KEY.HALFSHUTTER)
+https://www.magiclantern.fm/forum/index.php?topic=14828.msg173600#msg173600
+
+repeat
+https://www.magiclantern.fm/forum/index.php?topic=14828.msg181323#msg181323
+
+random lua
+key.wait()
+task.yield(1000) -- wait for the key to be released
+lv.start()
+
+camera.shoot
+https://www.magiclantern.fm/forum/index.php?topic=14828.msg188096#msg188096
+
+FPS override issue
+https://www.magiclantern.fm/forum/index.php?topic=14828.msg199769#msg199769
+
+FPS override solution
+https://www.magiclantern.fm/forum/index.php?topic=14828.msg202387#msg202387
+
+
+DEBUG(C-code)
+#define INPUT_ENABLE_IMAGE_PHYSICAL_SCREEN_PARAMETER 25
+NotifyBox(5000, "current_buffer 0x%x", current_buffer);
+NotifyBox(5000, "HELLO");
+https://www.magiclantern.fm/forum/index.php?topic=16040.msg202389#msg202389
+dfort:
+https://bitbucket.org/daniel_fort/magic-lantern/commits/eac505979a889cfca1f2e5ef9102c07278bcb68d?at=unified-find-SRM_BUFFER_SIZE
