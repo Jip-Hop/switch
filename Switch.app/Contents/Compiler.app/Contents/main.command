@@ -398,9 +398,10 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 /usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
 platform=$(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
 cd $(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
+clear
 while :
 do
-clear
+[ ! x"$succed" = x ] && clear
 echo "You are here:" $(tput setaf 4)$(tput bold)$platform$(tput sgr0)
 echo ""
 cat<<EOF
@@ -416,10 +417,7 @@ i=$input_variable
 case "$i" in
 
     "c") 
-make zip
-clear
-echo "grab your compiled zip file and put it on your camera"
-sleep 2
+make zip && clear && succed=$(echo succed) && echo "grab your compiled zip file and put it on your camera" && sleep 2 
 open . 
 input_variable=$(echo zipp)
     ;;
