@@ -1103,7 +1103,7 @@ sleep 1
     then
     bit=$(echo 11L)
     else
-    bit=$(echo 8L)
+    bit=$(echo anyL)
     fi
     fi
     fi
@@ -1243,7 +1243,7 @@ sleep 1
     then
     bit=$(echo 11L)
     else
-    bit=$(echo 8L)
+    bit=$(echo anyL)
     fi
     fi
     fi
@@ -1335,7 +1335,7 @@ sleep 1
     then
     bit=$(echo 11L)
     else
-    bit=$(echo 8L)
+    bit=$(echo anyL)
     fi
     fi
     fi
@@ -2066,33 +2066,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>458D8CEC-A4C3-4300-9B8D-39BC9D65EBA5</key>
-		<dict>
-			<key>from</key>
-			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
-			<key>to</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-		</dict>
-		<key>92A361F5-BD1A-4767-8E06-35A0F1714F3B</key>
+		<key>8718D84F-C587-4897-AA52-06CFF9160DDD</key>
 		<dict>
 			<key>from</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 			<key>to</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 		</dict>
-		<key>98E1CDAB-B43E-4D75-BB86-578BF58E6891</key>
-		<dict>
-			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-		</dict>
-		<key>BAEC7618-4AAB-4EF6-AC06-7078ECE33C0D</key>
+		<key>B3DB34E6-CC64-439D-8E8F-28A987984FA9</key>
 		<dict>
 			<key>from</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 			<key>to</key>
 			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
+		</dict>
+		<key>D24E164D-49B9-4573-9BA5-7EE6D9BE7E8D</key>
+		<dict>
+			<key>from</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+			<key>to</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+		</dict>
+		<key>D2DD7C0C-7E4A-44FC-BCD7-7FA9CE91D5F4</key>
+		<dict>
+			<key>from</key>
+			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
+			<key>to</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

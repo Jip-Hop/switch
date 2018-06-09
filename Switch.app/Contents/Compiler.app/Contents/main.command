@@ -401,7 +401,7 @@ cd $(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
 clear
 while :
 do
-[ ! x"$succed" = x ] && clear
+[ ! x"$succed" = x ] && clear && succed=
 echo "You are here:" $(tput setaf 4)$(tput bold)$platform$(tput sgr0)
 echo ""
 cat<<EOF
