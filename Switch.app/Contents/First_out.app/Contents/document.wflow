@@ -1081,37 +1081,28 @@ sleep 1
     while grep 'MLV' My_darkfr
     do
 #let´s check for lossless files
-    if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Class Video/ { print $4; exit }')
+  if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Class Video/ { print $4; exit }')
     then
-    if grep '55' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 12L)
-    else
-    if grep '16\|15\|14' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
+    white=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
+    if (( $white &gt; 14500 ))
+    then 
     bit=$(echo 14L)
-    else
-    if grep '24' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 9L)
-    else
-    if grep '29' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 10L)
-    else
-    if grep '38' &lt;&lt;&lt; $($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
+    elif (( $white &lt; 14500 &amp;&amp; $white &gt; 4000 ))
+    then 
+    bit=$(echo 12L)
+    elif (( $white &lt; 4000 &amp;&amp; $white &gt; 3000 ))
+    then 
     bit=$(echo 11L)
-    else
-    bit=$(echo anyL)
+    elif (( $white &lt; 3000 &amp;&amp; $white &gt; 2600 ))
+    then 
+    bit=$(echo 10L)
+    elif (( $white &lt; 2600 &amp;&amp; $white &gt; 2300 ))
+    then 
+    bit=$(echo 9L)
     fi
-    fi
-    fi
-    fi
-    fi 
-    else
-    bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    fi
+  else
+    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+  fi
     res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/FPS/ { print $3; exit }')
@@ -1221,37 +1212,28 @@ sleep 1
     IFS=$'\n'
     for FILE in `ls -A1 *.MLV *.mlv | grep -v 'avg_\|ft_' 2&gt;/dev/null`; do
 #let´s check for lossless files
-    if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/Class Video/ { print $4; exit }')
+  if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/Class Video/ { print $4; exit }')
     then
-    if grep '55' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 12L)
-    else
-    if grep '16\|15\|14' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
+    white=$($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    if (( $white &gt; 14500 ))
+    then 
     bit=$(echo 14L)
-    else
-    if grep '24' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 9L)
-    else
-    if grep '29' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 10L)
-    else
-    if grep '38' &lt;&lt;&lt; $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
+    elif (( $white &lt; 14500 &amp;&amp; $white &gt; 4000 ))
+    then 
+    bit=$(echo 12L)
+    elif (( $white &lt; 4000 &amp;&amp; $white &gt; 3000 ))
+    then 
     bit=$(echo 11L)
-    else
-    bit=$(echo anyL)
+    elif (( $white &lt; 3000 &amp;&amp; $white &gt; 2600 ))
+    then 
+    bit=$(echo 10L)
+    elif (( $white &lt; 2600 &amp;&amp; $white &gt; 2300 ))
+    then 
+    bit=$(echo 9L)
     fi
-    fi
-    fi
-    fi
-    fi 
-    else
-    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
-    fi
+  else
+    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+  fi
     res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
@@ -1313,37 +1295,28 @@ sleep 1
     $mlv_dump -o avg_"$(cat /tmp/DUALISO/darkf.txt | head -1)" -a "$(cat /tmp/DUALISO/darkf.txt | head -1)"
     rm *.wav
 #let´s check for lossless files
-    if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Class Video/ { print $4; exit }')
+  if grep '0x00000021' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Class Video/ { print $4; exit }')
     then
-    if grep '55' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 12L)
-    else
-    if grep '16\|15\|14' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
+    white=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
+    if (( $white &gt; 14500 ))
+    then 
     bit=$(echo 14L)
-    else
-    if grep '24' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 9L)
-    else
-    if grep '29' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 10L)
-    else
-    if grep '38' &lt;&lt;&lt; $($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/white_level/ { print $2; exit }')
-    then
+    elif (( $white &lt; 14500 &amp;&amp; $white &gt; 4000 ))
+    then 
+    bit=$(echo 12L)
+    elif (( $white &lt; 4000 &amp;&amp; $white &gt; 3000 ))
+    then 
     bit=$(echo 11L)
-    else
-    bit=$(echo anyL)
+    elif (( $white &lt; 3000 &amp;&amp; $white &gt; 2600 ))
+    then 
+    bit=$(echo 10L)
+    elif (( $white &lt; 2600 &amp;&amp; $white &gt; 2300 ))
+    then 
+    bit=$(echo 9L)
     fi
-    fi
-    fi
-    fi
-    fi 
-    else
-    bit=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
-    fi
+  else
+    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+  fi
     res=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/FPS/ { print $3; exit }')
@@ -2066,33 +2039,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>8718D84F-C587-4897-AA52-06CFF9160DDD</key>
-		<dict>
-			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-			<key>to</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-		</dict>
-		<key>B3DB34E6-CC64-439D-8E8F-28A987984FA9</key>
-		<dict>
-			<key>from</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-			<key>to</key>
-			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
-		</dict>
-		<key>D24E164D-49B9-4573-9BA5-7EE6D9BE7E8D</key>
-		<dict>
-			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-		</dict>
-		<key>D2DD7C0C-7E4A-44FC-BCD7-7FA9CE91D5F4</key>
+		<key>25CD8ED1-EA37-4EB8-8692-CCA55DE07F39</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+		</dict>
+		<key>51E1FFB4-202A-4B0E-BCAA-4C7F6BF824D0</key>
+		<dict>
+			<key>from</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+			<key>to</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+		</dict>
+		<key>7276DB9B-F294-430B-9BC9-9A7062D43F5E</key>
+		<dict>
+			<key>from</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+		</dict>
+		<key>7DBA0AB6-A9FE-4369-83B0-55E7EFBDA329</key>
+		<dict>
+			<key>from</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<key>to</key>
+			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
