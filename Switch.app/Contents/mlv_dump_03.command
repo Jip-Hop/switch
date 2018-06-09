@@ -151,37 +151,28 @@
     if [ -f /tmp/only_DNG ] || [ -f /tmp/webstorage ]
     then
 #let´s check for lossless files
-    if grep '0x00000021' <<< $($mlv_dump -v "$FILE" | awk '/Class Video/ { print $4; exit }')
+  if grep '0x00000021' <<< $($mlv_dump -v "$FILE" | awk '/Class Video/ { print $4; exit }')
     then
-    if grep '55' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 12L)
-    else
-    if grep '16\|15\|14' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
+    white=$($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
+    if (( $white > 14500 ))
+    then 
     bit=$(echo 14L)
-    else
-    if grep '24' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 9L)
-    else
-    if grep '29' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
-    bit=$(echo 10L)
-    else
-    if grep '38' <<< $($mlv_dump -v "$FILE" | awk '/white_level/ { print $2; exit }')
-    then
+    elif (( $white < 14500 && $white > 4000 ))
+    then 
+    bit=$(echo 12L)
+    elif (( $white < 4000 && $white > 3000 ))
+    then 
     bit=$(echo 11L)
-    else
-    bit=$(echo 8L)
+    elif (( $white < 3000 && $white > 2600 ))
+    then 
+    bit=$(echo 10L)
+    elif (( $white < 2600 && $white > 2300 ))
+    then 
+    bit=$(echo 9L)
     fi
-    fi
-    fi
-    fi
-    fi 
-    else
-    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
-    fi
+  else
+    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+  fi
     res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
     fra=$($mlv_dump -v "$FILE" | awk '/FPS/ { print $3; exit }')
