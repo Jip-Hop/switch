@@ -389,7 +389,7 @@ sleep 1
     bit=$(echo 9L)
     fi
   else
-    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+    bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
   fi
     res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
@@ -520,7 +520,7 @@ sleep 1
     bit=$(echo 9L)
     fi
   else
-    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
   fi
     res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
@@ -603,7 +603,7 @@ sleep 1
     bit=$(echo 9L)
     fi
   else
-    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+    bit=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
   fi
     res=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
