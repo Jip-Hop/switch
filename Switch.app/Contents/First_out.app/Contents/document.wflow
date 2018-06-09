@@ -1101,7 +1101,7 @@ sleep 1
     bit=$(echo 9L)
     fi
   else
-    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+    bit=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
   fi
     res=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat My_darkfr | head -1)" | awk '/ISO:/ { print $2; exit }')
@@ -1232,7 +1232,7 @@ sleep 1
     bit=$(echo 9L)
     fi
   else
-    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+    bit=$($mlv_dump -v "$FILE" | awk '/bits_per_pixel/ { print $2; exit }')
   fi
     res=$($mlv_dump -v "$FILE" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$FILE" | awk '/ISO:/ { print $2; exit }')
@@ -1315,7 +1315,7 @@ sleep 1
     bit=$(echo 9L)
     fi
   else
-    bit=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+    bit=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/bits_per_pixel/ { print $2; exit }')
   fi
     res=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/Res/ { print $2; exit }')
     iso=$($mlv_dump -v "$(cat /tmp/DUALISO/darkf.txt | head -1)" | awk '/ISO:/ { print $2; exit }')
@@ -2039,33 +2039,33 @@ done
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>25CD8ED1-EA37-4EB8-8692-CCA55DE07F39</key>
-		<dict>
-			<key>from</key>
-			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
-			<key>to</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-		</dict>
-		<key>51E1FFB4-202A-4B0E-BCAA-4C7F6BF824D0</key>
-		<dict>
-			<key>from</key>
-			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
-			<key>to</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-		</dict>
-		<key>7276DB9B-F294-430B-9BC9-9A7062D43F5E</key>
-		<dict>
-			<key>from</key>
-			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
-			<key>to</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-		</dict>
-		<key>7DBA0AB6-A9FE-4369-83B0-55E7EFBDA329</key>
+		<key>33591E63-11D7-4BEB-AC39-4DFC60B0E57F</key>
 		<dict>
 			<key>from</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 			<key>to</key>
 			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
+		</dict>
+		<key>B32D731B-3EC1-43DE-B68D-2BE8A46002C4</key>
+		<dict>
+			<key>from</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+			<key>to</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+		</dict>
+		<key>DB670728-9860-4A06-BE1A-67FDF5935D11</key>
+		<dict>
+			<key>from</key>
+			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
+			<key>to</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+		</dict>
+		<key>E06BA591-6CBE-4039-874B-67A9F4C4BED2</key>
+		<dict>
+			<key>from</key>
+			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
+			<key>to</key>
+			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
