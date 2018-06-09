@@ -53,7 +53,7 @@
     bit_03=$(echo 9L)
     fi
   else
-    bit_03=$($mlv_dump -v "$FILE_01" | awk '/bits_per_pixel/ { print $2; exit }')
+    bit_03=$($mlv_dump -v "$FILE_03" | awk '/bits_per_pixel/ { print $2; exit }')
   fi
     res_03=$($mlv_dump -v "$FILE_03" | awk '/Res/ { print $2; exit }')
     iso_03=$($mlv_dump -v "$FILE_03" | awk '/ISO:/ { print $2; exit }')
