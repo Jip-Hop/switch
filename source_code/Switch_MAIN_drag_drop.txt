@@ -621,7 +621,7 @@ sleep 1
     then
     bit=$(echo 11L)
     else
-    bit=$(echo 8L)
+    bit=$(echo anyL)
     fi
     fi
     fi
@@ -761,7 +761,7 @@ sleep 1
     then
     bit=$(echo 11L)
     else
-    bit=$(echo 8L)
+    bit=$(echo anyL)
     fi
     fi
     fi
@@ -853,7 +853,7 @@ sleep 1
     then
     bit=$(echo 11L)
     else
-    bit=$(echo 8L)
+    bit=$(echo anyL)
     fi
     fi
     fi
