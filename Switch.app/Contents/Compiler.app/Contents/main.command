@@ -255,6 +255,8 @@ $(tput bold)$(tput setaf 1)(n)  next 30 branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(b)  go back 30 branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(f)  print full list of branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(r)  refresh branch list$(tput sgr0)
+$(tput bold)$(tput setaf 1)(X)  close this branch$(tput sgr0)
+$(tput bold)$(tput setaf 1)(B)  create a branch$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
 
@@ -264,6 +266,69 @@ read input_variable
 i=$input_variable
 case "$i" in
 
+    "X") 
+printf '\e[8;15;100t'
+printf '\e[3;410;0t'
+clear
+read -p $(tput bold)"This will close your branch $(tput setaf 4)$(hg branch). 
+$(tput sgr0)$(tput bold)Are you sure?$(tput setaf 1)
+(Y/N)?$(tput sgr0)
+" choice
+case "$choice" in 
+  y|Y ) 
+#!/usr/bin/env bash
+clear
+hg up -C "$(hg branch)"
+hg commit --close-branch -m 'closing $(hg branch)'
+hg up -C default
+clear
+echo "branch is now closed"
+sleep 1
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+;;
+esac
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+    ;;
+
+    "B") 
+printf '\e[8;20;100t'
+printf '\e[3;410;0t'
+clear
+while :
+do
+echo "current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"Please name your branch:$(tput sgr0)(e.g my new branch)"
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "m") 
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+    ;;
+
+    "q") 
+osascript -e 'tell application "Terminal" to close first window' & exit
+    ;;
+    esac
+hg update
+hg branch "$input_variable"
+hg commit -m 'new branch called $input_variable'
+clear
+echo "Your new branch: $(tput bold)$(tput setaf 4)$input_variable$(tput sgr0)" 
+sleep 2
+done
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+    ;;
 
     "m") 
 cd "$(cat /tmp/compath1)"
@@ -455,10 +520,10 @@ done
 cd modules
 printf '\e[8;200;100t'
 printf '\e[3;410;0t'
-while :
-do 
 /usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
 clear
+while :
+do 
 cat<<EOF
 
 
@@ -487,19 +552,51 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     ;;
 
     "$i") 
+printf '\e[8;20;100t'
+printf '\e[3;200;350t'
 /usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
 module=$(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
 cd $(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
 clear
-echo "You are here:" $(tput setaf 4)$(tput bold)$module$(tput sgr0)
-echo ""
-echo $(tput bold)"Please specify command:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
+cat<<EOF1
+$(tput bold)You are here: $(tput setaf 4)$(tput bold)$module$(tput sgr0)
+
+$(tput bold)$(tput setaf 1)(M)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(m)  modules$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
+
+echo $(tput bold)"Please specify your terminal command:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
+EOF1
+open .
+sleep 0.3 && open -a terminal &
+
 read input_variable
-$input_variable
-open . 
-#or else some random window prompts...
-open -a Terminal
+
+if ! [ "$input_variable" = "M" ] && ! [ "$input_variable" = "q" ] && ! [ "$input_variable" = "m" ]
+then
+$input_variable 
+sleep 1
 cd ..
+fi
+
+if [ "$input_variable" = "M" ];
+then
+cd "$(cat /tmp/compath1)"
+. "$(cat /tmp/compath2)"/main.command
+fi
+
+if [ "$input_variable" = "q" ];
+then
+osascript -e 'tell application "Terminal" to close first window' & exit
+fi
+
+if [ "$input_variable" = "m" ];
+then
+cd ..
+fi
+
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
     ;;
 
     esac
