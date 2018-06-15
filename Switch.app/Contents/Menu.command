@@ -1010,7 +1010,7 @@ fi
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
 #printf '\e[3;0;0t'
-printf '\e[8;36;60t'
+printf '\e[8;37;60t'
 printf '\e[3;450;0t'
 open -a Terminal
 bold="$(tput bold)"
@@ -1185,6 +1185,7 @@ $(tput bold)afplayer: $(tput setaf 4)$shuf$(tput sgr0)
     $(tput bold)$(tput setaf 1)(ml) MLVFS workflow$(tput sgr0)
     $(tput bold)$(tput setaf 1)(b)  bash section$(tput sgr0)
     $(tput bold)$(tput setaf 1)(co) Compiler.app$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(MA) MLV App compiler.app$(tput sgr0)
 
     $(tput bold)$(tput setaf 1)(C)  select new output folder$(tput sgr0)$(tput bold)(MLV,RAW,dng,mov)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(CP) set running threads manually(max 4)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS
@@ -6660,6 +6661,13 @@ rm /tmp/compath2
 fi
 fi
 open "$(cat /tmp/DUALISO/path_2)"Compiler.app
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+   "MA")
+open "$(cat /tmp/DUALISO/path_2)"MLV_App_compiler.app
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 osascript -e 'tell application "Terminal" to close first window' & exit
