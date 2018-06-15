@@ -1,5 +1,5 @@
-     Reset date: Fri Jun 15 17:03:43 CEST 2018
+     Reset date: Fri Jun 15 17:07:24 CEST 2018
         Program: Switch.dmg
            Size: 60.0 MB
       Downloads: 16
-total downloads: 227
+total downloads: 243
