@@ -553,7 +553,7 @@ clear
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh -o Switch.app/Contents/Compiler.app/Contents/mac_ml.sh
    curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/hg.command -o Switch.app/Contents/Compiler.app/Contents/hg.command
 #MLV App compiler
-   curl -L https://bitbucket.org/Dannephoto/mlv_app_compiler/src/default/Mlv_App_compiler.app/Contents/main.command -o Switch.app/Contents/MLV_App_compiler.app/Contents/main.command
+   curl -L https://bitbucket.org/Dannephoto/mlv_app_compiler/raw/default/Mlv_App_compiler.app/Contents/main.command -o Switch.app/Contents/MLV_App_compiler.app/Contents/main.command
 #keep track of downloads prior to uploading the dmg file
 content=$(curl -L https://bitbucket.org/dannephoto/Switch/downloads/ | grep -C 6 '<td class="count">' | grep 'class="size"\|class="count"\|href="/' | grep -v 'uploaded-by' | cut -d '>' -f2 | cut -d '<' -f1) 
     OLDIFS=$IFS
