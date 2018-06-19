@@ -257,6 +257,8 @@ $(tput bold)$(tput setaf 1)(f)  print full list of branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(r)  refresh branch list$(tput sgr0)
 $(tput bold)$(tput setaf 1)(X)  close this branch$(tput sgr0)
 $(tput bold)$(tput setaf 1)(B)  create a branch$(tput sgr0)
+$(tput bold)$(tput setaf 1)(d)  view diff -r between branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(fi) view diff -r between files$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
 
@@ -279,7 +281,7 @@ case "$choice" in
 #!/usr/bin/env bash
 clear
 hg up -C "$(hg branch)"
-hg commit --close-branch -m 'closing $(hg branch)'
+hg commit --close-branch -m "closing $(hg branch)"
 hg up -C default
 clear
 echo "branch is now closed"
@@ -321,7 +323,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     esac
 hg update
 hg branch "$input_variable"
-hg commit -m 'new branch called $input_variable'
+hg commit -m "new branch called $input_variable"
 clear
 echo "Your new branch: $(tput bold)$(tput setaf 4)$input_variable$(tput sgr0)" 
 sleep 2
@@ -411,19 +413,116 @@ then
 cd "$(cat /tmp/compath1)"
 else
 num=$(printf "%s\n" grep $input_variable)
+#reset
 fi
     ;;
-
     esac
 fi
 
+#select diff -r branch
+if [ "$input_variable" = d ];
+then
+printf '\e[8;20;70t'
+printf '\e[3;410;0t'
+/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
+clear
+echo "repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo " current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(b)  back to branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"Copy paste a branch name and press enter:$(tput sgr0)"
+read input_variable
+i=$input_variable
+case "$i" in
 
+    "$i")
+if [ "$input_variable" = q ];
+then
+osascript -e 'tell application "Terminal" to close first window' & exit
+fi
+if [ "$input_variable" = b ];
+then
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+cd "$(cat /tmp/compath1)"
+else
+clear
+echo "press button 'q' when done viewing!"
+sleep 2
+printf '\e[8;200;150t'
+printf '\e[3;100;0t'
+hg diff -r "$(hg branch):$input_variable" 
+#reset
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+fi
+    ;;
+    esac
+fi
 
+#select diff -r file
+if [ "$input_variable" = fi ];
+then
+printf '\e[8;20;70t'
+printf '\e[3;410;0t'
+/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
+clear
+echo "repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo " current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(b)  back to branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"First copy paste a branch name and press enter:$(tput sgr0)"
+read input_variable
+i=$input_variable
+case "$i" in
+
+    "$i")
+if [ "$input_variable" = q ];
+then
+osascript -e 'tell application "Terminal" to close first window' & exit
+fi
+if [ "$input_variable" = b ];
+then
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+cd "$(cat /tmp/compath1)"
+else
+clear
+echo "repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
+echo " current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)"
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(b)  back to branches$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+echo $(tput bold)"Now drag your file here and press enter:$(tput sgr0)"
+read input_variable2
+echo "press button 'q' when done viewing!"
+sleep 2
+printf '\e[8;200;150t'
+printf '\e[3;100;0t'
+hg diff -r "$(hg branch):$input_variable" $input_variable2 
+#reset
+printf '\e[8;200;100t'
+printf '\e[3;410;0t'
+fi
+    ;;
+    esac
+fi
 done
     ;;
 
-#platform
 
+#platform
     "p") 
 cd platform
 printf '\e[8;34;80t'
@@ -552,34 +651,41 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     ;;
 
     "$i") 
+#to not open a folder when not needing to
+in=
 printf '\e[8;20;100t'
 printf '\e[3;200;350t'
 /usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
 module=$(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
 cd $(ls -d */ | cut -f1 -d'/' | awk 'FNR == "'$i'"' | cut -d ' ' -f1)
 clear
+while :
+do
 cat<<EOF1
 $(tput bold)You are here: $(tput setaf 4)$(tput bold)$module$(tput sgr0)
 
-$(tput bold)$(tput setaf 1)(M)  main$(tput sgr0)
-$(tput bold)$(tput setaf 1)(m)  modules$(tput sgr0)
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
 
 echo $(tput bold)"Please specify your terminal command:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
 EOF1
-open .
-sleep 0.3 && open -a terminal &
-
-read input_variable
-
-if ! [ "$input_variable" = "M" ] && ! [ "$input_variable" = "q" ] && ! [ "$input_variable" = "m" ]
+if ! [ "$in" = "in" ]
 then
+sleep 0.3 && open -a terminal &
+open .
+fi
+read input_variable
+in=$(echo in)
+if ! [ "$input_variable" = "m" ] && ! [ "$input_variable" = "q" ]
+then
+sleep 0.3 && open -a terminal &
 $input_variable 
+open .
+clear
 sleep 1
-cd ..
 fi
 
-if [ "$input_variable" = "M" ];
+if [ "$input_variable" = "m" ];
 then
 cd "$(cat /tmp/compath1)"
 . "$(cat /tmp/compath2)"/main.command
@@ -589,14 +695,7 @@ if [ "$input_variable" = "q" ];
 then
 osascript -e 'tell application "Terminal" to close first window' & exit
 fi
-
-if [ "$input_variable" = "m" ];
-then
-cd ..
-fi
-
-printf '\e[8;200;100t'
-printf '\e[3;410;0t'
+done
     ;;
 
     esac
