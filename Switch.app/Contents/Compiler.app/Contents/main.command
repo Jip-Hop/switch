@@ -38,7 +38,6 @@ echo "$(cat /tmp/compath1)"/magic-lantern > /tmp/compath1
 cd magic-lantern
 fi
 
-
 #check for missing dependencies
 if ! test -d /usr/local; then
   clear
@@ -191,6 +190,58 @@ fi
 else
 cd "$(cat /tmp/compath1)"
 fi
+
+#update scripts if old
+#if update file is missing
+if ! [ -f "$(cat /tmp/compath2)"/24update ]; then
+echo $(stat -f "%Sm" -t "%Y%m%d%H%M") > "$(cat /tmp/compath2)"/24update
+fi
+
+#run it once
+if ! [ "$one" = one ]; then
+one=$(echo one)
+
+#only check for update every 24 hours
+if (($(echo $(stat -f "%Sm" -t "%Y%m%d%H%M") - $(cat "$(cat /tmp/compath2)"/24update) | bc -l) > 10000))
+then
+echo $(stat -f "%Sm" -t "%Y%m%d%H%M") > "$(cat /tmp/compath2)"/24update
+#!/bin/bash
+clear
+echo "checking for updates..."
+
+Local1=$(wc -c < "$(cat /tmp/compath2)"/main.command)
+Local2=$(wc -c < "$(cat /tmp/compath2)"/mac_ml.sh)
+Local3=$(wc -c < "$(cat /tmp/compath2)"/hg.command)
+#sum
+Local=$(echo $Local1 + $Local2 + $Local3 | bc -l)
+
+RLocal1=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command | awk '/Content-Length/ {sub("\r",""); print $2}')
+RLocal2=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh | awk '/Content-Length/ {sub("\r",""); print $2}')
+RLocal3=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/hg.command | awk '/Content-Length/ {sub("\r",""); print $2}')
+#sum
+Remote=$(echo $RLocal1 + $RLocal2 + $RLocal3 | bc -l)
+
+if [ $Local != $Remote ]; then
+printf '\e[8;15;100t'
+printf '\e[3;410;0t'
+clear
+read -p $(tput bold)"Your scripts are old or have recently changed, would you like to update from source?$(tput bold)$(tput setaf 1)
+(Y/N)?$(tput sgr0)
+" choice
+case "$choice" in 
+  y|Y ) 
+#grab scripts for Compiler.app and now also for MLV_App_compiler
+   curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command -o "$(cat /tmp/compath2)"/main.command
+   curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh -o "$(cat /tmp/compath2)"/mac_ml.sh
+   curl -L https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/hg.command -o "$(cat /tmp/compath2)"/hg.command
+esac
+else
+clear
+echo "All files are already updated"
+sleep 2
+fi
+fi
+fi 
 
 #here we go. Main script
 printf '\e[8;27;70t'
@@ -496,6 +547,8 @@ printf '\e[3;410;0t'
 cd "$(cat /tmp/compath1)"
 else
 clear
+open .
+sleep 1 && open -a Terminal &
 echo "repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)"
 echo " current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)"
 echo ""
@@ -506,11 +559,20 @@ EOF
 echo ""
 echo $(tput bold)"Now drag your file here and press enter:$(tput sgr0)"
 read input_variable2
+
+if [ "$input_variable2" = q ];
+then
+osascript -e 'tell application "Terminal" to close first window' & exit
+fi
+
+if ! [ "$input_variable2" = b ];
+then
 echo "press button 'q' when done viewing!"
 sleep 2
 printf '\e[8;200;150t'
 printf '\e[3;100;0t'
 hg diff -r "$(hg branch):$input_variable" $input_variable2 
+fi
 #reset
 printf '\e[8;200;100t'
 printf '\e[3;410;0t'
@@ -520,7 +582,6 @@ fi
 fi
 done
     ;;
-
 
 #platform
     "p") 
@@ -612,9 +673,7 @@ done
 done
     ;;
 
-
 #modules
-
     "m") 
 cd modules
 printf '\e[8;200;100t'
@@ -703,7 +762,6 @@ done
     ;;
 
 #main
-
     "C")
 cd ~
 #dfort installation script
@@ -810,7 +868,6 @@ clear
 done
     ;;
 
-
     "l") 
 #updating the repo list
 list=
@@ -855,7 +912,6 @@ fi
 
 /usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
 clear
-
 while :
 do
 echo $(tput bold)"My repo list:$(tput sgr0)"
@@ -889,7 +945,6 @@ sleep 1
 printf '\e[8;'27';70t'
 printf '\e[3;410;0t'
     ;;
-
 
     "d") 
 clear

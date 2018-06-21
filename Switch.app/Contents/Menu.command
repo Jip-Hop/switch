@@ -6356,6 +6356,7 @@ do
     $(tput bold)(tif) MOV/tif cleaning $(tput sgr0)(hugin align/enfuse)
     $(tput bold)(mov) HDR MOV files$(tput sgr0)(hugin align/ffmpeg tblend)
     $(tput bold)(cr2) HDR CR2,JPG,tif automation$(tput sgr0)(hugin/exiv2/HDRmerge/enfuse/ffmpeg)
+    $(tput bold)(unc) Uncrop CR2 files$(tput sgr0)(CR2 files shot in movie mode)
 
     $(tput bold)$(tput setaf 1)(b) Main menu$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
@@ -6632,6 +6633,15 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     esac
 done 
 ;;
+
+    "unc")
+cd "$(cat /tmp/DUALISO/path_1)" 
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+sleep 0.5 && open "$(cat /tmp/DUALISO/path_2)"/bash/uncrop.command &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
 
     "b")
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
