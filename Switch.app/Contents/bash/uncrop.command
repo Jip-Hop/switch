@@ -23,8 +23,8 @@
 #!/bin/bash
 cd "$(cat /tmp/DUALISO/path_1)"
 for file in *.CR2; do
-num=$(exiftool $file | grep 'Image Height' | head -1 | cut -d ":" -f2 | tr -d " ")
-exiftool "-CroppedImageHeight=$num" "-CroppedImageTop=0" "-Aspectratio+=249" $file -overwrite_original 
+num=$(exiftool "$file" | grep 'Image Height' | head -1 | cut -d ":" -f2 | tr -d " ")
+exiftool "-CroppedImageHeight=$num" "-CroppedImageTop=0" "-Aspectratio+=249" "$file" -overwrite_original 
 done
 
 
