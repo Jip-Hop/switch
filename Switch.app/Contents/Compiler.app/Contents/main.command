@@ -633,6 +633,7 @@ cat<<EOF
 $(tput bold)$(tput setaf 1)(c)  compile$(tput sgr0)
 $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(k)  kill make zip and clean$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 echo ""
@@ -642,9 +643,20 @@ i=$input_variable
 case "$i" in
 
     "c") 
-make zip && clear && succed=$(echo succed) && echo "grab your compiled zip file and put it on your camera" && sleep 2 
-open . 
+echo $PWD > /tmp/makePATH
+cat <<'EOFM' > /tmp/make.command
+#!/bin/bash
+printf '\e[8;20;55t'
+printf '\e[3;10;0t'
+cd "$(cat /tmp/makePATH)"
+make zip && clear && succed=$(echo succed) && echo "grab your compiled zip file and put it on your camera" && open . &&  sleep 2 
 input_variable=$(echo zipp)
+rm /tmp/make.command
+rm /tmp/makePATH
+EOFM
+chmod u=rwx /tmp/make.command
+open /tmp/make.command & 
+clear
     ;;
 
     "M") 
@@ -657,13 +669,20 @@ cd "$(cat /tmp/compath1)"
 . "$(cat /tmp/compath2)"/main.command
     ;;
 
+    "k") 
+killall make 
+make clean
+clear
+osascript -e 'tell application "Terminal" to close (every window whose name contains "make.command")' 
+    ;;
+
     "q") 
 osascript -e 'tell application "Terminal" to close first window' & exit
     ;;
     esac
 if ! [ "$input_variable" = zipp ];
 then
-$input_variable
+echo $input_variable >/dev/null 2>&1
 fi
 sleep 1
 done
@@ -724,9 +743,11 @@ cat<<EOF1
 $(tput bold)You are here: $(tput setaf 4)$(tput bold)$module$(tput sgr0)
 
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(M)  make module$(tput sgr0)
+$(tput bold)$(tput setaf 1)(c)  make clean$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
 
-echo $(tput bold)"Please specify your terminal command:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
+echo $(tput bold)"Please specify your terminal command or select a shortcut:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
 EOF1
 if ! [ "$in" = "in" ]
 then
@@ -748,6 +769,18 @@ if [ "$input_variable" = "m" ];
 then
 cd "$(cat /tmp/compath1)"
 . "$(cat /tmp/compath2)"/main.command
+fi
+
+if [ "$input_variable" = "M" ];
+then
+make "$module".mo
+clear
+fi
+
+if [ "$input_variable" = "c" ];
+then
+make clean
+clear
 fi
 
 if [ "$input_variable" = "q" ];
