@@ -248,7 +248,6 @@ printf '\e[8;27;70t'
 printf '\e[3;410;0t'
 while :
 do 
-/usr/bin/osascript -e 'tell application "System Events" to tell process "Terminal" to keystroke "k" using command down'
 clear
 cat<<EOF
 
@@ -822,6 +821,8 @@ cd "$(cat /tmp/compath1)"
 clear
    hg pull https://bitbucket.org/hudson/magic-lantern
    hg update
+echo ""
+echo "scroll upwards to check terminal output"
 sleep 3
 ;;
 
@@ -932,7 +933,7 @@ printf '\e[3;410;0t'
 #if the file is missing from the start
 if ! grep "$(cat /tmp/compath1)" <<< "$(cat "$(cat /tmp/compath2)"/repolist.txt)"
 then
-echo "$(cat /tmp/compath1)" | cat - "$(cat /tmp/compath2)"/repolist.txt > temp && mv temp "$(cat /tmp/compath2)"/repolist.txt
+echo "$(cat /tmp/compath1)" | cat - "$(cat /tmp/compath2)"/repolist.txt > "$(cat /tmp/compath2)"/temp && mv "$(cat /tmp/compath2)"/temp "$(cat /tmp/compath2)"/repolist.txt
 fi
 if ! [ -f "$(cat /tmp/compath2)"/repolist.txt ]
 then
