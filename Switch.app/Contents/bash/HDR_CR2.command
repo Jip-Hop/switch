@@ -308,7 +308,7 @@ then
  rm /tmp/match* 
  rm *preview3.jpg
  mkdir -p A_ORIGINALS
-#exiv2 extracts your jp files embedded in CR2 files
+#exiv2 extracts your jpg files embedded in CR2 files
  exiv2 -ep3 -l . *.{cr2,CR2}
 #extract metadata info
  exiv2 -e X extract *.{cr2,CR2}
