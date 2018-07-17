@@ -6510,10 +6510,6 @@ printf '\e[3;650;0t'
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > /tmp/HDRmerge
-    rm /tmp/enfuse
-    rm /tmp/enfuse
-    rm /tmp/all_in
     done
     rm /tmp/folder_pathsHDR.txt
     fi
@@ -6522,7 +6518,7 @@ cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
 echo > /tmp/HDRmerge
 rm /tmp/enfuse
-rm /tmp/enfuse
+rm /tmp/FFmpeg
 rm /tmp/all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
@@ -6541,10 +6537,6 @@ sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascr
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > /tmp/enfuse
-    rm /tmp/HDRmerge
-    rm /tmp/enfuse
-    rm /tmp/all_in
     done
     rm /tmp/folder_pathsHDR.txt
     fi
@@ -6553,7 +6545,7 @@ cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
 echo > /tmp/enfuse
 rm /tmp/HDRmerge
-rm /tmp/enfuse
+rm /tmp/FFmpeg
 rm /tmp/all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
@@ -6572,17 +6564,13 @@ sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascr
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > /tmp/enfuse
-    rm /tmp/HDRmerge
-    rm /tmp/enfuse
-    rm /tmp/all_in
     done
     rm /tmp/folder_pathsHDR.txt
     fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
-echo > /tmp/enfuse
+echo > /tmp/FFmpeg
 rm /tmp/enfuse
 rm /tmp/HDRmerge
 rm /tmp/all_in
@@ -6603,10 +6591,6 @@ sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascr
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > /tmp/all_in
-    rm /tmp/HDRmerge
-    rm /tmp/enfuse
-    rm /tmp/enfuse
     done
     rm /tmp/folder_pathsHDR.txt
     fi
