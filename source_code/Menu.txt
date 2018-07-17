@@ -6386,6 +6386,9 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 ;;
 
     "cr2") 
+#start fresh
+rm /tmp/HDRmerge enfuse /tmp/FFmpeg /tmp/silent /tmp/time >/dev/null 2>&1 &
+
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)" 
 . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command &
