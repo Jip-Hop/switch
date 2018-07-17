@@ -6416,9 +6416,9 @@ EOF
     case "$REPLY" in
 
     "si")
-if [ -f silent ] 
+if [ -f /tmp/silent ] 
 then
-rm silent
+rm /tmp/silent
 clear
 echo $(tput bold)"removing"
 #iterate in folder tree
@@ -6428,7 +6428,7 @@ echo $(tput bold)"removing"
     while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')" ]
     do
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
-    rm silent
+    rm /tmp/silent
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     mkdir -p A_ORIGINALS
     done
@@ -6440,7 +6440,7 @@ else
 printf '\e[8;16;53t'
 printf '\e[3;410;100t'
 clear
-echo > silent
+echo > /tmp/silent
 clear
 echo "silent added"
 sleep 1
@@ -6452,7 +6452,7 @@ silent=$(echo "$bold""$green"added!"$normal")
     while [ -d "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')" ]
     do
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
-    echo > silent
+    echo > /tmp/silent
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     mkdir -p A_ORIGINALS
     done
@@ -6464,9 +6464,9 @@ printf '\e[3;650;0t'
 ;;
 
     "ti")
-if [ -f time ] 
+if [ -f /tmp/time ] 
 then
-rm time
+rm /tmp/time
 clear
 echo $(tput bold)"removing"
 sleep 1
@@ -6478,8 +6478,8 @@ clear
 echo $(tput bold)"Specify time gap:$(tput sgr0)$(tput bold)\(e.g$(tput sgr0) 12 and hit enter\)"
 read input_variable
 echo "time gap is set to: $(tput bold)$(tput setaf 4)$input_variable sec"$(tput sgr0)
-printf "%s\n" "$input_variable" >> time
-gap=$(tput bold)$(tput setaf 4)$(cat time)sec$(tput sgr0)
+printf "%s\n" "$input_variable" >> /tmp/time
+gap=$(tput bold)$(tput setaf 4)$(cat /tmp/time)sec$(tput sgr0)
 fi
 #iterate in folder tree
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
@@ -6489,7 +6489,6 @@ fi
     do
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
-    cp "$(cat /tmp/DUALISO/path_1)"/time ./
     mkdir -p A_ORIGINALS
     done
     rm /tmp/folder_pathsHDR.txt
@@ -6508,25 +6507,25 @@ printf '\e[3;650;0t'
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > HDRmerge
-    rm enfuse
-    rm FFmpeg
-    rm all_in
+    echo > /tmp/HDRmerge
+    rm /tmp/enfuse
+    rm /tmp/enfuse
+    rm /tmp/all_in
     done
     rm /tmp/folder_pathsHDR.txt
     fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
-echo > HDRmerge
-rm enfuse
-rm FFmpeg
-rm all_in
+echo > /tmp/HDRmerge
+rm /tmp/enfuse
+rm /tmp/enfuse
+rm /tmp/all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
-chmod u=rwx HDR_match.command 
-sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+chmod u=rwx /tmp/HDR_match.command 
+sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
 ;;
 
     "en") 
@@ -6539,25 +6538,25 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > enfuse
-    rm HDRmerge
-    rm FFmpeg
-    rm all_in
+    echo > /tmp/enfuse
+    rm /tmp/HDRmerge
+    rm /tmp/enfuse
+    rm /tmp/all_in
     done
     rm /tmp/folder_pathsHDR.txt
     fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
-echo > enfuse
-rm HDRmerge
-rm FFmpeg
-rm all_in
+echo > /tmp/enfuse
+rm /tmp/HDRmerge
+rm /tmp/enfuse
+rm /tmp/all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
-chmod u=rwx HDR_match.command 
-sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+chmod u=rwx /tmp/HDR_match.command 
+sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
 ;;
 
     "ff") 
@@ -6570,25 +6569,25 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > FFmpeg
-    rm HDRmerge
-    rm enfuse
-    rm all_in
+    echo > /tmp/enfuse
+    rm /tmp/HDRmerge
+    rm /tmp/enfuse
+    rm /tmp/all_in
     done
     rm /tmp/folder_pathsHDR.txt
     fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
-echo > FFmpeg
-rm enfuse
-rm HDRmerge
-rm all_in
+echo > /tmp/enfuse
+rm /tmp/enfuse
+rm /tmp/HDRmerge
+rm /tmp/all_in
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
-chmod u=rwx HDR_match.command 
-sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+chmod u=rwx /tmp/HDR_match.command 
+sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
 ;;
 
     "ai") 
@@ -6601,25 +6600,25 @@ sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -
     echo "$(tail -n +2 /tmp/folder_pathsHDR.txt )" > /tmp/folder_pathsHDR.txt
     cd "$(cat /tmp/folder_pathsHDR.txt | awk 'FNR == 1')"
     mkdir -p A_ORIGINALS
-    echo > all_in
-    rm HDRmerge
-    rm enfuse
-    rm FFmpeg
+    echo > /tmp/all_in
+    rm /tmp/HDRmerge
+    rm /tmp/enfuse
+    rm /tmp/enfuse
     done
     rm /tmp/folder_pathsHDR.txt
     fi
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)"
 sleep 1 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
-echo > all_in
-rm enfuse
-rm HDRmerge
-rm FFmpeg
+echo > /tmp/all_in
+rm /tmp/enfuse
+rm /tmp/HDRmerge
+rm /tmp/enfuse
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
-chmod u=rwx HDR_match.command 
-sleep 1 && open HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+chmod u=rwx /tmp/HDR_match.command 
+sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
 ;;
 
     "q")   

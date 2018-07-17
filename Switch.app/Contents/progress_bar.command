@@ -969,12 +969,12 @@ then
 ln -s "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1)" "$(cat /tmp/DUALISO/path_1)"/"$(cat /tmp/HDRMOVad | head -1 | cut -d "." -f1)"
 fi
 
-sleep 2 && rm HDR_script*.command &
+sleep 2 && rm /tmp/HDR_script*.command &
 rm /tmp/HDRMOV*
 rm fps
 rm dropframes
 rm croprec
-rm HDR_script*.command
+rm /tmp/HDR_script*.command
 rm /tmp/KILLMOV
 
 osascript -e 'tell application "Terminal" to close first window' & exit
@@ -1004,7 +1004,7 @@ printf '\e[8;9;24t'
 printf '\e[3;955;0t'
 while sleep 2; 
 do
-if ! ls HDR*.command >/dev/null 2>&1
+if ! ls /tmp/HDR*.command >/dev/null 2>&1
 then
 echo -n -e "\033]0;CR2window\007"
 kill $(echo $$)
@@ -1034,13 +1034,13 @@ echo "$(head -n +1 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
 else
 cd "$(cat /tmp/DUALISO/path_1)"
 fi
- rm HDR*.command
- rm list
- rm match* 
+ rm /tmp/HDR*.command
+ rm /tmp/list
+ rm /tmp/match* 
  rm *preview3.jpg
  rm *.xmp
- rm HDRmerge enfuse FFmpeg all_in
-rm all_in enfuse ffmpeg
+ rm /tmp/HDRmerge /tmp/enfuse /tmp/FFmpeg /tmp/all_in
+
 killall hdrmerge
 killall sleep
 killall align_image_stack
