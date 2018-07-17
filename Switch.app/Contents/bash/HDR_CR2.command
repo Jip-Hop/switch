@@ -18,9 +18,6 @@
 cat <<'EOF' > /tmp/HDR_match.command
 #!/bin/bash
 
-#not needed
-rm LOG.txt
-
 #print Switch path hdr path if doesn´t exist
 if ! [ -f /tmp/folder_paths.txt ]; then 
 cat /tmp/DUALISO/path_1 > /tmp/folder_paths.txt
@@ -28,6 +25,9 @@ fi
 
 cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')"
 workingDir=`dirname "$0"`
+
+#not needed
+rm LOG.txt
 
 #hugin dependency
 if ! [ -f "/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack" ]
@@ -617,10 +617,6 @@ fi
 #check for multiple input folders
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ] && ! [ -f /tmp/matchaa ] 
     then
-    rm /tmp/HDRmerge /tmp/enfuse /tmp/FFmpeg /tmp/all_in LOG.txt
-    rm HDR*.command
-    rm /tmp/silent
-    sleep 2
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
@@ -641,7 +637,6 @@ fi
 if ! [ -f /tmp/matchaa ]
 then
   rm /tmp/HDR1.command
-  rm /tmp/HDRmerge /tmp/enfuse /tmp/FFmpeg /tmp/all_in
   else
   chmod u=rwx /tmp/HDR1.command
   $mode /tmp/HDR1.command & 
@@ -690,7 +685,6 @@ mkdir -p A_previews
 #process 1
 if [ -f /tmp/HDRmerge ] || [ -f /tmp/all_in ]
 then
-sleep 5 && rm /tmp/HDRmerge /tmp/enfuse /tmp/FFmpeg >/dev/null 2>&1 & 
 #set prefix if all_in mode
 if [ -f /tmp/all_in ]
 then
@@ -732,7 +726,6 @@ fi
 
 if [ -f /tmp/enfuse ] || [ -f /tmp/all_in ]
 then
-sleep 5 && rm /tmp/HDRmerge /tmp/enfuse /tmp/FFmpeg >/dev/null 2>&1 & 
 #all_in mode
 if [ -f /tmp/all_in ]
 then
@@ -859,7 +852,6 @@ fi
 
 if [ -f /tmp/FFmpeg ]
 then
-sleep 5 && rm /tmp/HDRmerge enfuse /tmp/FFmpeg >/dev/null 2>&1 & 
  while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' /tmp/matchaa >/dev/null 2>&1
   do
 clear
