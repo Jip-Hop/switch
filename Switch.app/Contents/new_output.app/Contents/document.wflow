@@ -167,7 +167,7 @@
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>449.000000:112.000000</string>
+				<string>400.000000:112.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Ask for Finder Items.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -235,9 +235,15 @@ fi
 
 #choose new output
 if ls /tmp/DUALISO/OUT_path
-then
+then  
 rm /tmp/DUALISO/OUT_path
 echo "$1" &gt; /tmp/output
+mkdir -p "$1"/A_ORIGINALS
+#safety trap. Only when a drive is already full and can´t create the needed A_ORIGINALS folder
+if ! [ -d "A_ORIGINALS" ]; then
+  kill $(ps -ax | grep -m 1 First_out.app | cut -d ' ' -f1)
+  exit 0
+fi 
 open "$(cat /tmp/DUALISO/path_2)"Menu.command
 fi
 
@@ -384,19 +390,19 @@ fi</string>
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>449.000000:154.000000</string>
+				<string>400.000000:630.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>F67D63EA-341C-459D-9400-632372FC361D</key>
+		<key>C8DDE519-2E6F-45A3-BDF6-1F9182DD6EB3</key>
 		<dict>
 			<key>from</key>
 			<string>CDF6DEB5-CF07-4EBE-A521-62C31265001C - CDF6DEB5-CF07-4EBE-A521-62C31265001C</string>
