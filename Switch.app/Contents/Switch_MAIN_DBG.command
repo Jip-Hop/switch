@@ -36,6 +36,10 @@ exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 export PATH="$(cat /tmp/DUALISO/path_2)":$PATH
     cd "$(cat /tmp/DUALISO/path_1)"
     mkdir -p A_ORIGINALS
+#safety trap. Only when a drive is already full and can´t create the needed A_ORIGINALS folder
+if ! [ -d "A_ORIGINALS" ]; then
+  exit 0
+fi
     path_2=$(cat /tmp/DUALISO/"DBG_path")
 #check for new output folder
     if [ -f /tmp/output ]

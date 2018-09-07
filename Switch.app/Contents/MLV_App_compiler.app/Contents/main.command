@@ -49,7 +49,7 @@ cd ~/MLV-App-master
 git pull
 fi
 
-printf '\e[8;18;70t'
+printf '\e[8;19;70t'
 printf '\e[3;410;0t'
 clear
 while :
@@ -63,6 +63,7 @@ $(tput bold)MLV App compiler$(tput sgr0)(thanks to Ilia3101,masc,bouncyball)
 current branch:$(tput bold)$(tput setaf 4) $(git branch | awk '/\*/ { print $2; }')$(tput sgr0)
 
 $(tput bold)$(tput setaf 1)(c)   compile MLV App$(tput sgr0)
+$(tput bold)$(tput setaf 1)(op)  compile MLV App with openmp$(tput sgr0)(macOS 10.10 and onwards)
 $(tput bold)$(tput setaf 1)(b)   check out branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)   make clean$(tput sgr0)
 
@@ -111,7 +112,56 @@ cd ~/MLV-App-master/platform && \
 rm -r Mlv_app_master
 mkdir -p Mlv_app_master && \
 cd Mlv_app_master && \
-$(ls -d -t /usr/local/Cellar/qt/5* | head -1 | tr -d ':')/bin/qmake ~/MLV-App-master/platform/qt/MLVApp.pro -spec macx-clang CONFIG+=x86_64 CONFIG+=release && /usr/bin/make -j4 && $(ls -d -t /usr/local/Cellar/qt/5* | head -1 | tr -d ':')/bin/macdeployqt ~/MLV-App-master/platform/Mlv_app_master/MLV\ App.app && \
+$(ls -d -t /usr/local/Cellar/qt/5* | head -1 | tr -d ':')/bin/qmake ~/MLV-App-master/platform/qt/MLVApp.pro QMAKE_MACOSX_DEPLOYMENT_TARGET=10.8 -spec macx-clang CONFIG+=x86_64 CONFIG+=release && /usr/bin/make -j4 && $(ls -d -t /usr/local/Cellar/qt/5* | head -1 | tr -d ':')/bin/macdeployqt ~/MLV-App-master/platform/Mlv_app_master/MLV\ App.app && \
+make clean && \
+open ~/MLV-App-master/platform/Mlv_app_master/
+echo "
+
+scroll upwards to check terminal outcome."
+    ;;
+
+    "op") 
+clear
+#openmp
+if ! [ -d /usr/local/Cellar/llvm/6* ]
+then
+brew install llvm@6
+fi
+
+#+ld64 adresses this issue (SYSROOT) https://trac.macports.org/ticket/53784
+if ! [ -f /opt/local/bin/ld-xcode ]; then
+#macports
+ if ! [ -f /opt/local/bin/port ]; then
+   clear
+   echo "Install MacPorts for your version of the Mac operating system"
+   sleep 2
+   echo ""
+   echo "This means you go straight to step 3 in the Quickstart and 
+   skip Xcode and the Xcode Command Line Tools installation"
+   sleep 2
+   echo ""
+   echo "Rerun the compiler when you are done!"
+   sleep 2
+   open https://www.macports.org/install.php
+   exit 0
+ fi
+  sudo port selfupdate
+  sudo port upgrade outdated
+  sudo port install ld64 +ld64_xcode
+fi
+
+clear
+echo "let´s clean repo first(make clean)!"
+sleep 1
+cd ~/MLV-App-master/platform/qt/
+make clean 
+cd ~/MLV-App-master/platform/cocoa/
+make clean 
+cd ~/MLV-App-master/platform && \
+rm -r Mlv_app_master
+mkdir -p Mlv_app_master && \
+cd Mlv_app_master && \
+$(ls -d -t /usr/local/Cellar/qt/5* | head -1 | tr -d ':')/bin/qmake ~/MLV-App-master/platform/qt/MLVApp.pro QMAKE_CC=/usr/local/opt/llvm/bin/clang QMAKE_CXX=/usr/local/opt/llvm/bin/clang++ QMAKE_LINK=/usr/local/opt/llvm/bin/clang++ QMAKE_CFLAGS+=-fopenmp QMAKE_CXXFLAGS+=-fopenmp INCLUDEPATH+=-I/usr/local/opt/llvm/include LIBS+=-L/usr/local/opt/llvm/lib LIBS+=-lgomp QMAKE_MACOSX_DEPLOYMENT_TARGET=10.8 -spec macx-clang CONFIG+=x86_64 CONFIG+=release && /usr/bin/make -j4 && $(ls -d -t /usr/local/Cellar/qt/5* | head -1 | tr -d ':')/bin/macdeployqt ~/MLV-App-master/platform/Mlv_app_master/MLV\ App.app && \
 make clean && \
 open ~/MLV-App-master/platform/Mlv_app_master/
 echo "
