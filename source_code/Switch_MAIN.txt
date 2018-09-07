@@ -47,6 +47,10 @@
     exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 #build Folder structure
     mkdir -p A_ORIGINALS
+#safety trap. Only when a drive is already full and can´t create the needed A_ORIGINALS folder
+if ! [ -d "A_ORIGINALS" ]; then
+  exit 0
+fi
     mkdir -p /tmp/DUALISO/
 #if RAW ask for MLV conversion
 #courtesy bouncyball at magiclantern.fm

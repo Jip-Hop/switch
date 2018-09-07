@@ -676,6 +676,10 @@ echo &gt; /tmp/DUALISO/PREV
     exec &amp;&gt; &gt;(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt &gt;&amp;2 )
 #build Folder structure
     mkdir -p A_ORIGINALS
+#safety trap. Only when a drive is already full and can´t create the needed A_ORIGINALS folder
+if ! [ -d "A_ORIGINALS" ]; then
+  exit 0
+fi
     mkdir -p /tmp/DUALISO/
 #if RAW ask for MLV conversion
 #courtesy bouncyball at magiclantern.fm
@@ -2563,54 +2567,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>62E80FED-932E-49E2-8B47-E977E0468D7A</key>
+		<key>0364E709-684D-4142-AE28-138F5BD41259</key>
 		<dict>
 			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>6F4ED9E1-0B76-40EB-B11E-DBE7C110DD29</key>
+		<key>3E44236F-21F1-4374-9070-7FDA492BF079</key>
 		<dict>
 			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>73607603-56D4-4132-9B29-311269EEE3B5</key>
+		<key>667BA9D0-F47B-4506-98D0-4BEFBD5BD69C</key>
 		<dict>
 			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>9593233A-979C-464D-AF92-0593BA9B3E4C</key>
+		<key>8AA3492E-66C1-49B9-933E-637411E036DD</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>A6010993-7D97-4887-82AE-926E8AA2881B</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
-		<key>9BC37F02-CAE8-47FF-889C-359326073C23</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>E6333822-C5C1-43A8-ACE6-3E25F804B69B</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>E9A10E28-9643-4DC8-948E-A2D2509D6834</key>
+		<key>C9D5F8CA-8DD3-4D6E-993F-693C387706E2</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+		</dict>
+		<key>E3A4FBD2-B7E8-4223-94B8-266141B5C936</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

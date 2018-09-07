@@ -646,6 +646,10 @@ end run</string>
     exec &amp;&gt; &gt;(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt &gt;&amp;2 )
 #build Folder structure
     mkdir -p A_ORIGINALS
+#safety trap. Only when a drive is already full and can´t create the needed A_ORIGINALS folder
+if ! [ -d "A_ORIGINALS" ]; then
+  exit 0
+fi
     mkdir -p /tmp/DUALISO/
 #if RAW ask for MLV conversion
 #courtesy bouncyball at magiclantern.fm
@@ -2027,45 +2031,45 @@ done
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>400.000000:280.000000</string>
+				<string>400.000000:421.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>33591E63-11D7-4BEB-AC39-4DFC60B0E57F</key>
-		<dict>
-			<key>from</key>
-			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
-			<key>to</key>
-			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
-		</dict>
-		<key>B32D731B-3EC1-43DE-B68D-2BE8A46002C4</key>
+		<key>127F6261-3F12-4FCC-ACDD-793CBFF79781</key>
 		<dict>
 			<key>from</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
 			<key>to</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 		</dict>
-		<key>DB670728-9860-4A06-BE1A-67FDF5935D11</key>
+		<key>6849C0AB-30ED-4F1F-8073-70D30B09DCDB</key>
 		<dict>
 			<key>from</key>
 			<string>C9EE4BBE-A1FF-4172-A973-407B448054A0 - C9EE4BBE-A1FF-4172-A973-407B448054A0</string>
 			<key>to</key>
 			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
 		</dict>
-		<key>E06BA591-6CBE-4039-874B-67A9F4C4BED2</key>
+		<key>8BCA163D-7BF1-4424-95E1-F89D52F9B37B</key>
 		<dict>
 			<key>from</key>
 			<string>1C410E4D-55FD-4C3A-9DED-99126C8F2CC7 - 1C410E4D-55FD-4C3A-9DED-99126C8F2CC7</string>
 			<key>to</key>
 			<string>1D5440C0-F1CA-47CE-B667-C9E85856710F - 1D5440C0-F1CA-47CE-B667-C9E85856710F</string>
+		</dict>
+		<key>E19E9501-0AE5-44FB-BFD0-D10E071A4354</key>
+		<dict>
+			<key>from</key>
+			<string>38172F58-AC15-47C5-B12F-FD2A20EE20D6 - 38172F58-AC15-47C5-B12F-FD2A20EE20D6</string>
+			<key>to</key>
+			<string>4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8 - 4DCE11E6-CDAB-48CF-90C8-C1846A0AA2D8</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
