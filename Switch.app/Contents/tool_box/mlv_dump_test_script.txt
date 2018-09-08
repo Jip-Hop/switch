@@ -16,6 +16,13 @@ then
 brew install dcraw
 fi
 
+#check for exiftool
+if ! [ -f "/usr/local/bin/exiftool" ]
+then
+brew install exiftool
+fi
+
+
 #!/bin/bash
 workingDir=`dirname "$0"`
 cd "${workingDir}"
@@ -24,51 +31,51 @@ export PATH="${workingDir}":$PATH
 
 ########################Output simple dng file#############################
 #start with a pass through file
-  mlv_dump -p --dng -f 0 -o 000_-p "$(ls *.MLV | head -1)" && mv 000_-p000000.dng 000_-p.dng &
-  mlv_dump --dng -f 0 -o 001_--dng "$(ls *.MLV | head -1)" && mv 001_--dng000000.dng 001_--dng.dng &
-  mlv_dump --dng --no-cs -f 0 -o "002_--dng --no-cs" "$(ls *.MLV | head -1)" && mv "002_--dng --no-cs000000.dng" "002_--dng --no-cs.dng" &
-  mlv_dump --dng --cs2x2 -f 0 -o "003_--dng --cs2x2" "$(ls *.MLV | head -1)" && mv "003_--dng --cs2x2000000.dng" "003_--dng --cs2x2.dng" &
-  mlv_dump --dng --cs3x3 -f 0 -o "004_--dng --cs3x3" "$(ls *.MLV | head -1)" && mv "004_--dng --cs3x3000000.dng" "004_--dng --cs3x3.dng" &
-  mlv_dump --dng --cs5x5 -f 0 -o "005_--dng --cs5x5" "$(ls *.MLV | head -1)" && mv "005_--dng --cs5x5000000.dng" "005_--dng --cs5x5.dng" &
-  mlv_dump --dng --no-fixfp -f 0 -o "006_--dng --no-fixfp" "$(ls *.MLV | head -1)" && mv "006_--dng --no-fixfp000000.dng" "006_--dng --no-fixfp.dng" &
-  mlv_dump --dng --no-fixcp -f 0 -o "007_--dng --no-fixcp" "$(ls *.MLV | head -1)" && mv "007_--dng --no-fixcp000000.dng" "007_--dng --no-fixcp.dng" &
-  mlv_dump --dng --no-fixcp --no-fixfp -f 0 -o "008_--dng --no-fixcp --no-fixfp" "$(ls *.MLV | head -1)" && mv "008_--dng --no-fixcp --no-fixfp000000.dng" "008_--dng --no-fixcp --no-fixfp.dng" &
-  mlv_dump --dng --fixcp2 -f 0 -o "009_--dng --fixcp2" "$(ls *.MLV | head -1)" && mv "009_--dng --fixcp2000000.dng" "009_--dng --fixcp2.dng" &
-  mlv_dump --dng --no-stripes -f 0 -o "010_--dng --no-stripes" "$(ls *.MLV | head -1)" && mv "010_--dng --no-stripes000000.dng" "010_--dng --no-stripes.dng" &
-  mlv_dump --dng --force-stripes  -f 0 -o "011_--dng --force-stripes " "$(ls *.MLV | head -1)" && mv "011_--dng --force-stripes 000000.dng" "011_--dng --force-stripes .dng" &
-  mlv_dump --dng --is-dualiso -f 0 -o "012_--dng --is-dualiso" "$(ls *.MLV | head -1)" && mv "012_--dng --is-dualiso000000.dng" "012_--dng --is-dualiso.dng" &
-  mlv_dump --dng --is-croprec -f 0 -o "013_--dng --is-croprec" "$(ls *.MLV | head -1)" && mv "013_--dng --is-croprec000000.dng" "013_--dng --is-croprec.dng" &
-  mlv_dump --dng --fixpn -f 0 -o "014_--dng --fixpn" "$(ls *.MLV | head -1)" && mv "014_--dng --fixpn000000.dng" "014_--dng --fixpn.dng" &
-  mlv_dump --dng --deflicker=3000 -f 0 -o "015_--dng --deflicker=3000" "$(ls *.MLV | head -1)" && mv "015_--dng --deflicker=3000000000.dng" "015_--dng --deflicker=3000(will look bad).dng" &
-  mlv_dump --dng --no-bitpack -f 0 -o "016_--dng --no-bitpack" "$(ls *.MLV | head -1)" && mv "016_--dng --no-bitpack000000.dng" "016_--dng --no-bitpack.dng" &
-  mlv_dump --dng --fpi 0 -f 0 -o "017_--dng --fpi 0 MLVFS" "$(ls *.MLV | head -1)" && mv "017_--dng --fpi 0 MLVFS000000.dng" "017_--dng --fpi 0 MLVFS.dng" &
-  mlv_dump --dng --fpi 1 -f 0 -o "018_--dng --fpi 1 raw2dng" "$(ls *.MLV | head -1)" && mv "018_--dng --fpi 1 raw2dng000000.dng" "018_--dng --fpi 1 raw2dng.dng" &
-  mlv_dump --dng --bpi 0 -f 0 -o "019_--dng --bpi 0 MLVFS" "$(ls *.MLV | head -1)" && mv "019_--dng --bpi 0 MLVFS000000.dng" "019_--dng --bpi 0 MLVFS.dng" &
-  mlv_dump --dng --bpi 1 -f 0 -o "020_--dng --bpi 1 raw2dng" "$(ls *.MLV | head -1)" && mv "020_--dng --bpi 1 raw2dng000000.dng" "020_--dng --bpi 1 raw2dng.dng" &
-  mlv_dump --dng -b 8 -f 0 -o "021_--dng -b 8" "$(ls *.MLV | head -1)" && mv "021_--dng -b 8000000.dng" "021_--dng -b 8.dng" &
-  mlv_dump --dng -b 10 -f 0 -o "022_--dng -b 10" "$(ls *.MLV | head -1)" && mv "022_--dng -b 10000000.dng" "022_--dng -b 10.dng" &
-  mlv_dump --dng -b 12 -f 0 -o "023_--dng -b 12" "$(ls *.MLV | head -1)" && mv "023_--dng -b 12000000.dng" "023_--dng -b 12.dng" &
-  mlv_dump --dng -b 14 -f 0 -o "024_--dng -b 14" "$(ls *.MLV | head -1)" && mv "024_--dng -b 14000000.dng" "024_--dng -b 14.dng" &
-  mlv_dump -c --dng -f 0 -o 025_-c "$(ls *.MLV | head -1)" && mv 025_-c000000.dng 025_-c.dng &
-  mlv_dump --dng --relaxed -f 0 -o "026_--dng --relaxed" "$(ls *.MLV | head -1)" && mv "026_--dng --relaxed000000.dng" "026_--dng --relaxed.dng" &
+  mlv_dump -p --dng -f 0 -o 000_-p "$(ls *.MLV | head -1)" && mv 000_-p000000.dng 000_-p.dng && exiftool 000_-p.dng > 000_-p.txt &
+  mlv_dump --dng -f 0 -o 001_--dng "$(ls *.MLV | head -1)" && mv 001_--dng000000.dng 001_--dng.dng && exiftool 001_--dng.dng > 001_--dng.txt &
+  mlv_dump --dng --no-cs -f 0 -o "002_--dng --no-cs" "$(ls *.MLV | head -1)" && mv "002_--dng --no-cs000000.dng" "002_--dng --no-cs.dng" && exiftool "002_--dng --no-cs.dng" > "002_--dng --no-cs".txt &
+  mlv_dump --dng --cs2x2 -f 0 -o "003_--dng --cs2x2" "$(ls *.MLV | head -1)" && mv "003_--dng --cs2x2000000.dng" "003_--dng --cs2x2.dng" && exiftool "003_--dng --cs2x2.dng" > "003_--dng --cs2x2".txt &
+  mlv_dump --dng --cs3x3 -f 0 -o "004_--dng --cs3x3" "$(ls *.MLV | head -1)" && mv "004_--dng --cs3x3000000.dng" "004_--dng --cs3x3.dng" && exiftool "004_--dng --cs3x3.dng" > "004_--dng --cs3x3".txt &
+  mlv_dump --dng --cs5x5 -f 0 -o "005_--dng --cs5x5" "$(ls *.MLV | head -1)" && mv "005_--dng --cs5x5000000.dng" "005_--dng --cs5x5.dng" && exiftool "005_--dng --cs5x5.dng" > "005_--dng --cs5x5".txt &
+  mlv_dump --dng --no-fixfp -f 0 -o "006_--dng --no-fixfp" "$(ls *.MLV | head -1)" && mv "006_--dng --no-fixfp000000.dng" "006_--dng --no-fixfp.dng" && exiftool "006_--dng --no-fixfp.dng" > "006_--dng --no-fixfp".txt &
+  mlv_dump --dng --no-fixcp -f 0 -o "007_--dng --no-fixcp" "$(ls *.MLV | head -1)" && mv "007_--dng --no-fixcp000000.dng" "007_--dng --no-fixcp.dng" && exiftool "007_--dng --no-fixcp.dng" > "007_--dng --no-fixcp".txt &
+  mlv_dump --dng --no-fixcp --no-fixfp -f 0 -o "008_--dng --no-fixcp --no-fixfp" "$(ls *.MLV | head -1)" && mv "008_--dng --no-fixcp --no-fixfp000000.dng" "008_--dng --no-fixcp --no-fixfp.dng" && exiftool "008_--dng --no-fixcp --no-fixfp.dng" > "008_--dng --no-fixcp --no-fixfp".txt &
+  mlv_dump --dng --fixcp2 -f 0 -o "009_--dng --fixcp2" "$(ls *.MLV | head -1)" && mv "009_--dng --fixcp2000000.dng" "009_--dng --fixcp2.dng" && exiftool "009_--dng --fixcp2.dng" > "009_--dng --fixcp2".txt &
+  mlv_dump --dng --no-stripes -f 0 -o "010_--dng --no-stripes" "$(ls *.MLV | head -1)" && mv "010_--dng --no-stripes000000.dng" "010_--dng --no-stripes.dng" && exiftool "010_--dng --no-stripes.dng" > "010_--dng --no-stripes".txt &
+  mlv_dump --dng --force-stripes  -f 0 -o "011_--dng --force-stripes " "$(ls *.MLV | head -1)" && mv "011_--dng --force-stripes 000000.dng" "011_--dng --force-stripes.dng" && exiftool "011_--dng --force-stripes.dng" > "011_--dng --force-stripes".txt &
+  mlv_dump --dng --is-dualiso -f 0 -o "012_--dng --is-dualiso" "$(ls *.MLV | head -1)" && mv "012_--dng --is-dualiso000000.dng" "012_--dng --is-dualiso.dng" && exiftool "012_--dng --is-dualiso.dng" > "012_--dng --is-dualiso".txt &
+  mlv_dump --dng --is-croprec -f 0 -o "013_--dng --is-croprec" "$(ls *.MLV | head -1)" && mv "013_--dng --is-croprec000000.dng" "013_--dng --is-croprec.dng" && exiftool "013_--dng --is-croprec.dng" > "013_--dng --is-croprec".txt &
+  mlv_dump --dng --fixpn -f 0 -o "014_--dng --fixpn" "$(ls *.MLV | head -1)" && mv "014_--dng --fixpn000000.dng" "014_--dng --fixpn.dng" && exiftool "014_--dng --fixpn.dng" > "014_--dng --fixpn".txt &
+  mlv_dump --dng --deflicker=3000 -f 0 -o "015_--dng --deflicker=3000" "$(ls *.MLV | head -1)" && mv "015_--dng --deflicker=3000000000.dng" "015_--dng --deflicker=3000(will look bad).dng" && exiftool "015_--dng --deflicker=3000(will look bad).dng" > "015_--dng --deflicker=3000(will look bad)".txt &
+  mlv_dump --dng --no-bitpack -f 0 -o "016_--dng --no-bitpack" "$(ls *.MLV | head -1)" && mv "016_--dng --no-bitpack000000.dng" "016_--dng --no-bitpack.dng" && exiftool "016_--dng --no-bitpack.dng" > "016_--dng --no-bitpack".txt &
+  mlv_dump --dng --fpi 0 -f 0 -o "017_--dng --fpi 0 MLVFS" "$(ls *.MLV | head -1)" && mv "017_--dng --fpi 0 MLVFS000000.dng" "017_--dng --fpi 0 MLVFS.dng" && exiftool "017_--dng --fpi 0 MLVFS.dng" > "017_--dng --fpi 0 MLVFS".txt &
+  mlv_dump --dng --fpi 1 -f 0 -o "018_--dng --fpi 1 raw2dng" "$(ls *.MLV | head -1)" && mv "018_--dng --fpi 1 raw2dng000000.dng" "018_--dng --fpi 1 raw2dng.dng" && exiftool "018_--dng --fpi 1 raw2dng.dng" > "018_--dng --fpi 1 raw2dng".txt &
+  mlv_dump --dng --bpi 0 -f 0 -o "019_--dng --bpi 0 MLVFS" "$(ls *.MLV | head -1)" && mv "019_--dng --bpi 0 MLVFS000000.dng" "019_--dng --bpi 0 MLVFS.dng" && exiftool "019_--dng --bpi 0 MLVFS.dng" > "019_--dng --bpi 0 MLVFS".txt &
+  mlv_dump --dng --bpi 1 -f 0 -o "020_--dng --bpi 1 raw2dng" "$(ls *.MLV | head -1)" && mv "020_--dng --bpi 1 raw2dng000000.dng" "020_--dng --bpi 1 raw2dng.dng" && exiftool "020_--dng --bpi 1 raw2dng.dng" > "020_--dng --bpi 1 raw2dng".txt &
+  mlv_dump --dng -b 8 -f 0 -o "021_--dng -b 8" "$(ls *.MLV | head -1)" && mv "021_--dng -b 8000000.dng" "021_--dng -b 8.dng" && exiftool "021_--dng -b 8.dng" > "021_--dng -b 8".txt &
+  mlv_dump --dng -b 10 -f 0 -o "022_--dng -b 10" "$(ls *.MLV | head -1)" && mv "022_--dng -b 10000000.dng" "022_--dng -b 10.dng" && exiftool "022_--dng -b 10.dng" > "022_--dng -b 10".txt &
+  mlv_dump --dng -b 12 -f 0 -o "023_--dng -b 12" "$(ls *.MLV | head -1)" && mv "023_--dng -b 12000000.dng" "023_--dng -b 12.dng" && exiftool "023_--dng -b 12.dng" > "023_--dng -b 12".txt &
+  mlv_dump --dng -b 14 -f 0 -o "024_--dng -b 14" "$(ls *.MLV | head -1)" && mv "024_--dng -b 14000000.dng" "024_--dng -b 14.dng" && exiftool "024_--dng -b 14.dng" > "024_--dng -b 14".txt &
+  mlv_dump -c --dng -f 0 -o 025_-c "$(ls *.MLV | head -1)" && mv 025_-c000000.dng 025_-c.dng && exiftool 025_-c.dng > 025_-c.txt &
+  mlv_dump --dng --relaxed -f 0 -o "026_--dng --relaxed" "$(ls *.MLV | head -1)" && mv "026_--dng --relaxed000000.dng" "026_--dng --relaxed.dng" && exiftool "026_--dng --relaxed.dng" > "026_--dng --relaxed".txt &
   bl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/black_level/ { print $2; exit }')
   wl=$(mlv_dump -v "$(ls *.MLV | head -1)" | awk '/white_level/ { print $2; exit }')
-  mlv_dump --dng --black-fix=$bl -f 0 -o "030_--dng --black-fix=$bl" "$(ls *.MLV | head -1)" && mv "030_--dng --black-fix="$bl"000000.dng" "030_--dng --black-fix=$bl.dng" &
-  mlv_dump --dng --white-fix=$wl -f 0 -o "031_--dng --white-fix=$wl" "$(ls *.MLV | head -1)" && mv "031_--dng --white-fix="$wl"000000.dng" "031_--dng --white-fix=$wl.dng" &
-  mlv_dump -a -o "$(ls *.MLV | head -1)dark.MLV" $(ls *.MLV | head -1) && mlv_dump --dng "$(ls *.MLV | head -1)dark.MLV" && mv "$(ls *.MLV | head -1)dark_000000.dng" "027_--dng darkframe(will average all frames into one).dng" && mlv_dump --dng -f 0 -o "028_--dng -s subtract averaged frame" "$(ls *.MLV | head -1)" -s "$(ls *.MLV | head -1)dark.MLV" && mv "028_--dng -s subtract averaged frame000000.dng" "028_--dng -s subtract averaged frame(should look bad).dng" && mlv_dump --dng -f 0 -o "029_--dng -t subtract flatfield frame" "$(ls *.MLV | head -1)" -t "$(ls *.MLV | head -1)dark.MLV" && mv "029_--dng -t subtract flatfield frame000000.dng" "029_--dng -t subtract flatfield frame(should look bad).dng" && rm "$(ls *.MLV | head -1)dark.MLV" && mlv_dump -c -o "032_-c(compress MLV).MLV" "$(ls *.MLV | head -1)" && mlv_dump -d -o "033_-d(decompress MLV).MLV" "032_-c(compress MLV).MLV" &
+  mlv_dump --dng --black-fix=$bl -f 0 -o "030_--dng --black-fix=$bl" "$(ls *.MLV | head -1)" && mv "030_--dng --black-fix="$bl"000000.dng" "030_--dng --black-fix=$bl.dng" && exiftool "030_--dng --black-fix=$bl.dng" > "030_--dng --black-fix=$bl".txt &
+  mlv_dump --dng --white-fix=$wl -f 0 -o "031_--dng --white-fix=$wl" "$(ls *.MLV | head -1)" && mv "031_--dng --white-fix="$wl"000000.dng" "031_--dng --white-fix=$wl.dng" && exiftool "031_--dng --white-fix=$wl.dng" > "031_--dng --white-fix=$wl".txt &
+  mlv_dump -a -o "$(ls *.MLV | head -1)dark.MLV" $(ls *.MLV | head -1) && mlv_dump --dng "$(ls *.MLV | head -1)dark.MLV" && mv "$(ls *.MLV | head -1)dark_000000.dng" "027_--dng darkframe(will average all frames into one).dng" && mlv_dump --dng -f 0 -o "028_--dng -s subtract averaged frame" "$(ls *.MLV | head -1)" -s "$(ls *.MLV | head -1)dark.MLV" && mv "028_--dng -s subtract averaged frame000000.dng" "028_--dng -s subtract averaged frame(should look bad).dng" && exiftool "028_--dng -s subtract averaged frame(should look bad).dng" > "028_--dng -s subtract averaged frame(should look bad)".txt && mlv_dump --dng -f 0 -o "029_--dng -t subtract flatfield frame" "$(ls *.MLV | head -1)" -t "$(ls *.MLV | head -1)dark.MLV" && mv "029_--dng -t subtract flatfield frame000000.dng" "029_--dng -t subtract flatfield frame(should look bad).dng" && exiftool "029_--dng -t subtract flatfield frame(should look bad).dng" > "029_--dng -t subtract flatfield frame(should look bad)".txt && rm "$(ls *.MLV | head -1)dark.MLV" && mlv_dump -c -o "032_-c(compress MLV).MLV" "$(ls *.MLV | head -1)" && mlv_dump -d -o "033_-d(decompress MLV).MLV" "032_-c(compress MLV).MLV" &
   mlv_dump -r -o "034_test.RAW" "$(ls *.MLV | head -1)" &
 
 #wait for jobs to end
     wait < <(jobs -p)
 
   if ls *.wav >/dev/null 2>&1
-  then 
+  then
   rm *.wav
-  mlv_dump --dng --no-audio -f 0 -o "035_--dng --no-audio" "$(ls *.MLV | head -1)" && mv "035_--dng --no-audio000000.dng" "035_--dng --no-audio.dng"
+  mlv_dump --dng --no-audio -f 0 -o "035_--dng --no-audio" "$(ls *.MLV | head -1)" && mv "035_--dng --no-audio000000.dng" "035_--dng --no-audio.dng" && exiftool "035_--dng --no-audio.dng" > "035_--dng --no-audio".txt
   if ls *.wav >/dev/null 2>&1
-  then 
+  then
   rm *.wav
-  mv "035_--dng --no-audio.dng" "035_--dng --no-audio(not working!).dng"
+  mv "035_--dng --no-audio.dng" "035_--dng --no-audio(not working!).dng" && exiftool "035_--dng --no-audio(not working!).dng" > "035_--dng --no-audio(not working!)"txt
   fi
   else
   audio=$(printf "%s\n" "  --no-audio          for DNG output WAV not saved, for MLV output WAVI/AUDF blocks are not included in destination ML")
@@ -79,7 +86,7 @@ echo "
   --batch             format output message suitable for batch processing
   --save-bpm          save bad pixels to .BPM file
   --show-progress     show DNG file creation progress. ignored when -v or --batch is specified
-$audio  
+$audio 
 
 -- MLV output --
   -b bits             convert image data to given bit depth per channel (1-16)
@@ -149,11 +156,12 @@ echo "$bl
 " >> 037_mlv_metadata
 echo "Does all look ok?" >> 037_mlv_metadata
 
-#build dcraw tif previews
-  find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 dcraw -T 
-  mkdir -p 038_tifpreviews
-  mv *.tiff 038_tifpreviews
-  cd 038_tifpreviews
+#build dcraw tif previews and exiftool files
+  find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 dcraw -T
+  mkdir -p 038_tifpreviews_exiftool
+  mv *.tiff 038_tifpreviews_exiftool
+  mv *.txt 038_tifpreviews_exiftool
+  cd 038_tifpreviews_exiftool
   open .
   cd -
 
