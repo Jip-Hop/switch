@@ -139,11 +139,14 @@ echo "$res
 echo "###iso###" >> 037_mlv_metadata
 echo "$iso
 " >> 037_mlv_metadata
-echo "###frames###" >> 037_mlv_metadata
+echo "###FPS###" >> 037_mlv_metadata
 echo "$fra
 " >> 037_mlv_metadata
 echo "###Camera model###" >> 037_mlv_metadata
 echo "$cn
+" >> 037_mlv_metadata
+echo "###frames###" >> 037_mlv_metadata
+echo "$frames
 " >> 037_mlv_metadata
 echo "###rawc###" >> 037_mlv_metadata
 echo "$rawc
