@@ -36,8 +36,6 @@ echo "##################alias_script.command#####################" > alias_LOG.t
 #run the log file
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/alias_cleanaa; do
 ffmpeg  -i "$(cat /tmp/alias_cleanaa | head -1)" -i "$(cat /tmp/alias_cleanaa | head -1)" -filter_complex "[1] boxblur=1:cr=5:ar=5 [tmp]; [0][tmp] blend=all_mode='normal':all_opacity=0.5" -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
 ffmpeg  -i - -c:a copy -c:v prores_ks -profile:v 2 -pix_fmt yuv422p10 -color_primaries bt709 -color_trc bt709 -colorspace bt709 -vf minterpolate=50,tblend=all_mode=average,framestep=2 "$(cat /tmp/alias_cleanaa | head -1 | cut -d "." -f1)"_clean.mov 2>> "$(cat /tmp/DUALISO/path_1)"/alias_LOG.txt
 echo "$(tail -n +2 /tmp/alias_cleanaa)" > /tmp/alias_cleanaa
 done
@@ -53,8 +51,6 @@ cat <<'EOF' > /tmp/alias_script1.command
 cd "$(cat /tmp/DUALISO/path_1)"
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/alias_cleanab; do
 ffmpeg  -i "$(cat /tmp/alias_cleanab | head -1)" -i "$(cat /tmp/alias_cleanab | head -1)" -filter_complex "[1] boxblur=1:cr=5:ar=5 [tmp]; [0][tmp] blend=all_mode='normal':all_opacity=0.5" -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
 ffmpeg  -i - -c:a copy -c:v prores_ks -profile:v 2 -pix_fmt yuv422p10 -color_primaries bt709 -color_trc bt709 -colorspace bt709 -vf minterpolate=50,tblend=all_mode=average,framestep=2 "$(cat /tmp/alias_cleanab | head -1 | cut -d "." -f1)"_clean.mov 2>> "$(cat /tmp/DUALISO/path_1)"/alias_LOG.txt
 echo "$(tail -n +2 /tmp/alias_cleanab)" > /tmp/alias_cleanab
 done
@@ -70,8 +66,6 @@ cat <<'EOF' > /tmp/alias_script2.command
 cd "$(cat /tmp/DUALISO/path_1)"
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/alias_cleanac; do
 ffmpeg  -i "$(cat /tmp/alias_cleanac | head -1)" -i "$(cat /tmp/alias_cleanac | head -1)" -filter_complex "[1] boxblur=1:cr=5:ar=5 [tmp]; [0][tmp] blend=all_mode='normal':all_opacity=0.5" -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
 ffmpeg  -i - -c:a copy -c:v prores_ks -profile:v 2 -pix_fmt yuv422p10 -color_primaries bt709 -color_trc bt709 -colorspace bt709 -vf minterpolate=50,tblend=all_mode=average,framestep=2 "$(cat /tmp/alias_cleanac | head -1 | cut -d "." -f1)"_clean.mov 2>> "$(cat /tmp/DUALISO/path_1)"/alias_LOG.txt
 echo "$(tail -n +2 /tmp/alias_cleanac)" > /tmp/alias_cleanac
 done
@@ -87,8 +81,6 @@ cat <<'EOF' > /tmp/alias_script3.command
 cd "$(cat /tmp/DUALISO/path_1)"
 while grep 'MOV\|mov\|mp4\|MP4\|mkv\|MKV\|avi\|AVI' /tmp/alias_cleanad; do
 ffmpeg  -i "$(cat /tmp/alias_cleanad | head -1)" -i "$(cat /tmp/alias_cleanad | head -1)" -filter_complex "[1] boxblur=1:cr=5:ar=5 [tmp]; [0][tmp] blend=all_mode='normal':all_opacity=0.5" -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
-ffmpeg  -i - -vf minterpolate=50,tblend=all_mode=average,framestep=2 -c:v libx264 -preset ultrafast -crf 0 -f matroska - | \
 ffmpeg  -i - -c:a copy -c:v prores_ks -profile:v 2 -pix_fmt yuv422p10 -color_primaries bt709 -color_trc bt709 -colorspace bt709 -vf minterpolate=50,tblend=all_mode=average,framestep=2 "$(cat /tmp/alias_cleanad | head -1 | cut -d "." -f1)"_clean.mov 2>> "$(cat /tmp/DUALISO/path_1)"/alias_LOG.txt
 echo "$(tail -n +2 /tmp/alias_cleanad)" > /tmp/alias_cleanad
 done
@@ -141,6 +133,7 @@ esac
 fi
 rm /tmp/depend.command
 EOF
+
 
 chmod u=rwx /tmp/depend.command
 chmod u=rwx /tmp/alias_script.command

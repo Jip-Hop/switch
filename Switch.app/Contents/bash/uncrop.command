@@ -21,6 +21,7 @@
 #Drop HDR MOV files into a folder and run the script i terminal from within the folder with MOV files. Hit enter when prompted
 
 #!/bin/bash
+export PATH="$(cat /tmp/DUALISO/path_2)":$PATH
 cd "$(cat /tmp/DUALISO/path_1)"
 for file in *.CR2; do
 num=$(exiftool "$file" | grep 'Image Height' | head -1 | cut -d ":" -f2 | tr -d " ")
