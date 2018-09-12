@@ -13,3 +13,36 @@ fi
 
 
 
+#example files to create auto white balance through ffmpeg with the help of a haldc lut going through good old dcraw:
+#dependency:
+#ffmpeg
+#dcraw
+#exiftool
+
+for f in *.MOV; do
+#create the haldc file
+ffmpeg -f lavfi -i haldclutsrc=8 -compression_algo raw -pix_fmt rgb24 -vframes 1 clut.tif
+#create the reference tif
+ffmpeg -i $f -compression_algo raw -pix_fmt rgb24 -vframes 1 reference.tif
+
+#add needed dng tag. Will open up in dcraw but not in acr. Doesn´t matter, good old dcraw is all we need
+exiftool -DNGVersion=1.4.0.0 -PhotometricInterpretation='Linear Raw' clut.tif reference.tif -overwrite_original
+
+#now you have dcraw compatible dng /raw files
+mv clut.tif clut.dng 
+mv reference.tif reference.dng
+
+#add auto white balance and dcraw -H 2
+multiplier=$(dcraw -T -a -v c reference.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+
+#apply white balance and -H 2 to your haldc lut
+dcraw -v -T -H 2 -r $multiplier -b 1 clut.dng
+
+#mission accomplished, let´s remove the intermediate dng files
+rm clut.dng reference.dng
+
+#here we go. Let´s apply auto white balance and -H 2 onto our MOV file and export to some highres prores output
+ffmpeg -i $f -i clut.tiff -filter_complex '[0][1] haldclut' -c:a copy -c:v prores_ks -profile:v 2 -pix_fmt yuv422p10 -color_primaries bt709 -color_trc bt709 -colorspace bt709 wb_$f
+#done, remove the haldc tiff
+rm clut.tiff
+done
