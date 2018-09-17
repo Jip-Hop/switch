@@ -86,7 +86,7 @@
     mv -i *"$MOV" A_ORIGINALS
     mv -i n"${BASE}_1_".MOV "${BASE}".MOV
     else
-    mv -i "$out"n"${BASE}".MOV "$out""${BASE}".MOV
+    mv -i "$out"n"${BASE}"_1_.MOV "$out""${BASE}".MOV
     fi
     fi
     fi
