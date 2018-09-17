@@ -11,11 +11,6 @@
     while ! [ x"$(cat /tmp/DUALISO/MLVFILESab)" = x ]
     do 
     FILE=$(cat /tmp/DUALISO/"MLVFILESab" | head -1 | grep -v 'avg_\|ft_')
-    date=$($mlv_dump -v "$FILE" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2}')
-    date_01=$(echo "$date" | head -c2)
-    date_02=$(echo "$date" | cut -c4-5)
-    date_03=$(echo "$date" | cut -c7-10)
-    date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
     BASE=`echo "$FILE" | cut -d "." -f1`;
 #check for output
     if ! [ x"$(cat /tmp/output)" = x ]
@@ -78,8 +73,7 @@
     fi
 #grab amount of dng frames from MLV metadata
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }')
-    ffmpeg -ss 0$first_black -i *"$MOV" -vframes $frct -vcodec copy -acodec copy -timecode 00:00:00:00 "$out"n"${BASE}".MOV
-    mv -i "$out"n"${BASE}".MOV "$out""${BASE}_1_$date".MOV
+    ffmpeg -ss 0$first_black -i *"$MOV" -vframes $frct -vcodec copy -acodec copy -timecode 00:00:00:00 "$out"n"${BASE}_1_".MOV
 #move transcoded proxy to parent folder
 #if already created a cat file erase instead of keep(4gb limit)
     if ! [ x"$cat" = x ]
@@ -89,8 +83,10 @@
 #check for output
     if [ x"$(cat /tmp/output)" = x ]
     then
-    mv -i n"${BASE}".MOV "${BASE}_1_$date".MOV
     mv -i *"$MOV" A_ORIGINALS
+    mv -i n"${BASE}_1_".MOV "${BASE}".MOV
+    else
+    mv -i "$out"n"${BASE}".MOV "$out""${BASE}".MOV
     fi
     fi
     fi
