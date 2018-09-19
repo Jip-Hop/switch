@@ -38,10 +38,10 @@
     if [ -f *$MOV ]
     then
 #check for sequenced MOV files
-    if [ -f *$(($num + 1)).MOV ]
+    if [ -f *$((10#$num + 1)).MOV ]
     then
     echo *$MOV > /tmp/MOVtmp02
-    echo *$(($num + 1)).MOV >> /tmp/MOVtmp02
+    echo *$((10#$num + 1)).MOV >> /tmp/MOVtmp02
     mv "$O""${BASE}_1_$date""$MOV" ./
     rm catlist02.txt
     rm /tmp/catlist02
@@ -50,9 +50,9 @@
     echo file "$(cat "/tmp/MOVtmp02" | head -1)" >> catlist02.txt
     echo -n " $(cat "/tmp/MOVtmp02" | head -1)" >> /tmp/catlist02
 #check for file
-    if [ -f *$(($num + 2)).MOV ]
+    if [ -f *$((10#$num + 2)).MOV ]
     then
-    echo *$(($num + 2)).MOV >> /tmp/MOVtmp02
+    echo *$((10#$num + 2)).MOV >> /tmp/MOVtmp02
     fi
     echo "$(tail -n +2 /tmp/MOVtmp02)" > /tmp/MOVtmp02
     done
