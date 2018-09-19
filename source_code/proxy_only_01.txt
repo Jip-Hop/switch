@@ -71,9 +71,16 @@
     first_black=$(ffmpeg -i *"$MOV" -to $snippet -vf "blackdetect=d=0.1:pix_th=0.08" -an -f null - 2>&1 | grep -o "black_duration:.*" | cut -d ":" -f2)
     fi
     fi
+#check for fast action flag
+    if ! grep 'skip' /tmp/PROXYONLY
+    then
 #grab amount of dng frames from MLV metadata
     frct=$(mlv_dump "$FILE" | awk '/Processed/ { print $2; }') 
     ffmpeg -ss 0$first_black -i *"$MOV" -vframes $frct -vcodec copy -acodec copy -timecode 00:00:00:00 "$out"n"${BASE}_1_".MOV
+    else
+#fast action flag, skips mlv indexing
+    ffmpeg -ss 0$first_black -i *"$MOV" -vcodec copy -acodec copy -timecode 00:00:00:00 "$out"n"${BASE}_1_".MOV
+    fi
 #move transcoded proxy to parent folder
 #if already created a cat file erase instead of keep(4gb limit)
     if ! [ x"$cat" = x ]
