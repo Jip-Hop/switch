@@ -36,6 +36,7 @@ cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
 #X to ProRes PROCESSING
+#PROXY CLEANING
 #MLV PROCESSING
 #RAW PROCESSING
 #PRORES PROCESSING
@@ -151,6 +152,98 @@ fi
 fi
 fi
 fi
+
+#PROXY CLEANING
+    if [ -f /tmp/PROXYONLY ]
+    then
+if grep -q 'MLV\|mlv' /tmp/DUALISO/MLVprogress_bar
+then
+
+printf '\e[8;08;20t'
+printf '\e[3;955;0t'
+
+clear
+cat<<EOF
+--------------
+$(tput setaf 0)$(tput bold)Proxy creation $NUM$(tput sgr0)
+--------------
+
+$(tput bold)Cleaning proxys.....
+
+$(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+
+cat<<EOF
+--------------
+$(tput setaf 0)$(tput bold)Proxy creation $NUM$(tput sgr0)
+--------------
+
+$(tput bold)Cleaning proxys$dot1$dot2$dot3$dot4$dot5
+
+$(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+if ! grep -q 'MLV\|mlv' /tmp/DUALISO/MLVprogress_bar
+then
+echo -n -e "\033]0;MLVwindow\007"
+kill $(echo $$)
+osascript -e 'tell application "Terminal" to close (every window whose name contains "MLVwindow")' & exit 
+fi
+done &
+
+    read -n1
+    case "$REPLY" in
+
+    "K") 
+killall sleep
+killall exiv2
+killall exiftool
+killall $mlv_dump
+killall bash
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+fi 
+    fi
 
 
 #MLV PROCESSING

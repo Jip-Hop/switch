@@ -2640,6 +2640,78 @@ rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 ;;
 
     "r")  
+
+#if running proxy only stuff
+    if [ -f /tmp/PROXYONLY ]
+    then
+#ask for fast action
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[10;10;80t'
+printf '\e[3;410;100t'
+
+open -a Terminal
+
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ==================	  
+    ${bold}$(tput setaf 1)Indexing procedure$(tput sgr0)(Proxy only procedure)
+    ------------------
+ 
+    $(tput bold)(S)  Skip MLV indexing$(tput sgr0)(faster but proxy end part is not cut)				 
+    $(tput bold)$(tput setaf 1)(r)  Continue without modifications$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "S")  
+echo "skip" > /tmp/PROXYONLY
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "r")
+echo > /tmp/PROXYONLY 
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+    fi
+
 rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_Proxy/*.tif
 rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
 rm /tmp/DUALISO/tif_spit
@@ -3411,7 +3483,79 @@ rm /tmp/dualisodisable 1> /dev/null 2>&1 &
 . "$(cat /tmp/DUALISO/path_2)"Menu.command
 ;;
 
-    "r")  
+    "r") 
+
+#if running proxy only stuff
+    if [ -f /tmp/PROXYONLY ]
+    then
+#ask for fast action
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[10;10;80t'
+printf '\e[3;410;100t'
+
+open -a Terminal
+
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ==================	  
+    ${bold}$(tput setaf 1)Indexing procedure$(tput sgr0)(Proxy only procedure)
+    ------------------
+ 
+    $(tput bold)(S)  Skip MLV indexing$(tput sgr0)(faster but proxy end part is not cut)				 
+    $(tput bold)$(tput setaf 1)(r)  Continue without modifications$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "S")  
+echo "skip" > /tmp/PROXYONLY
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "r")
+echo > /tmp/PROXYONLY 
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+    fi
+ 
 rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_Proxy/*.tif
 rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
 rm /tmp/DUALISO/tif_spit
@@ -8430,6 +8574,78 @@ open "$(cat /tmp/DUALISO/"path_2")"tool_box
 ;;
 
     "r") 
+
+#if running proxy only stuff
+    if [ -f /tmp/PROXYONLY ]
+    then
+#ask for fast action
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[10;10;80t'
+printf '\e[3;410;100t'
+
+open -a Terminal
+
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ==================	  
+    ${bold}$(tput setaf 1)Indexing procedure$(tput sgr0)(Proxy only procedure)
+    ------------------
+ 
+    $(tput bold)(S)  Skip MLV indexing$(tput sgr0)(faster!)				 
+    $(tput bold)$(tput setaf 1)(r)  Continue without modifications$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "S")  
+echo "skip" > /tmp/PROXYONLY
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "r")
+echo > /tmp/PROXYONLY 
+rm /tmp/DUALISO/DUALISO 
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
+    fi
+
 rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_Proxy/*.tif
 rm "$(cat /tmp/DUALISO/path_1)"/$(date +%F)_X_ProRes4444/*.tif
 rm /tmp/DUALISO/tif_spit
