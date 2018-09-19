@@ -26,10 +26,10 @@
     if [ -f *$MOV ]
     then
 #check for sequenced MOV files
-    if [ -f *$(($num + 1)).MOV ]
+    if [ -f *$((10#$num + 1)).MOV ]
     then
     echo *$MOV > /tmp/MOVtmp03
-    echo *$(($num + 1)).MOV >> /tmp/MOVtmp03
+    echo *$((10#$num + 1)).MOV >> /tmp/MOVtmp03
     rm catlist03.txt
     rm /tmp/catlist03
     while [ "$(exiftool *$MOV | awk '/Modification/ { print $6; exit}')" = "$(exiftool "$(cat /tmp/MOVtmp03 | awk 'FNR == 2')" | awk '/Modification/ { print $6; exit}')" ] 
@@ -37,9 +37,9 @@
     echo file "$(cat "/tmp/MOVtmp03" | head -1)" >> catlist03.txt
     echo -n " $(cat "/tmp/MOVtmp03" | head -1)" >> /tmp/catlist03
 #check for file
-    if [ -f *$(($num + 2)).MOV ]
+    if [ -f *$((10#$num + 2)).MOV ]
     then
-    echo *$(($num + 2)).MOV >> /tmp/MOVtmp03
+    echo *$((10#$num + 2)).MOV >> /tmp/MOVtmp03
     fi
     echo "$(tail -n +2 /tmp/MOVtmp03)" > /tmp/MOVtmp03
     done
