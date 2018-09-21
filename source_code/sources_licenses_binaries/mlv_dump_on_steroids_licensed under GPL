@@ -1,3 +1,92 @@
+mlv_dump_on_steroids now uses mlv_dump from g3gg0 branch crop_rec_4k_mlv_snd
+
+
+Applied patch 21/9 2018:
+https://www.magiclantern.fm/forum/index.php?topic=22822.msg206320#msg206320
+
+diff -r 0d39d995cb65 -r 36cc5324ad46 modules/mlv_rec/mlv_dump.c
+--- a/modules/mlv_rec/mlv_dump.c	Tue Sep 18 07:54:06 2018 +0200
++++ b/modules/mlv_rec/mlv_dump.c	Thu Sep 20 18:21:12 2018 +0200
+@@ -448,7 +448,7 @@
+ #endif
+ }
+ 
+-uint32_t file_set_pos(FILE *stream, uint64_t offset, int whence)
++uint32_t file_set_pos(FILE *stream, int64_t offset, int whence)
+ {
+ #if defined(__WIN32)
+     return fseeko64(stream, offset, whence);
+@@ -1239,6 +1239,32 @@
+     }
+ }
+ 
++static int seek_to_next_known_block(FILE * in_file)
++{
++    int read_ahead_size = 128 * 1024 * 1024;
++    uint8_t * ahead = malloc(read_ahead_size);
++    assert(ahead);
++
++    int read = fread(ahead, 1, read_ahead_size, in_file);
++    file_set_pos(in_file, -read, SEEK_CUR);
++    for (int i = 0; i < read; i++)
++    {
++        if (memcmp(ahead + i, "VIDF", 4) == 0 ||
++            memcmp(ahead + i, "AUDF", 4) == 0 ||
++            memcmp(ahead + i, "NULL", 4) == 0)
++        {
++            print_msg(MSG_INFO, "Next known block: %c%c%c%c at 0x%"PRIx64"+0x%x = ", ahead[i], ahead[i+1], ahead[i+2], ahead[i+3], file_get_pos(in_file), i);
++            file_set_pos(in_file, i, SEEK_CUR);
++            print_msg(MSG_INFO, "0x%"PRIx64"\n", file_get_pos(in_file));
++            free(ahead);
++            return 1;
++        }
++    }
++
++    print_msg(MSG_ERROR, "Could not find any known block from 0x"PRIx64".\n", file_get_pos(in_file));
++    free(ahead);
++    return 0;
++}
+ 
+ int main (int argc, char *argv[])
+ {
+@@ -2129,7 +2155,13 @@
+             else
+             {
+                 print_msg(MSG_ERROR, "Invalid block size at position 0x%08" PRIx64 "\n", position);
+-                goto abort;
++
++                /* attempt to seek to next valid block */
++                if (seek_to_next_known_block(in_file)) {
++                    goto read_headers;
++                } else {
++                    goto abort;
++                }
+             }
+         }
+         
+@@ -4080,6 +4112,11 @@
+                 else
+                 {
+                     print_msg(MSG_INFO, "Unknown Block: %c%c%c%c, skipping\n", mlv_block->blockType[0], mlv_block->blockType[1], mlv_block->blockType[2], mlv_block->blockType[3]);
++
++                    /* this block might be bad; seek to next valid one */
++                    file_set_pos(in_file, -(int)mlv_block->blockSize, SEEK_CUR);
++                    seek_to_next_known_block(in_file);
++                    goto read_headers;
+                 }
+ 
+                 lua_handle_hdr(lua_state, mlv_block->blockType, "", 0);
+
+
+
+
+
+
+
+
+
+
+
 Please follow Bouncyball development over at magic lantern forum
 http://www.magiclantern.fm/forum/index.php?topic=18975.0
 
