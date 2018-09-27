@@ -1,626 +1,3 @@
-#GNU public license
-#This program is free software; you can redistribute it and/or
- # modify it under the terms of the GNU General Public License
- # as published by the Free Software Foundation; either version 2
- # of the License, or (at your option) any later version.
- # 
- # This program is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- # GNU General Public License for more details.
- # 
- # You should have received a copy of the GNU General Public License
- # along with this program; if not, write to the
- # Free Software Foundation, Inc.,
- # 51 Franklin Street, Fifth Floor,
- # Boston, MA  02110-1301, USA.
-
-cat <<'EOF' > /tmp/HDR_match.command
-#!/bin/bash
-
-#print Switch path hdr path if doesn´t exist
-if ! [ -f /tmp/folder_paths.txt ]; then 
-cat /tmp/DUALISO/path_1 > /tmp/folder_paths.txt
-fi
-
-cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')"
-workingDir=`dirname "$0"`
-
-#not needed
-rm LOG.txt
-
-#hugin dependency
-if ! [ -f "/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack" ]
-then
-printf '\e[8;16;85t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"
-Checking for hugin, please wait..."
-sleep 2
-read -p $(tput bold)"hugin is not installed would you like to install it?$(tput setaf 1)
-(Y/N)?$(tput sgr0)
-" choice
-case "$choice" in 
-  y|Y ) 
-#!/bin/bash
-clear
-echo "Follow instructions in terminal window"
-sleep 2
-[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew cask install hugin
-if [ -f "/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack" ]
-then
-clear && echo "hugin is installed and ready for use"
-else
-clear && echo "hugin did not install"
-fi
-sleep 2
-;;
-  n|N ) 
-clear
-echo "no thanks!"
-sleep 1
-;;
-  * ) 
-echo "invalid selection, let´s start again"
-sleep 1
-;;
-esac
-fi
-
-#exiftool dependency
-if ! [ -f "/usr/local/bin/exiftool" ]
-then
-printf '\e[8;16;85t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"
-Checking for exiftool, please wait..."
-sleep 2
-read -p $(tput bold)"exiftool is not installed would you like to install it?$(tput setaf 1)
-(Y/N)?$(tput sgr0)
-" choice
-case "$choice" in 
-  y|Y ) 
-#!/bin/bash
-clear
-echo "Follow instructions in terminal window"
-sleep 2
-[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install exiftool
-if [ -f "/usr/local/bin/exiftool" ]
-then
-clear && echo "exiftool is intalled and ready for use"
-else
-clear && echo "exiftool did not install"
-fi
-sleep 2
-;;
-  n|N ) 
-clear
-echo "no thanks!"
-sleep 1
-;;
-  * ) 
-echo "invalid selection, let´s start again"
-sleep 1
-;;
-esac
-fi
-
-#exiv2 dependency
-if ! [ -f "/usr/local/bin/exiv2" ]
-then
-printf '\e[8;16;85t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"
-Checking for exiv2, please wait..."
-sleep 2
-read -p $(tput bold)"exiv2 is not installed would you like to install it?$(tput setaf 1)
-(Y/N)?$(tput sgr0)
-" choice
-case "$choice" in 
-  y|Y ) 
-#!/bin/bash
-clear
-echo "Follow instructions in terminal window"
-sleep 2
-[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install exiv2
-if [ -f "/usr/local/bin/exiv2" ]
-then
-clear && echo "exiv2 is intalled and ready for use"
-else
-clear && echo "exiv2 did not install"
-fi
-sleep 2
-;;
-  n|N ) 
-clear
-echo "no thanks!"
-sleep 1
-;;
-  * ) 
-echo "invalid selection, let´s start again"
-sleep 1
-;;
-esac
-fi
-
-#HDRmerge dependency
-if ! [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ]
-then
-printf '\e[8;16;85t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"
-Checking for HDRmerge, please wait..."
-sleep 2
-read -p $(tput bold)"HDRMerge is not installed would you like to install it?$(tput setaf 1)
-(Y/N)?$(tput sgr0)
-" choice
-case "$choice" in 
-  y|Y ) 
-#!/bin/bash
-clear
-echo "Follow instructions in terminal window"
-sleep 2
-[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-[ ! -f "`which wget`" ] && brew install wget
-wget -O HDRMerge.dmg https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg && hdiutil attach HDRMerge.dmg && cp -r /Volumes/HDRMerge\ for\ Mac/HDRMerge.app /Applications && hdiutil eject /Volumes/HDRMerge\ for\ Mac && rm HDRMerge.dmg
-sleep 2
-if [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ]
-then
-clear && echo "HDRmerge is intalled and ready for use"
-else
-clear && echo "HDRmerge did not install"
-fi
-sleep 2
-;;
-  n|N ) 
-clear
-echo "no thanks!"
-sleep 1
-;;
-  * ) 
-echo "invalid selection, let´s start again"
-sleep 1
-;;
-esac
-fi
-
-#ffmpeg
-if ! [ -f "/usr/local/bin/ffmpeg" ]
-then
-printf '\e[8;16;85t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"
-Checking for ffmpeg, please wait..."
-sleep 2
-read -p $(tput bold)"ffmpeg is not installed would you like to install it?$(tput setaf 1)
-(Y/N)?$(tput sgr0)
-" choice
-case "$choice" in 
-  y|Y ) 
-#!/bin/bash
-clear
-echo "Follow instructions in terminal window"
-sleep 2
-[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew install ffmpeg
-if [ -f "/usr/local/bin/ffmpeg" ]
-then
-clear && echo "ffmpeg is installed and ready for use"
-else
-clear && echo "ffmpeg did not install"
-fi
-sleep 2
-;;
-  n|N ) 
-clear
-echo "no thanks!"
-sleep 1
-;;
-  * ) 
-echo "invalid selection, let´s start again"
-sleep 1
-;;
-esac
-fi
-
-#if AE project file included
- if ! ls *.aep >/dev/null 2>&1
- then
-#what´s going on
-printf '\e[8;6;50t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"Let´s group /tmp/matched CR2 files before merging"$(tput sgr0)
-sleep 2
-
-while : 
-do
- clear
-echo $(tput bold)"Still building brackets"$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets.."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets..."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets...."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets....."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets......"$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets......."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets........"$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets........."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets.........."$(tput sgr0)
-[ -f /tmp/match ] && grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF\|CR2\|cr2' <<< $(cat /tmp/match | tail -1) >/dev/null 2>&1 && echo $(cat /tmp/match | tail -1)
-sleep 1
- clear
-done & pid1=$!
-fi
-
-#unified setting. Set time gap
-   if [ -f /tmp/time ]
-   then 
-   gap=$(cat /tmp/time)
-   rm /tmp/time
-   else
-   gap=$(echo 5)
-   fi
-   
-#main loop(all_in)
-if [ -f /tmp/all_in ]
-then
-#start clean
- rm /tmp/list
- rm /tmp/match* 
- rm *preview3.jpg
- mkdir -p A_ORIGINALS
-#exiv2 extracts your jpg files embedded in CR2 files
- exiv2 -ep3 -l . *.{cr2,CR2}
-#extract metadata info
- exiv2 -e X extract *.{cr2,CR2}
-#rename xmp to work as sidecars 
- for i in *.xmp ; do
- mv "$i" "${i/.xmp}"-preview3.xmp
- done
-#insert metadata recursively
- exiv2 -i X insert *.jpg 
-#We are done, thanks exiv2
- rm *.xmp
-#list CR2 files
- ls *.{cr2,CR2} > /tmp/list
-#let´s start
-while grep 'CR2\|cr2' /tmp/list >/dev/null 2>&1
-do
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-#group jpg files accordingly
-    while (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    do
-    if ! [ -f /tmp/match ]
-    then
-#CR2
-    echo -n "$(cat /tmp/list | awk 'FNR == 1')" >> /tmp/match
-#jpg
-    echo -n "$(cat /tmp/list | awk 'FNR == 1' | cut -d "." -f1)"-preview3.jpg >> /tmp/matchB
-    fi
-#CR2
-    echo -n " $(cat /tmp/list | awk 'FNR == 2')" >> /tmp/match
-#jpg
-    echo -n " $(cat /tmp/list | awk 'FNR == 2' | cut -d "." -f1)"-preview3.jpg >> /tmp/matchB
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    done
-    if [ -f /tmp/match ]
-    then
-#CR2
-    echo "" >> /tmp/match
-#jpg
-    echo "" >> /tmp/matchB
-    fi
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-#if not hdr keep shaving
-    while ! (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    do
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-    done
-#if the first and last file isn´t a hdr file
-    if [ -f /tmp/match ] && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-#CR2
-    echo -n $(cat /tmp/list | awk 'FNR == 1') >> /tmp/match
-#jpg
-    echo -n "$(cat /tmp/list | awk 'FNR == 1' | cut -d "." -f1)"-preview3.jpg >> /tmp/matchB
-    fi
-done
-#end of all_in processing
-    rm /tmp/list
-fi
-
-#main loop(HDRmerge)
-if [ -f /tmp/HDRmerge ]
-then
-#start clean
- rm /tmp/list
- rm /tmp/match* 
- mkdir -p A_ORIGINALS
- ls *.{cr2,CR2} > /tmp/list
-#let´s start
-while grep 'CR2\|cr2' /tmp/list >/dev/null 2>&1
-do
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-#group jpg files accordingly
-    while (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    do
-    if ! [ -f /tmp/match ]
-    then
-    echo -n "$(cat /tmp/list | awk 'FNR == 1')" >> /tmp/match
-    fi
-    echo -n " $(cat /tmp/list | awk 'FNR == 2')" >> /tmp/match
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    done
-    if [ -f /tmp/match ]
-    then
-    echo "" >> /tmp/match
-    fi
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-#if not hdr keep shaving
-    while ! (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    do
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-    done
-#if the first and last file isn´t a hdr file
-    if [ -f /tmp/match ] && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    echo -n $(cat /tmp/list | awk 'FNR == 1') >> /tmp/match
-    fi
-done
-#end of HDRmerge processing
-    rm /tmp/list
-fi
-
-#if AE project file included
- if ls *.aep >/dev/null 2>&1
- then
-. "$(cat /tmp/DUALISO/path_2)"/bash/AE.command &
-#what´s going on
-printf '\e[8;4;35t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"AE processing(might take a while)"$(tput sgr0)
-sleep 2
-while ls AE_0*.command >/dev/null 2>&1
-do 
- clear
-echo $(tput bold)"AE processing"$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"AE processing."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"AE processing.."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"AE processing..."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"AE processing...."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"AE processing....."$(tput sgr0)
-sleep 1
- clear
-done 
-
-#Bracket info
-#what´s going on
-printf '\e[8;4;50t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"Let´s group /tmp/matched CR2 files before merging"$(tput sgr0)
-sleep 2
-while :
-do 
- clear
-echo $(tput bold)"Still building brackets"$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets.."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets..."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets...."$(tput sgr0)
-sleep 1
- clear
-echo $(tput bold)"Still building brackets....."$(tput sgr0)
-sleep 1
- clear
-done & pid1=$!
- fi
-
-#main loop(enfuse,FFmpeg)
-if [ -f /tmp/enfuse ] || [ -f /tmp/FFmpeg ] 
-then
-#start clean
- rm /tmp/list
- rm /tmp/match* 
- rm *preview3.jpg
- mkdir -p A_ORIGINALS
-#if AE project
- if ! ls *.aep >/dev/null 2>&1
- then
-#exiv2 extracts your jpg files embedded in CR2 files
- exiv2 -ep3 -l . *.{cr2,CR2}
-#extract metadata info
- exiv2 -e X extract *.{cr2,CR2}
-#rename xmp to work as sidecars 
- for i in *.xmp ; do
- mv "$i" "${i/.xmp}"-preview3.xmp
- done
-#insert metadata recursively
- exiv2 -i X insert *.jpg 
-#We are done, thanks exiv2
- rm *.xmp
- fi
-#list jpg,tiff files
- ls *.{jpg,JPG,tif,tiff,TIF,TIFF} > /tmp/list
-#let´s start
-while grep 'jpg\|JPG\|tif\|tiff\|TIF\|TIFF' /tmp/list >/dev/null 2>&1
-do
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-#group jpg files accordingly
-    while (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    do
-    if ! [ -f /tmp/match ]
-    then
-    echo -n "$(cat /tmp/list | awk 'FNR == 1')" >> /tmp/match
-    fi
-    echo -n " $(cat /tmp/list | awk 'FNR == 2')" >> /tmp/match
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    done
-    if [ -f /tmp/match ]
-    then
-    echo "" >> /tmp/match
-    fi
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-#if not hdr keep shaving
-    while ! (( $(echo "$num < $gap" |bc -l) )) && ! (( $(echo "$num < 0" |bc -l) )) && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    do
-    echo -n "$(tail -n +2 /tmp/list)" > /tmp/list
-    if [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    num1=$(exiftool "$(cat /tmp/list | awk 'FNR == 1')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num2=$(exiftool "$(cat /tmp/list | awk 'FNR == 2')" | awk '/Modify Date/ { print $5; exit}' | awk -F: '{ print ($1 * 3600) + ($2 * 60) + $3 }')
-    num=$(echo "$num2" - "$num1" | bc -l)
-    fi
-    done
-#if the first and last file isn´t a hdr file
-    if [ -f /tmp/match ] && [ -f "$(cat /tmp/list | awk 'FNR == 2')" ]
-    then
-    echo -n $(cat /tmp/list | awk 'FNR == 1') >> /tmp/match
-    fi
-done
-rm /tmp/list
-mv *.{cr2,CR2} A_ORIGINALS
-fi
-
-#when bracketing /tmp/list is done go here
-kill -9 $pid1 
-sleep 1
-clear
-echo $(tput bold)"Bracketing done!"$(tput sgr0)
-sleep 2
-
-#let´s continue by splitting /tmp/match /tmp/list for multiprocessing purposes
-if [ -f /tmp/match ]
-then
-split -l $(( $( wc -l < /tmp/match ) / 4 + 1 )) /tmp/match /tmp/match
-rm /tmp/match
-#if all_in mode selected
-if [ -f /tmp/all_in ]
-then
-split -l $(( $( wc -l < /tmp/matchB ) / 4 + 1 )) /tmp/matchB /tmp/matchB
-rm /tmp/matchB
-fi
-fi
-#for when the folder starts empty
-#check for multiple input folders
-    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ] && ! [ -f /tmp/matchaa ] 
-    then
-    echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
-    cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
-    echo > /tmp/DUALISO/HDR_CR2
-    . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
     sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
     sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
@@ -708,6 +85,7 @@ rm /tmp/HDR1.command /tmp/matchaa
     if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -796,6 +174,7 @@ fi
     if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -838,6 +217,7 @@ rm /tmp/HDR1.command /tmp/matchaa
     if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -904,6 +284,7 @@ rm /tmp/HDR1.command /tmp/matchaa
     if ! grep 'HDR2.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -953,6 +334,7 @@ rm /tmp/HDR2.command /tmp/matchab
     if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR1.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1042,6 +424,7 @@ fi
     if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR1.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1084,6 +467,7 @@ rm /tmp/HDR2.command /tmp/matchab
     if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR1.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1150,6 +534,7 @@ rm /tmp/HDR2.command /tmp/matchab
     if ! grep 'HDR1.command\|HDR3.command\|HDR4.command' <<< $(ls /tmp/HDR1.command /tmp/HDR3.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1199,6 +584,7 @@ rm /tmp/HDR3.command /tmp/matchac
     if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR1.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1288,6 +674,7 @@ fi
     if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR1.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1330,6 +717,7 @@ rm /tmp/HDR3.command /tmp/matchac
     if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR1.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1396,6 +784,7 @@ rm /tmp/HDR3.command /tmp/matchac
     if ! grep 'HDR2.command\|HDR1.command\|HDR4.command' <<< $(ls /tmp/HDR2.command /tmp/HDR1.command /tmp/HDR4.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1445,6 +834,7 @@ rm /tmp/HDR4.command /tmp/matchad
     if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR1.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1534,6 +924,7 @@ fi
     if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR1.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1576,6 +967,7 @@ rm /tmp/HDR4.command /tmp/matchad
     if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR1.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
@@ -1642,15 +1034,8 @@ rm /tmp/HDR4.command /tmp/matchad
     if ! grep 'HDR2.command\|HDR3.command\|HDR1.command' <<< $(ls /tmp/HDR2.command /tmp/HDR3.command /tmp/HDR1.command)
     then 
     echo "$(tail -n +2 /tmp/folder_paths.txt )" > /tmp/folder_paths.txt
+sleep 1
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
     sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
-    chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
-    fi
-    fi
-#the end
-echo -n -e "\033]0;end4\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "end4")' & exit
-fi
-EOF
