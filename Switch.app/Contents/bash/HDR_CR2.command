@@ -621,9 +621,8 @@ fi
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     else
 #remove unwanted subscripts
 #set silent mode
@@ -635,7 +634,7 @@ fi
     mode=$(echo open)
     fi
 #if we are working with multiple folder paths
-    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
+    if [ -f /tmp/HDRmerge ] && ! [ -f /tmp/all_in ]
     then
     mode=$(echo .)
     fi
@@ -736,9 +735,8 @@ rm /tmp/HDR1.command /tmp/matchaa
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -828,9 +826,8 @@ fi
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -870,9 +867,8 @@ rm /tmp/HDR1.command /tmp/matchaa
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -936,9 +932,8 @@ done
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1005,9 +1000,8 @@ rm /tmp/HDR2.command /tmp/matchab
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1098,9 +1092,8 @@ fi
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1140,9 +1133,8 @@ rm /tmp/HDR2.command /tmp/matchab
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1206,9 +1198,8 @@ done
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1275,9 +1266,8 @@ rm /tmp/HDR3.command /tmp/matchac
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1368,9 +1358,8 @@ fi
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1410,9 +1399,8 @@ rm /tmp/HDR3.command /tmp/matchac
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1476,9 +1464,8 @@ done
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1545,9 +1532,8 @@ rm /tmp/HDR4.command /tmp/matchad
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1637,9 +1623,8 @@ fi
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1679,9 +1664,8 @@ rm /tmp/HDR4.command /tmp/matchad
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
@@ -1745,9 +1729,8 @@ done
     cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')" 
     echo > /tmp/DUALISO/HDR_CR2
     . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command & sleep 1
-    sleep 3 && open "$(cat /tmp/DUALISO/path_2)"/progress_bar.command &
     chmod u=rwx /tmp/HDR_match.command 
-    sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+    sleep 1 && . /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
     fi
     fi
 #the end
