@@ -699,12 +699,17 @@ fi
   do
 clear
 echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
+#HDRCR2 settings
+    if [ -f /tmp/HDRCR2_settings ]
+    then
+    HDR="$(cat /tmp/"HDRCR2_settings" | perl -p -e 's/^[ \t]*//')"
+    fi
 #check for alternate output
 if ! [ -d "$(cat /tmp/HDRCR2output)" ]
     then
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchaa | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchaa | awk 'FNR == 1')
     else
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchaa | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchaa | awk 'FNR == 1')
     fi
     echo "$(tail -n +2 /tmp/matchaa)" > /tmp/matchaa
     done
@@ -963,12 +968,17 @@ fi
   do 
 clear
 echo $(tput bold)"HDRmerge script 2 is working!"$(tput sgr0)
+#HDRCR2 settings
+    if [ -f /tmp/HDRCR2_settings ]
+    then
+    HDR="$(cat /tmp/"HDRCR2_settings" | perl -p -e 's/^[ \t]*//')"
+    fi
 #check for alternate output
 if ! [ -d "$(cat /tmp/HDRCR2output)" ]
     then
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchab | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchab | awk 'FNR == 1')
     else
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchab | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchab | awk 'FNR == 1')
     fi
     echo "$(tail -n +2 /tmp/matchab)" > /tmp/matchab
     done
@@ -1228,12 +1238,17 @@ fi
   do 
 clear
 echo $(tput bold)"HDRmerge script 3 is working!"$(tput sgr0)
+#HDRCR2 settings
+    if [ -f /tmp/HDRCR2_settings ]
+    then
+    HDR="$(cat /tmp/"HDRCR2_settings" | perl -p -e 's/^[ \t]*//')"
+    fi
 #check for alternate output
 if ! [ -d "$(cat /tmp/HDRCR2output)" ]
     then
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchac | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchac | awk 'FNR == 1')
     else
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchac | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchac | awk 'FNR == 1')
     fi
     echo "$(tail -n +2 /tmp/matchac)" > /tmp/matchac
     done
@@ -1493,12 +1508,17 @@ fi
   do 
 clear
 echo $(tput bold)"HDRmerge script 4 is working!"$(tput sgr0)
+#HDRCR2 settings
+    if [ -f /tmp/HDRCR2_settings ]
+    then
+    HDR="$(cat /tmp/"HDRCR2_settings" | perl -p -e 's/^[ \t]*//')"
+    fi
 #check for alternate output
 if ! [ -d "$(cat /tmp/HDRCR2output)" ]
     then
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchad | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchad | awk 'FNR == 1')
     else
-    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchad | awk 'FNR == 1')
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge $HDR -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchad | awk 'FNR == 1')
     fi
     echo "$(tail -n +2 /tmp/matchad)" > /tmp/matchad
     done
