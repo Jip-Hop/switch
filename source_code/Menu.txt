@@ -6729,7 +6729,7 @@ fi)
 
 $(tput bold)output: $(tput setaf 4)$CR2OUT$(tput sgr0)
 
-    $(tput bold)(t)$(tput sgr0)  specify time gap(default 10sec) $gap
+    $(tput bold)(t)$(tput sgr0)  specify time gap(default 5sec) $gap
     $(tput bold)(24)$(tput sgr0) output to 24bit(default 16bit) $b24
     $(tput bold)(32)$(tput sgr0) output to 32bit(default 16bit) $b32
     $(tput bold)(bl)$(tput sgr0) mask blur radius between images(default 3 pixels) $blur
@@ -7022,6 +7022,8 @@ sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascr
 ;;
 
     "ai") 
+#before running hdrmerge in all in mode erase any possible setting feature
+rm /tmp/HDRCR2_settings
 #iterate in folder tree
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then 
