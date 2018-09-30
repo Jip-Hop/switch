@@ -1084,6 +1084,7 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 done
 fi
 
+
 #HDR_CR2
 if ls /tmp/DUALISO/HDR_CR2 
 then
@@ -1093,30 +1094,89 @@ cd "$(cat /tmp/folder_paths.txt | awk 'FNR == 1')"
 else
 cd "$(cat /tmp/DUALISO/path_1)"
 fi
-printf '\e[8;9;24t'
+printf '\e[8;8;21t'
 printf '\e[3;955;0t'
+
 while sleep 2; 
 do
 if ! ls /tmp/HDR*.command >/dev/null 2>&1
 then
+afplay /System/Library/Sounds/Tink.aiff
+sleep 0.5
+afplay /System/Library/Sounds/Tink.aiff
+sleep 0.5
+afplay /System/Library/Sounds/Tink.aiff
+sleep 0.5
 echo -n -e "\033]0;CR2window\007"
 kill $(echo $$)
 osascript -e 'tell application "Terminal" to close (every window whose name contains "CR2window")' & exit
 fi
 done & 
-while :
-do 
 
-clear
 cat<<EOF
-    ------------
-    $(tput setaf 0)$(tput bold)HDR_CR2 bash$(tput sgr0)
-    ------------
- $(tput bold)$(tput setaf 1)(K) Kill HDR_CR2 bash$(tput sgr0)
- $(tput bold)$(tput setaf 1)(q) Close this window$(tput sgr0)
+       -------
+       $(tput setaf 0)$(tput bold)HDR_CR2$(tput sgr0)
+       -------
 
-Selection number:
+       $(tput bold)Working.....
+
+$(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
 EOF
+
+while sleep 1; 
+do
+
+if ! [ x"$dot5" = x ]
+then
+dot1=
+dot2=
+dot3=
+dot4=
+dot5=
+dot6=
+fi
+
+if ! [ x"$dot5" = x ]
+then
+dot6=$(echo .)
+fi
+
+if ! [ x"$dot4" = x ]
+then
+dot5=$(echo .)
+fi
+
+if ! [ x"$dot3" = x ]
+then
+dot4=$(echo .)
+fi
+
+if ! [ x"$dot2" = x ]
+then
+dot3=$(echo .)
+fi
+
+if ! [ x"$dot1" = x ]
+then
+dot2=$(echo .)
+fi
+
+if [ x"$dot1" = x ]
+then
+dot1=$(echo .)
+fi
+
+cat<<EOF
+       -------
+       $(tput setaf 0)$(tput bold)HDR_CR2$(tput sgr0)
+       -------
+
+       $(tput bold)Working$dot1$dot2$dot3$dot4$dot5$dot6
+
+$(tput bold)$(tput setaf 1)(K) Kill automator$(tput sgr0)
+EOF
+done &
+
     read -n1
     case "$REPLY" in
     "K") 
@@ -1172,7 +1232,6 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     "Q")  echo "case sensitive!!"   ;;
      * )  echo "invalid option"     ;;
     esac 
-done
 fi
 
 exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
