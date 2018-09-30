@@ -699,10 +699,25 @@ fi
   do
 clear
 echo $(tput bold)"HDRmerge script 1 is working!"$(tput sgr0)
-   /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchaa | awk 'FNR == 1')
-    mv $(cat /tmp/matchaa | awk 'FNR == 1') A_ORIGINALS
-   echo "$(tail -n +2 /tmp/matchaa)" > /tmp/matchaa
-  done
+#check for alternate output
+if ! [ -d "$(cat /tmp/HDRCR2output)" ]
+    then
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchaa | awk 'FNR == 1')
+    else
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchaa | awk 'FNR == 1')
+    fi
+    echo "$(tail -n +2 /tmp/matchaa)" > /tmp/matchaa
+    done
+#check if A_ORIGINALS is empty and the erase it
+    if [ x"$(ls A_ORIGINALS/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_ORIGINALS
+    fi
+#check if A_previews is empty and the erase it
+    if [ x"$(ls A_previews/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_previews
+    fi
 #all_in mode
 if ! [ -f /tmp/all_in ]
 then
@@ -948,10 +963,25 @@ fi
   do 
 clear
 echo $(tput bold)"HDRmerge script 2 is working!"$(tput sgr0)
-   /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchab | awk 'FNR == 1')
-    mv $(cat /tmp/matchab | awk 'FNR == 1') A_ORIGINALS
-   echo "$(tail -n +2 /tmp/matchab)" > /tmp/matchab
-  done
+#check for alternate output
+if ! [ -d "$(cat /tmp/HDRCR2output)" ]
+    then
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchab | awk 'FNR == 1')
+    else
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchab | awk 'FNR == 1')
+    fi
+    echo "$(tail -n +2 /tmp/matchab)" > /tmp/matchab
+    done
+#check if A_ORIGINALS is empty and the erase it
+    if [ x"$(ls A_ORIGINALS/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_ORIGINALS
+    fi
+#check if A_previews is empty and the erase it
+    if [ x"$(ls A_previews/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_previews
+    fi
 #all_in mode
 if ! [ -f /tmp/all_in ]
 then
@@ -1198,10 +1228,25 @@ fi
   do 
 clear
 echo $(tput bold)"HDRmerge script 3 is working!"$(tput sgr0)
-   /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchac | awk 'FNR == 1')
-    mv $(cat /tmp/matchac | awk 'FNR == 1') A_ORIGINALS
-   echo "$(tail -n +2 /tmp/matchac)" > /tmp/matchac
-  done
+#check for alternate output
+if ! [ -d "$(cat /tmp/HDRCR2output)" ]
+    then
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchac | awk 'FNR == 1')
+    else
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchac | awk 'FNR == 1')
+    fi
+    echo "$(tail -n +2 /tmp/matchac)" > /tmp/matchac
+    done
+#check if A_ORIGINALS is empty and the erase it
+    if [ x"$(ls A_ORIGINALS/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_ORIGINALS
+    fi
+#check if A_previews is empty and the erase it
+    if [ x"$(ls A_previews/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_previews
+    fi
 #all_in mode
 if ! [ -f /tmp/all_in ]
 then
@@ -1448,10 +1493,25 @@ fi
   do 
 clear
 echo $(tput bold)"HDRmerge script 4 is working!"$(tput sgr0)
-   /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchad | awk 'FNR == 1')
-    mv $(cat /tmp/matchad | awk 'FNR == 1') A_ORIGINALS
-   echo "$(tail -n +2 /tmp/matchad)" > /tmp/matchad
-  done
+#check for alternate output
+if ! [ -d "$(cat /tmp/HDRCR2output)" ]
+    then
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o $pre%iF[0]-%in[-1].dng $(cat /tmp/matchad | awk 'FNR == 1')
+    else
+    /Applications/HDRMerge.app/Contents/MacOS/hdrmerge -r 15 -o "$(cat /tmp/HDRCR2output)"/$pre%iF[0]-%in[-1].dng $(cat /tmp/matchad | awk 'FNR == 1')
+    fi
+    echo "$(tail -n +2 /tmp/matchad)" > /tmp/matchad
+    done
+#check if A_ORIGINALS is empty and the erase it
+    if [ x"$(ls A_ORIGINALS/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_ORIGINALS
+    fi
+#check if A_previews is empty and the erase it
+    if [ x"$(ls A_previews/*)" = x ] && ! [ -f /tmp/all_in ]
+    then
+    rm -r A_previews
+    fi
 #all_in mode
 if ! [ -f /tmp/all_in ]
 then

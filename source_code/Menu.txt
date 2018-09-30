@@ -6653,6 +6653,245 @@ printf '\e[3;650;0t'
 ;;
 
     "hm") 
+#changes size of terminal window
+#tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
+#Will move terminal window to the left corner
+#printf '\e[3;0;0t'
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+open -a Terminal
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDROUT= ; CR2OUT=
+
+
+if grep ' \-b 24' /tmp/HDRCR2_settings 
+then
+b24=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \-b 32' /tmp/HDRCR2_settings 
+then
+b32=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \--no-align' /tmp/HDRCR2_settings 
+then
+na=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \--no-crop' /tmp/HDRCR2_settings 
+then
+nc=$(echo "$bold""$green"added!"$normal")
+fi
+if grep ' \-g' /tmp/HDRCR2_settings 
+then
+gap=$(tput bold)$(tput setaf 4)$(grep ' \-g' /tmp/HDRCR2_settings | tr -d " \-g")sec$(tput sgr0)
+fi
+if grep ' \-r' /tmp/HDRCR2_settings 
+then
+blur="$(tput bold)$(tput setaf 4)$(grep ' \-r' /tmp/HDRCR2_settings | tr -d " \-r") pixels$(tput sgr0)"
+fi
+if [ -d "$(cat /tmp/HDRCR2output)" ]
+then
+CR2OUT=$(cat /tmp/"HDRCR2output"); 
+HDROUT=$(echo "$bold""$green"added!"$normal");
+fi 
+
+while :
+do 
+
+    clear
+    cat<<EOF
+    ==================
+    ${bold}$(tput setaf 1)HDR automation$(tput sgr0)(CR2)
+    ------------------
+(install into /Applications folder):
+${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg 
+$(if [ -f "/Applications/HDRMerge.app/Contents/MacOS/hdrmerge" ] 
+then 
+echo $blue"HDRMerge is installed"$normal 
+else 
+echo $red"HDRMerge is NOT installed"$normal 
+fi)
+
+$(tput bold)output: $(tput setaf 4)$CR2OUT$(tput sgr0)
+
+    $(tput bold)(t)$(tput sgr0)  specify time gap(default 10sec) $gap
+    $(tput bold)(24)$(tput sgr0) output to 24bit(default 16bit) $b24
+    $(tput bold)(32)$(tput sgr0) output to 32bit(default 16bit) $b32
+    $(tput bold)(bl)$(tput sgr0) mask blur radius between images(default 3 pixels) $blur
+    $(tput bold)(na)$(tput sgr0) no aligning $na
+    $(tput bold)(nc)$(tput sgr0) no cropping $nc
+    $(tput bold)(O)$(tput sgr0)  select a new output folder for your dng files $HDROUT
+ 			 
+    $(tput bold)$(tput setaf 1)(ho) how does it work$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(E)  erase all settings$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(h)  Main menu$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(q)  exit Switch$(tput sgr0)  
+    $(tput bold)$(tput setaf 1)(r)  run Switch$(tput sgr0)
+					        					
+
+Please enter your selection number below:
+EOF
+    read -n2
+    case "$REPLY" in
+
+    "t")
+if grep ' \-g' /tmp/HDRCR2_settings 
+then
+echo "removing"
+perl -pi -e 's/'"$(grep ' \-g' /tmp/HDRCR2_settings)"'//g' /tmp/HDRCR2_settings
+gap=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify time gap:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 12 and hit enter)"
+read input_variable
+echo "time gap is set to: $(tput bold)$(tput setaf 4)$input_variable sec"$(tput sgr0)
+printf "%s\n" " -g $input_variable" >> /tmp/HDRCR2_settings
+gap=$(tput bold)$(tput setaf 4)$(grep ' \-g' /tmp/HDRCR2_settings | tr -d " \-g")sec$(tput sgr0)
+fi
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+;;
+
+    "24")
+if grep ' \-b 24' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 24//g' 
+b24=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " -b 24" >> /tmp/HDRCR2_settings
+b24=$(echo "$bold""$green"added!"$normal")
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 32//g'
+b32=
+fi
+;;
+
+    "32")
+if grep ' \-b 32' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 32//g' 
+b32=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " -b 32" >> /tmp/HDRCR2_settings
+b32=$(echo "$bold""$green"added!"$normal")
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ -b 24//g'
+b24=
+fi
+;;
+
+    "bl")
+if grep ' \-r' /tmp/HDRCR2_settings 
+then
+echo "removing"
+perl -pi -e 's/'"$(grep ' \-r' /tmp/HDRCR2_settings)"'//g' /tmp/HDRCR2_settings
+blur=
+else
+printf '\e[8;16;53t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify radius blur:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 15 and hit enter)"
+read input_variable
+echo "radius blur set to: $(tput bold)$(tput setaf 4)$input_variable pixels"$(tput sgr0)
+printf "%s\n" " -r $input_variable" >> /tmp/HDRCR2_settings
+blur="$(tput bold)$(tput setaf 4)$(grep ' \-r' /tmp/HDRCR2_settings | tr -d " \-r") pixels$(tput sgr0)"
+fi
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+;;
+
+    "na")
+if grep ' \--no-align' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ --no-align//g' 
+na=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-align" >> /tmp/HDRCR2_settings
+na=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "nc")
+if grep ' \--no-crop' /tmp/HDRCR2_settings 
+then
+find /tmp/HDRCR2_settings | xargs perl -pi -e 's/ --no-crop//g' 
+nc=
+echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1) 
+Removed"$(tput sgr0) ; 
+else 
+printf "%s\n" " --no-crop" >> /tmp/HDRCR2_settings
+nc=$(echo "$bold""$green"added!"$normal")
+fi
+;;
+
+    "O")
+if [ -f /tmp/HDRCR2output ]
+then
+rm /tmp/HDRCR2output
+HDROUT=
+CR2OUT=
+else
+echo > /tmp/HDRCR2OUT
+open "$(cat /tmp/DUALISO/path_2)"new_output.app
+printf '\e[8;10;50t'
+printf '\e[3;410;0t'
+clear
+echo "
+
+
+$(tput bold)Select an output folder"
+sleep 2
+
+#trap
+    while ls /tmp/HDRCR2OUT &>/dev/null
+    do
+    sleep 0.3
+    done
+clear &
+echo "
+
+
+$(tput bold)$(tput setaf 2)New output folder selected"$(tput sgr0)
+sleep 1
+HDROUT=$(echo "$bold""$green"added!"$normal")
+CR2OUT=$(cat /tmp/"HDRCR2output");
+clear &
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+fi
+;;
+
+
+    "r")  
 #iterate in folder tree
     if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ]
     then 
@@ -6677,6 +6916,55 @@ rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
 chmod u=rwx /tmp/HDR_match.command 
 sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+;;
+
+    "ho") 
+printf '\e[8;14;90t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)How to work with CR2 files through HDRmerge http://jcelaya.github.io/hdrmerge/
+echo 
+echo $(tput bold)1$(tput sgr0) - Download and install: "
+${bold}https://github.com/jcelaya/hdrmerge/releases/download/v0.5.0/HDRMerge.dmg"
+echo $(tput bold)2$(tput sgr0) - Move HDRmerge into applications folder 
+echo $(tput bold)3$(tput sgr0) - Add HDR CR2 files in your folder and add any settings you wish from the menu
+echo $(tput bold)4$(tput sgr0) - Whenever ready press $(tput bold)$(tput setaf 1)"(r)"${bold}$(tput setaf 1)  run Switch$(tput sgr0)
+echo
+echo $(tput bold)TIP!$(tput sgr0) -If output looks strange add around 30 pixels of radius blur "(bl)"
+echo
+echo $(tput bold)$(tput setaf 1)${bold}$(tput setaf 1)Hit any key to return to HDR automation menu$(tput sgr0)
+    read -n1
+    case "$REPLY" in
+
+    * )  
+printf '\e[8;32;76t'
+printf '\e[3;410;0t'
+;;
+    esac
+;;
+
+    "E")
+b24= ; b32= ; na= ; nc= ; gap= ; blur= ; HDR= ; HDROUT= ; CR2OUT=
+rm /tmp/HDRCR2output
+rm /tmp/HDRCR2_settings
+rm /tmp/HDRCR2
+;;
+
+    "h")  
+. "$(cat /tmp/DUALISO/path_2)"Menu.command
+;;
+
+    "q")   
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac
+    sleep 0.5
+done
 ;;
 
     "en") 
