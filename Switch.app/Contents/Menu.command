@@ -6729,7 +6729,6 @@ fi)
 
 $(tput bold)output: $(tput setaf 4)$CR2OUT$(tput sgr0)
 
-    $(tput bold)(t)$(tput sgr0)  specify time gap(default 5sec) $gap
     $(tput bold)(24)$(tput sgr0) output to 24bit(default 16bit) $b24
     $(tput bold)(32)$(tput sgr0) output to 32bit(default 16bit) $b32
     $(tput bold)(bl)$(tput sgr0) mask blur radius between images(default 3 pixels) $blur
@@ -6748,26 +6747,6 @@ Please enter your selection number below:
 EOF
     read -n2
     case "$REPLY" in
-
-    "t")
-if grep ' \-g' /tmp/HDRCR2_settings 
-then
-echo "removing"
-perl -pi -e 's/'"$(grep ' \-g' /tmp/HDRCR2_settings)"'//g' /tmp/HDRCR2_settings
-gap=
-else
-printf '\e[8;16;53t'
-printf '\e[3;410;100t'
-clear
-echo $(tput bold)"Specify time gap:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 12 and hit enter)"
-read input_variable
-echo "time gap is set to: $(tput bold)$(tput setaf 4)$input_variable sec"$(tput sgr0)
-printf "%s\n" " -g $input_variable" >> /tmp/HDRCR2_settings
-gap=$(tput bold)$(tput setaf 4)$(grep ' \-g' /tmp/HDRCR2_settings | tr -d " \-g")sec$(tput sgr0)
-fi
-printf '\e[8;32;76t'
-printf '\e[3;410;0t'
-;;
 
     "24")
 if grep ' \-b 24' /tmp/HDRCR2_settings 
