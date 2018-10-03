@@ -591,7 +591,6 @@ do
     fi
 done
 rm /tmp/list
-mv *.{cr2,CR2} A_ORIGINALS
 fi
 
 #when bracketing /tmp/list is done go here
@@ -850,10 +849,6 @@ rm aligned1*.tif
    exiv2 -i X insert A_previews/"$(cat /tmp/matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
    rm A_previews/"$(cat /tmp/matchaa | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchaa | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp 
 mv $(cat /tmp/matchaa | awk 'FNR == 1') A_ORIGINALS
-if grep 'preview3' <<< $(cat /tmp/matchaa | awk 'FNR == 1')
-then
-mv $(cat /tmp/matchaa | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
-fi
 echo "$(tail -n +2 /tmp/matchaa)" > /tmp/matchaa
   done
 fi
@@ -1116,10 +1111,6 @@ rm aligned2*.tif
    exiv2 -i X insert A_previews/"$(cat /tmp/matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
    rm A_previews/"$(cat /tmp/matchab | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchab | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp 
 mv $(cat /tmp/matchab | awk 'FNR == 1') A_ORIGINALS
-if grep 'preview3' <<< $(cat /tmp/matchab | awk 'FNR == 1')
-then
-mv $(cat /tmp/matchab | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
-fi
 echo "$(tail -n +2 /tmp/matchab)" > /tmp/matchab
   done
 fi
@@ -1382,10 +1373,6 @@ rm aligned3*.tif
    exiv2 -i X insert A_previews/"$(cat /tmp/matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
    rm A_previews/"$(cat /tmp/matchac | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchac | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp 
 mv $(cat /tmp/matchac | awk 'FNR == 1') A_ORIGINALS
-if grep 'preview3' <<< $(cat /tmp/matchac | awk 'FNR == 1')
-then
-mv $(cat /tmp/matchac | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
-fi
 echo "$(tail -n +2 /tmp/matchac)" > /tmp/matchac
   done
 fi
@@ -1647,10 +1634,6 @@ rm aligned4*.tif
    exiv2 -i X insert A_previews/"$(cat /tmp/matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".jpg
    rm A_previews/"$(cat /tmp/matchad | awk 'FNR == 1' | cut -d " " -f1 | cut -d "." -f1)"-"$(cat /tmp/matchad | awk 'FNR == 1' | grep -oE '[^ ]+$' | cut -d "." -f1)".xmp 
 mv $(cat /tmp/matchad | awk 'FNR == 1') A_ORIGINALS
-if grep 'preview3' <<< $(cat /tmp/matchad | awk 'FNR == 1')
-then
-mv $(cat /tmp/matchad | awk 'FNR == 1' | perl -p -e 's/-preview3.jpg/.CR2/g') A_ORIGINALS
-fi
 echo "$(tail -n +2 /tmp/matchad)" > /tmp/matchad
   done
 fi
