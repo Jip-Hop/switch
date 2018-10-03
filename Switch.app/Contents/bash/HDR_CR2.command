@@ -295,7 +295,6 @@ fi
    if [ -f /tmp/time ]
    then 
    gap=$(cat /tmp/time)
-   rm /tmp/time
    else
    gap=$(echo 5)
    fi
@@ -633,9 +632,18 @@ fi
     mode=$(echo open)
     fi
 #if we are working with multiple folder paths
-    if [ -f /tmp/HDRmerge ] && ! [ -f /tmp/all_in ]
+    if [ -f /tmp/silent2 ]
     then
     mode=$(echo .)
+    else
+    if [ -d "$(cat /tmp/folder_paths.txt | awk 'FNR == 2')" ] && ! [ -f /tmp/all_in ]
+    then
+    if [ -f /tmp/HDRmerge ] || [ -f /tmp/enfuse ]
+    then
+    echo > /tmp/silent2
+    mode=$(echo .)
+    fi
+    fi
     fi
 if ! [ -f /tmp/matchaa ]
 then
