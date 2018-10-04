@@ -562,7 +562,7 @@ then
     multiplier=$(dcraw -T -a -v c reference.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 
 #apply white balance and -H 2 to your haldc lut
-    dcraw -v -T -H 2 -r $multiplier -b 1 clut.dng
+    dcraw -v -T -H 2 -r $multiplier clut.dng
 
 #mission accomplished, let´s remove the intermediate dng files
     rm clut.dng reference.dng
