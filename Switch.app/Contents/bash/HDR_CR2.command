@@ -564,7 +564,7 @@ then
     mv reference.tif reference.dng
 
 #add auto white balance and dcraw -H 2
-    multiplier=$(dcraw -T -a -v c reference.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+    multiplier=$(dcraw -h -T -a -v c reference.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
 
 #apply white balance and -H 2 to your haldc lut
     dcraw -v -T -H 2 -r $multiplier clut.dng
