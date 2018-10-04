@@ -531,14 +531,19 @@ then
 #if AE project
  if ! ls *.aep >/dev/null 2>&1
  then
+
+ if ! [ -f /tmp/aw ] 
+   then
 #exiv2 extracts your jpg files embedded in CR2 files
  exiv2 -ep3 -l . *.{cr2,CR2}
+ fi
 
 #auto white balance applied to jpg files through dcraw calculations
  if [ -f /tmp/aw ] 
    then
    mkdir -p aw_temp
-   mv -i *.{jpg,JPG} aw_temp
+#exiv2 extracts your jpg files embedded in CR2 files
+ exiv2 -ep3 -l aw_temp/. *.{cr2,CR2}
    cd aw_temp 
 #example files to create auto white balance through ffmpeg with the help of a haldc lut going through good old dcraw:
 #dependency:
@@ -573,6 +578,7 @@ then
     rm clut.tiff
   done
     cd ../
+    rm -r aw_temp
  fi
 
 #extract metadata info
