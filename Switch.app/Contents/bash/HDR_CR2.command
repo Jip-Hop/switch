@@ -69,6 +69,13 @@ sleep 1
 esac
 fi
 
+#check for dcraw
+if ! [ -f "/usr/local/bin/dcraw" ]
+then
+[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install dcraw
+fi
+
 #exiftool dependency
 if ! [ -f "/usr/local/bin/exiftool" ]
 then
@@ -526,6 +533,48 @@ then
  then
 #exiv2 extracts your jpg files embedded in CR2 files
  exiv2 -ep3 -l . *.{cr2,CR2}
+
+#auto white balance applied to jpg files through dcraw calculations
+ if [ -f /tmp/aw ] 
+   then
+   mkdir -p aw_temp
+   mv -i *.{jpg,JPG} aw_temp
+   cd aw_temp 
+#example files to create auto white balance through ffmpeg with the help of a haldc lut going through good old dcraw:
+#dependency:
+#ffmpeg
+#dcraw
+#exiftool
+  for f in *.{jpg,JPG}; do
+#create the haldc file
+    ffmpeg -f lavfi -i haldclutsrc=8 -compression_algo raw -pix_fmt rgb24 -vframes 1 clut.tif
+#create the reference tif
+    ffmpeg -i $f -compression_algo raw -pix_fmt rgb24 -vframes 1 reference.tif
+
+#add needed dng tag. Will open up in dcraw but not in acr. Doesn´t matter, good old dcraw is all we need
+    exiftool -DNGVersion=1.4.0.0 -PhotometricInterpretation='Linear Raw' clut.tif reference.tif -overwrite_original
+
+#now you have dcraw compatible dng /raw files
+    mv clut.tif clut.dng 
+    mv reference.tif reference.dng
+
+#add auto white balance and dcraw -H 2
+    multiplier=$(dcraw -T -a -v c reference.dng 2>&1 | awk '/multipliers/ { print $2,$3,$4,$5; exit }')
+
+#apply white balance and -H 2 to your haldc lut
+    dcraw -v -T -H 2 -r $multiplier -b 1 clut.dng
+
+#mission accomplished, let´s remove the intermediate dng files
+    rm clut.dng reference.dng
+
+#here we go. Let´s apply auto white balance and -H 2 onto our MOV file and export to some highres prores output
+    ffmpeg -i $f -i clut.tiff -filter_complex '[0][1] haldclut' -compression_algo raw -pix_fmt rgb24 ../$f
+#done, remove the haldc tiff
+    rm clut.tiff
+  done
+    cd ../
+ fi
+
 #extract metadata info
  exiv2 -e X extract *.{cr2,CR2}
 #rename xmp to work as sidecars 

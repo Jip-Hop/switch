@@ -6539,13 +6539,13 @@ osascript -e 'tell application "Terminal" to close first window' & exit
 
     "cr2") 
 #start fresh
-rm /tmp/HDRmerge enfuse /tmp/FFmpeg /tmp/silent /tmp/time /tmp/silent2 >/dev/null 2>&1 &
+rm /tmp/HDRmerge enfuse /tmp/FFmpeg /tmp/silent /tmp/time /tmp/silent2 /tmp/aw >/dev/null 2>&1 &
 
 echo > /tmp/DUALISO/HDR_CR2
 cd "$(cat /tmp/DUALISO/path_1)" 
 . "$(cat /tmp/DUALISO/path_2)"/bash/HDR_CR2.command &
 
-printf '\e[8;17;75t'
+printf '\e[8;19;75t'
 printf '\e[3;650;0t'
 
 while :
@@ -6562,6 +6562,8 @@ do
     $(tput bold)(en) $(tput setaf 0)Enfuse$(tput sgr0)(CR2,JPG,tif)
     $(tput bold)(ff) $(tput setaf 0)FFmpeg$(tput sgr0)(CR2,JPG,tif)
     $(tput bold)(ai) $(tput setaf 0)All in$(tput sgr0) compare output all workflows(Only CR2 files)
+
+    $(tput bold)(aw) $(tput setaf 0)Auto white balance$(tput sgr0)(Only works with CR2 files) $aw
 
     $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
 
@@ -6614,7 +6616,7 @@ silent=$(echo "$bold""$green"added!"$normal")
     rm /tmp/folder_pathsHDR.txt
     fi
 fi
-printf '\e[8;17;75t'
+printf '\e[8;19;75t'
 printf '\e[3;650;0t'
 ;;
 
@@ -6627,7 +6629,7 @@ echo $(tput bold)"removing"
 sleep 1
 gap=
 else
-printf '\e[8;16;53t'
+printf '\e[8;19;53t'
 printf '\e[3;410;100t'
 clear
 echo $(tput bold)"Specify time gap:$(tput sgr0)$(tput bold)\(e.g$(tput sgr0) 12 and hit enter\)"
@@ -6648,7 +6650,7 @@ fi
     done
     rm /tmp/folder_pathsHDR.txt
     fi
-printf '\e[8;16;75t'
+printf '\e[8;19;75t'
 printf '\e[3;650;0t'
 ;;
 
@@ -7027,6 +7029,23 @@ rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 #start processing
 chmod u=rwx /tmp/HDR_match.command 
 sleep 1 && open /tmp/HDR_match.command & echo -n -e "\033]0;start\007" && osascript -e 'tell application "Terminal" to close (every window whose name contains "start")' & exit
+;;
+
+    "aw")
+if [ -f /tmp/aw ] 
+then
+rm /tmp/aw
+clear
+echo $(tput bold)"removing"
+sleep 1
+aw=
+else
+echo > /tmp/aw
+clear
+aw=$(echo "$bold""$green"added!"$normal")
+fi
+printf '\e[8;19;75t'
+printf '\e[3;650;0t'
 ;;
 
     "q")   
