@@ -92,6 +92,7 @@ EOF
     case "$REPLY" in
 
     "01")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
 OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
@@ -100,9 +101,11 @@ ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=3
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
 ;;
 
     "02")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
 OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
@@ -111,9 +114,11 @@ ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=5
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
 ;;
 
     "03")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
 OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
@@ -125,6 +130,7 @@ IFS="$OIFS"
 ;;
 
     "04")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
 OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
@@ -133,9 +139,11 @@ ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -y "$(cat /
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
 ;;
 
     "05") 
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
 printf '\e[8;10;80t'
 printf '\e[3;410;100t'
 clear
@@ -153,6 +161,7 @@ done
 IFS="$OIFS"
 printf '\e[8;16;60t'
 printf '\e[3;410;100t'
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
 ;;
 
 
