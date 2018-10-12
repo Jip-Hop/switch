@@ -135,11 +135,11 @@ then
 #wait for jobs to end
     wait < <(jobs -p)
 
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
 #wait for jobs to end
     wait < <(jobs -p)
 #remove unwanted files
@@ -243,11 +243,11 @@ then
 #wait for jobs to end
     wait < <(jobs -p)
 
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
 #wait for jobs to end
     wait < <(jobs -p)
 #remove unwanted files
@@ -351,11 +351,11 @@ then
 #wait for jobs to end
     wait < <(jobs -p)
 
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
 #wait for jobs to end
     wait < <(jobs -p)
 #remove unwanted files
@@ -460,11 +460,11 @@ then
 #wait for jobs to end
     wait < <(jobs -p)
 
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
-/Applications/Hugin/tools_mac/enfuse --exposure-mu=0.5 --exposure-sigma=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 1b.tiff 2b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 01b.tiff 02b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 2' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 001b.tiff 002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 3' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 0001b.tiff 0002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 4' | cut -d "." -f2 | tr -d "/").tiff &
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 00001b.tiff 00002b.tiff -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 5' | cut -d "." -f2 | tr -d "/").tiff & 
 #wait for jobs to end
     wait < <(jobs -p)
 #remove unwanted files
