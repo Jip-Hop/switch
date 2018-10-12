@@ -99,6 +99,8 @@ fi
 #check for images
 if grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"
 then 
+#create app path
+echo "$1"Contents/ > /tmp/DUALISO/path_2
 cd "$(cat /tmp/DUALISO/path_1 | head -1 | perl -p -e 's/'"$(grep -o '[^/]*$' /tmp/DUALISO/path_1)"'//g')" 
 if ! ls /tmp/imgcvrt
 then
