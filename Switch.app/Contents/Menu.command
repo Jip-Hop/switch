@@ -82,7 +82,7 @@ do
     $(tput bold)(01) 300px$(tput sgr0)				 
     $(tput bold)(02) 500px$(tput sgr0) 
     $(tput bold)(03) 800px$(tput sgr0) 
-    $(tput bold)(04) export to tif$(tput sgr0)(no compression) 
+    $(tput bold)(04) export to jpg$(tput sgr0)(no compression) 
     $(tput bold)(05) manually scale output$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
 
