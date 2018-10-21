@@ -82,7 +82,7 @@ do
     $(tput bold)(01) 300px$(tput sgr0)				 
     $(tput bold)(02) 500px$(tput sgr0) 
     $(tput bold)(03) 800px$(tput sgr0) 
-    $(tput bold)(04) export to jpg$(tput sgr0)(no compression) 
+    $(tput bold)(04) export to tif$(tput sgr0)(no compression) 
     $(tput bold)(05) manually scale output$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
 
@@ -97,7 +97,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=300:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_300px.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=300:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_300px.tif
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -110,7 +110,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=500:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_500px.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=500:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_500px.tif
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -123,7 +123,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=800:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_800px.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=800:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_800px.tif
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -135,7 +135,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -y "$(cat /tmp/folder_paths.txt | head -1)"_nocprs.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -y "$(cat /tmp/folder_paths.txt | head -1)"_nocprs.tif
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -155,7 +155,7 @@ OIFS="$IFS"
 IFS=$'\n'
 while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
 do
-ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=$scale:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_scaled.jpg
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=$scale:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_scaled.tif
 echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
 done
 IFS="$OIFS"
@@ -177,7 +177,6 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     sleep 0.5
 done
 fi
-
 
 
 
