@@ -215,9 +215,9 @@ Local3=$(wc -c < "$(cat /tmp/compath2)"/hg.command)
 #sum
 Local=$(echo $Local1 + $Local2 + $Local3 | bc -l)
 
-RLocal1=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command | awk '/Content-Length/ {sub("\r",""); print $2}')
-RLocal2=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh | awk '/Content-Length/ {sub("\r",""); print $2}')
-RLocal3=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/hg.command | awk '/Content-Length/ {sub("\r",""); print $2}')
+RLocal1=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/main.command | grep -i 'content-length' | tr '\r' '\n'  | awk '{print $2}')
+RLocal2=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/mac_ml.sh | grep -i 'content-length' | tr '\r' '\n'  | awk '{print $2}')
+RLocal3=$(curl -sI https://bitbucket.org/Dannephoto/compiler/raw/default/Compiler.app/Contents/hg.command | grep -i 'content-length' | tr '\r' '\n'  | awk '{print $2}')
 #sum
 Remote=$(echo $RLocal1 + $RLocal2 + $RLocal3 | bc -l)
 

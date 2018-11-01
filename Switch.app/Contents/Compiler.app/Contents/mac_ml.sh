@@ -48,9 +48,14 @@ echo "/usr/local found -- "
 echo "continuing with installation."
 
 cd ~
-[ ! -d "/Library/Developer/CommandLineTools" ] && xcode-select --install
-[ ! -f "`which brew`" ] && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-[ ! -f "`which wget`" ] && brew install wget
+xcode-select --install
+#will work better when needing to install clt packages
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#Mojave requires
+if [ -f /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.*.pkg ]; then
+open /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.*.pkg
+fi
+brew install wget
 brew install gcc@5 python wget mercurial
 pip install docutils
 pip2 install docutils
