@@ -1,0 +1,14 @@
+https://www.magiclantern.fm/forum/index.php?topic=22986.msg207823#msg207823
+
+#!/bin/bash
+cd "$(cat /tmp/mlvapp_path/file_names.txt | head -1 | cut -d "." -f1)"
+
+while grep -E "tif" <<< $(find . -maxdepth 1 -iname '*.tif')
+do
+/Applications/Hugin/Hugin.app/Contents/MacOS/align_image_stack -a aligned.tif \
+$(find -s . -maxdepth 1 -name '*.tif' | head -n $(printf "%.0f\n" $(cat fps)))
+/Applications/Hugin/tools_mac/enfuse --exposure-optimum=0.5 --exposure-width=0.5 $(find . -maxdepth 1 -iname 'aligned.*tif') -o $(find -s . -maxdepth 1 -iname '*.tif' | awk 'FNR == 1' | cut -d "." -f2 | tr -d "/").tiff
+rm aligned.*tif
+mkdir -p tif_tmp
+mv $(find -s . -maxdepth 1 -name '*.tif' | head -n $(printf "%.0f\n" $(cat fps))) tif_tmp
+done
