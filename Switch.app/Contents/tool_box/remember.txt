@@ -40,6 +40,9 @@ https://www.magiclantern.fm/forum/index.php?topic=14828.msg199769#msg199769
 FPS override solution
 https://www.magiclantern.fm/forum/index.php?topic=14828.msg202387#msg202387
 
+Interesting lua script redraw, zoom:
+https://github.com/deufrai/ML_lua_utils/blob/develop/lvzoomch.lua
+
 
 DEBUG(C-code)
 #define INPUT_ENABLE_IMAGE_PHYSICAL_SCREEN_PARAMETER 25
