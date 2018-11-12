@@ -87,6 +87,10 @@ exiftool IMG_6706.CR2 '-PreviewImage<=wb_preview.jpg' # -overwrite_original
 #trash files
 rm preview.jpg wb_preview.jpg IMG_6706-preview3.jpg clut.tiff clut.dng reference.dng
 
+#ffmpeg median script:
+https://www.magiclantern.fm/forum/index.php?topic=15774.msg208285#msg208285
+ffmpeg -i Input.mp4 -vf removegrain=4,removegrain=4,removegrain=4,removegrain=4,removegrain=4,unsharp=9:9:1.0:9:9:0 -c:v libx264 -preset ultrafast -crf 10 Output.mov
+
 
 
 
