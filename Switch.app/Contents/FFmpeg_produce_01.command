@@ -103,11 +103,11 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
 #check for HDR
     if [ x"$tbl" = x ]
     then 
-    cin=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
+    cin=$(printf "%s\n" -vf lut1d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
     gam=$(printf "%s\n" -g 1 1)
     h2=$(printf "%s\n" -H 2)
     else
-    cin=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
+    cin=$(printf "%s\n" ,lut1d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
     gam=$(printf "%s\n" -g 1 1)
     h2=$(printf "%s\n" -H 2)
     fi
@@ -116,11 +116,11 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
 #check for HDR
     if [ x"$tbl" = x ]
     then 
-    cin=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
+    cin=$(printf "%s\n" -vf lut1d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
     gam=$(printf "%s\n" -g 1 1)
     h2=$(printf "%s\n" -H 2)
     else
-    cin=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
+    cin=$(printf "%s\n" ,lut1d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
     gam=$(printf "%s\n" -g 1 1)
     h2=$(printf "%s\n" -H 2)
     fi    
@@ -197,11 +197,11 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
     if [ x"$tbl" = x ]
     then 
 #check for HDR
-    cinpr=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
+    cinpr=$(printf "%s\n" -vf lut1d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
     gampr=$(printf "%s\n" -g 1 1)
     h2pr=$(printf "%s\n" -H 2)
     else
-    cinpr=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
+    cinpr=$(printf "%s\n" ,lut1d=$(cat /tmp/DUALISO/path_2))lin_cineon.cube 
     gampr=$(printf "%s\n" -g 1 1)
     h2pr=$(printf "%s\n" -H 2)
     fi
@@ -210,11 +210,11 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
     if [ x"$tbl" = x ]
     then 
 #check for HDR
-    cinpr=$(printf "%s\n" -vf lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
+    cinpr=$(printf "%s\n" -vf lut1d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
     gampr=$(printf "%s\n" -g 1 1)
     h2pr=$(printf "%s\n" -H 2)
     else
-    cinpr=$(printf "%s\n" ,lut3d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
+    cinpr=$(printf "%s\n" ,lut1d=$(cat /tmp/DUALISO/path_2))lin_logC.cube
     gampr=$(printf "%s\n" -g 1 1)
     h2pr=$(printf "%s\n" -H 2)
     fi
