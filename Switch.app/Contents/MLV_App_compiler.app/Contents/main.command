@@ -33,7 +33,7 @@ then
 fi
 
 #check for qt versions
-if ! [ -d $(ls /usr/local/Cellar/qt/5.1* | head -1 | tr -d ':') ]
+if ! [ -d $(ls -d /usr/local/Cellar/qt/5.1* | head -1 | tr -d ':') ]
 then
 brew install qt5
 brew upgrade qt5
@@ -130,7 +130,7 @@ current branch:$(tput bold)$(tput setaf 4) $(git branch | awk '/\*/ { print $2; 
 $(tput bold)$(tput setaf 1)(c)   compile MLV App$(tput sgr0)
 $(tput bold)$(tput setaf 1)(op)  compile MLV App with openmp$(tput sgr0)(macOS 10.10 and onwards)
 $(tput bold)$(tput setaf 1)(b)   check out branches$(tput sgr0)
-$(tput bold)$(tput setaf 1)(U)   update dependecies$(tput sgr0)(if compiling fails)
+$(tput bold)$(tput setaf 1)(U)   update dependencies$(tput sgr0)(if compiling fails)
 $(tput bold)$(tput setaf 1)(m)   make clean$(tput sgr0)
 
 $(tput bold)(q)   quit this compiler$(tput sgr0)
@@ -189,33 +189,32 @@ scroll upwards to check terminal outcome."
     "op") 
 clear
 #openmp
-if ! [ -d /usr/local/Cellar/llvm/6* ]
+if ! [ -d /usr/local/Cellar/llvm ]
 then
-brew install llvm@6
+brew install llvm
 fi
 
-#Can´t see why this was needed anymore?
 #+ld64 adresses this issue (SYSROOT) https://trac.macports.org/ticket/53784
-#if ! [ -f /opt/local/bin/ld-xcode ]; then
+if ! [ -f /opt/local/bin/ld-xcode ]; then
 #macports
- #if ! [ -f /opt/local/bin/port ]; then
-   #clear
-   #echo "Install MacPorts for your version of the Mac operating system"
-   #sleep 2
-   #echo ""
-   #echo "This means you go straight to step 3 in the Quickstart and 
-   #skip Xcode and the Xcode Command Line Tools installation"
-   #sleep 2
-   #echo ""
-   #echo "Rerun the compiler when you are done!"
-   #sleep 2
-   #open https://www.macports.org/install.php
-   #exit 0
- #fi
-  #sudo port selfupdate
-  #sudo port upgrade outdated
-  #sudo port install ld64 +ld64_xcode
-#fi
+ if ! [ -f /opt/local/bin/port ]; then
+   clear
+   echo "Install MacPorts for your version of the Mac operating system"
+   sleep 2
+   echo ""
+   echo "This means you go straight to step 3 in the Quickstart and 
+   skip Xcode and the Xcode Command Line Tools installation"
+   sleep 2
+   echo ""
+   echo "Rerun the compiler when you are done!"
+   sleep 2
+   open https://www.macports.org/install.php
+   exit 0
+ fi
+  sudo port selfupdate
+  sudo port upgrade outdated
+  sudo port install ld64 +ld64_xcode
+fi
 
 clear
 echo "let´s clean repo first(make clean)!"

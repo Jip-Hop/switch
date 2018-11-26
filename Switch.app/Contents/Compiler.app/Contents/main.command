@@ -647,8 +647,11 @@ cat <<'EOFM' > /tmp/make.command
 #!/bin/bash
 printf '\e[8;20;55t'
 printf '\e[3;10;0t'
+#we need our branch name
+cd "$(cat /tmp/compath1)"
+branch=$(hg branch) #to be used when compiling
 cd "$(cat /tmp/makePATH)"
-make zip && clear && succed=$(echo succed) && echo "grab your compiled zip file and put it on your camera" && open . &&  sleep 2 
+make zip && clear && succed=$(echo succed) && mv $(ls *.zip) $(echo "$branch")_$(echo $(ls *.zip) | cut -d '.' -f2,3,4) && echo "grab your compiled zip file and put it on your camera" && open . &&  sleep 2
 input_variable=$(echo zipp)
 rm /tmp/make.command
 rm /tmp/makePATH
@@ -744,6 +747,8 @@ $(tput bold)You are here: $(tput setaf 4)$(tput bold)$module$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(M)  make module$(tput sgr0)
 $(tput bold)$(tput setaf 1)(c)  make clean$(tput sgr0)
+$(tput bold)$(tput setaf 1)(F)  make module, move to sd/cf card and eject$(tput sgr0)
+$(tput bold)$(tput setaf 1)(o)  open up $module.c$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
 
 echo $(tput bold)"Please specify your terminal command or select a shortcut:$(tput sgr0)e.g $(tput bold)make mlv_dump$(tput sgr0) then hit enter)"
@@ -779,6 +784,30 @@ fi
 if [ "$input_variable" = "c" ];
 then
 make clean
+clear
+fi
+
+if [ "$input_variable" = "F" ];
+then
+if [ -d /Volumes/EOS_*/ML/ ]
+then
+make "$module".mo
+cp -r "$module".mo /Volumes/EOS_*/ML/modules
+make clean
+hdiutil eject /Volumes/EOS_*
+clear
+echo "New files are copied"
+else
+clear
+echo "no sd/cf card attached!"
+fi
+sleep 1
+clear
+fi
+
+if [ "$input_variable" = "o" ];
+then
+open -a TextEdit "$module".c
 clear
 fi
 
@@ -922,9 +951,9 @@ list=
 numlist=
 fi
 
-if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 14 ))
+if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 15 ))
 then
-num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14 | bc -l)
+num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+15 | bc -l)
 else
 num=$(echo 27)
 fi
@@ -959,6 +988,7 @@ cat<<EOF
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(r)  reset my repo list$(tput sgr0)
 $(tput bold)$(tput setaf 1)(d)  download a repository$(tput sgr0)
+$(tput bold)$(tput setaf 1)(u)  pull and update all repos in the list$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 echo ""
@@ -976,7 +1006,7 @@ input_variable=
 clear
 echo "list deleted"
 sleep 1
-printf '\e[8;'27';70t'
+printf '\e[8;'28';70t'
 printf '\e[3;410;0t'
     ;;
 
@@ -1050,7 +1080,7 @@ done <<< "$list"
     ;;
 
 esac
-printf '\e[8;'27';70t'
+printf '\e[8;'28';70t'
 printf '\e[3;410;0t'
     ;;
 
@@ -1084,14 +1114,14 @@ if (( $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l) > 14 ))
 then
 num=$(echo $(cat "$(cat /tmp/compath2)"/repolist.txt | wc -l)+14-1 | bc -l)
 else
-num=$(echo 27)
+num=$(echo 28)
 fi
 fi
 printf '\e[8;'$num';70t'
 printf '\e[3;410;0t'
     ;;
 esac
-printf '\e[8;'27';70t'
+printf '\e[8;'28';70t'
 printf '\e[3;410;0t'
     ;;
 
@@ -1099,6 +1129,21 @@ printf '\e[3;410;0t'
 cd "$(cat /tmp/compath1)"
 . "$(cat /tmp/compath2)"/main.command
     ;;
+
+   "u")  
+rm /tmp/repolist.txt
+cp "$(cat /tmp/compath2)"/repolist.txt /tmp/repolist.txt
+while ! [ x$(cat /tmp/repolist.txt | awk 'FNR == 1') = x ]
+do
+cd $(cat /tmp/repolist.txt | awk 'FNR == 1')
+#pull from source
+clear
+   hg pull 
+   hg update
+#cut to the next name on the list
+    echo "$(tail -n +2 /tmp/repolist.txt)" > /tmp/repolist.txt
+done
+;;
 
     "q") 
 osascript -e 'tell application "Terminal" to close first window' & exit

@@ -3,31 +3,7 @@
 #GNU General Public License, version 2
 #https://www.ffmpeg.org/legal.html 
 
-
-
-#FFmpeg used to transcode to ProRes4444 with or without audio. FFmpeg will also scale certain kind of stretched footage to get a normal looking file. 
-#commands/effects used
-#-c:v copy -c:a aac -strict experimental
-#-vcodec prores_ks -pix_fmt yuv444p10 -n -r
-#-vf "lut3d="
-#-vf scale= (provided txt script to alter the command line)
-#-vf unsharp=7:7:0.8:7:7:0"
-
-
-Used in core engine transcoding 3 to 4 folders of dng files to a ProRes4444 file.
-
-find . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 ~/Library/Services/MLPP.workflow/Contents/dcraw +M $br $dpf_01 $any_b $ga -c -6 -W -q 3 $r_02 $wb_02 | ~/Library/Services/MLPP.workflow/Contents/ffmpeg $wav_02 -f image2pipe -vcodec ppm -r "$fps_02" -i pipe:0 $sd_02 -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps_02" -vf $sc_03"lut3d=$lut3d_1_MLV_e","lut3d=$lut3d_2_MLV_e","lut3d=$lut3d_3_MLV_e","lut3d=$lut3d_4_MLV_e","lut3d=$lut3d_5_MLV_e" "$MS"../"$pr"$file_02.mov
-
-
-Script part originally from magic lantern user Jerrykil, modified by danne
-
-~/Library/Services/MLPP.workflow/Contents/ffmpeg -i ../${q} 2>&1 | grep Audio && ~/Library/Services/MLPP.workflow/Contents/ffmpeg -i ../${q} -vn -ar 48000 -ac 2 -ab 192k -f wav ../audio.wav && \
-~/Library/Services/MLPP.workflow/Contents/ffmpeg -i ../audio.wav -r $(echo $FPS / 2 | bc -l) -f image2 -i ../output/merged_%06d.tif -r $(echo $FPS / 2 | bc -l) \
--c:a ac3 -c:v prores_ks -profile:v 3 -pix_fmt yuv444p10 -vf $scm"lut3d=$lut3d_2_mov","lut3d=$lut3d_3_mov","lut3d=$lut3d_4_mov"$sharpen ../HDR_$fil || \
-~/Library/Services/MLPP.workflow/Contents/ffmpeg -r $(echo $FPS / 2 | bc -l) -f image2 -i ../output/merged_%06d.tif -r $(echo $FPS / 2 | bc -l) \
--c:v prores_ks -profile:v 3 -pix_fmt yuv444p10 -vf $scm"lut3d=$lut3d_2_mov","lut3d=$lut3d_3_mov","lut3d=$lut3d_4_mov"$sharpen ../HDR_$fil || \
-~/Library/Services/MLPP.workflow/Contents/ffmpeg -r $(echo $FPS / 2 | bc -l) -f image2 -i ../output/merged_%06d.tif -r $(echo $FPS / 2 | bc -l) \ ;
-
+version 4.1
 
 sources
 https://github.com/FFmpeg/FFmpeg
