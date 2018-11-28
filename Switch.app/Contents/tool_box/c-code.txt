@@ -1,0 +1,5 @@
+https://www.magiclantern.fm/forum/index.php?topic=16040.msg202389#msg202389
+
+To know what´s going on in code:
+
+NotifyBox(5000, "current_buffer 0x%x", current_buffer);
