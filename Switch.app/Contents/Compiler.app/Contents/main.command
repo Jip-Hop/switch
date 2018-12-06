@@ -16,6 +16,24 @@
  # 51 Franklin Street, Fifth Floor,
  # Boston, MA  02110-1301, USA.
 
+#colors
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
 #let´s download magic-lantern and place it anywhere, but only if we go through source_location.app
 if ls /tmp/source_location >/dev/null 2>&1;
 then
@@ -243,8 +261,16 @@ fi
 fi
 fi 
 
+#check for changes
+if ! [ x$(hg status) = x ];
+then 
+changes=$(echo "changes made!")
+else
+changes=
+fi
+
 #here we go. Main script
-printf '\e[8;27;70t'
+printf '\e[8;28;70t'
 printf '\e[3;410;0t'
 while :
 do 
@@ -270,6 +296,7 @@ $(tput bold)$(tput setaf 1)(t)  terminal$(tput sgr0)
 $(tput bold)$(tput setaf 1)(l)  my repo list$(tput sgr0)
 $(tput bold)$(tput setaf 1)(o)  open up Compiler.app main script$(tput sgr0)
 $(tput bold)$(tput setaf 1)(hg) hg.command$(tput sgr0)(expert option)
+$(tput bold)$(tput setaf 1)(st) file status$(tput sgr0) $(tput bold)$(tput setaf 2)$changes$(tput sgr0)
 $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 
@@ -1319,6 +1346,25 @@ cd "$(cat /tmp/compath1)"
 . "$(cat /tmp/compath2)"/main.command
     ;;
     esac
+;;
+
+   "st") 
+if ! [ x$(hg status) = x ];
+then 
+clear
+echo "following files have changed:"
+echo ""
+hg status
+sleep 2
+echo ""
+echo "scroll back up to check more..."
+changes=$(echo "changes made!")
+sleep 2
+else
+clear
+echo "no changes here..."
+sleep 2
+fi
 ;;
 
     "q") 
