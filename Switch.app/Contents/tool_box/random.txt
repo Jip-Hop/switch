@@ -94,3 +94,57 @@ ffmpeg -i Input.mp4 -vf removegrain=4,removegrain=4,removegrain=4,removegrain=4,
 
 
 
+
+https://github.com/ilia3101/MLV-App/commit/43a35fa1be4386f5b12d24a02e261b7ac4d17f89#commitcomment-31137315
+
+color matrices in Mlv App:
+static const double xyz_to_rgb[] = {
+     3.2404542, -1.5371385, -0.4985314,
+    -0.9692660,  1.8760108,  0.0415560,
+     0.0030,  0.0136,  0.9834
+};
+
+/* XYZ to Cone space (LMS) */
+static const double ciecam02[] = {
+    3.2404542, -1.5371385, -0.4985314,
+   -0.7036,  1.8760108,  0.0415560,
+    0.0030,  0.0136,  0.9834
+};
+
+
+EDIT:
+This seems even closer to original colors without the blue corruption issue:
+
+static const double xyz_to_rgb[] = {
+     3.2404542, -1.5371385, -0.4985314,
+    -0.9692660,  1.8760108,  0.0415560,
+     0.0030,  -0.0536,  0.9834
+};
+
+/* XYZ to Cone space (LMS) */
+static const double ciecam02[] = {
+    3.2404542, -1.5371385, -0.4985314,
+   -0.7036,  1.8760108,  0.0415560,
+    0.0030,  0.0536,  0.9834
+};
+
+
+Good compromise?
+
+static const double xyz_to_rgb[] = {
+     3.2404542, -1.7171385, -0.4985314,
+    -0.9692660,  1.8760108,  0.0415560,
+     0.0030,  -0.0536,  0.9834
+};
+
+/* XYZ to Cone space (LMS) */
+static const double ciecam02[] = {
+    3.0404542, -1.5371385, -0.4985314,
+   -0.7036,  1.8760108,  0.0415560,
+    0.0030,  0.0536,  0.9834
+};
+
+
+
+
+
