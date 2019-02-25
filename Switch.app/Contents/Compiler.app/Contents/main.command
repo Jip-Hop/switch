@@ -270,7 +270,7 @@ changes=
 fi
 
 #here we go. Main script
-printf '\e[8;28;70t'
+printf '\e[8;27;70t'
 printf '\e[3;410;0t'
 while :
 do 
@@ -287,8 +287,7 @@ $(tput bold)$(tput setaf 1)(b)  branches$(tput sgr0)
 $(tput bold)$(tput setaf 1)(p)  platform$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  modules$(tput sgr0)
 $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
-$(tput bold)$(tput setaf 1)(u)  hg pull and update$(tput sgr0)(current branch)
-$(tput bold)$(tput setaf 1)(U)  hg pull and update$(tput sgr0)(https://bitbucket.org/hudson/magic-lantern)
+$(tput bold)$(tput setaf 1)(pp) hg path/pull section$(tput sgr0)
 $(tput bold)$(tput setaf 1)(C)  development installation script$(tput sgr0)
 $(tput bold)$(tput setaf 1)(c)  download magic lantern repository$(tput sgr0)
 $(tput bold)$(tput setaf 1)(s)  select a new repository$(tput sgr0)
@@ -660,6 +659,7 @@ $(tput bold)$(tput setaf 1)(c)  compile$(tput sgr0)
 $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(k)  kill make zip and clean$(tput sgr0)
+$(tput bold)$(tput setaf 1)(F)  make zip and copy to SD/CF card$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 echo ""
@@ -678,6 +678,7 @@ printf '\e[3;10;0t'
 cd "$(cat /tmp/compath1)"
 branch=$(hg branch) #to be used when compiling
 cd "$(cat /tmp/makePATH)"
+make clean
 make zip && clear && succed=$(echo succed) && mv $(ls *.zip) $(echo "$branch")_$(echo $(ls *.zip) | cut -d '.' -f2,3,4) && echo "grab your compiled zip file and put it on your camera" && open . &&  sleep 2
 input_variable=$(echo zipp)
 rm /tmp/make.command
@@ -704,6 +705,48 @@ make clean
 clear
 osascript -e 'tell application "Terminal" to close (every window whose name contains "make.command")' 
     ;;
+
+    "F")
+if [ -d /Volumes/EOS_* ]; then
+echo $PWD > /tmp/makePATH
+cat <<'EOFM' > /tmp/make.command
+#!/bin/bash
+printf '\e[8;20;55t'
+printf '\e[3;10;0t'
+#we need our branch name
+cd "$(cat /tmp/compath1)"
+branch=$(hg branch) #to be used when compiling
+cd "$(cat /tmp/makePATH)"
+make clean;
+make zip && clear && succed=$(echo succed) && mv $(ls *.zip) $(echo "$branch")_$(echo $(ls *.zip) | cut -d '.' -f2,3,4)
+if [ -d "$(ls -d /Volumes/EOS_*)"/ML ]; then
+rm -r /Volumes/EOS_*/ML 
+rm /Volumes/EOS_*/autoexec.bin
+rm /Volumes/EOS_*/ML-SETUP.FIR
+fi
+cp -r *.zip /Volumes/EOS_*/
+cd /Volumes/EOS_*/
+unzip $(ls -t *.zip | head -1) 
+cd "$(cat /tmp/compath1)"
+hdiutil eject /Volumes/EOS_* 
+input_variable=$(echo zipp)
+make clean 
+rm /tmp/make.command
+rm /tmp/makePATH
+clear
+osascript -e 'tell application "Terminal" to close first window' & exit
+EOFM
+chmod u=rwx /tmp/make.command
+open /tmp/make.command & 
+clear
+else
+clear
+echo "no sd/cf card attached!"
+fi
+sleep 2
+clear
+    ;;
+
 
     "q") 
 osascript -e 'tell application "Terminal" to close first window' & exit
@@ -881,6 +924,65 @@ echo ""
 echo "scroll upwards to check terminal output"
 sleep 3
 ;;
+
+    "pp") 
+printf '\e[8;20;110t'
+printf '\e[3;410;0t'
+clear
+while :
+do
+cat<<EOF1
+
+repository path:$(tput setaf 4) $(cat /tmp/compath1)$(tput sgr0)
+ current branch:$(tput bold)$(tput setaf 4) $(hg branch)$(tput sgr0)
+
+     $(tput sgr0)---------
+     $(tput bold)path/pull$(tput sgr0) 
+     ---------
+
+$(tput bold)$(hg path | awk '{printf("%01d    %s\n", NR, $0)}')
+
+$(tput bold)$(tput setaf 1)(o)  open up hgrc file to add paths$(tput sgr0)
+$(tput bold)$(tput setaf 1)(U)  pull from main repo$(tput sgr0) (https://bitbucket.org/hudson/magic-lantern)
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit$(tput sgr0)
+
+echo $(tput bold)"Enter a number to pull and update your repo:"
+EOF1
+read input_variable
+i=$input_variable
+
+if [ "$input_variable" = "o" ]; then
+  open .hg/hgrc
+fi
+
+ if [ "$input_variable" = "U" ]; then
+   cd "$(cat /tmp/compath1)"
+clear
+hg pull https://bitbucket.org/hudson/magic-lantern
+hg update
+clear
+ fi
+
+ if [ "$input_variable" = "m" ]; then
+   cd "$(cat /tmp/compath1)"
+    . "$(cat /tmp/compath2)"/main.command
+ fi
+
+   if [ "$input_variable" = "q" ]; then
+     osascript -e 'tell application "Terminal" to close first window' & exit
+   fi
+
+if [ x$(hg path | awk 'FNR == "'$i'"' | cut -d '=' -f2) = x ]; then
+clear
+else
+clear
+hg pull $(hg path | awk 'FNR == "'$i'"' | cut -d '=' -f2)
+hg update
+clear
+fi
+done
+    ;;
 
    "c") 
 echo > /tmp/cloning
@@ -1355,6 +1457,10 @@ clear
 echo "following files have changed:"
 echo ""
 hg status
+sleep 1
+echo ""
+echo ""
+hg diff
 sleep 2
 echo ""
 echo "scroll back up to check more..."

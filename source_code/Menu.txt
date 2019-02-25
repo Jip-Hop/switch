@@ -6505,6 +6505,7 @@ do
     $(tput bold)bash section$(tput sgr0)
     -------------
 
+    $(tput bold)(web) web size exporter $(tput sgr0)(ffmpeg,MOV,mov,mp4,avi and more)
     $(tput bold)(tif) MOV/tif cleaning $(tput sgr0)(hugin align/enfuse)
     $(tput bold)(ali) Aliasing cleaner $(tput sgr0)(ffmpeg,MOV,mov,mp4,avi and more)
     $(tput bold)(mov) HDR MOV files$(tput sgr0)(hugin align/ffmpeg tblend)
@@ -6518,6 +6519,14 @@ Please enter your selection number below and hit enter:
 EOF
     read -n3
     case "$REPLY" in
+
+    "web") 
+cd "$(cat /tmp/DUALISO/path_1)" 
+. "$(cat /tmp/DUALISO/path_2)"/bash/webmov.command &
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
 
     "tif") 
 echo > /tmp/DUALISO/HDR_TIF
