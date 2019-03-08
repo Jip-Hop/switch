@@ -11,6 +11,14 @@ echo yes
 fi
 
 
+HDR iso checking automation
+Bright file
+ffmpeg -i 2.jpg -vf showinfo -f null /dev/null 2>&1 
+stdev:[65.5 17.8 1.]
+
+Dark file
+ffmpeg -i 1.jpg -vf showinfo -f null /dev/null 2>&1 
+stdev:[52.4 7.7 4.0]
 
 
 #example files to create auto white balance through ffmpeg with the help of a haldc lut going through good old dcraw:
