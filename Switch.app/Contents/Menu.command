@@ -6511,6 +6511,7 @@ do
     $(tput bold)(mov) HDR MOV files$(tput sgr0)(hugin align/ffmpeg tblend)
     $(tput bold)(cr2) HDR CR2,JPG,tif automation$(tput sgr0)(hugin/exiv2/HDRmerge/enfuse/ffmpeg)
     $(tput bold)(unc) Uncrop CR2 files$(tput sgr0)(CR2 files shot in movie mode)
+    $(tput bold)(stb) video stabilizing script $(tput sgr0)(ffmpeg,MOV,mov,mp4,avi and more)
 
     $(tput bold)$(tput setaf 1)(b) Main menu$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q) exit Switch$(tput sgr0)
@@ -6549,6 +6550,14 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     "ali") 
 cd "$(cat /tmp/DUALISO/path_1)" 
 . "$(cat /tmp/DUALISO/path_2)"/bash/alias_cleaner.command &
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+
+    "stb") 
+cd "$(cat /tmp/DUALISO/path_1)" 
+. "$(cat /tmp/DUALISO/path_2)"/bash/vidstab.command &
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
 rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
 osascript -e 'tell application "Terminal" to close first window' & exit
