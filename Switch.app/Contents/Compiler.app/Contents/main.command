@@ -659,7 +659,10 @@ $(tput bold)$(tput setaf 1)(c)  compile$(tput sgr0)
 $(tput bold)$(tput setaf 1)(M)  make clean$(tput sgr0)
 $(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
 $(tput bold)$(tput setaf 1)(k)  kill make zip and clean$(tput sgr0)
-$(tput bold)$(tput setaf 1)(F)  make zip and copy to SD/CF card$(tput sgr0)
+$(tput bold)$(tput setaf 1)(F)  compile and copy to SD/CF card + eject$(tput sgr0)
+$(tput bold)$(tput setaf 1)(Fn) compile and copy to SD/CF card $(tput setaf 4)skip eject$(tput setaf 1)$(tput sgr0)
+$(tput bold)$(tput setaf 1)(FF) compile zip and copy to SD/CF card + keep old SETTINGS folder + eject $(tput sgr0)
+$(tput bold)$(tput setaf 1)(FFn)compile and copy to SD/CF card + keep old SETTINGS folder $(tput setaf 4)skip eject$(tput setaf 1)$(tput sgr0)
 $(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
 EOF
 echo ""
@@ -729,6 +732,131 @@ cd /Volumes/EOS_*/
 unzip $(ls -t *.zip | head -1) 
 cd "$(cat /tmp/compath1)"
 hdiutil eject /Volumes/EOS_* 
+input_variable=$(echo zipp)
+make clean 
+rm /tmp/make.command
+rm /tmp/makePATH
+clear
+osascript -e 'tell application "Terminal" to close first window' & exit
+EOFM
+chmod u=rwx /tmp/make.command
+open /tmp/make.command & 
+clear
+else
+clear
+echo "no sd/cf card attached!"
+fi
+sleep 2
+clear
+    ;;
+
+    "Fn")
+if [ -d /Volumes/EOS_* ]; then
+echo $PWD > /tmp/makePATH
+cat <<'EOFM' > /tmp/make.command
+#!/bin/bash
+printf '\e[8;20;55t'
+printf '\e[3;10;0t'
+#we need our branch name
+cd "$(cat /tmp/compath1)"
+branch=$(hg branch) #to be used when compiling
+cd "$(cat /tmp/makePATH)"
+make clean;
+make zip && clear && succed=$(echo succed) && mv $(ls *.zip) $(echo "$branch")_$(echo $(ls *.zip) | cut -d '.' -f2,3,4)
+if [ -d "$(ls -d /Volumes/EOS_*)"/ML ]; then
+rm -r /Volumes/EOS_*/ML 
+rm /Volumes/EOS_*/autoexec.bin
+rm /Volumes/EOS_*/ML-SETUP.FIR
+fi
+cp -r *.zip /Volumes/EOS_*/
+cd /Volumes/EOS_*/
+unzip $(ls -t *.zip | head -1) 
+cd "$(cat /tmp/compath1)" 
+input_variable=$(echo zipp)
+make clean 
+rm /tmp/make.command
+rm /tmp/makePATH
+clear
+osascript -e 'tell application "Terminal" to close first window' & exit
+EOFM
+chmod u=rwx /tmp/make.command
+open /tmp/make.command & 
+clear
+else
+clear
+echo "no sd/cf card attached!"
+fi
+sleep 2
+clear
+    ;;
+
+    "FF")
+if [ -d /Volumes/EOS_* ]; then
+echo $PWD > /tmp/makePATH
+cat <<'EOFM' > /tmp/make.command
+#!/bin/bash
+printf '\e[8;20;55t'
+printf '\e[3;10;0t'
+#we need our branch name
+cd "$(cat /tmp/compath1)"
+branch=$(hg branch) #to be used when compiling
+cd "$(cat /tmp/makePATH)"
+make clean;
+make zip && clear && succed=$(echo succed) && mv $(ls *.zip) $(echo "$branch")_$(echo $(ls *.zip) | cut -d '.' -f2,3,4)
+if [ -d "$(ls -d /Volumes/EOS_*)"/ML ]; then
+mv /Volumes/EOS_*/ML/SETTINGS /tmp/
+rm -r /Volumes/EOS_*/ML 
+rm /Volumes/EOS_*/autoexec.bin
+rm /Volumes/EOS_*/ML-SETUP.FIR
+fi
+cp -r *.zip /Volumes/EOS_*/
+cd /Volumes/EOS_*/
+unzip $(ls -t *.zip | head -1) 
+mv /tmp/SETTINGS /Volumes/EOS_*/ML
+cd "$(cat /tmp/compath1)"
+hdiutil eject /Volumes/EOS_* 
+input_variable=$(echo zipp)
+make clean 
+rm /tmp/make.command
+rm /tmp/makePATH
+clear
+osascript -e 'tell application "Terminal" to close first window' & exit
+EOFM
+chmod u=rwx /tmp/make.command
+open /tmp/make.command & 
+clear
+else
+clear
+echo "no sd/cf card attached!"
+fi
+sleep 2
+clear
+    ;;
+
+    "FFn")
+if [ -d /Volumes/EOS_* ]; then
+echo $PWD > /tmp/makePATH
+cat <<'EOFM' > /tmp/make.command
+#!/bin/bash
+printf '\e[8;20;55t'
+printf '\e[3;10;0t'
+#we need our branch name
+cd "$(cat /tmp/compath1)"
+branch=$(hg branch) #to be used when compiling
+cd "$(cat /tmp/makePATH)"
+make clean;
+make zip && clear && succed=$(echo succed) && mv $(ls *.zip) $(echo "$branch")_$(echo $(ls *.zip) | cut -d '.' -f2,3,4)
+if [ -d "$(ls -d /Volumes/EOS_*)"/ML ]; then
+mv /Volumes/EOS_*/ML/SETTINGS /tmp/
+rm -r /Volumes/EOS_*/ML 
+rm /Volumes/EOS_*/autoexec.bin
+rm /Volumes/EOS_*/ML-SETUP.FIR
+fi
+cp -r *.zip /Volumes/EOS_*/
+cd /Volumes/EOS_*/
+unzip $(ls -t *.zip | head -1) 
+mv /tmp/SETTINGS /Volumes/EOS_*/ML
+cd "$(cat /tmp/compath1)"
 input_variable=$(echo zipp)
 make clean 
 rm /tmp/make.command
