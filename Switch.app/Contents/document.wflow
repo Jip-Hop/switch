@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>444.4</string>
+	<string>444.39</string>
 	<key>AMApplicationVersion</key>
-	<string>2.8</string>
+	<string>2.9</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -179,9 +179,9 @@ done</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:112.000000</string>
+				<string>309.000000:111.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -352,9 +352,9 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:154.000000</string>
+				<string>309.000000:152.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -454,7 +454,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:196.000000</string>
+				<string>309.000000:193.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -574,10 +574,24 @@ four=$(cat /tmp/folder_paths.txt | sed -n "$num5","$num6"p)
 fi
     osascript -e 'display notification "dualiso processing" with title "cr2hdr shortcut"'
     afplay /System/Library/Sounds/Tink.aiff
-    cr2hdr $one &amp; 
-    cr2hdr $two &amp; 
-    cr2hdr $three &amp; 
-    cr2hdr $four &amp;
+
+    if ls /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter
+    then
+	printf "%s\n" $one &gt; /tmp/DUALISO/draglist_01
+	printf "%s\n" $two &gt; /tmp/DUALISO/draglist_02
+	printf "%s\n" $three &gt; /tmp/DUALISO/draglist_03
+	printf "%s\n" $four &gt; /tmp/DUALISO/draglist_04
+    else
+sleep 1
+    osascript -e 'display notification "Consider installing adobe dng converter for optimal results"'
+sleep 2
+    fi
+
+    cr2hdr $one &amp;&amp; . dualiso_to_DNG_A_drag.command &amp;
+    cr2hdr $two &amp;&amp; . dualiso_to_DNG_B_drag.command &amp;
+    cr2hdr $three &amp;&amp; . dualiso_to_DNG_C_drag.command &amp;
+    cr2hdr $four &amp;&amp; . dualiso_to_DNG_D_drag.command &amp;
+
 #resetting
     IFS=$OLDIFS 
 sleep 3
@@ -2067,9 +2081,9 @@ done
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:238.000000</string>
+				<string>309.000000:234.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -2169,7 +2183,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:280.000000</string>
+				<string>309.000000:275.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2271,7 +2285,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:322.000000</string>
+				<string>309.000000:316.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2373,7 +2387,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:364.000000</string>
+				<string>309.000000:357.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -2559,9 +2573,9 @@ fi</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>309.000000:406.000000</string>
+				<string>309.000000:398.000000</string>
 				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/English.lproj/main.nib</string>
+				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<false/>
@@ -2569,54 +2583,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>1CF3F686-A9ED-4C6B-92B8-4A345F37BEEE</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>2B63E9F6-53D4-4A93-8610-7C8EC275B99B</key>
-		<dict>
-			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-		</dict>
-		<key>70089468-56EB-4439-88D9-DB209BF9706B</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>93028204-2CD1-4F03-9282-A127A48CCB48</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>93B720BA-6302-4E36-91A2-69ACD2D04588</key>
-		<dict>
-			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>BA046220-4678-4809-B023-EF8C17D09F17</key>
+		<key>65B8A81F-9AD1-4317-8BA2-5656B26522EE</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>DE356F39-75CF-4FA8-95B8-FF476E88237A</key>
+		<key>6BC65AF5-34BB-467E-BC4C-C1B799ED6D29</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>87480B4F-674B-46B7-B4AD-8BC06EDEBB30</key>
+		<dict>
+			<key>from</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<key>to</key>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>9BDC5B88-1F6A-43C6-A565-70AE893B1BFA</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>ED9A3E96-C3E2-4CBC-9026-B767827F987D</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>F0F0C002-4F57-4CDE-9CF8-95A8773FBB82</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>F78E4324-6568-43B0-924C-C3F80F37D885</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
