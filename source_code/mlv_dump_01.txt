@@ -266,6 +266,10 @@
     fi
     fi
     fi
+    if grep 'sampling 1x3 (read every line, bin 3 columns)' <<< $($mlv_dump -v "$FILE" | awk '/sampling/ { print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10; exit}')
+    then
+    find "$O2". -maxdepth 1 -mindepth 1 -iname '*.dng' -print0 | xargs -0 exiv2 -M"set Exif.Image.DefaultScale Rational 3/1 1/1"
+    fi
 #check for proxy file part 2
     if [ -f *$MOV ]
     then
