@@ -2560,7 +2560,7 @@ cd "$(cat /tmp/DUALISO/"path_1")"
 mkdir -p "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples
 #Debug log file
     rm "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt
-    exec &> >(tee -a "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt >&2 )
+   ## disable tee for Catalina exec &> >(tee -a "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt >&2 )
     OLDIFS=$IFS
     mlv_dump -f 4 -o "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1)" "$(cat /tmp/DUALISO/samples | head -1)" &
     mlv_dump $mlv --dng -f 0 -o "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)" "$(cat /tmp/DUALISO/samples | head -1)" & sleep 2
@@ -3431,7 +3431,7 @@ cd "$(cat /tmp/DUALISO/"path_1")"
 mkdir -p "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples
 #Debug log file
     rm "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt
-    exec &> >(tee -a "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt >&2 )
+##disable tee for Catalina exec &> >(tee -a "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_LOG.txt >&2 )
     OLDIFS=$IFS
     $mlv_dump -f 4 -o "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1)" "$(cat /tmp/DUALISO/samples | head -1)" &
     $mlv_dump $mlv --dng -f 0 -o "$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)"_samples/"$(cat /tmp/DUALISO/samples | head -1 | cut -d "." -f1)" "$(cat /tmp/DUALISO/samples | head -1)" & sleep 2
