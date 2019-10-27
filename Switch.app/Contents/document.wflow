@@ -593,10 +593,10 @@ sleep 2
     fi
     if (( $(echo "$(sw_vers -productVersion | tr -d .) &gt; 1014" | bc -l) ))
     then
-    raw2mlv $one -o $one.MLV &amp;
-    raw2mlv $two -o $two.MLV &amp;
-    raw2mlv $three -o $three.MLV &amp;
-    raw2mlv $four -o $four.MLV &amp;
+    raw2mlv_A_drag.command &amp;
+    raw2mlv_B_drag.command &amp;
+    raw2mlv_C_drag.command &amp;
+    raw2mlv_D_drag.command &amp;
     else
     cr2hdr $one &amp;&amp; . dualiso_to_DNG_A_drag.command &amp;
     cr2hdr $two &amp;&amp; . dualiso_to_DNG_B_drag.command &amp;
@@ -2609,54 +2609,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>0AF71293-6DAF-45C8-8299-C7388F0BEC89</key>
-		<dict>
-			<key>from</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-			<key>to</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-		</dict>
-		<key>120A12A9-35B5-4E6A-9902-2904010A9144</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>7E13C24C-48F5-4AFC-9923-4AC550954D74</key>
-		<dict>
-			<key>from</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-			<key>to</key>
-			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
-		</dict>
-		<key>AE353D0A-9717-4A22-B8D6-ECED6A488AC3</key>
-		<dict>
-			<key>from</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
-			<key>to</key>
-			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
-		</dict>
-		<key>B363B068-36C0-45BB-8027-9C0A6C9D9CDC</key>
+		<key>03BB8971-A357-480D-AE9C-D4C66E0264E8</key>
 		<dict>
 			<key>from</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
 			<key>to</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
-		<key>B40D3DB3-D3BB-49DC-8299-ABFE7D08DC7D</key>
+		<key>4D3AE0CC-AEDB-4165-80B2-4EE9F3279F85</key>
+		<dict>
+			<key>from</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<key>to</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+		</dict>
+		<key>86D6C4D2-4F68-4F5D-B841-B85E47946574</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>E3821C80-A575-4A7B-A2D6-F7F27A69FBAA</key>
+		<key>B3EF2F39-EB69-4FDA-929A-AEE3DABB5890</key>
 		<dict>
 			<key>from</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 			<key>to</key>
 			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>B7B7F94E-6A20-4BEF-8CF9-0D80E676D227</key>
+		<dict>
+			<key>from</key>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
+			<key>to</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+		</dict>
+		<key>ED6BC21B-5700-4747-A23E-A1D9D0013035</key>
+		<dict>
+			<key>from</key>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
+			<key>to</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+		</dict>
+		<key>F666FF03-0E4F-4C57-99B7-5441A7CEED40</key>
+		<dict>
+			<key>from</key>
+			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
+			<key>to</key>
+			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
