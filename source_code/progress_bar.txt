@@ -1234,7 +1234,8 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     esac 
 fi
 
-exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
+#disable due to catalina upgrade
+#exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 
 #The end
 printf '\e[8;16;35t'
@@ -1271,7 +1272,8 @@ osascript -e 'tell application "Terminal" to close first window' & exit
     esac 
 done 
 
-exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
+#disable due to catalina upgrade
+#exec &> >(tee -a "$(cat /tmp/DUALISO/path_1)"/LOG.txt >&2 )
 
 #The end
 printf '\e[8;16;35t'
