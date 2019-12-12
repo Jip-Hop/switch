@@ -79,11 +79,16 @@ do
     ${bold}$(tput setaf 1)Image convert$(tput sgr0)
     -------------
  
-    $(tput bold)(01) 300px$(tput sgr0)				 
-    $(tput bold)(02) 500px$(tput sgr0) 
-    $(tput bold)(03) 800px$(tput sgr0) 
+    $(tput bold)(01) 300px(tif)$(tput sgr0)				 
+    $(tput bold)(02) 500px(tif)$(tput sgr0) 
+    $(tput bold)(03) 800px(tif)$(tput sgr0) 
     $(tput bold)(04) export to tif$(tput sgr0)(no compression) 
-    $(tput bold)(05) manually scale output$(tput sgr0)
+    $(tput bold)(05) manually scale output(tif)$(tput sgr0)
+    $(tput bold)(06) 300px(jpg)$(tput sgr0)				 
+    $(tput bold)(07) 500px(jpg)$(tput sgr0) 
+    $(tput bold)(08) 800px(jpg)$(tput sgr0)
+    $(tput bold)(09) export to jpg$(tput sgr0)(no compression) 
+    $(tput bold)(10) manually scale output(jpg)$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  Exit Switch$(tput sgr0)
 
 Please enter your selection number below:
@@ -164,6 +169,78 @@ printf '\e[3;410;100t'
 mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
 ;;
 
+    "06")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
+OIFS="$IFS"
+IFS=$'\n'
+while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
+do
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=300:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_300px.jpg
+echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
+done
+IFS="$OIFS"
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
+;;
+
+    "07")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
+OIFS="$IFS"
+IFS=$'\n'
+while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
+do
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=500:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_500px.jpg
+echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
+done
+IFS="$OIFS"
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
+;;
+
+    "08")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
+OIFS="$IFS"
+IFS=$'\n'
+while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
+do
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=800:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_800px.jpg
+echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
+done
+IFS="$OIFS"
+;;
+
+    "09")  
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
+OIFS="$IFS"
+IFS=$'\n'
+while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
+do
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -y "$(cat /tmp/folder_paths.txt | head -1)"_nocprs.jpg
+echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
+done
+IFS="$OIFS"
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
+;;
+
+    "10") 
+cp /tmp/folder_paths.txt /tmp/folder_paths_tmp.txt
+printf '\e[8;10;80t'
+printf '\e[3;410;100t'
+clear
+echo $(tput bold)"Specify scaled output width:$(tput sgr0)e.g $(tput bold)1920, 2500 $(tput sgr0)etc then hit enter)"
+read scale
+echo "scaled width will be: $(tput bold)$(tput setaf 4)$scale width"$(tput sgr0)
+sleep 2
+OIFS="$IFS"
+IFS=$'\n'
+while grep 'PPM\|ppm\|tiff\|tiff\|TIF\|tif\|png\|PNG\|jpg\|JPG' <<< "$(cat /tmp/folder_paths.txt)"
+do
+ffmpeg -i "$(cat /tmp/folder_paths.txt | head -1)" -pix_fmt yuvj444p -vf scale=$scale:-1 -y "$(cat /tmp/folder_paths.txt | head -1)"_scaled.jpg
+echo "$(tail -n +2 /tmp/folder_paths.txt)" > /tmp/folder_paths.txt
+done
+IFS="$OIFS"
+printf '\e[8;16;60t'
+printf '\e[3;410;100t'
+mv /tmp/folder_paths_tmp.txt /tmp/folder_paths.txt
+;;
 
     "q")   
 echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
