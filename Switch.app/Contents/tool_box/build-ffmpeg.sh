@@ -29,7 +29,7 @@ cd "${workingDir}"
 
 #instruction
 #give the binary right with chmod u=rwx [drag/binary/here] and push enter
-#place build-ffmpeg binary in a folder and double click or drag onto terminal and push enter
+#place build-ffmpeg.sh script in a folder and double click or drag onto terminal and push enter
 #done
 
 VERSION=1.7
@@ -408,6 +408,7 @@ cd $PACKAGES/ffmpeg-6023b9f/ || exit
 	--enable-filters \
 	--enable-libvidstab \
 	--enable-libaom \
+        --disable-sdl2 \
 	--disable-outdevs
 
 execute make -j $MJOBS
