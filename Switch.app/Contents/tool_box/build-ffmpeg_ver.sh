@@ -383,6 +383,7 @@ cd $PACKAGES/ffmpeg-6023b9f/ || exit
     --extra-cflags="-I$WORKSPACE/include" \
     --extra-ldflags="-L$WORKSPACE/lib" \
     --extra-libs="-lpthread -lm" \
+  #--extra-cflags="-fno-stack-check" \ #run this if your binary encounters segmentation fault 11
 	--enable-static \
 	--disable-debug \
 	--disable-shared \
@@ -395,7 +396,7 @@ cd $PACKAGES/ffmpeg-6023b9f/ || exit
 	--enable-pthreads \
 	--enable-libvpx \
 	--enable-libmp3lame \
-    	--enable-libopus \
+        --enable-libopus \
 	--enable-libtheora \
 	--enable-libvorbis \
 	--enable-libx264 \
@@ -407,9 +408,10 @@ cd $PACKAGES/ffmpeg-6023b9f/ || exit
 	--enable-libopencore_amrnb \
 	--enable-filters \
 	--enable-libvidstab \
-	--enable-libaom \
-        --disable-sdl2 \
-	--disable-outdevs
+	--enable-libaom 
+    #--disable-sdl2 \ #run this if you get complains about sdl2
+    #--disable-coreimage \ #run this on older machines
+    #--disable-outdevs #disables sdl2 dependency
 
 execute make -j $MJOBS
 execute make install
