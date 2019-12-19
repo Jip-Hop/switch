@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>AMApplicationBuild</key>
-	<string>488</string>
+	<string>444.39</string>
 	<key>AMApplicationVersion</key>
-	<string>2.10</string>
+	<string>2.9</string>
 	<key>AMDocumentVersion</key>
 	<string>2</string>
 	<key>actions</key>
@@ -55,7 +55,7 @@
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Kör kommandotolkskript</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -94,10 +94,10 @@ done</string>
 				<string>2611FEDD-F746-48C2-9A4A-3621C89AAF7B</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kommandotolk</string>
-					<string>Skript</string>
-					<string>Kommando</string>
-					<string>Kör</string>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -126,9 +126,9 @@ done</string>
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -139,9 +139,9 @@ done</string>
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -231,7 +231,7 @@ done</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Kör kommandotolkskript</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -267,10 +267,10 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<string>735C27A7-2242-4F01-84F5-4364403332CB</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kommandotolk</string>
-					<string>Skript</string>
-					<string>Kommando</string>
-					<string>Kör</string>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -299,9 +299,9 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -312,9 +312,9 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -396,7 +396,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Kör AppleScript-skript</string>
+				<string>Run AppleScript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -420,7 +420,7 @@ echo "$(cat /tmp/folder_paths.txt | head -1)" &gt; /tmp/DUALISO/path_1
 				<string>FFDBB40B-0694-4992-8072-6DFC0F5919EC</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kör</string>
+					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>C18F0413-DDCB-4CF6-B125-1449AEC7A4A4</string>
@@ -506,7 +506,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Kör kommandotolkskript</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -572,12 +572,7 @@ num5=$(echo $num4 + 1 | bc -l)
 num6=$(echo $last)
 four=$(cat /tmp/folder_paths.txt | sed -n "$num5","$num6"p)
 fi
-    if (( $(echo "$(sw_vers -productVersion | tr -d .) &gt; 1014" | bc -l) ))
-    then
-    osascript -e 'display notification "CR2 to MLV processing" with title "raw2mlv shortcut"'
-    else
     osascript -e 'display notification "dualiso processing" with title "cr2hdr shortcut"'
-    fi
     afplay /System/Library/Sounds/Tink.aiff
 
     if ls /Applications/Adobe\ DNG\ Converter.app/Contents/MacOS/Adobe\ DNG\ Converter
@@ -591,43 +586,22 @@ sleep 1
     osascript -e 'display notification "Consider installing adobe dng converter for optimal results"'
 sleep 2
     fi
-    if (( $(echo "$(sw_vers -productVersion | tr -d .) &gt; 1014" | bc -l) ))
-    then
-    raw2mlv_A_drag.command &amp;
-    raw2mlv_B_drag.command &amp;
-    raw2mlv_C_drag.command &amp;
-    raw2mlv_D_drag.command &amp;
-    else
+
     cr2hdr $one &amp;&amp; . dualiso_to_DNG_A_drag.command &amp;
     cr2hdr $two &amp;&amp; . dualiso_to_DNG_B_drag.command &amp;
     cr2hdr $three &amp;&amp; . dualiso_to_DNG_C_drag.command &amp;
     cr2hdr $four &amp;&amp; . dualiso_to_DNG_D_drag.command &amp;
-    fi
+
 #resetting
     IFS=$OLDIFS 
 sleep 3
-    if (( $(echo "$(sw_vers -productVersion | tr -d .) &gt; 1014" | bc -l) ))
-    then
-    osascript -e 'display notification "hold on, this will take a while" with title "raw2mlv shortcut"' 
-    else
     osascript -e 'display notification "hold on, this will take a while" with title "cr2hdr shortcut"' 
-    fi
 sleep 2
-    if (( $(echo "$(sw_vers -productVersion | tr -d .) &gt; 1014" | bc -l) ))
-    then
-    osascript -e 'display notification "wait for the final beep" with title "raw2mlv shortcut"'
-    else
     osascript -e 'display notification "wait for the final beep" with title "cr2hdr shortcut"'
-    fi
 #wait for jobs to end
     wait &lt; &lt;(jobs -p)
 sleep 3
-    if (( $(echo "$(sw_vers -productVersion | tr -d .) &gt; 1014" | bc -l) ))
-    then
-    osascript -e 'display notification "All files are done processing" with title "raw2mlv shortcut"'
-    else
-    osascript -e 'display notification "All files are done processing" with title "cr2hdr shortcut"'
-    fi
+    osascript -e 'display notification "All files are done processing" with title "cr2hdr shortcut"' 
     afplay /System/Library/Sounds/Glass.aiff
 fi
     fi
@@ -2022,10 +1996,10 @@ done
 				<string>5D9E7713-294C-42C6-AFDA-C1DE09D0A440</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kommandotolk</string>
-					<string>Skript</string>
-					<string>Kommando</string>
-					<string>Kör</string>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -2054,9 +2028,9 @@ done
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -2067,9 +2041,9 @@ done
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -2151,7 +2125,7 @@ done
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Kör AppleScript-skript</string>
+				<string>Run AppleScript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -2175,7 +2149,7 @@ done
 				<string>301BEE26-7BF4-4906-96CD-02B06D9C4135</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kör</string>
+					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>A4A007F6-414D-4BD5-847B-CE74143483BA</string>
@@ -2253,7 +2227,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Kör AppleScript-skript</string>
+				<string>Run AppleScript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -2277,7 +2251,7 @@ end run</string>
 				<string>71D11FE5-5D08-44AC-8E0B-1BBDA9E45CE6</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kör</string>
+					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>20AA426E-40FF-4D39-B371-251CAA5F73BA</string>
@@ -2355,7 +2329,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run AppleScript.action</string>
 				<key>ActionName</key>
-				<string>Kör AppleScript-skript</string>
+				<string>Run AppleScript</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
@@ -2379,7 +2353,7 @@ end run</string>
 				<string>288F5397-BAF9-4E14-9FC0-06D08BE36A44</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kör</string>
+					<string>Run</string>
 				</array>
 				<key>OutputUUID</key>
 				<string>E0FC5B7D-CF34-4684-BD22-E0F622BE05E6</string>
@@ -2465,7 +2439,7 @@ end run</string>
 				<key>ActionBundlePath</key>
 				<string>/System/Library/Automator/Run Shell Script.action</string>
 				<key>ActionName</key>
-				<string>Kör kommandotolkskript</string>
+				<string>Run Shell Script</string>
 				<key>ActionParameters</key>
 				<dict>
 					<key>COMMAND_STRING</key>
@@ -2514,10 +2488,10 @@ fi</string>
 				<string>7EC6C97A-255D-47FC-95F9-711E96D29452</string>
 				<key>Keywords</key>
 				<array>
-					<string>Kommandotolk</string>
-					<string>Skript</string>
-					<string>Kommando</string>
-					<string>Kör</string>
+					<string>Shell</string>
+					<string>Script</string>
+					<string>Command</string>
+					<string>Run</string>
 					<string>Unix</string>
 				</array>
 				<key>OutputUUID</key>
@@ -2546,9 +2520,9 @@ fi</string>
 					<key>1</key>
 					<dict>
 						<key>default value</key>
-						<false/>
+						<string></string>
 						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
+						<string>source</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -2559,9 +2533,9 @@ fi</string>
 					<key>2</key>
 					<dict>
 						<key>default value</key>
-						<string></string>
+						<false/>
 						<key>name</key>
-						<string>source</string>
+						<string>CheckedForUserDefaultShell</string>
 						<key>required</key>
 						<string>0</string>
 						<key>type</key>
@@ -2609,54 +2583,54 @@ fi</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>03BB8971-A357-480D-AE9C-D4C66E0264E8</key>
+		<key>270486A3-7B18-4594-BD98-8C325D974516</key>
 		<dict>
 			<key>from</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 			<key>to</key>
-			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
+			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 		</dict>
-		<key>4D3AE0CC-AEDB-4165-80B2-4EE9F3279F85</key>
+		<key>38F759A7-8972-4213-9D9E-30FF33110267</key>
+		<dict>
+			<key>from</key>
+			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
+			<key>to</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+		</dict>
+		<key>7AECDF33-58FB-46F3-86E0-977E184160E5</key>
 		<dict>
 			<key>from</key>
 			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 			<key>to</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 		</dict>
-		<key>86D6C4D2-4F68-4F5D-B841-B85E47946574</key>
+		<key>7D6EE747-7FF8-491B-9590-2B5499A791A7</key>
 		<dict>
 			<key>from</key>
 			<string>2244A78E-E1EE-4314-B4CC-B0AD40F60B76 - 2244A78E-E1EE-4314-B4CC-B0AD40F60B76</string>
 			<key>to</key>
 			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
 		</dict>
-		<key>B3EF2F39-EB69-4FDA-929A-AEE3DABB5890</key>
-		<dict>
-			<key>from</key>
-			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
-			<key>to</key>
-			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
-		</dict>
-		<key>B7B7F94E-6A20-4BEF-8CF9-0D80E676D227</key>
-		<dict>
-			<key>from</key>
-			<string>2FF75FDB-19B3-4A46-911B-2F43B1879A1F - 2FF75FDB-19B3-4A46-911B-2F43B1879A1F</string>
-			<key>to</key>
-			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
-		</dict>
-		<key>ED6BC21B-5700-4747-A23E-A1D9D0013035</key>
+		<key>9841119E-C529-405B-B1D0-4411941BF958</key>
 		<dict>
 			<key>from</key>
 			<string>515FD124-E568-4D70-BDB6-32330E88473B - 515FD124-E568-4D70-BDB6-32330E88473B</string>
 			<key>to</key>
 			<string>52711303-3D33-43CE-A2D7-F3930F7C95F8 - 52711303-3D33-43CE-A2D7-F3930F7C95F8</string>
 		</dict>
-		<key>F666FF03-0E4F-4C57-99B7-5441A7CEED40</key>
+		<key>AC2108D4-226A-499B-9814-DF372405E73B</key>
 		<dict>
 			<key>from</key>
 			<string>EFA665E7-367D-428C-9E77-00CBCCA84242 - EFA665E7-367D-428C-9E77-00CBCCA84242</string>
 			<key>to</key>
 			<string>51BABF34-EFF6-4825-8074-9B29C8C23AA9 - 51BABF34-EFF6-4825-8074-9B29C8C23AA9</string>
+		</dict>
+		<key>DC4E0E6A-E19F-4C06-AC6F-79663C93ABDD</key>
+		<dict>
+			<key>from</key>
+			<string>AD769458-B657-4E2E-8A56-B3152A44B4AB - AD769458-B657-4E2E-8A56-B3152A44B4AB</string>
+			<key>to</key>
+			<string>E0539749-F009-4CEB-9678-AD6DE2152701 - E0539749-F009-4CEB-9678-AD6DE2152701</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
