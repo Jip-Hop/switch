@@ -6554,7 +6554,7 @@ done
 
 
    "b")
-printf '\e[8;16;75t'
+printf '\e[8;18;75t'
 printf '\e[3;650;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -6582,6 +6582,7 @@ do
     $(tput bold)bash section$(tput sgr0)
     -------------
 
+    $(tput bold)(avr) tmix filter averaging to png $(tput sgr0)(ffmpeg,MOV,mov,mp4,avi and more)
     $(tput bold)(web) web size exporter $(tput sgr0)(ffmpeg,MOV,mov,mp4,avi and more)
     $(tput bold)(tif) MOV/tif cleaning $(tput sgr0)(hugin align/enfuse)
     $(tput bold)(ali) Aliasing cleaner $(tput sgr0)(ffmpeg,MOV,mov,mp4,avi and more)
@@ -6597,6 +6598,14 @@ Please enter your selection number below and hit enter:
 EOF
     read -n3
     case "$REPLY" in
+
+    "avr") 
+cd "$(cat /tmp/DUALISO/path_1)" 
+. "$(cat /tmp/DUALISO/path_2)"/bash/avr.command &
+echo > /tmp/DUALISO/DUALISO_exit 1> /dev/null 2>&1 &
+rm /tmp/DUALISO/DUALISO 1> /dev/null 2>&1 &
+osascript -e 'tell application "Terminal" to close first window' & exit
+;;
 
     "web") 
 cd "$(cat /tmp/DUALISO/path_1)" 
