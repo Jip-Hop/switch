@@ -159,7 +159,7 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
     ext=$(echo mp4)
     elif [ "$cc" = prores_422 ]; 
     then 
-    Pcodec=$(printf "%s\n" -vcodec prores -pix_fmt yuv422p10le)
+    Pcodec=$(printf "%s\n" -vcodec prores_ks -pix_fmt yuv422p10le)
     ext=$(echo mov)   
     fi
 #check for additional 3D luts in ProRes4444 folder
@@ -236,9 +236,9 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
 #check for proxy or LT codec
     if grep 'Pcodec_lt' /tmp/FFmpeg_settingsPR 
     then 
-    codec=$(printf "%s\n" -vcodec prores -profile:v 1)
+    codec=$(printf "%s\n" -vcodec prores_ks -profile:v 1)
     else
-    codec=$(printf "%s\n" -vcodec prores -profile:v 0)
+    codec=$(printf "%s\n" -vcodec prores_ks -profile:v 0)
     fi
 #check for additional 3D luts in proxy folder
     if ls ../"$date"_Proxy/*.cube
