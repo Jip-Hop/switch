@@ -298,7 +298,7 @@ cd ../
 source="install_temp"
 title="Switch"
 finalDMGName="Switch.dmg"
-size=250000
+size=300000
 
 mkdir "${source}"
 cp -R Switch.app "${source}"
@@ -354,7 +354,7 @@ cd ../
 source="install_temp"
 title="Switch"
 finalDMGName="Switch.dmg"
-size=250000
+size=300000
 
 mkdir "${source}"
 cp -R Switch.app "${source}"
@@ -592,7 +592,7 @@ printf '%s\n' $content > "$dir"/source_code/bb_tracker.txt
 source="install_temp"
 title="Switch"
 finalDMGName="Switch.dmg"
-size=250000
+size=300000
 
 mkdir "${source}"
 cp -R Switch.app "${source}"
