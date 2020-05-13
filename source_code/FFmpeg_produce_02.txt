@@ -59,6 +59,9 @@ echo 2trap >> /tmp/DUALISO/prores_TRAP
     then
     wav2=$(printf "%s\n" -i *.wav)
     sd=$(printf "%s\n" -c:v copy -c:a aac)
+#extra check if mlvfs contains dummy wav
+    [ -s *.wav ] || wav2= 
+    [ -s *.wav ] || sd=
     fi
     fi
 #check if footage is HDR(tblend filter)
