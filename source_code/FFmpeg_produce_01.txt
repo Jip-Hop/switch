@@ -472,6 +472,16 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
     scalePR=$(printf "%s\n" ,scale=$(cat /tmp/prox_SCALE))
     fi
     fi
+#default upscale x2 to match half color setting in dcraw
+    if [ x$(cat /tmp/prox_SCALE) = x ]
+    then
+    if [ x"$cinpr""$cinpr_01" = x ]
+    then
+    scalePR=$(printf "%s\n" -vf scale="iw*2:-1")
+    else
+    scalePR=$(printf "%s\n" ,scale="iw*2:-1")
+    fi
+    fi
 #check for denoising settings(prores)
     if ! [ x$(cat /tmp/denoise) = x ]
     then
@@ -546,9 +556,9 @@ echo 1trap > /tmp/DUALISO/prores_TRAP
     if grep -q 'halfhdr' /tmp/pr4444_HDR && grep -q 'HDR' /tmp/pr4444_HDR && ! [ x"$tbl" = x ]
     then
 #export ProRes proxy
-    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $codec -n -r $(echo $fps / 2 | bc -l) $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov 
+    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -h -W -q 0 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r $fps -i pipe:0 $sd $codec -n -r $(echo $fps / 2 | bc -l) $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov 
     else
-    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -6 -W -q 3 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $codec -n -r "$fps" $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov
+    find -s "$out""$out3""$name""$sl". -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw +M $h2pr $opr $S -c -h -W -q 0 $gampr $wb $pix $br | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd $codec -n -r "$fps" $tbl$cinpr$cinpr_01$cinpr_02$cinpr_03$cinpr_01b$cinpr_02b$cinpr_03b$scalePR$denoisePR$sharpenPR "$out""$out2""$date"_Proxy/"$name".mov
     fi
     fi
     else
